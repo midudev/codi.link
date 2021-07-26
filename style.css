@@ -1,0 +1,83 @@
+body {
+  background-color: #f1f1f1;
+  color: #333;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  margin: 0;
+  padding: 0;
+
+  height: 100vh;
+  width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*::before, *::after {
+  box-sizing: inherit;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+iframe {
+  background: #fff;
+  border: 0;
+  height: 100%;
+  width: 100%;
+}
+
+textarea {
+  background-color: #333;
+  background-repeat: no-repeat;
+  background-size: 36px;
+  background-position: calc(100% - 16px) calc(100% - 16px);
+  box-shadow: 0 0 0 .1px rgba(255, 255, 255, .3);
+  color: #fff;
+  font-family: monospace;
+  font-size: 24px;
+  padding: 24px;
+  resize: none;
+  width: 100%;
+  height: 100%;
+}
+
+textarea:focus {
+  outline: 0;
+}
+
+#js {
+  background-image: url('/assets/js.svg');
+}
+
+#html {
+  background-image: url('/assets/html5.svg');
+}
+
+#css {
+  background-image: url('/assets/css3.svg');
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 5px 1fr;
+  grid-template-rows: 1fr 5px 1fr;
+  height: 100vh;
+}
+
+.vertical-gutter {
+  cursor: col-resize;
+  grid-area: 1 / 2 / 4 / 2;
+  background: #fff;
+}
+
+.horizontal-gutter {
+  cursor: row-resize;
+  grid-area: 2 / 1 / 2 / 4;
+  background: #fff;
+}
