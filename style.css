@@ -33,25 +33,6 @@ iframe {
   width: 100%;
 }
 
-textarea {
-  background-color: #333;
-  background-repeat: no-repeat;
-  background-size: 36px;
-  background-position: calc(100% - 16px) calc(100% - 16px);
-  box-shadow: 0 0 0 .1px rgba(255, 255, 255, .3);
-  color: #fff;
-  font-family: monospace;
-  font-size: 24px;
-  padding: 24px;
-  resize: none;
-  width: 100%;
-  height: 100%;
-}
-
-textarea:focus {
-  outline: 0;
-}
-
 .editor {
   position: relative;
 }
