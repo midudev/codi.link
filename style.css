@@ -9,6 +9,7 @@ body {
 
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
 }
 
 * {
@@ -51,33 +52,53 @@ textarea:focus {
   outline: 0;
 }
 
-#js {
-  background-image: url('/assets/js.svg');
+.editor {
+  position: relative;
 }
 
-#html {
+.editor::after {
+  content: '';
+  position: absolute;
+  background-repeat: no-repeat;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+}
+
+#html::after {
   background-image: url('/assets/html5.svg');
 }
 
-#css {
+#css::after {
   background-image: url('/assets/css3.svg');
+}
+
+#js::after {
+  background-image: url('/assets/js.svg');
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 5px 1fr;
-  grid-template-rows: 1fr 5px 1fr;
+  grid-template-columns: calc(50% - 2px) 4px calc(50% - 2px);
+  grid-template-rows: calc(50% - 2px) 4px calc(50% - 2px);
   height: 100vh;
 }
 
 .vertical-gutter {
   cursor: col-resize;
   grid-area: 1 / 2 / 4 / 2;
-  background: #fff;
+  background: #666;
 }
 
 .horizontal-gutter {
   cursor: row-resize;
   grid-area: 2 / 1 / 2 / 4;
-  background: #fff;
+  background: #666;
+}
+
+/* Monaco Editor Styles */
+.monaco-editor {
+  
 }
