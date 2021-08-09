@@ -35,6 +35,7 @@ iframe {
 
 .editor {
   position: relative;
+  overflow: hidden;
 }
 
 .editor::after {
@@ -62,8 +63,8 @@ iframe {
 
 .grid {
   display: grid;
-  grid-template-columns: 49.8% 0.4% 49.8%;
-  grid-template-rows: 49.8% 0.4% 49.8%;
+  grid-template-columns: 1fr 5px 1fr;
+  grid-template-rows: 1fr 5px 1fr;
   height: 100vh;
 }
 
