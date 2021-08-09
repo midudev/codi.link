@@ -62,8 +62,8 @@ iframe {
 
 .grid {
   display: grid;
-  grid-template-columns: calc(50% - 2px) 4px calc(50% - 2px);
-  grid-template-rows: calc(50% - 2px) 4px calc(50% - 2px);
+  grid-template-columns: 49.8% 0.4% 49.8%;
+  grid-template-rows: 49.8% 0.4% 49.8%;
   height: 100vh;
 }
 
