@@ -1,10 +1,10 @@
-import './style.css'
 import Split from 'split-grid'
 import { encode, decode } from 'js-base64'
 import * as monaco from 'monaco-editor'
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+import { handleShowSettingsPanel, registerEditors } from './editor-settings'
 
 window.MonacoEnvironment = {
   getWorker (_, label) {
@@ -19,6 +19,7 @@ const $ = selector => document.querySelector(selector)
 const $js = $('#js')
 const $css = $('#css')
 const $html = $('#html')
+const $settingsButton = $('#settings-button')
 
 const { pathname } = window.location
 
@@ -36,11 +37,12 @@ const COMMON_EDITOR_OPTIONS = {
   padding: {
     top: 16
   },
-  lineNumbers: false,
+  lineNumbers: 'off',
   minimap: {
     enabled: false
   },
-  theme: 'vs-dark'
+  theme: 'vs-dark',
+  wordWrap: 'on'
 }
 
 const htmlEditor = monaco.editor.create($html, {
@@ -60,6 +62,9 @@ const jsEditor = monaco.editor.create($js, {
   language: 'javascript',
   ...COMMON_EDITOR_OPTIONS
 })
+
+registerEditors([htmlEditor, cssEditor, jsEditor])
+$settingsButton.addEventListener('click', handleShowSettingsPanel)
 
 Split({
   columnGutters: [{

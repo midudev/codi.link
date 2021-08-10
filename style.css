@@ -79,3 +79,67 @@ iframe {
   grid-area: 2 / 1 / 2 / 4;
   background: #666;
 }
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 clamp(1rem, 2vw, 3rem);
+  background: #141414;
+  color: #ffffff;
+}
+
+.menu-link {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.menu-settings-button {
+  background: #353535;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.editor-settings-panel {
+  position: absolute;
+  top: 4rem;
+  right: 0;
+  min-width: 320px;
+  width: auto;
+  height: 100%;
+  background: #141414;
+  box-shadow: inset 1px 0 0 #353535;
+  padding: 1rem 2rem;
+  z-index: 1;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.editor-settings-panel header {
+  display: flex;
+  align-items: center;
+}
+
+.editor-settings-panel header svg {
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.editor-settings-panel-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  box-shadow: inset 0px -1px 0px rgba(255, 255, 255, 0.08);
+}
+
+.editor-settings-panel-option select {
+  font-size: inherit;
+}
+
