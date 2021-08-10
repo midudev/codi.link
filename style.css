@@ -16,7 +16,8 @@ body {
   box-sizing: border-box;
 }
 
-*::before, *::after {
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
@@ -78,4 +79,12 @@ iframe {
   cursor: row-resize;
   grid-area: 2 / 1 / 2 / 4;
   background: #666;
+}
+
+.settings-editor {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #fff;
+  padding: 0.25rem;
 }

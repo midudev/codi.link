@@ -8,12 +8,23 @@
     <title>codi.link</title>
   </head>
   <body>
-    <div id="app">
+    <div class="settings-editor">
+      <label for="toggle-line-number"
+        >Line Number
 
+        <input
+          type="checkbox"
+          name="toggle-line-number"
+          id="toggle-line-number"
+          checked
+        />
+      </label>
+    </div>
+    <div id="app">
       <div class="grid">
-        <div class='editor' id='html'></div>
-        <div class='editor' id='js'></div>
-        <div class='editor' id='css'></div>
+        <div class="editor" id="html"></div>
+        <div class="editor" id="js"></div>
+        <div class="editor" id="css"></div>
 
         <div>
           <iframe srcdoc=""></iframe>
@@ -22,7 +33,6 @@
         <div class="vertical-gutter"></div>
         <div class="horizontal-gutter"></div>
       </div>
-
     </div>
     <script type="module" src="/main.js"></script>
   </body>

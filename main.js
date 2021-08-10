@@ -7,18 +7,20 @@ import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 
 window.MonacoEnvironment = {
-  getWorker (_, label) {
+  getWorker(_, label) {
     if (label === 'html') return new HtmlWorker()
     if (label === 'javascript') return new JsWorker()
     if (label === 'css') return new CssWorker()
-  }
+  },
 }
 
-const $ = selector => document.querySelector(selector)
+const $ = (selector) => document.querySelector(selector)
 
 const $js = $('#js')
 const $css = $('#css')
 const $html = $('#html')
+const $toggleLineNumber = $('#toggle-line-number')
+let lineNumber = 'on'
 
 const { pathname } = window.location
 
@@ -34,42 +36,47 @@ const COMMON_EDITOR_OPTIONS = {
   scrollBeyondLastLine: false,
   roundedSelection: false,
   padding: {
-    top: 16
+    top: 16,
   },
   lineNumbers: false,
   minimap: {
-    enabled: false
+    enabled: false,
   },
-  theme: 'vs-dark'
+  theme: 'vs-dark',
+  lineNumbers: lineNumber,
 }
 
 const htmlEditor = monaco.editor.create($html, {
   value: html,
   language: 'html',
-  ...COMMON_EDITOR_OPTIONS
+  ...COMMON_EDITOR_OPTIONS,
 })
 
 const cssEditor = monaco.editor.create($css, {
   value: css,
   language: 'css',
-  ...COMMON_EDITOR_OPTIONS
+  ...COMMON_EDITOR_OPTIONS,
 })
 
 const jsEditor = monaco.editor.create($js, {
   value: js,
   language: 'javascript',
-  ...COMMON_EDITOR_OPTIONS
+  ...COMMON_EDITOR_OPTIONS,
 })
 
 Split({
-  columnGutters: [{
-    track: 1,
-    element: document.querySelector('.vertical-gutter')
-  }],
-  rowGutters: [{
-    track: 1,
-    element: document.querySelector('.horizontal-gutter')
-  }]
+  columnGutters: [
+    {
+      track: 1,
+      element: document.querySelector('.vertical-gutter'),
+    },
+  ],
+  rowGutters: [
+    {
+      track: 1,
+      element: document.querySelector('.horizontal-gutter'),
+    },
+  ],
 })
 
 htmlEditor.onDidChangeModelContent(update)
@@ -79,7 +86,7 @@ jsEditor.onDidChangeModelContent(update)
 const htmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', htmlForPreview)
 
-function update () {
+function update() {
   const html = htmlEditor.getValue()
   const css = cssEditor.getValue()
   const js = jsEditor.getValue()
@@ -92,7 +99,7 @@ function update () {
   $('iframe').setAttribute('srcdoc', htmlForPreview)
 }
 
-function createHtml ({ html, js, css }) {
+function createHtml({ html, js, css }) {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -109,4 +116,23 @@ function createHtml ({ html, js, css }) {
   </body>
 </html>
   `
+}
+$toggleLineNumber.addEventListener('change', (e) => {
+  lineNumber = e.target.checked ? 'on' : 'off'
+  updateEditorOptions()
+})
+
+function updateEditorOptions() {
+  htmlEditor.updateOptions({
+    ...COMMON_EDITOR_OPTIONS,
+    lineNumbers: lineNumber,
+  })
+  cssEditor.updateOptions({
+    ...COMMON_EDITOR_OPTIONS,
+    lineNumbers: lineNumber,
+  })
+  jsEditor.updateOptions({
+    ...COMMON_EDITOR_OPTIONS,
+    lineNumbers: lineNumber,
+  })
 }
