@@ -21,6 +21,8 @@ const $css = $('#css')
 const $html = $('#html')
 const $toggleLineNumber = $('#toggle-line-number')
 let lineNumber = 'on'
+const $modal = $('#open-modal')
+const $closeModal = $('#close-modal')
 
 const { pathname } = window.location
 
@@ -38,7 +40,6 @@ const COMMON_EDITOR_OPTIONS = {
   padding: {
     top: 16,
   },
-  lineNumbers: false,
   minimap: {
     enabled: false,
   },
@@ -117,6 +118,7 @@ function createHtml({ html, js, css }) {
 </html>
   `
 }
+
 $toggleLineNumber.addEventListener('change', (e) => {
   lineNumber = e.target.checked ? 'on' : 'off'
   updateEditorOptions()
@@ -136,3 +138,25 @@ function updateEditorOptions() {
     lineNumbers: lineNumber,
   })
 }
+
+const isVisible = 'is-visible'
+$modal.addEventListener('click', function () {
+  const modalId = this.dataset.open
+  document.getElementById(modalId).classList.add(isVisible)
+})
+
+// Close modal
+$closeModal.addEventListener('click', function () {
+  this.parentElement.parentElement.parentElement.classList.remove(isVisible)
+})
+
+document.addEventListener('click', (e) => {
+  if (e.target === document.querySelector('.modal.is-visible')) {
+    document.querySelector('.modal.is-visible').classList.remove(isVisible)
+  }
+})
+document.addEventListener('keyup', (e) => {
+  if (e.key === 'Escape' && document.querySelector('.modal.is-visible')) {
+    document.querySelector('.modal.is-visible').classList.remove(isVisible)
+  }
+})

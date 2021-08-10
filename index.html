@@ -9,16 +9,11 @@
   </head>
   <body>
     <div class="settings-editor">
-      <label for="toggle-line-number"
-        >Line Number
-
-        <input
-          type="checkbox"
-          name="toggle-line-number"
-          id="toggle-line-number"
-          checked
-        />
-      </label>
+      <button class="open-modal" id="open-modal" data-open="modal">
+        Settings⚙
+      </button>
+      <!-- 
+     -->
     </div>
     <div id="app">
       <div class="grid">
@@ -32,6 +27,37 @@
 
         <div class="vertical-gutter"></div>
         <div class="horizontal-gutter"></div>
+      </div>
+    </div>
+
+    <div class="modal" id="modal">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>Settings</h3>
+          <button
+            class="close-modal"
+            id="close-modal"
+            aria-label="close modal"
+            data-close
+          >
+            X
+          </button>
+        </header>
+        <section class="modal-content">
+          <article>
+            <h3>General</h3>
+            <label for="toggle-line-number">
+              <input
+                type="checkbox"
+                name="toggle-line-number"
+                id="toggle-line-number"
+                checked
+              />
+              Line Number
+            </label>
+          </article>
+        </section>
+        <footer class="modal-footer"></footer>
       </div>
     </div>
     <script type="module" src="/main.js"></script>

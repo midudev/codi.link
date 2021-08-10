@@ -1,3 +1,11 @@
+:root {
+  --lightgray: #efefef;
+  --blue: steelblue;
+  --white: #fff;
+  --black: rgba(0, 0, 0, 0.8);
+  --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
+}
+
 body {
   background-color: #666;
   color: #333;
@@ -87,4 +95,74 @@ iframe {
   align-items: center;
   color: #fff;
   padding: 0.25rem;
+}
+
+/* Modal styles */
+.open-modal {
+  font-weight: bold;
+  background-color: var(--blue);
+  color: var(--white);
+  padding: 0.75rem 1.75rem;
+  margin-bottom: 1rem;
+  background-repeat: 5px;
+  margin-top: 1rem;
+  margin-right: 0.25rem;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--black);
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.35s ease-in;
+}
+
+.modal-dialog {
+  position: relative;
+  min-width: 800px;
+  max-height: 80vh;
+  border-radius: 5px;
+  background-color: var(--white);
+  overflow: auto;
+  cursor: default;
+}
+
+.modal-dialog > * {
+  padding: 1rem;
+}
+.modal-header,
+.modal-footer {
+  background-color: var(--lightgray);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-close {
+  font-size: 1.5rem;
+}
+
+.modal p + p {
+  margin-top: 1rem;
+}
+
+.modal {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.35s ease-in;
+}
+
+.modal.is-visible {
+  visibility: visible;
+  opacity: 1;
+  z-index: 2;
 }
