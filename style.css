@@ -67,7 +67,7 @@ iframe {
   display: grid;
   grid-template-columns: 1fr 5px 1fr;
   grid-template-rows: 1fr 5px 1fr;
-  height: 100%;
+  height: calc(100vh - 64.844px);
 }
 
 .vertical-gutter {
