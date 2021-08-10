@@ -16,17 +16,6 @@ window.MonacoEnvironment = {
 
 const $ = selector => document.querySelector(selector)
 
-Split({
-  columnGutters: [{
-    track: 1,
-    element: document.querySelector('.vertical-gutter')
-  }],
-  rowGutters: [{
-    track: 1,
-    element: document.querySelector('.horizontal-gutter')
-  }]
-})
-
 const $js = $('#js')
 const $css = $('#css')
 const $html = $('#html')
@@ -42,6 +31,12 @@ const js = rawJs ? decode(rawJs) : ''
 const COMMON_EDITOR_OPTIONS = {
   automaticLayout: true,
   fontSize: 18,
+  scrollBeyondLastLine: false,
+  roundedSelection: false,
+  padding: {
+    top: 16
+  },
+  lineNumbers: false,
   minimap: {
     enabled: false
   },
@@ -64,6 +59,17 @@ const jsEditor = monaco.editor.create($js, {
   value: js,
   language: 'javascript',
   ...COMMON_EDITOR_OPTIONS
+})
+
+Split({
+  columnGutters: [{
+    track: 1,
+    element: document.querySelector('.vertical-gutter')
+  }],
+  rowGutters: [{
+    track: 1,
+    element: document.querySelector('.horizontal-gutter')
+  }]
 })
 
 htmlEditor.onDidChangeModelContent(update)
@@ -97,7 +103,7 @@ function createHtml ({ html, js, css }) {
   </head>
   <body>
     ${html}
-    <script>
+    <script type="module">
     ${js}
     </script>
   </body>
