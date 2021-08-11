@@ -19,7 +19,6 @@ const $ = selector => document.querySelector(selector)
 const $js = $('#js')
 const $css = $('#css')
 const $html = $('#html')
-const $settingsButton = $('#settings-button')
 
 const { pathname } = window.location
 
@@ -64,7 +63,11 @@ const jsEditor = monaco.editor.create($js, {
 })
 
 registerEditors([htmlEditor, cssEditor, jsEditor])
-$settingsButton.addEventListener('click', handleShowSettingsPanel)
+document.addEventListener('keydown', function (event) {
+  if (event.ctrlKey && event.key === ',') {
+    handleShowSettingsPanel()
+  }
+})
 
 Split({
   columnGutters: [{

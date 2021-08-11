@@ -10,8 +10,6 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  display: grid;
-  grid-template-rows: auto 1fr;
 }
 
 * {
@@ -67,7 +65,7 @@ iframe {
   display: grid;
   grid-template-columns: 1fr 5px 1fr;
   grid-template-rows: 1fr 5px 1fr;
-  height: calc(100vh - 64.844px);
+  height: 100vh;
 }
 
 .vertical-gutter {
@@ -82,35 +80,13 @@ iframe {
   background: #666;
 }
 
-.menu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 clamp(1rem, 2vw, 3rem);
-  background: #141414;
-  color: #ffffff;
-}
-
-.menu-link {
-  color: #ffffff;
-  text-decoration: none;
-}
-
-.menu-settings-button {
-  background: #353535;
-  color: #ffffff;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  outline: 0;
-  border: 0;
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
+.preview {
+  min-height: 0;
 }
 
 .editor-settings-panel {
   position: absolute;
-  top: 4rem;
+  top: 0;
   right: 0;
   min-width: 320px;
   width: auto;

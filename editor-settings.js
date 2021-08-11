@@ -26,7 +26,7 @@ export function handleShowSettingsPanel ($shower) {
 }
 
 function createPanel () {
-  const $panel = document.createElement('panel')
+  const $panel = document.createElement('aside')
   const editorOptions = EDITORS[0].getRawOptions()
 
   $panel.setAttribute('class', 'editor-settings-panel')
