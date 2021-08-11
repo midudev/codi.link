@@ -44,18 +44,67 @@
           </button>
         </header>
         <section class="modal-content">
-          <article>
-            <h3>General</h3>
-            <label for="toggle-line-number">
-              <input
-                type="checkbox"
-                name="toggle-line-number"
-                id="toggle-line-number"
-                checked
-              />
-              Line Number
-            </label>
-          </article>
+          <div class="tab">
+            <div class="tab-group-buttons">
+              <button id="general" class="tablinks">General</button>
+              <button id="example" class="tablinks">Example</button>
+              <button id="other" class="tablinks">Other</button>
+            </div>
+            <div class="tab-group-content">
+              <article class="tabcontent" id="general-content">
+                <h3>General</h3>
+                <form action="" id="settings-user">
+                  <div>
+                    <label for="lineNumbers">
+                      <input
+                        type="checkbox"
+                        name="lineNumbers"
+                        id="lineNumbers"
+                        checked
+                      />
+                      Line Number
+                    </label>
+                  </div>
+                  <div>
+                    <label for="minimap">
+                      <input
+                        type="checkbox"
+                        name="minimap"
+                        id="minimap"
+                        checked
+                      />
+                      Minimap
+                    </label>
+                  </div>
+                  <div>
+                    <label for="fontSize">Font Size</label>
+                    <input
+                      type="number"
+                      name="fontSize"
+                      id="fontSize"
+                      value="18"
+                    />
+                  </div>
+                  <div>
+                    <label for="theme">Theme</label>
+                    <select class="theme" id="theme" name="theme">
+                      <option value="vs-light">Visual Studio</option>
+                      <option selected value="vs-dark">
+                        Visual Studio Dark
+                      </option>
+                      <option value="hc-black">High Contrast Dark</option>
+                    </select>
+                  </div>
+                </form>
+              </article>
+              <article class="tabcontent hidde" id="other-content">
+                <h3>other</h3>
+              </article>
+              <article class="tabcontent hidde" id="example-content">
+                <h3>Example</h3>
+              </article>
+            </div>
+          </div>
         </section>
         <footer class="modal-footer"></footer>
       </div>
