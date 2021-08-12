@@ -19,6 +19,7 @@ const $ = selector => document.querySelector(selector)
 const $js = $('#js')
 const $css = $('#css')
 const $html = $('#html')
+const $grid = $('.grid')
 
 const { pathname } = window.location
 
@@ -66,6 +67,31 @@ registerEditors([htmlEditor, cssEditor, jsEditor])
 document.addEventListener('keydown', function (event) {
   if (event.ctrlKey && event.key === ',') {
     handleShowSettingsPanel()
+  }
+
+  if (event.ctrlKey && event.altKey && event.key === '1') {
+    $grid.style.setProperty('grid-template-columns', '1fr 5px 0')
+    $grid.style.setProperty('grid-template-rows', '1fr 5px 0')
+  }
+
+  if (event.ctrlKey && event.altKey && event.key === '2') {
+    $grid.style.setProperty('grid-template-columns', '0 5px 1fr')
+    $grid.style.setProperty('grid-template-rows', '1fr 5px 0')
+  }
+
+  if (event.ctrlKey && event.altKey && event.key === '3') {
+    $grid.style.setProperty('grid-template-columns', '1fr 5px 0')
+    $grid.style.setProperty('grid-template-rows', '0 5px 1fr')
+  }
+
+  if (event.ctrlKey && event.altKey && event.key === '4') {
+    $grid.style.setProperty('grid-template-columns', '0 5px 1fr')
+    $grid.style.setProperty('grid-template-rows', '0 5px 1fr')
+  }
+
+  if (event.ctrlKey && event.altKey && event.key === '5') {
+    $grid.style.setProperty('grid-template-columns', '1fr 5px 1fr')
+    $grid.style.setProperty('grid-template-rows', '1fr 5px 1fr')
   }
 })
 
