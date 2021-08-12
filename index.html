@@ -9,11 +9,10 @@
   </head>
   <body>
     <div id="app">
-
       <div class="grid">
-        <div class='editor' id='html'></div>
-        <div class='editor' id='js'></div>
-        <div class='editor' id='css'></div>
+        <div class="editor" id="html"></div>
+        <div class="editor" id="js"></div>
+        <div class="editor" id="css"></div>
 
         <div>
           <iframe srcdoc=""></iframe>
@@ -23,7 +22,43 @@
         <div class="horizontal-gutter"></div>
       </div>
 
+      <div class="status-bar">
+        <div class="left">
+          <button class="url-clipboard" id="clipboard-button">
+            Copy CodiLink
+          </button>
+
+          <div class="editor-layout-chooser">
+            <p>Layout:</p>
+
+            <div class="layouts">
+              <img
+                src="/assets/layout.svg"
+                alt="Editor layout"
+                class="layout"
+              />
+              <img
+                src="/assets/layout.svg"
+                alt="Editor layout"
+                class="layout"
+              />
+              <img
+                src="/assets/layout.svg"
+                alt="Editor layout"
+                class="layout"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="right">
+          <div class="settings">
+            <img src="/assets/settings.svg" alt="Editor settings" />
+          </div>
+        </div>
+      </div>
     </div>
+
     <script type="module" src="/main.js"></script>
   </body>
 </html>

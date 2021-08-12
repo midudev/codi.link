@@ -1,0 +1,144 @@
+body {
+  background-color: #666;
+  color: #333;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  margin: 0;
+  padding: 0;
+
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+iframe {
+  background: #fff;
+  border: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.editor {
+  position: relative;
+  overflow: hidden;
+}
+
+.editor::after {
+  content: "";
+  position: absolute;
+  background-repeat: no-repeat;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+}
+
+#html::after {
+  background-image: url("/assets/html5.svg");
+}
+
+#css::after {
+  background-image: url("/assets/css3.svg");
+}
+
+#js::after {
+  background-image: url("/assets/js.svg");
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 5px 1fr;
+  grid-template-rows: 1fr 5px 1fr;
+  height: calc(100vh - 3em);
+}
+
+.vertical-gutter {
+  cursor: col-resize;
+  grid-area: 1 / 2 / 4 / 2;
+  background: #666;
+}
+
+.horizontal-gutter {
+  cursor: row-resize;
+  grid-area: 2 / 1 / 2 / 4;
+  background: #666;
+}
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 1em;
+
+  width: 100vw;
+  height: 3em;
+  background: #333;
+}
+
+.status-bar .left,
+.status-bar .right {
+  display: flex;
+}
+
+.status-bar .url-clipboard {
+  color: rgba(34, 141, 228);
+
+  background: rgba(34, 141, 228, 0.2);
+  border: none;
+  padding: 0.5em 2em;
+
+  cursor: pointer;
+}
+
+.status-bar .editor-layout-chooser {
+  display: flex;
+  align-items: center;
+
+  margin-left: 3em;
+  color: #666;
+}
+
+.status-bar .editor-layout-chooser .layouts {
+  display: flex;
+  align-items: center;
+}
+
+.status-bar .editor-layout-chooser .layouts img {
+  width: 1.5em;
+  height: 1.5em;
+
+  margin-left: 1em;
+
+  object-fit: contain;
+  vertical-align: top;
+
+  cursor: pointer;
+}
+
+.status-bar .settings img {
+  width: 1.5em;
+  height: 1.5em;
+
+  object-fit: contain;
+  vertical-align: top;
+
+  cursor: pointer;
+}
