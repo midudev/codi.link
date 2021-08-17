@@ -1,6 +1,7 @@
 {
   "name": "codi.link",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
     "co": "sui-mono commit",
     "lint": "standard",
