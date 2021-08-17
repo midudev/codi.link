@@ -12,6 +12,9 @@ staged_js_files=$(git diff --cached --diff-filter=d --name-only | grep -E '\.(js
 linter_exit_code=$?
 git add -f $staged_js_files
 
+echo "${RED} ❌ Linter errors have occurred ${NC}"
+exit 1
+
 if [ $linter_exit_code -ne 0 ]
 then
   echo "${RED} ❌ Linter errors have occurred ${NC}"
