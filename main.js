@@ -6,7 +6,7 @@ import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 
-console.log("hola");
+console.log("holaaaaa");
 
 window.MonacoEnvironment = {
   getWorker (_, label) {
