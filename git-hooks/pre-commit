@@ -4,6 +4,8 @@ RED="\033[1;31m"
 GREEN="\033[1;32m"
 NC="\033[0m"
 
+echo "Executing pre-commit"
+
 linter_exit_code=1
 staged_js_files=$(git diff --cached --diff-filter=d --name-only | grep -E '\.(js|jsx)$')
 ./node_modules/.bin/standard $staged_js_files --quiet --fix
