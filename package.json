@@ -2,18 +2,21 @@
   "name": "codi.link",
   "version": "0.0.0",
   "scripts": {
+    "co": "sui-mono commit",
+    "lint": "standard",
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview"
   },
   "devDependencies": {
-    "standard": "^16.0.3",
-    "vite": "^2.4.3"
+    "@s-ui/mono": "2",
+    "standard": "16.0.3",
+    "vite": "2.5.0"
   },
   "dependencies": {
-    "js-base64": "^3.6.1",
-    "monaco-editor": "0.26.1",
-    "split-grid": "^1.0.11"
+    "js-base64": "3.6.1",
+    "monaco-editor": "0.27.0",
+    "split-grid": "1.0.11"
   },
   "eslintConfig": {
     "extends": [
