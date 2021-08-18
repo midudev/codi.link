@@ -1,33 +1,42 @@
 
-import './loader.styes.css'
+/**
+ * TAG: <c-loader></c-loader>
+ * ATTRIBUTES:
+ * - full => Expanded to parent size
+ * - absolute => The element change to position absolute
+ * - hide => Hide element
+ * - width => Change spinner with
+ * - height => Change spinner height
+ * - hidewhenappisloaded => hide element when windows is loaded
+ * HOW USE:
+ * <c-loader></c-loader> spinner
+ * <c-loader> Hi </c-loader> Custom loader and without spinner
+ * CLASSES TO USE
+ * - full =>'loader--full'
+ * - absolute => 'loader--absolute'
+ * - hide => 'loader--hide'
+ * - width => 'loader__spinner-width'
+ * - height => 'loader__spinner-height'
+ */
+
+import './loader.css'
+import './spinner.css'
 
 class Loader extends window.HTMLElement {
   constructor () {
     super()
     this.classList.add(['loader'])
 
-    this.addAttributesClasses(this.attributes)
-
-    if (this.attributes.hideWhenAppIsLoaded.value === 'true') {
-      this.hanldeHideWhenAppIsLoaded()
-    }
-  }
-
-  addAttributesClasses (attr) {
-    for (const key in attr) {
-      const cls = attr[key]
-
-      if (cls.value === 'true') {
-        this.addClass([cls.nodeName])
-      }
-    }
+    this.prepareAttributes(this.attributes)
   }
 
   addClass (className) {
     const classes = {
       full: 'loader--full',
       absolute: 'loader--absolute',
-      hide: 'loader--hide'
+      hide: 'loader--hide',
+      width: 'loader__spinner-width',
+      height: 'loader__spinner-height'
     }
 
     if (classes[className]) {
@@ -35,13 +44,20 @@ class Loader extends window.HTMLElement {
     }
   }
 
+  changeHeightElement (height = '40px') {
+    this.style.setProperty('--height', height)
+    this.addClass('height')
+  }
+
+  changeWidthElement (width = '40px') {
+    this.style.setProperty('--width', width)
+    this.addClass('width')
+  }
+
   connectedCallback () {
     if (!this.childNodes.length) {
-      const defaultValue = { value: '40px' }
-      const { width = defaultValue, height = defaultValue } = this.attributes
-
       this.innerHTML = `
-        <div class="spinner" style="--width:${width.value}; --height:${height.value}"></div>
+        <div class="spinner"></div>
       `
     }
   }
@@ -54,13 +70,30 @@ class Loader extends window.HTMLElement {
 
     window.onload = listener
   }
+
+  prepareAttributes (attributes) {
+    const isTrue = (attr, callback) => attr.value === 'true' && callback()
+    const addClass = (attr) => isTrue(attr, () => this.addClass(attr.nodeName))
+    const hanldeHideWhenAppIsLoaded = attr => isTrue(attr, () => this.hanldeHideWhenAppIsLoaded())
+    const changeWidthElement = (attr) => this.changeWidthElement(attr.value)
+    const changeHeightElement = (attr) => this.changeHeightElement(attr.value)
+
+    const actions = {
+      hidewhenappisloaded: hanldeHideWhenAppIsLoaded,
+      full: addClass,
+      absolute: addClass,
+      hide: addClass,
+      width: changeWidthElement,
+      height: changeHeightElement
+    }
+
+    for (const key in attributes) {
+      const attr = attributes[key]
+      const action = actions[attr.nodeName]
+
+      if (typeof action === 'function') action(attr)
+    }
+  }
 }
 
-const options = {
-  full: null,
-  hideWhenAppIsLoaded: false,
-  width: '40px',
-  height: '40px'
-}
-
-window.customElements.define('c-loader', Loader, options)
+window.customElements.define('c-loader', Loader)
