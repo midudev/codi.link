@@ -8,8 +8,8 @@ class Loader extends window.HTMLElement {
 
     this.addAttributesClasses(this.attributes)
 
-    if (this.attributes.listenIfAppIsMounted.value === 'true') {
-      this.handleListenIfAppIsMounted()
+    if (this.attributes.hideWhenAppIsLoaded.value === 'true') {
+      this.hanldeHideWhenAppIsLoaded()
     }
   }
 
@@ -46,17 +46,19 @@ class Loader extends window.HTMLElement {
     }
   }
 
-  handleListenIfAppIsMounted () {
-    window.addEventListener('load', () => {
+  hanldeHideWhenAppIsLoaded () {
+    const listener = () => {
       this.addClass('hide')
-      this.innerHTML = ''
-    })
+      window.onload = null
+    }
+
+    window.onload = listener
   }
 }
 
 const options = {
   full: null,
-  listenIfAppIsMounted: false,
+  hideWhenAppIsLoaded: false,
   width: '40px',
   height: '40px'
 }
