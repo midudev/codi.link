@@ -1,4 +1,5 @@
 import './style.css'
+import './components/Loader'
 import Split from 'split-grid'
 import { encode, decode } from 'js-base64'
 import * as monaco from 'monaco-editor'
