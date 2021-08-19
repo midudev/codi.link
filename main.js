@@ -2,6 +2,7 @@ import './style.css'
 import Split from 'split-grid'
 import { encode, decode } from 'js-base64'
 import * as monaco from 'monaco-editor'
+import { emmetHTML } from 'emmet-monaco-es'
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
@@ -48,6 +49,7 @@ const htmlEditor = monaco.editor.create($html, {
   language: 'html',
   ...COMMON_EDITOR_OPTIONS
 })
+emmetHTML(monaco)
 
 const cssEditor = monaco.editor.create($css, {
   value: css,
