@@ -5,6 +5,7 @@ import * as monaco from 'monaco-editor'
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+import debounce from './debounce.js'
 
 window.MonacoEnvironment = {
   getWorker (_, label) {
@@ -72,9 +73,12 @@ Split({
   }]
 })
 
-htmlEditor.onDidChangeModelContent(update)
-cssEditor.onDidChangeModelContent(update)
-jsEditor.onDidChangeModelContent(update)
+const MS_UPDATE_DEBOUNCED_TIME = 200
+const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
+
+htmlEditor.onDidChangeModelContent(debouncedUpdate)
+cssEditor.onDidChangeModelContent(debouncedUpdate)
+jsEditor.onDidChangeModelContent(debouncedUpdate)
 
 const htmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', htmlForPreview)
