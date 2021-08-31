@@ -1,5 +1,5 @@
 body {
-  background-color: #666;
+  background-color: #2d323c;
   color: #333;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -21,9 +21,11 @@ body {
 }
 
 #app {
+  display: grid;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  grid-template-columns: 72px 1fr;
 }
 
 iframe {
@@ -71,11 +73,47 @@ iframe {
 .vertical-gutter {
   cursor: col-resize;
   grid-area: 1 / 2 / 4 / 2;
-  background: #666;
+  background: #2d323c;
 }
 
 .horizontal-gutter {
   cursor: row-resize;
   grid-area: 2 / 1 / 2 / 4;
-  background: #666;
+  background: #2d323c;
+}
+
+aside {
+  background: #2d323c;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+aside button {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  width: 100%;
+  opacity: .5;
+  transition: opacity .1s ease;
+  padding: 16px;
+}
+
+aside button:hover {
+  opacity: 1;
+}
+
+aside svg {
+  width: 40px;
+  height: 40px;
+}
+
+aside header,
+aside footer {
+  display: flex;
+  justify-content: center;
+}
+
+.view {
+  
 }
