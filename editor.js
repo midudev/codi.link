@@ -1,4 +1,5 @@
 import * as monaco from 'monaco-editor'
+import { emmetHTML } from 'emmet-monaco-es'
 
 const COMMON_EDITOR_OPTIONS = {
   automaticLayout: true,
@@ -15,8 +16,10 @@ const COMMON_EDITOR_OPTIONS = {
   theme: 'vs-dark'
 }
 
+emmetHTML(monaco)
+
 export const createEditor = ({ domElement, language, value }) => {
-  monaco.editor.create(domElement, {
+  return monaco.editor.create(domElement, {
     value,
     language,
     ...COMMON_EDITOR_OPTIONS
