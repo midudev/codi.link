@@ -1,10 +1,10 @@
 import './style.css'
 import Split from 'split-grid'
 import { encode, decode } from 'js-base64'
-import * as monaco from 'monaco-editor'
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+import { createEditor } from './editor.js'
 
 window.MonacoEnvironment = {
   getWorker (_, label) {
@@ -28,38 +28,9 @@ const html = rawHtml ? decode(rawHtml) : ''
 const css = rawCss ? decode(rawCss) : ''
 const js = rawJs ? decode(rawJs) : ''
 
-const COMMON_EDITOR_OPTIONS = {
-  automaticLayout: true,
-  fontSize: 18,
-  scrollBeyondLastLine: false,
-  roundedSelection: false,
-  padding: {
-    top: 16
-  },
-  lineNumbers: false,
-  minimap: {
-    enabled: false
-  },
-  theme: 'vs-dark'
-}
-
-const htmlEditor = monaco.editor.create($html, {
-  value: html,
-  language: 'html',
-  ...COMMON_EDITOR_OPTIONS
-})
-
-const cssEditor = monaco.editor.create($css, {
-  value: css,
-  language: 'css',
-  ...COMMON_EDITOR_OPTIONS
-})
-
-const jsEditor = monaco.editor.create($js, {
-  value: js,
-  language: 'javascript',
-  ...COMMON_EDITOR_OPTIONS
-})
+const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
+const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
+const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
 
 Split({
   columnGutters: [{
