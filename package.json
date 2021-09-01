@@ -18,6 +18,7 @@
   "dependencies": {
     "emmet-monaco-es": "^4.7.1",
     "js-base64": "3.6.1",
+    "jszip": "^3.7.1",
     "monaco-editor": "0.27.0",
     "split-grid": "1.0.11"
   },

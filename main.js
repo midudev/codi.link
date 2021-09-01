@@ -7,7 +7,7 @@ import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import debounce from './debounce.js'
-import enableDownloadFiles from './download'
+import enableDownloadFiles from './enableDownloadFiles'
 
 window.MonacoEnvironment = {
   getWorker (_, label) {
