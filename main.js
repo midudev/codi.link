@@ -116,3 +116,23 @@ function createHtml ({ html, js, css }) {
 </html>
   `
 }
+
+const currentLayout = {
+  html: {
+    ArrowRight: jsEditor,
+    ArrowDown: cssEditor
+  },
+  css: {
+    ArrowUp: htmlEditor,
+    ArrowRight: jsEditor
+  },
+  js: {
+    ArrowLeft: htmlEditor,
+    ArrowDown: cssEditor
+  }
+}
+
+htmlEditor.focus()
+htmlEditor.onKeyDown((event) => event.altKey && event.ctrlKey && currentLayout.html[event.code]?.focus())
+jsEditor.onKeyDown((event) => event.altKey && event.ctrlKey && currentLayout.js[event.code]?.focus())
+cssEditor.onKeyDown((event) => event.altKey && event.ctrlKey && currentLayout.css[event.code]?.focus())
