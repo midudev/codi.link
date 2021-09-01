@@ -1,8 +1,15 @@
 import JSZip from 'jszip'
 const $ = selector => document.querySelector(selector)
 
-function createCodeFile (content, name, extension) {
-  return new window.File([content], `${name}.${extension}`, { type: extension })
+const NAME = {
+  html: 'structure',
+  css: 'styles',
+  js: 'logic'
+}
+
+function createCodeFile (content, extension) {
+  const name = `${NAME[extension]}.${extension}`
+  return new window.File([content], name)
 }
 
 function getZip (files) {
@@ -38,7 +45,7 @@ function enableDownloadFiles (...selectors) {
         const content = $(selector).innerText
         const extension = selector.split('#')[1]
 
-        return createCodeFile(content, extension, extension)
+        return createCodeFile(content, extension)
       })
 
       const zip = getZip(files)
