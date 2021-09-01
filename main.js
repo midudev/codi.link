@@ -7,6 +7,7 @@ import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import debounce from './debounce.js'
+import enableDownloadFiles from './download'
 
 window.MonacoEnvironment = {
   getWorker (_, label) {
@@ -97,6 +98,8 @@ function update () {
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
 }
+
+enableDownloadFiles('#html', '#css', '#js')
 
 function createHtml ({ html, js, css }) {
   return `

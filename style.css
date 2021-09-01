@@ -79,3 +79,13 @@ iframe {
   grid-area: 2 / 1 / 2 / 4;
   background: #666;
 }
+
+#download {
+  bottom: 16px;
+  background-color: red;
+  cursor: pointer;
+  height: 48px;
+  position: absolute;
+  right: 16px;
+  width: 48px;
+}
