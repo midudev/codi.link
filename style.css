@@ -81,8 +81,10 @@ iframe {
 }
 
 #download {
+  border: none;
   bottom: 16px;
-  background-color: red;
+  background-color: transparent;
+  background-image: url('/assets/diskette-color.svg');
   cursor: pointer;
   height: 48px;
   position: absolute;
