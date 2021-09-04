@@ -7,6 +7,7 @@ import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 const COMMON_EDITOR_OPTIONS = {
   automaticLayout: true,
   fontSize: 18,
+  fixedOverflowWidgets: true,
   scrollBeyondLastLine: false,
   roundedSelection: false,
   padding: {
