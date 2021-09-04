@@ -1,8 +1,8 @@
-import { $, $$ } from './utils/dom.js'
+import { $ } from './utils/dom.js'
 
 const $aside = $('aside')
-const $views = $$('.view')
-const $buttons = $$('button', $aside)
+const $views = $('.view')
+const $buttons = $aside.$('button')
 
 $buttons.forEach(button => {
   button.addEventListener('click', () => {
