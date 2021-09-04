@@ -33,6 +33,7 @@ const js = rawJs ? decode(rawJs) : ''
 const COMMON_EDITOR_OPTIONS = {
   automaticLayout: true,
   fontSize: 18,
+  fixedOverflowWidgets: true,
   scrollBeyondLastLine: false,
   roundedSelection: false,
   padding: {
