@@ -1,12 +1,15 @@
 /* eslint-env browser */
 export const $ = (target) => {
-  /**
-   * Add "$" method to HTMLElement interface.
-   * Now we can use parentNode.$("target") to find a DOM element.
-   */
-  Object.defineProperty(HTMLElement.prototype, '$', {
-    value: $
-  })
+  // verify if $ property is already defined in HTMLElement.prototype
+  if (!HTMLElement.prototype.$) {
+    /**
+     * Add "$" method to HTMLElement interface.
+     * Now we can use parentNode.$("target") to find a DOM element.
+     */
+    Object.defineProperty(HTMLElement.prototype, '$', {
+      value: $
+    })
+  }
 
   if (target.length === 0) return undefined
 
