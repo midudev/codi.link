@@ -1,5 +1,11 @@
 /* eslint-env browser */
-export const $ = (target) => {
+
+/**
+ * Obtains the DOM element or NodeList from the provided selector.
+ * @param {DOMString} target A CSS selector.
+ * @returns {Element|NodeList} A DOM element or a list of DOM elements.
+ */
+const $ = (target) => {
   // verify if $ property is already defined in HTMLElement.prototype
   if (!HTMLElement.prototype.$) {
     /**
@@ -22,3 +28,5 @@ export const $ = (target) => {
 
   return isArr ? selected : selected[0]
 }
+
+export { $ }
