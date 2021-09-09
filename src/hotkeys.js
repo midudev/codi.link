@@ -1,8 +1,6 @@
 import hotkeys from 'hotkeys-js'
 
 hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler) {
-  console.log(event)
-
   switch (handler.key) {
     case 'ctrl+a': window.alert('you pressed ctrl+a!')
       break
