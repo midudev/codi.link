@@ -99,11 +99,12 @@ aside button {
   background: transparent;
   border: 0;
   border-left: 3px solid transparent;
+  margin-left: -3px;
   cursor: pointer;
   width: 100%;
   opacity: .5;
   transition: opacity .1s ease;
-  padding: 16px;
+  padding: 16px 0;
 }
 
 aside button.is-active {
