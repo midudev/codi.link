@@ -5,9 +5,11 @@ import { encode, decode } from 'js-base64'
 import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
-import './aside.js'
 import { subscribe } from './state'
+
+import './aside.js'
 import './settings.js'
+import './grid.js'
 
 const $js = $('#js')
 const $css = $('#css')
