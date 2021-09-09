@@ -5,7 +5,11 @@ import { encode, decode } from 'js-base64'
 import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
+import { subscribe } from './state'
+
 import './aside.js'
+import './settings.js'
+import './grid.js'
 
 const $js = $('#js')
 const $css = $('#css')
@@ -22,6 +26,26 @@ const js = rawJs ? decode(rawJs) : ''
 const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
 const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
 const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
+
+subscribe(state => {
+  console.log('subscribe', state)
+  const EDITORS = [htmlEditor, cssEditor, jsEditor]
+  EDITORS.forEach(editor => {
+    const { minimap, ...restOfOptions } = state
+
+    const newOptions = {
+      ...restOfOptions,
+      minimap: {
+        enabled: minimap
+      }
+    }
+
+    editor.updateOptions({
+      ...editor.getRawOptions(),
+      ...newOptions
+    })
+  })
+})
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)

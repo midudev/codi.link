@@ -5,7 +5,7 @@
  * @param {DOMString} target A CSS selector.
  * @returns {Element|NodeList} A DOM element or a list of DOM elements.
  */
-const $ = (target) => {
+export const $ = (target) => {
   // verify if $ property is already defined in HTMLElement.prototype
   if (!HTMLElement.prototype.$) {
     /**
@@ -29,4 +29,20 @@ const $ = (target) => {
   return isArr ? selected : selected[0]
 }
 
-export { $ }
+export const isNodeSelect = el => el.nodeName === 'SELECT'
+export const isNodeCheckbox = el => el.nodeName === 'INPUT' && el.type === 'checkbox'
+
+const updateSelectValue = (el, value) => {
+  const optionToSelect = el.querySelector(`option[value="${value}"]`)
+  if (!optionToSelect) return console.warn('Option to initialized not found')
+  optionToSelect.setAttribute('selected', '')
+}
+
+export const setFormControlValue = (el, value) => {
+  const isSelect = isNodeSelect(el)
+  const isCheckbox = isNodeCheckbox(el)
+
+  if (isSelect) updateSelectValue(el, value)
+  else if (isCheckbox) el.checked = value
+  else el.value = value
+}
