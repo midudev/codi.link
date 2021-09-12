@@ -1,11 +1,9 @@
+/* eslint-disable no-return-assign */
 export const $ = (selector, context = document) =>
   context.querySelector(selector)
 
 export const $$ = (selector, context = document) =>
   context.querySelectorAll(selector)
-
-export const isNodeSelect = el => el.nodeName === 'SELECT'
-export const isNodeCheckbox = el => el.nodeName === 'INPUT' && el.type === 'checkbox'
 
 const updateSelectValue = (el, value) => {
   const optionToSelect = el.querySelector(`option[value="${value}"]`)
@@ -14,10 +12,11 @@ const updateSelectValue = (el, value) => {
 }
 
 export const setFormControlValue = (el, value) => {
-  const isSelect = isNodeSelect(el)
-  const isCheckbox = isNodeCheckbox(el)
-
-  if (isSelect) updateSelectValue(el, value)
-  else if (isCheckbox) el.checked = value
-  else el.value = value
+  const typeHTML = el.nodeName === 'INPUT' && el.type === 'checkbox' ? 'CHECKBOX' : el.nodeName
+  const haldlen = {
+    SELECT: () => updateSelectValue(el, value),
+    CHECKBOX: () => el.checked = value,
+    INPUT: () => el.value = value
+  }
+  haldlen[typeHTML]()
 }
