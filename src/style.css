@@ -123,6 +123,7 @@ aside svg {
 aside header,
 aside footer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
