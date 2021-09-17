@@ -28,6 +28,16 @@ const htmlEditor = createEditor({ domElement: $html, language: 'html', value: ht
 const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
 const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
 
+// eslint-disable-next-line no-undef
+self.onmessage = ({ data }) => {
+  if (Object.prototype.toString.call(data) === '[object Object]' && Object.keys(data).includes('package')) {
+    const capitalize = (str) => {
+      return str.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join('')
+    }
+    jsEditor.setValue(`import ${capitalize(data.package)} from '${data.url}';\n${jsEditor.getValue()}`)
+  }
+}
+
 subscribe(state => {
   console.log('subscribe', state)
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
