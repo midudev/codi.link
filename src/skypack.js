@@ -15,14 +15,17 @@ async function handleSearch () {
   $searchResults.classList.remove('hidden')
   $searchResultsList.innerHTML = ''
 
+  let results = []
+
   const searchTerm = $searchInput.value.toLowerCase()
 
   if (searchTerm === '') {
     $searchResults.classList.add('hidden')
+    results = []
     return
   }
 
-  const results = await fetchPackages(searchTerm)
+  results = await fetchPackages(searchTerm)
 
   for (let i = 0; i < results.length; i++) {
     const result = results[i]
@@ -57,5 +60,9 @@ function fetchPackages (packageName) {
 }
 
 function handlePackageSelected (packageName) {
+  $('[data-to="skypack"]').classList.remove('is-active')
+  $('#skypack').setAttribute('hidden', '')
+  $('#editor').removeAttribute('hidden')
+  $('[data-to="editor"]').classList.add('is-active')
   console.log(`${CDN_URL}/${packageName}`)
 }
