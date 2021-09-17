@@ -8,6 +8,7 @@ import debounce from './utils/debounce.js'
 import { subscribe } from './state'
 
 import './aside.js'
+import './skypack.js'
 import './settings.js'
 import './grid.js'
 

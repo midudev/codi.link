@@ -145,6 +145,77 @@ select {
   width: 100%;
 }
 
+.skypack {
+  & .skypack-content {
+    display: grid;
+    justify-content: center;
+    height: 100%;
+  }
+
+  & .skypack-type {
+    opacity: .6;
+  }
+
+  & .skypack-item {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    padding: 1em;
+  }
+
+  & .skypack-item strong {
+    display: block;
+  }
+
+  & .input {
+    display: flex;
+    background-color: var(--bgc-input);
+    border: 1px solid var(--bdc-input);
+    color: var(--c-input);
+    padding: .5em;
+    margin-top: 3px;
+  }
+
+  & .input .input-icon {
+    fill: rgba(128, 128, 128, 0.50);
+  }
+  
+  & .input input {
+    width: 100%;
+    padding: .05em;
+    padding-left: 8px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: var(--c-input);
+  }
+
+  & .search-results.hidden {
+    display: none;
+  }
+
+  & .search-results ul {
+    list-style: none;
+    margin: 0.5em 0;
+    padding: 0;
+  }
+
+  & .search-results ul li {
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  & .search-results ul li:hover {
+    background-color: rgba(128, 128, 128, 0.14);
+  }
+}
+
 .settings {
   & .settings-content {
     display: grid;
@@ -209,50 +280,3 @@ select {
   }
 }
 
-.skypack {
-  & .skypack-content {
-    display: grid;
-    justify-content: center;
-    height: 100%;
-  }
-
-  & .skypack-type {
-    opacity: .6;
-  }
-
-  & .skypack-item {
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 500px;
-    padding: 1em;
-  }
-
-  & .skypack-item strong {
-    display: block;
-  }
-
-  & .input {
-    display: flex;
-    background-color: var(--bgc-input);
-    border: 1px solid var(--bdc-input);
-    color: var(--c-input);
-    padding: .5em;
-    margin-top: 3px;
-  }
-
-  & .input .input-icon {
-    fill: rgba(128, 128, 128, 0.50);
-  }
-  
-  & .input input {
-    width: 100%;
-    padding: .05em;
-    padding-left: 8px;
-    border: none;
-    background-color: transparent;
-    outline: none;
-    color: var(--c-input);
-  }
-}
