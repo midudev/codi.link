@@ -4,11 +4,14 @@ import { $ } from './utils/dom.js'
 const $aside = $('aside')
 const asideWidth = $aside.offsetWidth
 
+const marginViewOverlays = 26
+const decorationsOverviewRuler = 14
 const iconSize = 48
-const columnMinSize = asideWidth + iconSize
-const columnMaxSize = window.innerHeight - asideWidth - iconSize
+const iconOffset = 16
+const columnMinSize = asideWidth - marginViewOverlays + iconSize - iconOffset
+const columnMaxSize = window.innerHeight - asideWidth - iconSize + iconOffset - decorationsOverviewRuler
 
-const rowMinSize = iconSize
+const rowMinSize = iconSize + iconOffset * 2
 const rowMaxSize = window.innerHeight - iconSize
 
 Split({
