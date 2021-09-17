@@ -127,7 +127,7 @@ aside footer {
   justify-content: center;
 }
 
-#settings {
+#settings, #skypack {
   height: 100vh;
 }
 
@@ -206,5 +206,53 @@ select {
     color: var(--c-input);
     border: 1px solid var(--bdc-input);
     padding: .3em;
+  }
+}
+
+.skypack {
+  & .skypack-content {
+    display: grid;
+    justify-content: center;
+    height: 100%;
+  }
+
+  & .skypack-type {
+    opacity: .6;
+  }
+
+  & .skypack-item {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    padding: 1em;
+  }
+
+  & .skypack-item strong {
+    display: block;
+  }
+
+  & .input {
+    display: flex;
+    background-color: var(--bgc-input);
+    border: 1px solid var(--bdc-input);
+    color: var(--c-input);
+    padding: .5em;
+    margin-top: 3px;
+  }
+
+  & .input .input-icon {
+    fill: rgba(128, 128, 128, 0.50);
+  }
+  
+  & .input input {
+    width: 100%;
+    padding: .05em;
+    padding-left: 8px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: var(--c-input);
   }
 }
