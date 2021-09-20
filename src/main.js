@@ -5,6 +5,7 @@ import { encode, decode } from 'js-base64'
 import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
+import { capitalize } from './utils/string'
 import { subscribe } from './state'
 
 import './aside.js'
@@ -31,9 +32,6 @@ const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: 
 // eslint-disable-next-line no-undef
 self.onmessage = ({ data }) => {
   if (Object.prototype.toString.call(data) === '[object Object]' && Object.keys(data).includes('package')) {
-    const capitalize = (str) => {
-      return str.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join('')
-    }
     jsEditor.setValue(`import ${capitalize(data.package)} from '${data.url}';\n${jsEditor.getValue()}`)
   }
 }
