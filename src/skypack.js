@@ -5,7 +5,7 @@ const API_URL = 'https://api.skypack.dev/v1'
 const CDN_URL = 'https://cdn.skypack.dev'
 
 const $skypackSearch = $('#skypack input[type="search"]')
-$skypackSearch.addEventListener('input', debounce(handleSearch, 300))
+$skypackSearch.addEventListener('input', debounce(handleSearch, 200))
 
 async function handleSearch () {
   const $searchInput = $skypackSearch
