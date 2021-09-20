@@ -4,13 +4,14 @@ import { $ } from './utils/dom.js'
 const API_URL = 'https://api.skypack.dev/v1'
 const CDN_URL = 'https://cdn.skypack.dev'
 
+const $searchResults = $('#skypack .search-results')
+const $searchResultsList = $searchResults.querySelector('ul')
+const $searchResultsMessage = $('#skypack .search-results-message')
 const $skypackSearch = $('#skypack input[type="search"]')
 $skypackSearch.addEventListener('input', debounce(handleSearch, 200))
 
 async function handleSearch () {
   const $searchInput = $skypackSearch
-  const $searchResults = $('#skypack .search-results')
-  const $searchResultsList = $searchResults.querySelector('ul')
 
   $searchResults.classList.remove('hidden')
   $searchResultsList.innerHTML = ''
@@ -41,6 +42,8 @@ async function handleSearch () {
 
     $searchResultsList.appendChild($li)
   }
+
+  $searchResultsMessage.innerHTML = `${results.length} results for "${searchTerm}"`
 
   $searchResults.classList.remove('hidden')
 }
