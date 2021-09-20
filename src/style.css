@@ -34,6 +34,15 @@ body {
   grid-template-columns: 72px 1fr;
 }
 
+a {
+  color: #41a0ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 iframe {
   background: #fff;
   border: 0;
