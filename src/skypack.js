@@ -26,6 +26,8 @@ async function handleSearch () {
     return
   }
 
+  $searchResultsMessage.innerHTML = 'Searching...'
+
   results = await fetchPackages(searchTerm)
 
   for (let i = 0; i < results.length; i++) {
