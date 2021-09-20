@@ -29,8 +29,7 @@ const htmlEditor = createEditor({ domElement: $html, language: 'html', value: ht
 const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
 const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
 
-// eslint-disable-next-line no-undef
-self.onmessage = ({ data }) => {
+window.onmessage = ({ data }) => {
   if (Object.prototype.toString.call(data) === '[object Object]' && Object.keys(data).includes('package')) {
     jsEditor.setValue(`import ${capitalize(data.package)} from '${data.url}';\n${jsEditor.getValue()}`)
   }

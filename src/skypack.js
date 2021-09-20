@@ -67,6 +67,5 @@ function handlePackageSelected (packageName) {
   $('#skypack').setAttribute('hidden', '')
   $('#editor').removeAttribute('hidden')
   $('[data-to="editor"]').classList.add('is-active')
-  // eslint-disable-next-line no-undef
-  self.postMessage({ package: packageName, url: `${CDN_URL}/${packageName}` })
+  window.postMessage({ package: packageName, url: `${CDN_URL}/${packageName}` })
 }
