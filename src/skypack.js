@@ -20,7 +20,7 @@ async function handleSearch () {
 
   const searchTerm = $searchInput.value.toLowerCase()
 
-  if (searchTerm === '') {
+  if (searchTerm === '' || searchTerm.trim() === '') {
     $searchResults.classList.add('hidden')
     results = []
     return
