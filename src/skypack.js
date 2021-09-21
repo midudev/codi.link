@@ -22,7 +22,6 @@ async function handleSearch () {
 
   if (searchTerm === '' || searchTerm.trim() === '') {
     $searchResults.classList.add('hidden')
-    results = []
     return
   }
 
@@ -51,21 +50,11 @@ async function handleSearch () {
 }
 
 async function fetchPackages (packageName) {
-  // eslint-disable-next-line no-undef
-  const response = await fetch(`${API_URL}/search?q=${packageName}&p=1`)
-  const data = await response.json()
-  return data.results.map((result) => {
-    return {
-      name: result.name,
-      description: result.description
-    }
-  })
+  const response = await window.fetch(`${API_URL}/search?q=${packageName}&p=1`)
+  const { results } = await response.json()
+  return results.map(({ name, description }) => ({ name, description }))
 }
 
 function handlePackageSelected (packageName) {
-  $('[data-to="skypack"]').classList.remove('is-active')
-  $('#skypack').setAttribute('hidden', '')
-  $('#editor').removeAttribute('hidden')
-  $('[data-to="editor"]').classList.add('is-active')
   window.postMessage({ package: packageName, url: `${CDN_URL}/${packageName}` })
 }

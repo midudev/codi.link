@@ -31,7 +31,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  grid-template-columns: 72px 1fr;
+  grid-template-columns: auto 1fr;
 }
 
 a {
@@ -100,11 +100,23 @@ iframe {
 aside {
   background: #2d323c;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
-aside button {
+.aside-bar {
+  width: 310px;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.aside-sections {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 72px;
+}
+
+.aside-sections button {
   background: transparent;
   border: 0;
   border-left: 3px solid transparent;
@@ -115,29 +127,25 @@ aside button {
   padding: 16px 0;
 }
 
-aside button.is-active {
+.aside-sections button.is-active {
   opacity: 1;
   border-left: 3px solid #c5c5c5;
 }
 
-aside button:hover {
+.aside-sections button:hover {
   opacity: 1;
 }
 
-aside svg {
+.aside-sections svg {
   width: 40px;
   height: 40px;
 }
 
-aside header,
-aside footer {
+.aside-sections header,
+.aside-sections footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-#settings, #skypack {
-  height: 100vh;
 }
 
 [hidden] {
@@ -155,13 +163,8 @@ select {
 }
 
 .skypack {
-  & .skypack-content {
-    display: grid;
-    justify-content: center;
-    height: 100%;
-  }
-
   & .skypack-type {
+    padding-bottom: 8px;
     opacity: .6;
   }
 
@@ -170,7 +173,6 @@ select {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 500px;
     padding: 1em;
   }
 
@@ -184,7 +186,8 @@ select {
     border: 1px solid var(--bdc-input);
     color: var(--c-input);
     padding: .5em;
-    margin-top: 3px;
+    margin-top: 16px;
+    font-size: 1rem;
   }
 
   & .input .input-icon {
@@ -289,3 +292,15 @@ select {
   }
 }
 
+#tooltip {
+  background-color: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  display: none;
+}
+
+#tooltip[data-show] {
+  display: block;
+}
