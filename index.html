@@ -15,6 +15,9 @@
           <button class="is-active" data-to="editor">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><defs/><path fill="#C5C5C5" d="M17.5 0h-9L7 1.5V6H2.5L1 7.5v15L2.5 24h12l1.5-1.4V18h4.7l1.3-1.4V4.5L17.5 0zm0 2.1l2.4 2.4h-2.4V2.1zm-3 20.4h-12v-15H7v9L8.5 18h6v4.5zm6-6h-12v-15H16V6h4.5v10.5z"/></svg>
           </button>
+          <button data-to="skypack">
+            <svg fill="#C5C5C5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 26"><path d="M17.387 12.213L10.95 9l6.438-3.212c.3-.15.487-.45.487-.788a.875.875 0 00-.488-.788l-8-4a.874.874 0 00-.787 0l-8 4c-.3.15-.487.45-.487.788v8c0 .3.162.588.412.75l.075.037L7.038 17 .6 20.212c-.3.15-.487.45-.487.788 0 .337.187.637.487.788l8 4a.874.874 0 00.388.087.874.874 0 00.387-.087l8-4c.3-.15.488-.45.488-.788v-8a.842.842 0 00-.476-.787zM9 1.975L15.037 5 9 8.025 2.963 5 9 1.975zM1.875 6.413L7.038 9l-5.163 2.588V6.413zM2.963 13L9 9.975 15.037 13 9 16.025 2.963 13zm5.162 5.413v5.162l-5.162-2.587 5.162-2.575zm8 2.05l-6.25 3.124V17.55l6.25-3.125v6.037z"></path></svg>
+          </button>
         </header>
 
         <footer>
@@ -37,6 +40,32 @@
 
         <div class="vertical-gutter"></div>
         <div class="horizontal-gutter"></div>
+      </div>
+
+      <div id="skypack" hidden class="view skypack">
+        <div class="skypack-content">
+          <div class="skypack-item">
+            <strong>
+              <span class="skypack-type">JavaScript:</span>
+              Add packages
+            </strong>
+            Search for and use JavaScript packages from npm here.
+            By selecting a package, an import statement will be added to the top of the JavaScript editor for this package.
+            <a href="https://docs.skypack.dev/troubleshooting-and-faq" target="_blank">Troubleshooting & FAQ</a>
+            <div class="input">
+              <svg viewBox="0 0 56.7 56.7" class="input-icon" width="18" height="18">
+                <path d="M42.8,7.3C33-2.4,17.1-2.4,7.3,7.3c-9.8,9.8-9.8,25.7,0,35.5c8.7,8.7,22.2,9.7,32,2.9l9.6,9.6c1.8,1.8,4.7,1.8,6.4,0
+                c1.8-1.8,1.8-4.7,0-6.4l-9.6-9.6C52.5,29.5,51.5,16,42.8,7.3z M36.6,36.6c-6.4,6.4-16.7,6.4-23.1,0s-6.4-16.7,0-23.1
+                c6.4-6.4,16.7-6.4,23.1,0C43,19.9,43,30.3,36.6,36.6z"></path>
+                </svg>
+              <input type="search" placeholder="Search npm and add a package..." autocomplete="off">
+            </div>
+            <div class="search-results">
+              <p class="search-results-message"></p>
+              <ul></ul>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div id="settings" hidden class="view settings">
