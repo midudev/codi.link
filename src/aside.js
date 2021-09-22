@@ -3,30 +3,32 @@ import { $, $$ } from './utils/dom.js'
 const $aside = $('aside')
 const $buttons = $$('button', $aside)
 
-const ACTIONS = {
-  'close-aside-bar': () => {
-    $('.aside-bar').setAttribute('hidden', '')
-  },
-
-  'show-skypack-bar': () => {
-    $('.aside-bar').removeAttribute('hidden')
-    $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
-    $('#skypack').removeAttribute('hidden')
-  },
-
-  'show-settings-bar': () => {
-    $('.aside-bar').removeAttribute('hidden')
-    $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
-    $('#settings').removeAttribute('hidden')
-  }
+const hideBarContent = (target) => {
+  $$(`.bar-content:not(.${target})`).forEach(el => el.setAttribute('hidden', ''))
+  $$(`[data-target]:not([data-target="${target}"])`).forEach(el => el.classList.remove('is-active'))
 }
 
 $buttons.forEach(button => {
   button.addEventListener('click', ({ currentTarget }) => {
-    $('.is-active').classList.remove('is-active')
-    currentTarget.classList.add('is-active')
+    const isBarVisible = currentTarget.classList.contains('is-active')
+    const target = button.getAttribute('data-target')
 
-    const action = button.getAttribute('data-action')
-    ACTIONS[action]()
+    if (target === 'editor') {
+      currentTarget.classList.add('is-active')
+      $('.aside-bar').setAttribute('hidden', '')
+      hideBarContent(target)
+      return
+    }
+    currentTarget.classList.toggle('is-active', !isBarVisible)
+
+    if (isBarVisible) {
+      $(`#${target}`).setAttribute('hidden', '')
+      $('.aside-bar').setAttribute('hidden', '')
+      $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
+    } else {
+      $(`#${target}`).removeAttribute('hidden')
+      $('.aside-bar').removeAttribute('hidden')
+      hideBarContent(target)
+    }
   })
 })
