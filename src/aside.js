@@ -10,7 +10,7 @@ const hideBarContent = (target) => {
 
 $buttons.forEach(button => {
   button.addEventListener('click', ({ currentTarget }) => {
-    const isBarVisible = currentTarget.classList.contains('is-active')
+    const isBarActive = currentTarget.classList.contains('is-active')
     const target = button.getAttribute('data-target')
 
     if (target === 'editor') {
@@ -19,9 +19,9 @@ $buttons.forEach(button => {
       hideBarContent(target)
       return
     }
-    currentTarget.classList.toggle('is-active', !isBarVisible)
+    currentTarget.classList.toggle('is-active', !isBarActive)
 
-    if (isBarVisible) {
+    if (isBarActive) {
       $(`#${target}`).setAttribute('hidden', '')
       $('.aside-bar').setAttribute('hidden', '')
       $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
