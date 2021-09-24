@@ -10,7 +10,9 @@ const {
   lineNumbers,
   minimap,
   theme,
-  wordWrap
+  wordWrap,
+  fontLigatures,
+  fontFamily
 } = getState()
 
 const COMMON_EDITOR_OPTIONS = {
@@ -21,6 +23,8 @@ const COMMON_EDITOR_OPTIONS = {
   },
   wordWrap,
   theme,
+  fontLigatures,
+  fontFamily,
 
   automaticLayout: true,
   fixedOverflowWidgets: true,
