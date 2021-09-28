@@ -36,7 +36,6 @@ window.onmessage = ({ data }) => {
 }
 
 subscribe(state => {
-  console.log('subscribe', state)
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
   EDITORS.forEach(editor => {
     const { minimap, ...restOfOptions } = state
