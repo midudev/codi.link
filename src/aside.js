@@ -23,10 +23,14 @@ const ACTIONS = {
 
 $buttons.forEach(button => {
   button.addEventListener('click', ({ currentTarget }) => {
+    const preActive = currentTarget.classList.contains('is-active')
     $('.is-active').classList.remove('is-active')
-    currentTarget.classList.add('is-active')
-
-    const action = button.getAttribute('data-action')
+    const action = preActive ? 'close-aside-bar' : button.getAttribute('data-action')
+    if (preActive) {
+      $("button[data-action='close-aside-bar']").classList.add('is-active')
+    } else {
+      currentTarget.classList.add('is-active')
+    }
     ACTIONS[action]()
   })
 })
