@@ -56,5 +56,7 @@ async function fetchPackages (packageName) {
 }
 
 function handlePackageSelected (packageName) {
-  window.postMessage({ package: packageName, url: `${CDN_URL}/${packageName}` })
+  let parsedName = packageName.split('/').join('-')
+  if (parsedName.startsWith('@')) parsedName = parsedName.substr(1)
+  window.postMessage({ package: parsedName, url: `${CDN_URL}/${packageName}` })
 }
