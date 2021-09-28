@@ -121,16 +121,19 @@ aside button {
 }
 
 aside button .button-title {
+  background: #2d323c;
+  border-radius: 3px;
+  border: 1px solid #000;
+  box-shadow: 0 0 15px 2px rgb(0 0 0 / 30%);
+  color: #c5c5c5;
   display: none;
+  font-size: 1.1em;
+  padding: 0.5em .75em;
   position: absolute;
   right: -10px; 
   transform: translateX(100%);
-  color: #c5c5c5;
   z-index: 1000;
-  background-color: #2d323c;
-  padding: 0.5em;
-  font-size: 1.5em;
-  border-radius: 3px;
+
   &:after {
     content: '';
     position: absolute;
@@ -142,6 +145,19 @@ aside button .button-title {
     border-top: 0.5em solid transparent;
     border-bottom: 0.5em solid transparent;
     border-right: 0.5em solid #2d323c;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    transform: translateX(-100%);
+    left: 0px;
+    right: 0;
+    width: 0px;
+    height: 0px;
+    border-top: 0.5em solid transparent;
+    border-bottom: 0.5em solid transparent;
+    border-right: 0.5em solid #000;
   }
 }
 
@@ -345,17 +361,4 @@ select {
     border: 1px solid var(--bdc-input);
     padding: .3em;
   }
-}
-
-#tooltip {
-  background-color: #333;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 13px;
-  display: none;
-}
-
-#tooltip[data-show] {
-  display: block;
 }
