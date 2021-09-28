@@ -116,6 +116,47 @@ aside {
   display: flex;
 }
 
+aside button {
+  position: relative;
+}
+
+aside button .button-title {
+  display: none;
+  position: absolute;
+  right: -10px; 
+  transform: translateX(100%);
+  color: #c5c5c5;
+  z-index: 1000;
+  background-color: #2d323c;
+  padding: 0.5em;
+  font-size: 1.5em;
+  border-radius: 3px;
+  &:after {
+    content: '';
+    position: absolute;
+    transform: translateX(-100%);
+    left: 1px;
+    right: 0;
+    width: 0px;
+    height: 0px;
+    border-top: 0.5em solid transparent;
+    border-bottom: 0.5em solid transparent;
+    border-right: 0.5em solid #2d323c;
+  }
+}
+
+aside button.is-active {
+  opacity: 1;
+  border-left: 3px solid #c5c5c5;
+}
+
+aside button:hover {
+  opacity: 1;
+  & .button-title {
+    display: block;
+  }
+}
+
 .aside-bar {
   width: 310px;
   height: 100vh;
