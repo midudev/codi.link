@@ -27,8 +27,7 @@ async function handleSearch () {
 
   const results = await fetchPackages(searchTerm)
 
-  for (let i = 0; i < results.length; i++) {
-    const result = results[i]
+  results.forEach(result => {
     const $li = document.createElement('li')
     $li.title = result.description
 
@@ -40,7 +39,7 @@ async function handleSearch () {
     $li.addEventListener('click', () => handlePackageSelected(result.name))
 
     $searchResultsList.appendChild($li)
-  }
+  })
 
   $searchResultsMessage.innerHTML = `${results.length} results for "${searchTerm}"`
 
