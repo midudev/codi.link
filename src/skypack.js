@@ -16,8 +16,6 @@ async function handleSearch () {
   $searchResults.classList.remove('hidden')
   $searchResultsList.innerHTML = ''
 
-  let results = []
-
   const searchTerm = $searchInput.value.toLowerCase()
 
   if (searchTerm === '' || searchTerm.trim() === '') {
@@ -27,7 +25,7 @@ async function handleSearch () {
 
   $searchResultsMessage.innerHTML = 'Searching...'
 
-  results = await fetchPackages(searchTerm)
+  const results = await fetchPackages(searchTerm)
 
   for (let i = 0; i < results.length; i++) {
     const result = results[i]
