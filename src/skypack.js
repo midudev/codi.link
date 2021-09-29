@@ -10,18 +10,24 @@ const $searchResultsMessage = $('#skypack .search-results-message')
 const $skypackSearch = $('#skypack input[type="search"]')
 $skypackSearch.addEventListener('input', debounce(handleSearch, 200))
 
+let lastSearchInput = ''
+
 async function handleSearch () {
   const $searchInput = $skypackSearch
 
-  $searchResults.classList.remove('hidden')
-  $searchResultsList.innerHTML = ''
+  const searchTerm = $searchInput.value.toLowerCase().trim()
 
-  const searchTerm = $searchInput.value.toLowerCase()
+  if (searchTerm === lastSearchInput) return
 
-  if (searchTerm === '' || searchTerm.trim() === '') {
+  lastSearchInput = searchTerm
+
+  if (!searchTerm) {
     $searchResults.classList.add('hidden')
     return
   }
+
+  $searchResults.classList.remove('hidden')
+  $searchResultsList.innerHTML = ''
 
   $searchResultsMessage.innerHTML = 'Searching...'
 
