@@ -362,3 +362,8 @@ select {
     padding: .3em;
   }
 }
+
+/* Magic Menu Styles */
+.preview { 
+  position: relative;
+}
