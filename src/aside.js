@@ -14,6 +14,7 @@ const ACTIONS = {
     $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
     $('#skypack').removeAttribute('hidden')
     $('.scroll-buttons-container').setAttribute('hidden', '')
+    $('#skypack-search-input').focus()
   },
 
   'show-settings-bar': () => {
