@@ -477,7 +477,7 @@ select {
     display: block;
     position: absolute;
     bottom: 2em;
-    right: 3em;
+    right: 2em;
 
     display: flex;
     justify-content: center;
