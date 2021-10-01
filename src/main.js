@@ -7,6 +7,7 @@ import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { capitalize } from './utils/string'
 import { subscribe } from './state'
+import WindowPreviewer from './utils/WindowPreviewer'
 
 import './aside.js'
 import './skypack.js'
@@ -25,19 +26,38 @@ const html = rawHtml ? decode(rawHtml) : ''
 const css = rawCss ? decode(rawCss) : ''
 const js = rawJs ? decode(rawJs) : ''
 
-const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
-const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
-const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
+const htmlEditor = createEditor({
+  domElement: $html,
+  language: 'html',
+  value: html
+})
+const cssEditor = createEditor({
+  domElement: $css,
+  language: 'css',
+  value: css
+})
+const jsEditor = createEditor({
+  domElement: $js,
+  language: 'javascript',
+  value: js
+})
 
 window.onmessage = ({ data }) => {
-  if (Object.prototype.toString.call(data) === '[object Object]' && Object.keys(data).includes('package')) {
-    jsEditor.setValue(`import ${capitalize(data.package)} from '${data.url}';\n${jsEditor.getValue()}`)
+  if (
+    Object.prototype.toString.call(data) === '[object Object]' &&
+    Object.keys(data).includes('package')
+  ) {
+    jsEditor.setValue(
+      `import ${capitalize(data.package)} from '${
+        data.url
+      }';\n${jsEditor.getValue()}`
+    )
   }
 }
 
-subscribe(state => {
+subscribe((state) => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
-  EDITORS.forEach(editor => {
+  EDITORS.forEach((editor) => {
     const { minimap, ...restOfOptions } = state
 
     const newOptions = {
@@ -64,8 +84,8 @@ jsEditor.onDidChangeModelContent(debouncedUpdate)
 
 initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
 
-const htmlForPreview = createHtml({ html, js, css })
-$('iframe').setAttribute('srcdoc', htmlForPreview)
+const initialHtmlForPreview = createHtml({ html, js, css })
+$('iframe').setAttribute('srcdoc', initialHtmlForPreview)
 
 function update () {
   const html = htmlEditor.getValue()
@@ -78,6 +98,7 @@ function update () {
 
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
+  WindowPreviewer.updateWindowContent(htmlForPreview)
 }
 
 function createHtml ({ html, js, css }) {

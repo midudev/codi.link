@@ -1,40 +1,52 @@
 import { $, $$ } from './utils/dom.js'
+import WindowPreviewer from './utils/WindowPreviewer'
 
 const $aside = $('aside')
 const $buttons = $$('button', $aside)
 
+const toggleAsideBar = (status) => {
+  $('.aside-bar').toggleAttribute('hidden', status)
+}
+
 const ACTIONS = {
   'close-aside-bar': () => {
-    $('.aside-bar').setAttribute('hidden', '')
+    toggleAsideBar(true)
   },
 
   'show-skypack-bar': () => {
-    $('.aside-bar').removeAttribute('hidden')
-    $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
+    toggleAsideBar()
+    $$('.bar-content').forEach((el) => el.setAttribute('hidden', ''))
     $('#skypack').removeAttribute('hidden')
   },
 
   'show-settings-bar': () => {
-    $('.aside-bar').removeAttribute('hidden')
-    $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
+    toggleAsideBar()
+    $$('.bar-content').forEach((el) => el.setAttribute('hidden', ''))
     $('#settings').removeAttribute('hidden')
+  },
+
+  'open-iframe-tab': () => {
+    WindowPreviewer.openWindow()
   }
 }
 
-$buttons.forEach(button => {
+$buttons.forEach((button) => {
   button.addEventListener('click', ({ currentTarget }) => {
-    const alreadyActive = currentTarget.classList.contains('is-active')
-    $('.is-active').classList.remove('is-active')
+    let action = button.getAttribute('data-action')
 
-    const action = alreadyActive
-      ? 'close-aside-bar'
-      : button.getAttribute('data-action')
+    if (action.includes('bar')) {
+      const alreadyActive = currentTarget.classList.contains('is-active')
+      $('.is-active').classList.remove('is-active')
 
-    const elementToActive = alreadyActive
-      ? $("button[data-action='close-aside-bar']")
-      : currentTarget
+      alreadyActive && (action = 'close-aside-bar')
 
-    elementToActive.classList.add('is-active')
+      const elementToActive = alreadyActive
+        ? $("button[data-action='close-aside-bar']")
+        : currentTarget
+
+      elementToActive.classList.add('is-active')
+    }
+
     ACTIONS[action]()
   })
 })
