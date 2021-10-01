@@ -7,7 +7,7 @@
 body {
   background-color: #2d323c;
   color: #333;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.42857143;
   margin: 0;
@@ -22,27 +22,29 @@ body {
   box-sizing: border-box;
 }
 
-*::before, *::after {
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
 @font-face {
-  font-family: 'Cascadia Code PL';
-  src: url('/assets/fonts/CascadiaCodePL.woff2') format('woff2');
+  font-family: "Cascadia Code PL";
+  src: url("/assets/fonts/CascadiaCodePL.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Cascadia Code PL';
-  src: url('/assets/fonts/CascadiaCodePLItalic.woff2') format('woff2');
+  font-family: "Cascadia Code PL";
+  src: url("/assets/fonts/CascadiaCodePLItalic.woff2") format("woff2");
   font-weight: normal;
   font-style: italic;
 }
 
 #app {
   display: grid;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   grid-template-columns: auto 1fr;
@@ -70,7 +72,7 @@ iframe {
 }
 
 .editor::after {
-  content: '';
+  content: "";
   position: absolute;
   background-repeat: no-repeat;
   right: 16px;
@@ -80,16 +82,29 @@ iframe {
   height: 48px;
 }
 
-#html::after {
-  background-image: url('/assets/html5.svg');
+.editor .icon-editor {
+  position: absolute;
+  background-repeat: no-repeat;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
-#css::after {
-  background-image: url('/assets/css3.svg');
+#html .icon-editor {
+  background-image: url("/assets/html5.svg");
 }
 
-#js::after {
-  background-image: url('/assets/js.svg');
+#css .icon-editor {
+  background-image: url("/assets/css3.svg");
+}
+
+#js .icon-editor {
+  background-image: url("/assets/js.svg");
 }
 
 .grid {
@@ -120,7 +135,20 @@ aside button {
   position: relative;
 }
 
-aside button .button-title {
+aside a {
+  display: flex;
+  align-items: center;
+  border-left: 0;
+  justify-content: center;
+  position: relative;
+
+  &#button-download .button-title {
+    font-size: 0.9em;
+  }
+}
+
+aside button .button-title,
+aside a .button-title {
   background: #2d323c;
   border-radius: 3px;
   border: 1px solid #000;
@@ -128,16 +156,18 @@ aside button .button-title {
   color: #c5c5c5;
   display: none;
   font-size: 1.1em;
-  padding: 0.5em .75em;
+  padding: 0.5em 0.75em;
   position: absolute;
-  right: -10px; 
+  right: -10px;
   transform: translateX(100%);
   z-index: 1000;
+  line-height: 1.3em;
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
-    transform: translateX(-100%);
+    transform: translateX(-100%) translateY(-50%);
+    top: 50%;
     left: 1px;
     right: 0;
     width: 0px;
@@ -148,9 +178,10 @@ aside button .button-title {
   }
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
-    transform: translateX(-100%);
+    transform: translateX(-100%) translateY(-50%);
+    top: 50%;
     left: 0px;
     right: 0;
     width: 0px;
@@ -166,7 +197,8 @@ aside button.is-active {
   border-left: 3px solid #c5c5c5;
 }
 
-aside button:hover {
+aside button:hover,
+aside a:hover {
   opacity: 1;
   & .button-title {
     display: block;
@@ -184,32 +216,35 @@ aside button:hover {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  width: 72px;
+  width: 50px;
 }
 
-.aside-sections button {
+.aside-sections button,
+.aside-sections a {
   background: transparent;
   border: 0;
   border-left: 3px solid transparent;
   cursor: pointer;
   width: 100%;
-  opacity: .5;
-  transition: opacity .1s ease;
+  opacity: 0.5;
+  transition: opacity 0.1s ease;
   padding: 16px 0;
 }
 
-.aside-sections button.is-active {
+.aside-sections button.is-active,
+.aside-sections a.is-active {
   opacity: 1;
   border-left: 3px solid #c5c5c5;
 }
 
-.aside-sections button:hover {
+.aside-sections button:hover,
+.aside-sections a:hover {
   opacity: 1;
 }
 
 .aside-sections svg {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
 }
 
 .aside-sections header,
@@ -236,7 +271,7 @@ select {
 .skypack {
   & .skypack-type {
     padding-bottom: 8px;
-    opacity: .6;
+    opacity: 0.6;
   }
 
   & .skypack-item {
@@ -256,18 +291,18 @@ select {
     background-color: var(--bgc-input);
     border: 1px solid var(--bdc-input);
     color: var(--c-input);
-    padding: .5em;
+    padding: 0.5em;
     margin-top: 16px;
     font-size: 1rem;
   }
 
   & .input .input-icon {
-    fill: rgba(128, 128, 128, 0.50);
+    fill: rgba(128, 128, 128, 0.5);
   }
-  
+
   & .input input {
     width: 100%;
-    padding: .05em;
+    padding: 0.05em;
     padding-left: 8px;
     border: none;
     background-color: transparent;
@@ -307,7 +342,7 @@ select {
   }
 
   & .settings-type {
-    opacity: .6;
+    opacity: 0.6;
   }
 
   & .settings-item {
@@ -338,7 +373,7 @@ select {
   }
 
   & .checkbox input:checked + span::before {
-    content: '✓';
+    content: "✓";
   }
 
   & .checkbox span::before {
@@ -346,7 +381,7 @@ select {
     border: 1px solid #1b1f23;
     border-radius: 3px;
     color: #e1e4e8;
-    content: '';
+    content: "";
     display: flex;
     align-items: center;
     justify-content: center;
@@ -359,6 +394,6 @@ select {
     background-color: var(--bgc-input);
     color: var(--c-input);
     border: 1px solid var(--bdc-input);
-    padding: .3em;
+    padding: 0.3em;
   }
 }

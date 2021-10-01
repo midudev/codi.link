@@ -12,6 +12,7 @@ import './aside.js'
 import './skypack.js'
 import './settings.js'
 import './grid.js'
+import './utils/download-code.js'
 
 const $js = $('#js')
 const $css = $('#css')
