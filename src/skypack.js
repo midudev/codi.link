@@ -1,5 +1,6 @@
 import debounce from './utils/debounce.js'
 import { $ } from './utils/dom.js'
+import escapeHTML from 'escape-html'
 
 const API_URL = 'https://api.skypack.dev/v1'
 const CDN_URL = 'https://cdn.skypack.dev'
@@ -35,8 +36,8 @@ async function handleSearch () {
     $li.title = result.description
 
     $li.innerHTML = `
-        <strong>${result.name}</strong>
-        <small>${result.description}</small>
+        <strong>${escapeHTML(result.name)}</strong>
+        <small>${escapeHTML(result.description)}</small>
     `
 
     $li.addEventListener('click', () => handlePackageSelected(result.name))
@@ -44,7 +45,7 @@ async function handleSearch () {
     $searchResultsList.appendChild($li)
   }
 
-  $searchResultsMessage.innerHTML = `${results.length} results for "${searchTerm}"`
+  $searchResultsMessage.innerHTML = `${results.length} results for "${escapeHTML(searchTerm)}"`
 
   $searchResults.classList.remove('hidden')
 }
