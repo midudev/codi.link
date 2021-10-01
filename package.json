@@ -19,6 +19,7 @@
   "dependencies": {
     "emmet-monaco-es": "^4.7.1",
     "escape-html": "1.0.3",
+    "eventemitter3": "4.0.7",
     "hotkeys-js": "3.8.7",
     "js-base64": "3.6.1",
     "monaco-editor": "0.27.0",
