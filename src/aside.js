@@ -6,18 +6,21 @@ const $buttons = $$('button', $aside)
 const ACTIONS = {
   'close-aside-bar': () => {
     $('.aside-bar').setAttribute('hidden', '')
+    $('.scroll-buttons-container').removeAttribute('hidden')
   },
 
   'show-skypack-bar': () => {
     $('.aside-bar').removeAttribute('hidden')
     $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
     $('#skypack').removeAttribute('hidden')
+    $('.scroll-buttons-container').setAttribute('hidden', '')
   },
 
   'show-settings-bar': () => {
     $('.aside-bar').removeAttribute('hidden')
     $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
     $('#settings').removeAttribute('hidden')
+    $('.scroll-buttons-container').setAttribute('hidden', '')
   }
 }
 

@@ -362,3 +362,120 @@ select {
     padding: .3em;
   }
 }
+
+.scroll-buttons-container {
+  display: none;
+}
+
+@media (max-width: 650px) {
+  #app {
+    grid-template-columns: 1fr;
+  }
+
+  aside {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+  }
+
+  .aside-bar {
+    width: 100%;
+  }
+
+  .aside-sections {
+    flex-direction: row;
+    width: 100%;
+    padding: 0 10px;
+    height: fit-content;
+  }
+
+  .aside-sections > header {
+    flex-direction: row;
+  }
+
+  .bar-button > svg {
+    transform: scale(0.8);
+  }
+
+  .editor-button {
+    margin-right: 1em;
+  }
+
+  .aside-sections button.is-active,
+  aside button.is-active {
+    border-left: none;
+  }
+
+  aside button:hover .button-title {
+    display: none;
+  }
+
+  .search-results {
+    max-width: 90vw;
+  }
+
+  #editor {
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    margin: 75px 0 0;
+  }
+
+  .editor,
+  iframe {
+    min-height: 100vh;
+  }
+
+  .vertical-gutter,
+  .horizontal-gutter {
+    display: none;
+  }
+
+  .margin {
+    max-width: 10px;
+  }
+
+  #html .margin {
+    background: #F33E15;
+  }
+  #css .margin {
+    background: #158BF3;
+  }
+  #js .margin {
+    background: #E99F1E;
+  }
+
+  .iPadShowKeyboard {
+    display: none;
+  }
+  
+  .scroll-buttons-container {
+    display: block;
+    position: absolute;
+    bottom: 2em;
+    right: 3em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0 1.5em;
+    z-index: 10;
+  }
+
+  .scroll-button {
+    width: 4em;
+    aspect-ratio: 1;
+    border: none;
+    border-radius: 50%;
+
+    background: #158BF3;
+    cursor: pointer;
+  }
+  
+  .scroll-button > svg {
+    width: 20px;
+  }
+}
