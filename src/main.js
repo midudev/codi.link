@@ -57,7 +57,7 @@ cssEditor.onDidChangeModelContent(debouncedUpdate)
 jsEditor.onDidChangeModelContent(debouncedUpdate)
 
 initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
-initializeEventsController({ jsEditor })
+initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
 const htmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', htmlForPreview)

@@ -22,6 +22,7 @@
     "eventemitter3": "4.0.7",
     "hotkeys-js": "3.8.7",
     "js-base64": "3.6.1",
+    "jszip": "3.7.1",
     "monaco-editor": "0.27.0",
     "split-grid": "1.0.11",
     "zustand": "3.5.10"
