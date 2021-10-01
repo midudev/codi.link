@@ -11,27 +11,30 @@ const $searchResultsMessage = $('#skypack .search-results-message')
 const $skypackSearch = $('#skypack input[type="search"]')
 $skypackSearch.addEventListener('input', debounce(handleSearch, 200))
 
+let lastSearchInput = ''
+
 async function handleSearch () {
   const $searchInput = $skypackSearch
 
-  $searchResults.classList.remove('hidden')
-  $searchResultsList.innerHTML = ''
+  const searchTerm = $searchInput.value.toLowerCase().trim()
 
-  let results = []
+  if (searchTerm === lastSearchInput) return
 
-  const searchTerm = $searchInput.value.toLowerCase()
+  lastSearchInput = searchTerm
 
-  if (searchTerm === '' || searchTerm.trim() === '') {
+  if (!searchTerm) {
     $searchResults.classList.add('hidden')
     return
   }
 
+  $searchResults.classList.remove('hidden')
+  $searchResultsList.innerHTML = ''
+
   $searchResultsMessage.innerHTML = 'Searching...'
 
-  results = await fetchPackages(searchTerm)
+  const results = await fetchPackages(searchTerm)
 
-  for (let i = 0; i < results.length; i++) {
-    const result = results[i]
+  results.forEach(result => {
     const $li = document.createElement('li')
     $li.title = result.description
 
@@ -43,7 +46,7 @@ async function handleSearch () {
     $li.addEventListener('click', () => handlePackageSelected(result.name))
 
     $searchResultsList.appendChild($li)
-  }
+  })
 
   $searchResultsMessage.innerHTML = `${results.length} results for "${escapeHTML(searchTerm)}"`
 
