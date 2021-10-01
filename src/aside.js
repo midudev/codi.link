@@ -17,6 +17,7 @@ const NON_SIMPLE_CLICK_ACTIONS = {
 
   'show-skypack-bar': () => {
     showAsideBar('#skypack')
+    $('#skypack-search-input').focus()
   },
 
   'show-settings-bar': () => {
