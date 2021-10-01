@@ -177,6 +177,26 @@ aside button:hover {
   width: 310px;
   height: 100vh;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 0.85em;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: hsla(0, 0%, 50%, 0);
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: hsla(0, 0%, 50%, 0.4);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: hsla(0, 0%, 50%, 0.6);
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    background-color: hsla(0, 0%, 50%, 1);
+  }
 }
 
 .aside-sections {
