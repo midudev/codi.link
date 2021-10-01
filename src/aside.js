@@ -12,6 +12,7 @@ const ACTIONS = {
     $('.aside-bar').removeAttribute('hidden')
     $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
     $('#skypack').removeAttribute('hidden')
+    $('#skypack-search-input').focus()
   },
 
   'show-settings-bar': () => {
