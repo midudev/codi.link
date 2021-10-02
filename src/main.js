@@ -6,6 +6,7 @@ import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { capitalize } from './utils/string'
+import { getRawPartsFromLocation, PARTS_SEPARATOR } from './utils/location-handler'
 import { subscribe } from './state'
 
 import './aside.js'
@@ -17,9 +18,7 @@ const $js = $('#js')
 const $css = $('#css')
 const $html = $('#html')
 
-const { pathname } = window.location
-
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+const [rawHtml, rawCss, rawJs] = getRawPartsFromLocation()
 
 const html = rawHtml ? decode(rawHtml) : ''
 const css = rawCss ? decode(rawCss) : ''
@@ -72,7 +71,7 @@ function update () {
   const css = cssEditor.getValue()
   const js = jsEditor.getValue()
 
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  const hashedCode = `${encode(html)}${PARTS_SEPARATOR}${encode(css)}${PARTS_SEPARATOR}${encode(js)}`
 
   window.history.replaceState(null, null, `/${hashedCode}`)
 

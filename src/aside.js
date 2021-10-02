@@ -1,4 +1,5 @@
 import { $, $$ } from './utils/dom.js'
+import { copyUrlToClipboard } from './utils/clipboard.js'
 
 const $aside = $('aside')
 const $buttons = $$('button', $aside)
@@ -22,9 +23,7 @@ const ACTIONS = {
   },
 
   'share-link': () => {
-    const url = window.location.href
-    navigator.clipboard.writeText(url)
-    window.alert('Link copied to clipboard')
+    copyUrlToClipboard(() => window.alert('Link copied to clipboard'))
   }
 }
 
