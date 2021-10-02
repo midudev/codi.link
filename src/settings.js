@@ -1,7 +1,9 @@
-import { $$, setFormControlValue } from './utils/dom.js'
+import { $$, $, setFormControlValue } from './utils/dom.js'
 import { getState } from './state.js'
 
 const $settings = $$('#settings [data-for]')
+const $$layoutSelector = $$('.layout-preview')
+const $editor = $('#editor')
 
 const {
   updateSettings,
@@ -26,5 +28,17 @@ $settings.forEach(el => {
       key: settingKey,
       value: settingValue
     })
+  })
+})
+
+$$layoutSelector.forEach(layoutEl => {
+  layoutEl.addEventListener('click', ({ target }) => {
+    const element = target.className === 'layout-preview' ? target : target.closest('.layout-preview')
+    const { id } = element
+
+    $$layoutSelector.forEach(layoutEl => { layoutEl.className = 'layout-preview' })
+    element.classList.add('active')
+
+    $editor.setAttribute('data-layout', id)
   })
 })

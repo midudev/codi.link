@@ -94,10 +94,42 @@ iframe {
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 5px 1fr;
-  grid-template-rows: 1fr 5px 1fr;
+  grid-template-areas: 'editor-html editor-css' 'editor-js editor-preview';
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   height: 100vh;
+
+  &[data-layout="layout-2"] {
+    grid-template-areas: 'editor-html editor-js' 'editor-css editor-preview';
+  }
+  &[data-layout="vertical"] {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr;
+    grid-template-areas: 'editor-html editor-css editor-js editor-preview';
+  }
+  &[data-layout="horizontal"] {
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: 1fr;
+    grid-template-areas: 'editor-html' 'editor-css' 'editor-js' 'editor-preview';
+  }
+
+  & #html {
+    grid-area: editor-html;
+  }
+  
+  & #css {
+    grid-area: editor-css;
+  }
+  
+  & #js {
+    grid-area: editor-js;
+  }
+  
+  & #editor-preview {
+    grid-area: editor-preview;
+  }
 }
+
 
 .vertical-gutter {
   cursor: col-resize;
@@ -338,6 +370,56 @@ select {
     width: 100%;
     max-width: 500px;
     padding: 1em;
+    & .layout-preview-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      & .layout-preview {
+        display: grid;
+        height: 40px;
+        width: 40px;
+        padding: 5px;
+        cursor: pointer;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: 'html css' 'js result';
+        gap: 2px;
+        &.active {
+          background-color: #797b80;
+          border-radius: 5px;
+        }
+        &#layout-2 {
+          grid-template-areas: 'html js' 'css result';
+        }
+        &#vertical {
+          grid-template-columns: repeat(4, 1fr);
+          grid-template-rows: 1fr;
+          grid-template-areas: 'html css js result';
+        }
+        &#horizontal {
+          grid-template-rows: repeat(4, 1fr);
+          grid-template-columns: 1fr;
+          grid-template-areas: 'html' 'css' 'js' 'result';
+        }
+        & .layout-preview-html {
+          grid-area: html;
+          background-color: #e34f26;
+        }
+        & .layout-preview-css {
+          grid-area: css;
+          background-color: #30a9dc;
+        }
+        & .layout-preview-js {
+          grid-area: js;
+          background-color: #f7df1e;
+        }
+        & .layout-preview-result {
+          grid-area: result;
+          background-color: white;
+        }
+      }
+    }
+
   }
 
   & .settings-item:hover {
