@@ -114,7 +114,7 @@ iframe {
 }
 
 .monaco-button {
-  padding: 6px;
+  padding: .5em;
   color: #fff;
   background-color: var(--bgc-button);
   border: none;
@@ -385,16 +385,25 @@ select {
     padding: 1em;
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 2em;
   }
 
   & .live-share-item {
     display: flex;
     flex-direction: column;
-    gap: 13px;
+    gap: .7em;
   }
 
   & p {
     margin: 0;
+  }
+
+  & .input {
+    background-color: var(--bgc-input);
+    outline: none;
+    color: var(--c-input);
+    border: 1px solid var(--bdc-input);
+    padding: .5em;
+    width: 100%;
   }
 }
