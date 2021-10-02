@@ -9,6 +9,9 @@
     <script src="https://waterboa.midu.dev/script.js" data-site="LPFWYLUB" defer></script>
     <link as="font" rel="preload" crossorigin="anonymous" href="/assets/fonts/CascadiaCodePL.woff2">
     <link as="font" rel="preload" crossorigin="anonymous"  href="/assets/fonts/CascadiaCodePLItalic.woff2">
+    <script>
+      var parcelRequire;
+    </script>
   </head>
   <body>
     <div id="app">
@@ -23,6 +26,11 @@
             <button data-action="show-skypack-bar">
               <span role="tooltip" class="button-title">Skypack</span>
               <svg fill="#C5C5C5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 26"><path d="M17.387 12.213L10.95 9l6.438-3.212c.3-.15.487-.45.487-.788a.875.875 0 00-.488-.788l-8-4a.874.874 0 00-.787 0l-8 4c-.3.15-.487.45-.487.788v8c0 .3.162.588.412.75l.075.037L7.038 17 .6 20.212c-.3.15-.487.45-.487.788 0 .337.187.637.487.788l8 4a.874.874 0 00.388.087.874.874 0 00.387-.087l8-4c.3-.15.488-.45.488-.788v-8a.842.842 0 00-.476-.787zM9 1.975L15.037 5 9 8.025 2.963 5 9 1.975zM1.875 6.413L7.038 9l-5.163 2.588V6.413zM2.963 13L9 9.975 15.037 13 9 16.025 2.963 13zm5.162 5.413v5.162l-5.162-2.587 5.162-2.575zm8 2.05l-6.25 3.124V17.55l6.25-3.125v6.037z"></path></svg>
+            </button>
+
+            <button data-action="show-live-share-bar">
+              <span role="tooltip" class="button-title">Live Share</span>
+              <svg fill="#C5C5C5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m15.19 0-1.54.76v2.89h-1.12a12.16 12.16 0 0 0-8 2.74 11.84 11.84 0 0 0-4.2 7.28A8.89 8.89 0 0 0 0 16.08l1.65.54c4.17-5.43 7-5.56 11.37-5.54h.63v3l1.54.77 8.61-6.51V6.81Zm.39 12.2v-3H13c-3.87 0-6.91.16-10.5 3.6a11.14 11.14 0 0 1 2.61-4.43A9.78 9.78 0 0 1 8.52 6.2a10 10 0 0 1 4-.64h3.08V2.7l6 4.87ZM10 14.77a4.62 4.62 0 1 0 4.62 4.61A4.61 4.61 0 0 0 10 14.77Zm0 7.38a2.77 2.77 0 1 1 2.77-2.77A2.77 2.77 0 0 1 10 22.15Z"/></svg>
             </button>
           </header>
   
@@ -58,6 +66,9 @@
                 </div>
               </div>
             </div>
+          </div>
+
+          <div id="live-share" hidden class="bar-content live-share">
           </div>
     
           <div id="settings" hidden class="bar-content settings">
