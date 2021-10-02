@@ -10,19 +10,25 @@ const ACTIONS = {
 
   'show-skypack-bar': () => {
     $('.aside-bar').removeAttribute('hidden')
-    $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
+    $$('.bar-content').forEach((el) => el.setAttribute('hidden', ''))
     $('#skypack').removeAttribute('hidden')
     $('#skypack-search-input').focus()
   },
 
   'show-settings-bar': () => {
     $('.aside-bar').removeAttribute('hidden')
-    $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
+    $$('.bar-content').forEach((el) => el.setAttribute('hidden', ''))
     $('#settings').removeAttribute('hidden')
+  },
+
+  'show-layout-settings': () => {
+    $('.aside-bar').removeAttribute('hidden')
+    $$('.bar-content').forEach((el) => el.setAttribute('hidden', ''))
+    $('#layout').removeAttribute('hidden')
   }
 }
 
-$buttons.forEach(button => {
+$buttons.forEach((button) => {
   button.addEventListener('click', ({ currentTarget }) => {
     const alreadyActive = currentTarget.classList.contains('is-active')
     $('.is-active').classList.remove('is-active')

@@ -2,11 +2,11 @@ import './style.css'
 
 import { initEditorHotKeys } from './utils/editor-hotkeys.js'
 import { encode, decode } from 'js-base64'
-import { $ } from './utils/dom.js'
+import { $, $$ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { capitalize } from './utils/string'
-import { subscribe } from './state'
+import { subscribe, getState } from './state'
 
 import './aside.js'
 import './skypack.js'
@@ -25,19 +25,53 @@ const html = rawHtml ? decode(rawHtml) : ''
 const css = rawCss ? decode(rawCss) : ''
 const js = rawJs ? decode(rawJs) : ''
 
-const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
-const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
-const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
+const htmlEditor = createEditor({
+  domElement: $html,
+  language: 'html',
+  value: html
+})
+const cssEditor = createEditor({
+  domElement: $css,
+  language: 'css',
+  value: css
+})
+const jsEditor = createEditor({
+  domElement: $js,
+  language: 'javascript',
+  value: js
+})
 
 window.onmessage = ({ data }) => {
-  if (Object.prototype.toString.call(data) === '[object Object]' && Object.keys(data).includes('package')) {
-    jsEditor.setValue(`import ${capitalize(data.package)} from '${data.url}';\n${jsEditor.getValue()}`)
+  if (
+    Object.prototype.toString.call(data) === '[object Object]' &&
+    Object.keys(data).includes('package')
+  ) {
+    jsEditor.setValue(
+      `import ${capitalize(data.package)} from '${
+        data.url
+      }';\n${jsEditor.getValue()}`
+    )
   }
 }
 
-subscribe(state => {
+// getting layout setting
+const $layouts = $$('#layout .layout-item')
+
+const { layout } = getState()
+
+$layouts.forEach((el) => {
+  el.classList.remove('active')
+
+  if (el.getAttribute('data-layout') === layout) {
+    el.classList.add('active')
+  }
+})
+
+subscribe((state) => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
-  EDITORS.forEach(editor => {
+
+  // applying editor settings
+  EDITORS.forEach((editor) => {
     const { minimap, ...restOfOptions } = state
 
     const newOptions = {

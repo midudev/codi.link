@@ -2,39 +2,119 @@
 <html lang="en">
   <head>
     <title>codi.link | HTML, CSS, JavaScript Live Editor Playground</title>
-    <meta name="description" content="codi.link is a live editor for HTML, CSS and JS. It allows you to edit your code in real-time, and see the result instantly">
+    <meta
+      name="description"
+      content="codi.link is a live editor for HTML, CSS and JS. It allows you to edit your code in real-time, and see the result instantly"
+    />
     <meta charset="UTF-8" />
     <link rel="icon" type=image/x-icon href="/assets/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://waterboa.midu.dev/script.js" data-site="LPFWYLUB" defer></script>
-    <link as="font" rel="preload" crossorigin="anonymous" href="/assets/fonts/CascadiaCodePL.woff2">
-    <link as="font" rel="preload" crossorigin="anonymous"  href="/assets/fonts/CascadiaCodePLItalic.woff2">
+    <script
+      src="https://waterboa.midu.dev/script.js"
+      data-site="LPFWYLUB"
+      defer
+    ></script>
+    <link
+      as="font"
+      rel="preload"
+      crossorigin="anonymous"
+      href="/assets/fonts/CascadiaCodePL.woff2"
+    />
+    <link
+      as="font"
+      rel="preload"
+      crossorigin="anonymous"
+      href="/assets/fonts/CascadiaCodePLItalic.woff2"
+    />
   </head>
   <body>
     <div id="app">
       <aside>
-        <div class='aside-sections'>
+        <div class="aside-sections">
           <header>
             <button class="is-active" data-action="close-aside-bar">
               <span role="tooltip" class="button-title">Editor</span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><defs/><path fill="#C5C5C5" d="M17.5 0h-9L7 1.5V6H2.5L1 7.5v15L2.5 24h12l1.5-1.4V18h4.7l1.3-1.4V4.5L17.5 0zm0 2.1l2.4 2.4h-2.4V2.1zm-3 20.4h-12v-15H7v9L8.5 18h6v4.5zm6-6h-12v-15H16V6h4.5v10.5z"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <defs />
+                <path
+                  fill="#C5C5C5"
+                  d="M17.5 0h-9L7 1.5V6H2.5L1 7.5v15L2.5 24h12l1.5-1.4V18h4.7l1.3-1.4V4.5L17.5 0zm0 2.1l2.4 2.4h-2.4V2.1zm-3 20.4h-12v-15H7v9L8.5 18h6v4.5zm6-6h-12v-15H16V6h4.5v10.5z"
+                />
+              </svg>
             </button>
 
             <button data-action="show-skypack-bar">
               <span role="tooltip" class="button-title">Skypack</span>
-              <svg fill="#C5C5C5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 26"><path d="M17.387 12.213L10.95 9l6.438-3.212c.3-.15.487-.45.487-.788a.875.875 0 00-.488-.788l-8-4a.874.874 0 00-.787 0l-8 4c-.3.15-.487.45-.487.788v8c0 .3.162.588.412.75l.075.037L7.038 17 .6 20.212c-.3.15-.487.45-.487.788 0 .337.187.637.487.788l8 4a.874.874 0 00.388.087.874.874 0 00.387-.087l8-4c.3-.15.488-.45.488-.788v-8a.842.842 0 00-.476-.787zM9 1.975L15.037 5 9 8.025 2.963 5 9 1.975zM1.875 6.413L7.038 9l-5.163 2.588V6.413zM2.963 13L9 9.975 15.037 13 9 16.025 2.963 13zm5.162 5.413v5.162l-5.162-2.587 5.162-2.575zm8 2.05l-6.25 3.124V17.55l6.25-3.125v6.037z"></path></svg>
+              <svg
+                fill="#C5C5C5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 18 26"
+              >
+                <path
+                  d="M17.387 12.213L10.95 9l6.438-3.212c.3-.15.487-.45.487-.788a.875.875 0 00-.488-.788l-8-4a.874.874 0 00-.787 0l-8 4c-.3.15-.487.45-.487.788v8c0 .3.162.588.412.75l.075.037L7.038 17 .6 20.212c-.3.15-.487.45-.487.788 0 .337.187.637.487.788l8 4a.874.874 0 00.388.087.874.874 0 00.387-.087l8-4c.3-.15.488-.45.488-.788v-8a.842.842 0 00-.476-.787zM9 1.975L15.037 5 9 8.025 2.963 5 9 1.975zM1.875 6.413L7.038 9l-5.163 2.588V6.413zM2.963 13L9 9.975 15.037 13 9 16.025 2.963 13zm5.162 5.413v5.162l-5.162-2.587 5.162-2.575zm8 2.05l-6.25 3.124V17.55l6.25-3.125v6.037z"
+                ></path>
+              </svg>
             </button>
           </header>
 
           <footer>
+            <button data-action="show-layout-settings">
+              <span role="tooltip" class="button-title">Layout</span>
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 486.359 486.359"
+                fill="none"
+              >
+                <g>
+                  <path
+                    fill="#C5C5C5"
+                    fill-rule="evenodd"
+                    d="M221.501,0H19.191C10.061,0,2.677,7.387,2.677,16.514v453.33c0,9.129,7.384,16.516,16.515,16.516h202.31
+		c9.13,0,16.519-7.387,16.519-16.516V16.514C238.02,7.387,230.631,0,221.501,0z M204.986,453.328H35.707V33.029h169.279V453.328z"
+                  />
+                  <path
+                    fill="#C5C5C5"
+                    fill-rule="evenodd"
+                    d="M467.168,0H281.516c-9.112,0-16.515,7.387-16.515,16.514v196.119c0,9.127,7.403,16.514,16.515,16.514h185.652
+		c9.125,0,16.515-7.387,16.515-16.514V16.514C483.683,7.387,476.293,0,467.168,0z M450.653,196.117H298.031V33.029h152.622V196.117z
+		"
+                  />
+                  <path
+                    fill="#C5C5C5"
+                    fill-rule="evenodd"
+                    d="M467.168,257.211H281.516c-9.112,0-16.515,7.387-16.515,16.516v196.117c0,9.129,7.403,16.516,16.515,16.516h185.652
+		c9.125,0,16.515-7.387,16.515-16.516V273.727C483.683,264.598,476.293,257.211,467.168,257.211z M450.653,453.328H298.031V290.24
+		h152.622V453.328z"
+                  />
+                </g>
+              </svg>
+            </button>
+
             <button data-action="show-settings-bar">
               <span role="tooltip" class="button-title">Settings</span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><defs/><path fill="#C5C5C5" fill-rule="evenodd" d="M19.85 8.75l4.15.83v4.84l-4.15.83 2.35 3.52-3.43 3.43-3.52-2.35-.83 4.15H9.58l-.83-4.15-3.52 2.35-3.43-3.43 2.35-3.52L0 14.42V9.58l4.15-.83L1.8 5.23 5.23 1.8l3.52 2.35L9.58 0h4.84l.83 4.15 3.52-2.35 3.43 3.43-2.35 3.52zm-1.57 5.07l4-.81v-2l-4-.81-.54-1.3 2.29-3.43-1.43-1.43-3.43 2.29-1.3-.54-.81-4h-2l-.81 4-1.3.54-3.43-2.29-1.43 1.43L6.38 8.9l-.54 1.3-4 .81v2l4 .81.54 1.3-2.29 3.43 1.43 1.43 3.43-2.29 1.3.54.81 4h2l.81-4 1.3-.54 3.43 2.29 1.43-1.43-2.29-3.43.54-1.3zm-8.19-4.67a3.43 3.43 0 113.82 5.7 3.43 3.43 0 01-3.82-5.7zm.96 4.27a1.71 1.71 0 101.9-2.84 1.71 1.71 0 00-1.9 2.84z" clip-rule="evenodd"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <defs />
+                <path
+                  fill="#C5C5C5"
+                  fill-rule="evenodd"
+                  d="M19.85 8.75l4.15.83v4.84l-4.15.83 2.35 3.52-3.43 3.43-3.52-2.35-.83 4.15H9.58l-.83-4.15-3.52 2.35-3.43-3.43 2.35-3.52L0 14.42V9.58l4.15-.83L1.8 5.23 5.23 1.8l3.52 2.35L9.58 0h4.84l.83 4.15 3.52-2.35 3.43 3.43-2.35 3.52zm-1.57 5.07l4-.81v-2l-4-.81-.54-1.3 2.29-3.43-1.43-1.43-3.43 2.29-1.3-.54-.81-4h-2l-.81 4-1.3.54-3.43-2.29-1.43 1.43L6.38 8.9l-.54 1.3-4 .81v2l4 .81.54 1.3-2.29 3.43 1.43 1.43 3.43-2.29 1.3.54.81 4h2l.81-4 1.3-.54 3.43 2.29 1.43-1.43-2.29-3.43.54-1.3zm-8.19-4.67a3.43 3.43 0 113.82 5.7 3.43 3.43 0 01-3.82-5.7zm.96 4.27a1.71 1.71 0 101.9-2.84 1.71 1.71 0 00-1.9 2.84z"
+                  clip-rule="evenodd"
+                />
+              </svg>
             </button>
           </footer>
         </div>
 
-        <div class='aside-bar' hidden>
+        <div class="aside-bar" hidden>
           <div id="skypack" hidden class="bar-content skypack">
             <div class="skypack-content">
               <div class="skypack-item">
@@ -42,16 +122,121 @@
                   <span class="skypack-type">JavaScript:</span>
                   Add dependency
                 </strong>
-                An import statement will be added to the top of the JavaScript editor for the package.
+                An import statement will be added to the top of the JavaScript
+                editor for the package.
 
                 <div class="input">
-                  <svg viewBox="0 0 56.7 56.7" class="input-icon" width="18" height="18"><path d="M42.8,7.3C33-2.4,17.1-2.4,7.3,7.3c-9.8,9.8-9.8,25.7,0,35.5c8.7,8.7,22.2,9.7,32,2.9l9.6,9.6c1.8,1.8,4.7,1.8,6.4,0 c1.8-1.8,1.8-4.7,0-6.4l-9.6-9.6C52.5,29.5,51.5,16,42.8,7.3z M36.6,36.6c-6.4,6.4-16.7,6.4-23.1,0s-6.4-16.7,0-23.1 c6.4-6.4,16.7-6.4,23.1,0C43,19.9,43,30.3,36.6,36.6z"></path></svg>
-                  <input id="skypack-search-input" type="search" placeholder="Search npm and add a package..." autocomplete="off">
+                  <svg
+                    viewBox="0 0 56.7 56.7"
+                    class="input-icon"
+                    width="18"
+                    height="18"
+                  >
+                    <path
+                      d="M42.8,7.3C33-2.4,17.1-2.4,7.3,7.3c-9.8,9.8-9.8,25.7,0,35.5c8.7,8.7,22.2,9.7,32,2.9l9.6,9.6c1.8,1.8,4.7,1.8,6.4,0 c1.8-1.8,1.8-4.7,0-6.4l-9.6-9.6C52.5,29.5,51.5,16,42.8,7.3z M36.6,36.6c-6.4,6.4-16.7,6.4-23.1,0s-6.4-16.7,0-23.1 c6.4-6.4,16.7-6.4,23.1,0C43,19.9,43,30.3,36.6,36.6z"
+                    ></path>
+                  </svg>
+                  <input
+                    id="skypack-search-input"
+                    type="search"
+                    placeholder="Search npm and add a package..."
+                    autocomplete="off"
+                  />
                 </div>
                 <div class="search-results">
                   <p class="search-results-message"></p>
                   <ul></ul>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="layout" hidden class="bar-content layout">
+            <div class="layout-content">
+              <h3>Select your preferred layout</h3>
+
+              <div>
+                <li class="layout-item" data-layout="default">
+                  <svg width="20" height="20" viewBox="0 0 512 512">
+                    <g>
+                      <path
+                        d="M176.792,0H59.208C26.561,0,0,26.561,0,59.208v117.584C0,209.439,26.561,236,59.208,236h117.584
+   C209.439,236,236,209.439,236,176.792V59.208C236,26.561,209.439,0,176.792,0z M196,176.792c0,10.591-8.617,19.208-19.208,19.208
+   H59.208C48.617,196,40,187.383,40,176.792V59.208C40,48.617,48.617,40,59.208,40h117.584C187.383,40,196,48.617,196,59.208
+   V176.792z"
+                      />
+                    </g>
+
+                    <g>
+                      <path
+                        d="M452,0H336c-33.084,0-60,26.916-60,60v116c0,33.084,26.916,60,60,60h116c33.084,0,60-26.916,60-60V60
+   C512,26.916,485.084,0,452,0z M472,176c0,11.028-8.972,20-20,20H336c-11.028,0-20-8.972-20-20V60c0-11.028,8.972-20,20-20h116
+   c11.028,0,20,8.972,20,20V176z"
+                      />
+                    </g>
+
+                    <g>
+                      <path
+                        d="M176.792,276H59.208C26.561,276,0,302.561,0,335.208v117.584C0,485.439,26.561,512,59.208,512h117.584
+   C209.439,512,236,485.439,236,452.792V335.208C236,302.561,209.439,276,176.792,276z M196,452.792
+   c0,10.591-8.617,19.208-19.208,19.208H59.208C48.617,472,40,463.383,40,452.792V335.208C40,324.617,48.617,316,59.208,316h117.584
+   c10.591,0,19.208,8.617,19.208,19.208V452.792z"
+                      />
+                    </g>
+
+                    <g>
+                      <path
+                        d="M452,276H336c-33.084,0-60,26.916-60,60v116c0,33.084,26.916,60,60,60h116c33.084,0,60-26.916,60-60V336
+   C512,302.916,485.084,276,452,276z M472,452c0,11.028-8.972,20-20,20H336c-11.028,0-20-8.972-20-20V336c0-11.028,8.972-20,20-20
+   h116c11.028,0,20,8.972,20,20V452z"
+                      />
+                    </g>
+                  </svg>
+
+                  <span class="layout-type">Default</span>
+                </li>
+
+                <div class="layout-item" data-layout="left">
+                  <svg
+                    viewBox="0 0 20 20"
+                    width="20"
+                    height="20"
+                    class="layout-left"
+                  >
+                    <path
+                      d="M0 9.002C0 8.45.455 8 .992 8h18.016c.548 0 .992.456.992 1.002v9.996c0 .553-.455 1.002-.992 1.002H.992C.444 20 0 19.544 0 18.998V9.002zm0-8C0 .45.451 0 .99 0h4.02A.99.99 0 016 1.003v4.994C6 6.551 5.549 7 5.01 7H.99A.99.99 0 010 5.997V1.003zm7 0C7 .45 7.451 0 7.99 0h4.02A.99.99 0 0113 1.003v4.994C13 6.551 12.549 7 12.01 7H7.99A.99.99 0 017 5.997V1.003zm7 0C14 .45 14.451 0 14.99 0h4.02A.99.99 0 0120 1.003v4.994C20 6.551 19.549 7 19.01 7h-4.02A.99.99 0 0114 5.997V1.003z"
+                    ></path>
+                  </svg>
+                  <span class="layout-type">Left</span>
+                </div>
+
+                <li class="layout-item" data-layout="top">
+                  <svg
+                    viewBox="0 0 20 20"
+                    class="layout-top"
+                    width="20"
+                    height="20"
+                  >
+                    <path
+                      d="M0 9.002C0 8.45.455 8 .992 8h18.016c.548 0 .992.456.992 1.002v9.996c0 .553-.455 1.002-.992 1.002H.992C.444 20 0 19.544 0 18.998V9.002zm0-8C0 .45.451 0 .99 0h4.02A.99.99 0 016 1.003v4.994C6 6.551 5.549 7 5.01 7H.99A.99.99 0 010 5.997V1.003zm7 0C7 .45 7.451 0 7.99 0h4.02A.99.99 0 0113 1.003v4.994C13 6.551 12.549 7 12.01 7H7.99A.99.99 0 017 5.997V1.003zm7 0C14 .45 14.451 0 14.99 0h4.02A.99.99 0 0120 1.003v4.994C20 6.551 19.549 7 19.01 7h-4.02A.99.99 0 0114 5.997V1.003z"
+                    ></path>
+                  </svg>
+                  <span class="layout-type">Top</span>
+                </li>
+
+                <li class="layout-item" data-layout="right">
+                  <svg
+                    viewBox="0 0 20 20"
+                    class="layout-right"
+                    width="20"
+                    height="20"
+                  >
+                    <path
+                      d="M0 9.002C0 8.45.455 8 .992 8h18.016c.548 0 .992.456.992 1.002v9.996c0 .553-.455 1.002-.992 1.002H.992C.444 20 0 19.544 0 18.998V9.002zm0-8C0 .45.451 0 .99 0h4.02A.99.99 0 016 1.003v4.994C6 6.551 5.549 7 5.01 7H.99A.99.99 0 010 5.997V1.003zm7 0C7 .45 7.451 0 7.99 0h4.02A.99.99 0 0113 1.003v4.994C13 6.551 12.549 7 12.01 7H7.99A.99.99 0 017 5.997V1.003zm7 0C14 .45 14.451 0 14.99 0h4.02A.99.99 0 0120 1.003v4.994C20 6.551 19.549 7 19.01 7h-4.02A.99.99 0 0114 5.997V1.003z"
+                    ></path>
+                  </svg>
+                  <span class="layout-type">Right</span>
+                </li>
               </div>
             </div>
           </div>
@@ -65,7 +250,7 @@
                 </strong>
                 Controls the display of line numbers.
                 <div class="select">
-                  <select data-for='lineNumbers'>
+                  <select data-for="lineNumbers">
                     <option value="on">on</option>
                     <option value="off">off</option>
                     <option value="relative">relative</option>
@@ -81,7 +266,7 @@
                 </strong>
                 Controls how lines should wrap.
                 <div class="select">
-                  <select data-for='wordWrap'>
+                  <select data-for="wordWrap">
                     <option value="on">on</option>
                     <option value="off">off</option>
                     <option value="wordWrapColumn">wordWrapColumn</option>
@@ -97,7 +282,7 @@
                 </strong>
                 Specifies the color theme used in the workbench.
                 <div class="select">
-                  <select data-for='theme'>
+                  <select data-for="theme">
                     <option value="vs-dark">Dark</option>
                     <option value="vs">Light</option>
                     <option value="hc-black">High Contrast Dark</option>
@@ -111,7 +296,17 @@
                   Font Size
                 </strong>
                 Controls the font size in pixels.
-                <input data-for="fontSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false" type="number" wrap="off" tabindex="-1" value="16">
+                <input
+                  data-for="fontSize"
+                  class="input"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                  type="number"
+                  wrap="off"
+                  tabindex="-1"
+                  value="16"
+                />
               </div>
 
               <div class="settings-item">
@@ -120,8 +315,8 @@
                   Enabled
                 </strong>
                 <div>
-                  <label class='checkbox'>
-                    <input data-for="minimap" type='checkbox' />
+                  <label class="checkbox">
+                    <input data-for="minimap" type="checkbox" />
                     <span>Controls whether the minimap is shown.</span>
                   </label>
                 </div>
@@ -133,8 +328,8 @@
                   Font Ligatures
                 </strong>
                 <div>
-                  <label class='checkbox'>
-                    <input data-for="fontLigatures" type='checkbox' />
+                  <label class="checkbox">
+                    <input data-for="fontLigatures" type="checkbox" />
                     <span>Controls whether the ligatures is enabled.</span>
                   </label>
                 </div>
@@ -144,19 +339,22 @@
         </div>
       </aside>
 
-      <div id="editor" class="grid">
-        <div class='editor' id='html'></div>
-        <div class='editor' id='js'></div>
-        <div class='editor' id='css'></div>
+      <div id="editor" class="top-grid">
+        <div class="editor" id="html"></div>
+        <div class="gutter-col gutter-col-1"></div>
 
-        <div>
+        <div class="editor" id="js"></div>
+        <div class="gutter-col gutter-col-3"></div>
+
+        <div class="editor" id="css"></div>
+
+        <div class="iframe-container">
           <iframe srcdoc=""></iframe>
         </div>
 
-        <div class="vertical-gutter"></div>
-        <div class="horizontal-gutter"></div>
+        <div class="gutter-row gutter-row-1"></div>
+        <div class="gutter-row gutter-row-3"></div>
       </div>
-
     </div>
 
     <script type="module" src="/src/main.js"></script>

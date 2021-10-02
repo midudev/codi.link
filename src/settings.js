@@ -1,14 +1,12 @@
-import { $$, setFormControlValue } from './utils/dom.js'
+import { $$, setFormControlValue, updateSelectLayout } from './utils/dom.js'
 import { getState } from './state.js'
 
 const $settings = $$('#settings [data-for]')
+const $layouts = $$('#layout .layout-item')
 
-const {
-  updateSettings,
-  ...settings
-} = getState()
+const { updateSettings, ...settings } = getState()
 
-$settings.forEach(el => {
+$settings.forEach((el) => {
   const settingKey = el.getAttribute('data-for')
   const actualSettingValue = settings[settingKey]
   // reflejar en settings la configuración inicial
@@ -24,6 +22,19 @@ $settings.forEach(el => {
 
     updateSettings({
       key: settingKey,
+      value: settingValue
+    })
+  })
+})
+
+$layouts.forEach((el) => {
+  const settingValue = el.getAttribute('data-layout')
+  // escuchar eventos de cambio de layout
+  el.addEventListener('click', () => {
+    updateSelectLayout(el)
+
+    updateSettings({
+      key: 'layout',
       value: settingValue
     })
   })
