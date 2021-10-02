@@ -4,6 +4,9 @@ import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import { getState } from './state.js'
+import { $ } from './utils/dom'
+
+import * as themes from './public/assets/themes'
 
 const {
   fontSize,
@@ -36,6 +39,15 @@ const COMMON_EDITOR_OPTIONS = {
 }
 
 emmetHTML(monaco)
+
+Object.entries(themes).forEach(([name, config]) => {
+  monaco.editor.defineTheme(name, config)
+  const themeSelect = $('.select select[data-for="theme"]')
+  const option = document.createElement('option')
+  option.text = name
+  option.value = name
+  themeSelect.appendChild(option)
+})
 
 window.MonacoEnvironment = {
   getWorker (_, label) {

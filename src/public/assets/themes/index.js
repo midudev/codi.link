@@ -1,0 +1,6 @@
+export * as Dracula from './dracula.json'
+export * as Gloom from './gloom.json'
+export * as Solarized from './solarized.json'
+export * as Cobalt from './cobalt.json'
+export * as GHDark from './ghdark.json'
+export * as GHLight from './ghlight.json'
