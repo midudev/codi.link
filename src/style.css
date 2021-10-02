@@ -2,6 +2,8 @@
   --bgc-input: #2f363d;
   --bdc-input: rgb(27, 31, 35);
   --c-input: rgb(225, 228, 232);
+  --bgc-button: rgb(14, 99, 156);
+  --bgc-button-hover: rgb(17, 119, 187);
 }
 
 body {
@@ -109,6 +111,19 @@ iframe {
   cursor: row-resize;
   grid-area: 2 / 1 / 2 / 4;
   background: #2d323c;
+}
+
+.monaco-button {
+  padding: 6px;
+  color: #fff;
+  background-color: var(--bgc-button);
+  border: none;
+  cursor: pointer;
+  max-width: 300px;
+}
+
+.monaco-button:hover {
+  background-color: var(--bgc-button-hover);
 }
 
 aside {
@@ -361,5 +376,23 @@ select {
     color: var(--c-input);
     border: 1px solid var(--bdc-input);
     padding: .3em;
+  }
+}
+
+.live-share {
+  color: #fff;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  & .live-share-item {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  & p {
+    margin: 0;
   }
 }
