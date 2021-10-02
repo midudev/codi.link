@@ -380,11 +380,13 @@ select {
 }
 
 .live-share {
-  color: #fff;
-  padding: 1em;
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
+  & .live-share-content {
+    color: #fff;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
 
   & .live-share-item {
     display: flex;
