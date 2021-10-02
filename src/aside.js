@@ -14,6 +14,12 @@ const ACTIONS = {
     $('#skypack').removeAttribute('hidden')
   },
 
+  'show-live-share-bar': () => {
+    $('.aside-bar').removeAttribute('hidden')
+    $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
+    $('#live-share').removeAttribute('hidden')
+  },
+
   'show-settings-bar': () => {
     $('.aside-bar').removeAttribute('hidden')
     $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
