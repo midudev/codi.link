@@ -4,6 +4,7 @@ import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import { getState } from './state.js'
+import { registerAutoCompleteHTMLTag } from './utils/editor-auto-complete-html-tag'
 
 const {
   fontSize,
@@ -44,6 +45,8 @@ window.MonacoEnvironment = {
     if (label === 'css') return new CssWorker()
   }
 }
+
+registerAutoCompleteHTMLTag(monaco)
 
 export const createEditor = ({ domElement, language, value }) => {
   return monaco.editor.create(domElement, {
