@@ -72,12 +72,15 @@ function update () {
   const css = cssEditor.getValue()
   const js = jsEditor.getValue()
 
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
-
-  window.history.replaceState(null, null, `/${hashedCode}`)
-
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
+
+  debounce(updateHashedCode, 1000)({ html, css, js })
+}
+
+function updateHashedCode ({ html, css, js }) {
+  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  window.history.replaceState(null, null, `/${hashedCode}`)
 }
 
 function createHtml ({ html, js, css }) {
