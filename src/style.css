@@ -111,6 +111,11 @@ iframe {
   background: #2d323c;
 }
 
+.central-gutter {
+  cursor: all-scroll;
+  grid-area: 2 / 2 / 2 / 2;
+}
+
 aside {
   background: #2d323c;
   display: flex;
