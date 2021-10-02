@@ -2,11 +2,11 @@ import './style.css'
 
 import { initEditorHotKeys } from './utils/editor-hotkeys.js'
 import { encode, decode } from 'js-base64'
-import { $, $$ } from './utils/dom.js'
+import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { capitalize } from './utils/string'
-import { subscribe, getState } from './state'
+import { subscribe } from './state'
 
 import './aside.js'
 import './skypack.js'
@@ -53,19 +53,6 @@ window.onmessage = ({ data }) => {
     )
   }
 }
-
-// getting layout setting
-const $layouts = $$('#layout .layout-item')
-
-const { layout } = getState()
-
-$layouts.forEach((el) => {
-  el.classList.remove('active')
-
-  if (el.getAttribute('data-layout') === layout) {
-    el.classList.add('active')
-  }
-})
 
 subscribe((state) => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]

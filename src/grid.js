@@ -1,15 +1,24 @@
 import Split from 'split-grid'
-import { $ } from './utils/dom.js'
+import { $, $$ } from './utils/dom.js'
 import { subscribe, getState } from './state'
 
 const $editor = $('#editor')
+const $layouts = $$('#layout .layout-item')
 
-// inital layout
+// initial layout
 const { layout } = getState()
 
-// generateLayout(layout);
+$layouts.forEach((el) => {
+  el.classList.remove('active')
+
+  if (el.getAttribute('data-layout') === layout) {
+    el.classList.add('active')
+  }
+})
+
 $editor.setAttribute('class', `${layout}-grid`)
 
+// initializing split
 Split({
   columnGutters: [
     {
@@ -37,6 +46,5 @@ Split({
 subscribe((state) => {
   const { layout } = state
 
-  // generateLayout(layout);
   $editor.setAttribute('class', `${layout}-grid`)
 })
