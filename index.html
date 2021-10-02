@@ -69,13 +69,20 @@
           </div>
 
           <div id="live-share" hidden class="bar-content live-share">
-            <div class="live-share-item">
-              <p>Start collaboratively editing and debugging with others in real-time.</p>
-              <button class="monaco-button">Share</button>
+            <div class="live-share-content session-startup">
+              <div class="live-share-item">
+                <p>Start collaboratively editing and debugging with others in real-time.</p>
+                <button class="monaco-button" id="share-button" data-action="share-session">Share</button>
+              </div>
+              <div class="live-share-item">
+                <p>You can also join other's sessions.</p>
+                <button class="monaco-button" id="join-button" data-action="join-session">Join</button>
+              </div>
             </div>
-            <div class="live-share-item">
-              <p>You can also join other's sessions.</p>
-              <button class="monaco-button">Join</button>
+            <div class="live-share-content session-details" hidden>
+              <div class="live-share-item">
+                <button class="monaco-button" id="disconnect-button" data-action="disconnect-session">Disconnect</button>
+              </div>
             </div>
           </div>
     
