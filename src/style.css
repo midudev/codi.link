@@ -128,6 +128,7 @@ aside button .button-title {
   color: #c5c5c5;
   display: none;
   font-size: 1.1em;
+  white-space: nowrap;
   padding: 0.5em .75em;
   position: absolute;
   right: -10px; 
