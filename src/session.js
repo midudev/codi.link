@@ -5,11 +5,13 @@ import { getSessionId, removeIdFromUrl } from './utils/url'
 const $liveShareBar = $('#live-share')
 const $buttons = $$('button', $liveShareBar)
 const $contents = $$('.live-share-content', $liveShareBar)
+const $sessionForm = $('#session-form')
+const $sessionInput = $('input[data-for=join-session]')
 
-const toggleContents = () => {
+const showSessionContent = (status) => {
   $contents.forEach(content => {
-    const isHidden = content.hasAttribute('hidden')
-    isHidden ? content.removeAttribute('hidden') : content.setAttribute('hidden', '')
+    const isSelectedContent = content.getAttribute('data-session') === status
+    isSelectedContent ? content.removeAttribute('hidden') : content.setAttribute('hidden', '')
   })
 }
 
@@ -28,10 +30,11 @@ class Session {
       removeIdFromUrl()
       this._addToNetwork(conn)
       this._onData(conn)
+      showSessionContent('connected')
     })
     conn.on('close', () => {
       console.log('Server disconnected')
-      toggleContents()
+      showSessionContent('disconnected')
     })
   }
 
@@ -54,8 +57,8 @@ class Session {
   _onPeerOpen () {
     this.peer.on('open', (id) => {
       console.info('Peer ID: ' + id)
-      if (this.targetId) this.connect(this.targetId)
-      toggleContents()
+      if (this.targetId) return this.connect(this.targetId)
+      showSessionContent('connected')
     })
   }
 
@@ -80,7 +83,7 @@ class Session {
     this.peer.on('close', () => {
       console.log('Peer destroyed')
       removeIdFromUrl()
-      toggleContents()
+      showSessionContent('disconnected')
     })
   }
 
@@ -113,12 +116,18 @@ const ACTIONS = {
     session = new Session()
   },
   'join-session': () => {
-    toggleContents()
+    const sessionId = $sessionInput.value
+    if (sessionId) session = new Session(sessionId)
   },
   'disconnect-session': () => {
     session.close()
   }
 }
+
+$sessionForm.addEventListener('submit', (e) => {
+  e.preventDefault()
+  session = new Session($sessionInput.value)
+})
 
 $buttons.forEach(button => {
   button.addEventListener('click', () => {
