@@ -1,7 +1,7 @@
 import { $, $$ } from './utils/dom.js'
 
-const $aside = $('aside')
-const $buttons = $$('button', $aside)
+const $asideSections = $('.aside-sections')
+const $buttons = $$('button', $asideSections)
 
 const ACTIONS = {
   'close-aside-bar': () => {
