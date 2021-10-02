@@ -350,12 +350,21 @@ select {
   }
 
   & .checkbox input {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
   }
 
   & .checkbox span {
     display: flex;
     align-items: center;
+  }
+
+  & .checkbox input:focus + span::before {
+    content: '';
+    outline: 1px solid #fff;
   }
 
   & .checkbox input:checked + span::before {
