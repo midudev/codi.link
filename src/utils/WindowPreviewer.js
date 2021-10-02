@@ -3,38 +3,36 @@ import { $ } from './dom'
 class WindowPreviewer {
   constructor () {
     this.previewerWindow = null
+    this.iframeStyles = {
+      background: '#fff',
+      border: '0',
+      height: '100%',
+      width: '100%'
+    }
   }
 
-  executeWindowJS () {
-    this.previewerWindow.document.body
-      .querySelectorAll('script')
-      .forEach((oldScript) => {
-        const newScript = Array.from(oldScript.attributes).reduce(
-          (script, attribute) => {
-            script.setAttribute(attribute.name, attribute.value)
-            return script
-          },
-          document.createElement('script')
-        )
-        newScript.appendChild(document.createTextNode(oldScript.innerHTML))
-        oldScript.parentNode.replaceChild(newScript, oldScript)
-      })
+  setupWindowIframe () {
+    this.previewerWindow.document.body.style.margin = 0
+    this.iframe = this.previewerWindow.document.createElement('iframe')
+    Object.entries(this.iframeStyles).forEach(
+      ([attr, val]) => (this.iframe.style[attr] = val)
+    )
+    this.previewerWindow.document.body.appendChild(this.iframe)
   }
 
   updateWindowContent (html) {
     if (this.previewerWindow) {
-      this.previewerWindow.document.body.innerHTML = ''
-
-      this.previewerWindow.document.write(
+      this.iframe.setAttribute(
+        'srcdoc',
         html || $('iframe').getAttribute('srcdoc')
       )
-
-      this.executeWindowJS()
     }
   }
 
   openWindow () {
     this.previewerWindow = window.open()
+    this.previewerWindow.addEventListener('beforeunload', () => (this.previewerWindow = null))
+    this.setupWindowIframe()
     this.updateWindowContent()
   }
 }
