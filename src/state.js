@@ -1,4 +1,6 @@
 import create from 'zustand/vanilla'
+import { DEFAULT_GRID_TEMPLATE } from './constants/editor-grid-template'
+import { DEFAULT_LAYOUT } from './constants/grid-templates'
 
 const getLocalStorage = (key) => JSON.parse(window.localStorage.getItem(key))
 const setLocalStorage = (key, value) =>
@@ -11,7 +13,12 @@ const appInitialState = getLocalStorage('appInitialState') || {
   theme: 'vs-dark',
   wordWrap: 'on',
   fontLigatures: 'on',
-  fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'"
+  fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'",
+  layout: {
+    gutters: DEFAULT_LAYOUT,
+    style: DEFAULT_GRID_TEMPLATE,
+    type: 'default'
+  }
 }
 
 const useStore = create((set, get) => ({

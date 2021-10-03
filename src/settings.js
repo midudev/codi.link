@@ -1,12 +1,10 @@
-import { $$, $, setFormControlValue } from './utils/dom.js'
-import { getState } from './state.js'
-import setSplitLayout from './grid.js'
-import { VERTICAL_LAYOUT, NORMAL_LAYOUT, HORIZONTAL_LAYOUT } from './constants/grid-templates.js'
 import { DEFAULT_GRID_TEMPLATE, EDITOR_GRID_TEMPLATE } from './constants/editor-grid-template.js'
+import { DEFAULT_LAYOUT, HORIZONTAL_LAYOUT, VERTICAL_LAYOUT } from './constants/grid-templates.js'
+import { getState } from './state.js'
+import { $$, setFormControlValue } from './utils/dom.js'
 
 const $settings = $$('#settings [data-for]')
 const $$layoutSelector = $$('.layout-preview')
-const $editor = $('#editor')
 
 const {
   updateSettings,
@@ -37,19 +35,20 @@ $settings.forEach(el => {
 $$layoutSelector.forEach(layoutEl => {
   layoutEl.addEventListener('click', ({ target }) => {
     const element = target.className === 'layout-preview' ? target : target.closest('.layout-preview')
-    const { id } = element
+    const { id: type } = element
 
-    const isVerticalLayout = id === 'vertical'
-    const isHorizontalLayout = id === 'horizontal'
+    const isVerticalLayout = type === 'vertical'
+    const isHorizontalLayout = type === 'horizontal'
 
-    const layout = isVerticalLayout ? VERTICAL_LAYOUT : isHorizontalLayout ? HORIZONTAL_LAYOUT : NORMAL_LAYOUT
+    const layout = isVerticalLayout ? VERTICAL_LAYOUT : isHorizontalLayout ? HORIZONTAL_LAYOUT : DEFAULT_LAYOUT
 
-    setSplitLayout(layout)
-
-    $$layoutSelector.forEach(layoutEl => { layoutEl.className = 'layout-preview' })
-    element.classList.add('active')
-
-    $editor.setAttribute('data-layout', id)
-    $editor.setAttribute('style', EDITOR_GRID_TEMPLATE[id] || DEFAULT_GRID_TEMPLATE)
+    updateSettings({
+      key: 'layout',
+      value: {
+        gutters: layout,
+        style: EDITOR_GRID_TEMPLATE[type] || DEFAULT_GRID_TEMPLATE,
+        type
+      }
+    })
   })
 })

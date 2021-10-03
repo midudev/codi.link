@@ -1,44 +1,43 @@
-import { $ } from '../utils/dom.js'
 
-export const NORMAL_LAYOUT = {
+export const DEFAULT_LAYOUT = {
   columnGutters: [{
     track: 1,
-    element: $('.first-gutter')
+    element: '.first-gutter'
   }, {
     track: 1,
-    element: $('.second-gutter')
+    element: '.second-gutter'
   }],
   rowGutters: [{
     track: 1,
-    element: $('.last-gutter')
+    element: '.last-gutter'
   }, {
     track: 1,
-    element: $('.second-gutter')
+    element: '.second-gutter'
   }]
 }
 
 export const VERTICAL_LAYOUT = {
   columnGutters: [{
     track: 1,
-    element: $('.first-gutter')
+    element: '.first-gutter'
   }, {
     track: 3,
-    element: $('.second-gutter')
+    element: '.second-gutter'
   }, {
     track: 5,
-    element: $('.last-gutter')
+    element: '.last-gutter'
   }]
 }
 
 export const HORIZONTAL_LAYOUT = {
   rowGutters: [{
     track: 1,
-    element: $('.first-gutter')
+    element: '.first-gutter'
   }, {
     track: 3,
-    element: $('.second-gutter')
+    element: '.second-gutter'
   }, {
     track: 5,
-    element: $('.last-gutter')
+    element: '.last-gutter'
   }]
 }

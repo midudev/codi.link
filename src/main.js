@@ -6,14 +6,16 @@ import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { capitalize } from './utils/string'
-import { subscribe } from './state'
+import { subscribe, getState } from './state'
 
 import './aside.js'
 import './skypack.js'
 import './settings.js'
-import setSplitLayout from './grid'
+import setGridLayout from './grid'
 
-setSplitLayout()
+const { layout: currentLayout } = getState()
+
+setGridLayout(currentLayout)
 
 const $js = $('#js')
 const $css = $('#css')
@@ -54,6 +56,7 @@ subscribe(state => {
       ...newOptions
     })
   })
+  setGridLayout(state.layout)
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
