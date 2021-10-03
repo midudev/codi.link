@@ -9,12 +9,17 @@ const $contents = $$('.live-share-content', $liveShareBar)
 const $joinForm = $('#join-form')
 const $sessionInput = $('input[data-for=join-session]')
 const $usernameInput = $('input[data-for=session-user]')
+const $sessionId = $('span[data-for=session-id]')
 
 const showSessionContent = (status) => {
   $contents.forEach(content => {
     const isSelectedContent = content.getAttribute('data-session') === status
     isSelectedContent ? content.removeAttribute('hidden') : content.setAttribute('hidden', '')
   })
+}
+
+const loadSessionId = (id) => {
+  $sessionId.innerHTML = id
 }
 
 class Session {
@@ -35,6 +40,7 @@ class Session {
       this._addToNetwork(conn)
       this._onData(conn)
       showSessionContent('connected')
+      loadSessionId(id)
     })
     conn.on('close', () => {
       console.log('Server disconnected')
@@ -63,6 +69,7 @@ class Session {
       console.info('Peer ID: ' + id)
       if (this.targetId) return this.connect(this.targetId)
       showSessionContent('connected')
+      loadSessionId(id)
     })
   }
 
