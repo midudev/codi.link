@@ -7,6 +7,7 @@ import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { capitalize } from './utils/string'
 import { subscribe } from './state'
+import { copyToClipboard } from './utils/clipboard'
 
 import './aside.js'
 import './skypack.js'
@@ -28,6 +29,10 @@ const js = rawJs ? decode(rawJs) : ''
 const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
 const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
 const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
+
+$('#copy-html').addEventListener('click', () => copyToClipboard(htmlEditor.getValue()))
+$('#copy-css').addEventListener('click', () => copyToClipboard(cssEditor.getValue()))
+$('#copy-js').addEventListener('click', () => copyToClipboard(jsEditor.getValue()))
 
 window.onmessage = ({ data }) => {
   if (Object.prototype.toString.call(data) === '[object Object]' && Object.keys(data).includes('package')) {

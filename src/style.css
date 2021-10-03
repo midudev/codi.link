@@ -1,5 +1,6 @@
 :root {
   --bgc-input: #2f363d;
+  --bgc-input-hover: #47535f;
   --bdc-input: rgb(27, 31, 35);
   --c-input: rgb(225, 228, 232);
 }
@@ -231,6 +232,19 @@ select {
   margin-top: 8px;
   padding: 2px 8px;
   width: 100%;
+}
+
+.copy {
+  background-color: var(--bgc-input);
+  color: var(--c-input);
+  border: 1px solid var(--bdc-input);
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.copy:hover {
+  background-color: var(--bgc-input-hover);
 }
 
 .skypack {
