@@ -34,21 +34,9 @@ async function handleSearch () {
 
   const results = await fetchPackages(searchTerm)
 
-  results.forEach(result => {
-    const $li = document.createElement('li')
-    $li.title = result.description
-
-    $li.innerHTML = `
-        <strong>${escapeHTML(result.name)}</strong>
-        <small>${escapeHTML(result.description)}</small>
-    `
-
-    $li.addEventListener('click', () => handlePackageSelected(result.name))
-
-    $searchResultsList.appendChild($li)
-  })
-
   $searchResultsMessage.innerHTML = `${results.length} results for "${escapeHTML(searchTerm)}"`
+
+  displayResults({ results, searchTerm })
 
   $searchResults.classList.remove('hidden')
 }
@@ -56,7 +44,52 @@ async function handleSearch () {
 async function fetchPackages (packageName) {
   const response = await window.fetch(`${API_URL}/search?q=${packageName}&p=1`)
   const { results } = await response.json()
-  return results.map(({ name, description }) => ({ name, description }))
+  return results
+}
+
+function displayResults ({ results, searchTerm }) {
+  results.forEach(result => {
+    const $li = document.createElement('li')
+    $li.title = result.description
+    $li.innerHTML = getResultHTML({ result, searchTerm })
+
+    $li.addEventListener('click', (e) => {
+      if (e.target.className === 'skypack-open') return
+      handlePackageSelected(result.name)
+    })
+
+    $searchResultsList.appendChild($li)
+  })
+}
+
+function getResultHTML ({ result, searchTerm }) {
+  const resultBadgesHTML = getResultBadgesHTML({ result, searchTerm })
+  const updatedAt = Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(result.updatedAt))
+  return `
+    <header>
+      <strong>${escapeHTML(result.name)}</strong>
+      ${resultBadgesHTML}
+    </header>
+    <section class="skypack-description">${escapeHTML(result.description)}</section>
+    <footer>
+      <div class="skypack-updated" >Updated: ${updatedAt}</div>
+      <a class="skypack-open" target="_blank" href="https://www.skypack.dev/view/${result.name}">details</a>
+    </footer>`
+}
+
+function getResultBadgesHTML ({ result, searchTerm }) {
+  const isPopular = result.popularityScore >= 0.8
+  const popularHtml = isPopular ? '<div class="skypack-badge popular">popular</div>' : ''
+  const typescriptHtml = result.hasTypes ? '<div class="skypack-badge typescript"></div>' : ''
+  const deprecatedHtml = result.isDeprecated ? '<div class="skypack-badge deprecated">deprecated</div>' : ''
+  const exactMatchHtml = result.name === searchTerm ? '<div class="skypack-badge exact-match">exact match</div>' : ''
+  return `
+    <div class="skypack-result-badges">
+      ${typescriptHtml}
+      ${popularHtml}
+      ${deprecatedHtml}
+      ${exactMatchHtml}
+    </div>`
 }
 
 function handlePackageSelected (packageName) {
