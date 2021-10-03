@@ -22,6 +22,7 @@
     "js-base64": "3.6.1",
     "monaco-editor": "0.27.0",
     "split-grid": "1.0.11",
+    "toastr": "^2.1.4",
     "zustand": "3.5.10"
   },
   "eslintConfig": {

@@ -1,6 +1,8 @@
+import toastr from 'toastr'
+
 export const copyToClipboard = (text) => {
   navigator.clipboard
     .writeText(text)
-    .then(() => console.log('copy success'))
-    .catch((error) => console.error(error))
+    .then(() => toastr.success('Code copied successfully!', 'Copy to clipboard'))
+    .catch((error) => toastr.error(error, 'Copy to clipboard'))
 }
