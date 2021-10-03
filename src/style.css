@@ -241,10 +241,10 @@ select {
   padding: 10px;
   width: 100%;
   cursor: pointer;
-}
 
-.copy:hover {
-  background-color: var(--bgc-input-hover);
+  &:hover {
+    background-color: var(--bgc-input-hover);
+  }
 }
 
 .skypack {
