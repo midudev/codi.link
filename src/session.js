@@ -1,12 +1,14 @@
 import Peer from 'peerjs'
+import sillyname from 'https://cdn.skypack.dev/sillyname'
 import { $, $$ } from './utils/dom'
 import { getSessionId, removeIdFromUrl } from './utils/url'
 
 const $liveShareBar = $('#live-share')
 const $buttons = $$('button', $liveShareBar)
 const $contents = $$('.live-share-content', $liveShareBar)
-const $sessionForm = $('#session-form')
+const $joinForm = $('#join-form')
 const $sessionInput = $('input[data-for=join-session]')
+const $usernameInput = $('input[data-for=session-user]')
 
 const showSessionContent = (status) => {
   $contents.forEach(content => {
@@ -16,15 +18,17 @@ const showSessionContent = (status) => {
 }
 
 class Session {
-  constructor (targetId) {
+  constructor (role, targetId, name) {
+    this.role = role
     this.targetId = targetId
+    this.name = name || sillyname()
     this.peer = new Peer()
     this.network = []
     this._listen()
   }
 
   connect (id) {
-    const conn = this.peer.connect(id)
+    const conn = this.peer.connect(id, { metadata: { name: this.name } })
     conn.on('open', () => {
       console.log(`Connected to ${id}`)
       removeIdFromUrl()
@@ -109,22 +113,31 @@ class Session {
 
 let session = null
 const targetId = getSessionId()
-if (targetId) session = new Session(targetId)
+if (targetId) session = new Session('guest', targetId)
 
 const ACTIONS = {
+  'generate-name': () => {
+    $usernameInput.value = sillyname()
+  },
   'share-session': () => {
-    session = new Session()
+    session = new Session('owner', null, $usernameInput.value)
   },
   'join-session': () => {
     const sessionId = $sessionInput.value
-    if (sessionId) session = new Session(sessionId)
+    if (sessionId) session = new Session('guest', sessionId, $usernameInput.value)
   },
   'disconnect-session': () => {
     session.close()
+  },
+  'copy-session-link': () => {
+    let sessionId = ''
+    if (session.role === 'owner') sessionId = session.peer.id
+    if (session.role === 'guest') sessionId = session.network.find(c => c.role === 'owner').conn.peer
+    navigator.clipboard.writeText(`${window.location.origin}/?join=${sessionId}`)
   }
 }
 
-$sessionForm.addEventListener('submit', (e) => {
+$joinForm.addEventListener('submit', (e) => {
   e.preventDefault()
   session = new Session($sessionInput.value)
 })
