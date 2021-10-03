@@ -67,20 +67,40 @@
           <div id="live-share" hidden class="bar-content live-share">
             <div class="live-share-content" data-session="disconnected">
               <div class="live-share-item">
+                <div class="input-container">
+                  <input type="text" placeholder="Your name" autocomplete="off" data-for="session-user" required>
+                  <button data-action="generate-name">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="input-icon" width="18" height="18" aria-hidden="true" viewBox="0 0 16 16"><path d="M2.006 8.267.78 9.5 0 8.73l2.09-2.07.76.01 2.09 2.12-.76.76-1.167-1.18a5 5 0 0 0 9.4 1.983l.813.597a6 6 0 0 1-11.22-2.683zm10.99-.466L11.76 6.55l-.76.76 2.09 2.11.76.01 2.09-2.07-.75-.76-1.194 1.18a6 6 0 0 0-11.11-2.92l.81.594a5 5 0 0 1 9.3 2.346z"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="live-share-item">
                 <p>Start collaboratively editing and debugging with others in real-time.</p>
                 <button class="monaco-button" id="share-button" data-action="share-session">Share</button>
               </div>
               <div class="live-share-item">
                 <p>You can also join other's sessions.</p>
-                <form id="session-form">
+                <form id="join-form">
                   <input type="text" placeholder="Enter session ID" autocomplete="off" class="input" data-for="join-session" required>
                 </form>
-                <button type="submit" form="session-form" class="monaco-button" id="join-button" data-action="join-session">Join</button>
+                <button type="submit" form="join-form" class="monaco-button" id="join-button" data-action="join-session">Join</button>
               </div>
             </div>
             <div class="live-share-content" hidden data-session="connected">
-              <div class="live-share-item">
-                <button class="monaco-button" id="disconnect-button" data-action="disconnect-session">Disconnect</button>
+              <div class="session-header">
+                <strong>Session details</strong>
+                <ul class="actions-container">
+                  <li class="action-item">
+                    <button data-action="copy-session-link">
+                      <svg class="action-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 16 16"><path d="M7 13.992H4v-9h8v2h1v-2.5l-.5-.5H11v-1h-1a2 2 0 0 0-4 0H4.94v1H3.5l-.5.5v10l.5.5H7v-1zm0-11.2a1 1 0 0 1 .8-.8 1 1 0 0 1 .58.06.94.94 0 0 1 .45.36 1 1 0 1 1-1.75.94 1 1 0 0 1-.08-.56zm7.08 9.46L13 13.342v-5.35h-1v5.34l-1.08-1.08-.71.71 1.94 1.93h.71l1.93-1.93-.71-.71zm-5.92-4.16h.71l1.93 1.93-.71.71-1.08-1.08v5.34h-1v-5.35l-1.08 1.09-.71-.71 1.94-1.93z" fill="#fff"/></svg>
+                    </button>
+                  </li>
+                  <li class="action-item">
+                    <button data-action="disconnect-session">
+                      <svg class="action-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 16 16"><path d="M8 1a7 7 0 1 1-7 7 7.008 7.008 0 0 1 7-7zM2 8c0 1.418.504 2.79 1.423 3.87l8.447-8.447A5.993 5.993 0 0 0 2 8zm12 0c0-1.418-.504-2.79-1.423-3.87L4.13 12.577A5.993 5.993 0 0 0 14 8z" fill="#fff"/></svg>
+                    </button>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
