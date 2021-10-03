@@ -5,7 +5,7 @@ import { encode, decode } from 'js-base64'
 import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
-import { capitalize } from './utils/string'
+import { capitalize, searchByLine } from './utils/string'
 import { subscribe } from './state'
 
 import './aside.js'
@@ -31,7 +31,11 @@ const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: 
 
 window.onmessage = ({ data }) => {
   if (Object.prototype.toString.call(data) === '[object Object]' && Object.keys(data).includes('package')) {
-    jsEditor.setValue(`import ${capitalize(data.package)} from '${data.url}';\n${jsEditor.getValue()}`)
+    const importStatement = `import ${capitalize(data.package)} from '${data.url}';`
+    const existPackage = searchByLine(jsEditor.getValue(), importStatement)
+    if (!existPackage) {
+      jsEditor.setValue(`${importStatement}\n${jsEditor.getValue()}`)
+    }
   }
 }
 
