@@ -5,8 +5,6 @@ import escapeHTML from 'escape-html'
 const API_URL = 'https://api.skypack.dev/v1'
 const CDN_URL = 'https://cdn.skypack.dev'
 
-const usedPackages = new Set()
-
 const $searchResults = $('#skypack .search-results')
 const $searchResultsList = $searchResults.querySelector('ul')
 const $searchResultsMessage = $('#skypack .search-results-message')
@@ -62,10 +60,6 @@ async function fetchPackages (packageName) {
 }
 
 function handlePackageSelected (packageName) {
-  if (usedPackages.has(packageName)) {
-    return
-  }
-  usedPackages.add(packageName)
   let parsedName = packageName.split('/').join('-')
   if (parsedName.startsWith('@')) parsedName = parsedName.substr(1)
   window.postMessage({ package: parsedName, url: `${CDN_URL}/${packageName}` })
