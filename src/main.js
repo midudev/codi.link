@@ -57,6 +57,7 @@ subscribe(state => {
 const MS_UPDATE_DEBOUNCED_TIME = 200
 const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
+const debouncedUpdateHash = debounce(updateHashedCode, MS_UPDATE_HASH_DEBOUNCED_TIME)
 
 htmlEditor.focus()
 htmlEditor.onDidChangeModelContent(debouncedUpdate)
@@ -76,7 +77,7 @@ function update () {
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
 
-  debounce(updateHashedCode, MS_UPDATE_HASH_DEBOUNCED_TIME)({ html, css, js })
+  debouncedUpdateHash({ html, css, js })
 }
 
 function updateHashedCode ({ html, css, js }) {
