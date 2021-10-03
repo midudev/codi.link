@@ -18,23 +18,34 @@ const ACTIONS = {
     $('.aside-bar').removeAttribute('hidden')
     $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
     $('#settings').removeAttribute('hidden')
+  },
+
+  'copy-to-clipboard': async () => {
+    await navigator.clipboard.writeText(window.location.href)
+    window.alert('Sharable URL has been copied to clipboard.')
   }
 }
 
 $buttons.forEach(button => {
   button.addEventListener('click', ({ currentTarget }) => {
-    const alreadyActive = currentTarget.classList.contains('is-active')
-    $('.is-active').classList.remove('is-active')
+    let action = currentTarget.getAttribute('data-action')
+    const isOffActiveState = currentTarget.getAttribute('data-off-active-state')
 
-    const action = alreadyActive
-      ? 'close-aside-bar'
-      : button.getAttribute('data-action')
+    if (!isOffActiveState) {
+      const alreadyActive = currentTarget.classList.contains('is-active')
+      $('.is-active').classList.remove('is-active')
 
-    const elementToActive = alreadyActive
-      ? $("button[data-action='close-aside-bar']")
-      : currentTarget
+      action = alreadyActive
+        ? 'close-aside-bar'
+        : action
 
-    elementToActive.classList.add('is-active')
+      const elementToActive = alreadyActive
+        ? $("button[data-action='close-aside-bar']")
+        : currentTarget
+
+      elementToActive.classList.add('is-active')
+    }
+
     ACTIONS[action]()
   })
 })
