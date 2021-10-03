@@ -28,6 +28,14 @@ Split({
     {
       track: 3,
       element: $('.gutter-col-3')
+    },
+    {
+      track: 1,
+      element: $('.central-gutter-1')
+    },
+    {
+      track: 3,
+      element: $('.central-gutter-3')
     }
   ],
   rowGutters: [
@@ -38,6 +46,14 @@ Split({
     {
       track: 3,
       element: $('.gutter-row-3')
+    },
+    {
+      track: 1,
+      element: $('.central-gutter-1')
+    },
+    {
+      track: 3,
+      element: $('.central-gutter-3')
     }
   ]
 })
