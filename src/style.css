@@ -427,4 +427,78 @@ select {
     padding: .5em;
     width: 100%;
   }
+
+  & .input-container {
+    display: flex;
+    background-color: var(--bgc-input);
+    border: 1px solid var(--bdc-input);
+    color: var(--c-input);
+    padding: .5em;
+    position: relative;
+  }
+
+  & .input-container button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: .55em;
+    margin: 0;
+  }
+
+  & .input-container button:hover {
+    background: rgba(128, 128, 128, 0.14);
+  }
+
+  & .input-container .input-icon {
+    fill: rgba(128, 128, 128, 0.50);
+  }
+  
+  & .input-container input {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: var(--c-input);
+  }
+
+  & .session-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-transform: uppercase;
+  }
+
+  & .actions-container {
+    list-style: none;
+    display: flex;
+    gap: .3em;
+    margin: 0;
+    padding: 0;
+  }
+
+  & .action-item button {
+    background-color: transparent;
+    border-radius: 6px;
+    border: none;
+    padding: .3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  & .action-item button:hover {
+    background: rgba(128, 128, 128, 0.14);
+  }
+
+  & .action-icon {
+    height: 1.2em;
+    aspect-ratio: 1;
+  }
 }
