@@ -10,6 +10,7 @@ const $joinForm = $('#join-form')
 const $sessionInput = $('input[data-for=join-session]')
 const $usernameInput = $('input[data-for=session-user]')
 const $sessionId = $('span[data-for=session-id]')
+const $participantsNumber = $('span[data-for=session-participants]')
 
 const showSessionContent = (status) => {
   $contents.forEach(content => {
@@ -20,6 +21,11 @@ const showSessionContent = (status) => {
 
 const loadSessionId = (id) => {
   $sessionId.innerHTML = id
+}
+
+const loadSessionParticipants = () => {
+  const participantsNumber = session.network.length
+  $participantsNumber.innerHTML = participantsNumber
 }
 
 class Session {
@@ -41,6 +47,7 @@ class Session {
       this._onData(conn)
       showSessionContent('connected')
       loadSessionId(id)
+      loadSessionParticipants()
     })
     conn.on('close', () => {
       console.log('Server disconnected')
@@ -78,6 +85,7 @@ class Session {
       console.log('Receiving connection')
       this._addToNetwork(conn)
       this._onData(conn)
+      loadSessionParticipants()
       conn.on('close', () => {
         console.log('Client disconnected')
       })
