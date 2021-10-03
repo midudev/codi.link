@@ -28,6 +28,16 @@ const loadSessionParticipants = () => {
   $participantsNumber.innerHTML = participantsNumber
 }
 
+const EVENTS = {
+  ADD_TO_NETWORK: (data) => {
+    const { name, role, peer } = data
+    if (peer === session.peer.id || session.network.some(p => p.conn.peer === peer)) return
+    session.connect(peer, name, role)
+  },
+  DATA: () => {},
+  INIT: () => {}
+}
+
 class Session {
   constructor (role, targetId, name) {
     this.role = role
@@ -38,15 +48,15 @@ class Session {
     this._listen()
   }
 
-  connect (id) {
-    const conn = this.peer.connect(id, { metadata: { name: this.name } })
+  connect (id, name, role) {
+    const conn = this.peer.connect(id, { metadata: { name: this.name, role: this.role } })
+    this._onData(conn)
     conn.on('open', () => {
       console.log(`Connected to ${id}`)
       removeIdFromUrl()
-      this._addToNetwork(conn)
-      this._onData(conn)
+      this._addToNetwork(conn, false, name, role)
       showSessionContent('connected')
-      loadSessionId(id)
+      if (!role) loadSessionId(id)
       loadSessionParticipants()
     })
     conn.on('close', () => {
@@ -60,7 +70,7 @@ class Session {
   }
 
   broadcast (data) {
-    this.network.forEach(c => c.send(data))
+    this.network.forEach(p => p.conn.send(data))
   }
 
   _listen () {
@@ -83,7 +93,8 @@ class Session {
   _onPeerConnection () {
     this.peer.on('connection', (conn) => {
       console.log('Receiving connection')
-      this._addToNetwork(conn)
+      const { metadata } = conn
+      this._addToNetwork(conn, this.role === 'owner', metadata.name, metadata.role)
       this._onData(conn)
       loadSessionParticipants()
       conn.on('close', () => {
@@ -114,15 +125,27 @@ class Session {
   }
 
   _onData (conn) {
-    conn.on('data', function (data) {
-      console.log(data)
+    conn.on('data', (data) => {
+      EVENTS[data.type](data)
     })
   }
 
-  _addToNetwork (conn) {
-    const connectionExists = this.network.some(c => c.peer === conn.peer)
+  _addToNetwork (conn, broadcast = false, name, role) {
+    const connectionExists = this.network.some(p => p.conn.peer === conn.peer)
     if (connectionExists) return
-    this.network.push(conn)
+    this.network.push({
+      name,
+      role,
+      conn
+    })
+    if (broadcast) {
+      this.broadcast({
+        type: 'ADD_TO_NETWORK',
+        name,
+        role,
+        peer: conn.peer
+      })
+    }
   }
 }
 
