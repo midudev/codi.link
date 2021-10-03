@@ -63,4 +63,7 @@ subscribe((state) => {
   const { layout } = state
 
   $editor.setAttribute('class', `${layout}-grid`)
+
+  // removing previous layout grid inline styles
+  $editor.removeAttribute('style')
 })
