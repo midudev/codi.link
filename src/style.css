@@ -171,6 +171,7 @@ iframe {
   cursor: all-scroll;
   z-index: 1;
   grid-area: 2 / 2 / 2 / 2;
+  background: #2d323c;
 }
 
 .last-gutter {
