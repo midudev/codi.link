@@ -320,6 +320,73 @@ select {
   }
 }
 
+.share {
+  & .share-type {
+    padding-bottom: 8px;
+    opacity: .6;
+  }
+
+  & .share-item {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1em;
+  }
+
+  & .share-item strong {
+    display: block;
+  }
+
+  & .share-url-input {
+    text-overflow: ellipsis;
+  }
+
+  & .input {
+    display: flex;
+    background-color: var(--bgc-input);
+    border: 1px solid var(--bdc-input);
+    color: var(--c-input);
+    padding: .5em;
+    margin-top: 16px;
+    font-size: 1rem;
+    caret-color: transparent;
+  }
+
+  & .share-input-icon {
+    margin-left: 12px;
+    cursor: pointer;
+    opacity: 0.5;
+  }
+  
+  & svg.share-input-icon:hover {
+    opacity: 1;
+  }
+
+  & .input input {
+    width: 100%;
+    padding: .05em;
+    padding-left: 8px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: var(--c-input);
+  }
+
+  & .copy-icon-message {
+    width: 25%;
+    background: #2d323c;
+    border-radius: 3px;
+    border: 1px solid #000;
+    box-shadow: 5px 5px 15px 0px rgb(0 0 0 / 30%);
+    color: #c5c5c5;
+    font-size: 0.8em;
+    padding: 0.5em .75em;
+    user-select: none
+  }
+}
+
+
 .settings {
   & .settings-content {
     display: grid;

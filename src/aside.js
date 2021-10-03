@@ -19,6 +19,13 @@ const ACTIONS = {
     $('.aside-bar').removeAttribute('hidden')
     $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
     $('#settings').removeAttribute('hidden')
+  },
+
+  'show-share-bar': () => {
+    $('.aside-bar').removeAttribute('hidden')
+    $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
+    $('.share-url-input').value = window.location.href
+    $('#share').removeAttribute('hidden')
   }
 }
 
