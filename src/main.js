@@ -11,7 +11,9 @@ import { subscribe } from './state'
 import './aside.js'
 import './skypack.js'
 import './settings.js'
-import './grid.js'
+import setSplitLayout from './grid'
+
+setSplitLayout()
 
 const $js = $('#js')
 const $css = $('#css')

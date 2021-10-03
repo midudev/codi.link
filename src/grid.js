@@ -1,13 +1,14 @@
 import Split from 'split-grid'
-import { $ } from './utils/dom.js'
+import { NORMAL_LAYOUT } from './constants/grid-templates'
 
-Split({
-  columnGutters: [{
-    track: 1,
-    element: $('.vertical-gutter')
-  }],
-  rowGutters: [{
-    track: 1,
-    element: $('.horizontal-gutter')
-  }]
-})
+let splitInstance
+
+const setSplitLayout = (layout = NORMAL_LAYOUT) => {
+  if (splitInstance) {
+    splitInstance.destroy(true)
+  }
+
+  splitInstance = Split(layout)
+}
+
+export default setSplitLayout
