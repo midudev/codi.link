@@ -18,6 +18,8 @@ const $js = $('#js')
 const $css = $('#css')
 const $html = $('#html')
 
+const $inputUrl = $('.share-url-input')
+
 const { pathname } = window.location
 
 const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
@@ -76,6 +78,7 @@ function update () {
   const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
 
   window.history.replaceState(null, null, `/${hashedCode}`)
+  $inputUrl.value = window.location.href
 
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
