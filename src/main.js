@@ -6,6 +6,7 @@ import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { capitalize } from './utils/string'
+import { createHtml } from './utils/createHtml'
 import { subscribe } from './state'
 
 import './aside.js'
@@ -78,22 +79,4 @@ function update () {
 
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
-}
-
-function createHtml ({ html, js, css }) {
-  return `
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <style>
-      ${css}
-    </style>
-  </head>
-  <body>
-    ${html}
-    <script type="module">
-    ${js}
-    </script>
-  </body>
-</html>`
 }
