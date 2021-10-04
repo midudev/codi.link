@@ -1,4 +1,6 @@
 import Peer from 'peerjs'
+import * as monaco from 'monaco-editor'
+import { decode } from 'js-base64'
 import sillyname from 'https://cdn.skypack.dev/sillyname'
 import { $, $$ } from './utils/dom'
 import { getSessionId, removeIdFromUrl } from './utils/url'
@@ -10,7 +12,18 @@ const $joinForm = $('#join-form')
 const $sessionInput = $('input[data-for=join-session]')
 const $usernameInput = $('input[data-for=session-user]')
 const $sessionId = $('span[data-for=session-id]')
-const $participantsNumber = $('span[data-for=session-participants]')
+const $participantsList = $('.participants-list')
+
+const getData = () => {
+  const { pathname } = window.location
+  const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+  return [rawHtml, rawCss, rawJs]
+}
+
+const setData = ([rawHtml, rawCss, rawJs]) => {
+  const decodedData = [rawHtml ? decode(rawHtml) : '', rawCss ? decode(rawCss) : '', rawJs ? decode(rawJs) : '']
+  monaco.editor.getModels().forEach((e, i) => e.setValue(decodedData[i]))
+}
 
 const showSessionContent = (status) => {
   $contents.forEach(content => {
@@ -23,19 +36,52 @@ const loadSessionId = (id) => {
   $sessionId.innerHTML = id
 }
 
-const loadSessionParticipants = () => {
-  const participantsNumber = session.network.length
-  $participantsNumber.innerHTML = participantsNumber
+const addParticipant = (name, peer) => {
+  const li = document.createElement('li')
+  li.innerHTML = name
+  li.setAttribute('data-peer', peer)
+  li.classList = 'participant'
+  $participantsList.append(li)
+}
+
+const removeParticipants = () => {
+  $participantsList.innerHTML = ''
+}
+
+const removeParticipant = (peer) => {
+  for (const participant of $participantsList.children) {
+    if (participant.getAttribute('data-peer') === peer) return participant.remove()
+  }
+}
+
+const updateParticipants = () => {
+  const $quantity = $('span[data-for=session-participants]')
+  $quantity.innerHTML = session.network.length + 1
+  removeParticipants()
+  addParticipant(session.name, session.peer.id)
+  session.network.forEach(participant => {
+    addParticipant(participant.name, participant.conn.id)
+  })
 }
 
 const EVENTS = {
-  ADD_TO_NETWORK: (data) => {
+  ADD_TO_NETWORK: (conn, data) => {
     const { name, role, peer } = data
-    if (peer === session.peer.id || session.network.some(p => p.conn.peer === peer)) return
+    if (peer === session.peer.id || session._existsOnNetwork(peer)) return
     session.connect(peer, name, role)
   },
-  DATA: () => {},
-  INIT: () => {}
+  SETUP: (conn, data) => {
+    showSessionContent('connected')
+    loadSessionId(data.server.peer)
+    removeIdFromUrl()
+    setData(data.data)
+    const serverConn = session.network.find(p => p.conn.peer === data.server.peer)
+    if (serverConn) {
+      serverConn.name = data.server.name
+      serverConn.role = data.server.role
+    }
+    updateParticipants()
+  }
 }
 
 class Session {
@@ -45,24 +91,15 @@ class Session {
     this.name = name || sillyname()
     this.peer = new Peer()
     this.network = []
-    this._listen()
+    this._listenToPeer()
   }
 
   connect (id, name, role) {
     const conn = this.peer.connect(id, { metadata: { name: this.name, role: this.role } })
-    this._onData(conn)
     conn.on('open', () => {
-      console.log(`Connected to ${id}`)
-      removeIdFromUrl()
       this._addToNetwork(conn, false, name, role)
-      showSessionContent('connected')
-      if (!role) loadSessionId(id)
-      loadSessionParticipants()
     })
-    conn.on('close', () => {
-      console.log('Server disconnected')
-      showSessionContent('disconnected')
-    })
+    this._listenToConnection(conn)
   }
 
   close () {
@@ -73,7 +110,7 @@ class Session {
     this.network.forEach(p => p.conn.send(data))
   }
 
-  _listen () {
+  _listenToPeer () {
     this._onPeerOpen()
     this._onPeerConnection()
     this._onPeerClose()
@@ -81,25 +118,38 @@ class Session {
     this._onPeerError()
   }
 
+  _listenToConnection (conn) {
+    this._onConnectionData(conn)
+    this._onConnectionClose(conn)
+  }
+
   _onPeerOpen () {
     this.peer.on('open', (id) => {
-      console.info('Peer ID: ' + id)
       if (this.targetId) return this.connect(this.targetId)
       showSessionContent('connected')
       loadSessionId(id)
+      updateParticipants()
     })
   }
 
   _onPeerConnection () {
     this.peer.on('connection', (conn) => {
-      console.log('Receiving connection')
       const { metadata } = conn
       this._addToNetwork(conn, this.role === 'owner', metadata.name, metadata.role)
-      this._onData(conn)
-      loadSessionParticipants()
-      conn.on('close', () => {
-        console.log('Client disconnected')
-      })
+      this._listenToConnection(conn)
+      if (this.role === 'owner') {
+        conn.on('open', () => {
+          conn.send({
+            type: 'SETUP',
+            server: {
+              name: this.name,
+              role: this.role,
+              peer: this.peer.id
+            },
+            data: getData()
+          })
+        })
+      }
     })
   }
 
@@ -124,20 +174,30 @@ class Session {
     })
   }
 
-  _onData (conn) {
+  _onConnectionData (conn) {
     conn.on('data', (data) => {
-      EVENTS[data.type](data)
+      EVENTS[data.type](conn, data)
     })
   }
 
+  _onConnectionClose (conn) {
+    conn.on('close', () => {
+      this._removeFromNetwork(conn.peer)
+    })
+  }
+
+  _existsOnNetwork (peer) {
+    return this.network.some(p => p.conn.peer === peer)
+  }
+
   _addToNetwork (conn, broadcast = false, name, role) {
-    const connectionExists = this.network.some(p => p.conn.peer === conn.peer)
-    if (connectionExists) return
+    if (this._existsOnNetwork(conn.peer)) return
     this.network.push({
       name,
       role,
       conn
     })
+    updateParticipants()
     if (broadcast) {
       this.broadcast({
         type: 'ADD_TO_NETWORK',
@@ -146,6 +206,11 @@ class Session {
         peer: conn.peer
       })
     }
+  }
+
+  _removeFromNetwork (peer) {
+    this.network = this.network.filter(p => p.conn !== peer)
+    removeParticipant(peer)
   }
 }
 
@@ -160,10 +225,7 @@ const ACTIONS = {
   'share-session': () => {
     session = new Session('owner', null, $usernameInput.value)
   },
-  'join-session': () => {
-    const sessionId = $sessionInput.value
-    if (sessionId) session = new Session('guest', sessionId, $usernameInput.value)
-  },
+  'join-session': () => {},
   'disconnect-session': () => {
     session.close()
   },
@@ -177,7 +239,7 @@ const ACTIONS = {
 
 $joinForm.addEventListener('submit', (e) => {
   e.preventDefault()
-  session = new Session($sessionInput.value)
+  session = new Session('guest', $sessionInput.value, $usernameInput.value)
 })
 
 $buttons.forEach(button => {
