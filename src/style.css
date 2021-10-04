@@ -512,4 +512,13 @@ select {
   & span[data-for=session-id] {
     font-size: .8em;
   }
+
+  & .participants-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  & .participant {
+    padding: 0 1em;
+  }
 }
