@@ -11,6 +11,7 @@ const {
 $settings.forEach(el => {
   const settingKey = el.getAttribute('data-for')
   const actualSettingValue = settings[settingKey]
+
   // reflejar en settings la configuración inicial
   setFormControlValue(el, actualSettingValue)
 

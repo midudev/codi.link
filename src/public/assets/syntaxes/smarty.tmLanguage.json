@@ -1,0 +1,838 @@
+{
+	"name": "mx-smarty",
+	"scopeName": "source.smarty",
+	"fileTypes": [
+		"tpl"
+	],
+	"injectionSelector": "L:text.html.derivative",
+	"patterns": [
+		{ "include": "#nonSmarty"},
+		{ "include": "#smartyComment" },
+		{ "include": "#smartyLiteralBlock" },
+		{ "include": "#smarty" },
+		{ "include": "#others" }
+	],
+	"repository": {
+		"/* Empty non-Smarty Block */": {},
+
+		"nonSmarty": {
+			"match": "\\{\\}"
+		},
+
+		"/* Smarty Comments */": {},
+
+		"smartyComment": {
+			"name": "comment.block.smarty",
+			"contentName": "comment.block.content.smarty",
+			"begin": "\\{\\*",
+			"beginCaptures": {
+				"0": { "name": "punctuation.definition.comment.begin.smarty" }
+			},
+			"end": "\\*\\}",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.comment.end.smarty" }
+			}
+		},
+
+		"/* Smarty Literal Block*/": {},
+
+		"smartyLiteralBlock": {
+			"name": "meta.block-literal.smarty",
+			"begin": "(\\{)((?i:literal))\\b",
+			"beginCaptures": {
+				"1": { "name": "punctuation.section.embedded.begin.smarty" },
+				"2": { "name": "keyword.control.function.smarty" }
+			},
+			"end": "({/)((?i:literal))(})",
+			"endCaptures": {
+				"0": { "name": "meta.block-literal.close.smarty" },
+				"1": { "name": "punctuation.section.embedded.block-literal.close.begin.smarty" },
+				"2": { "name": "keyword.control.function.smarty" },
+				"3": { "name": "punctuation.section.embedded.end.smarty" }
+			},
+			"patterns": [
+				{ "include": "#literalBlockContent" },
+				{ "name": "invalid.illegal.block-literal.smarty", "match": "." }
+			]
+		},
+		"literalBlockContent": {
+			"contentName": "string.block-literal.content.smarty",
+			"begin": "\\}",
+			"beginCaptures": {
+				"0": { "name": "punctuation.section.embedded.open.end.smarty" }
+			},
+			"end": "(?={/(?i:literal)})",
+			"patterns": [
+				{ "match": "[^{]+" }
+			]
+		},
+
+		"/* Smarty Code Blocks */": {},
+
+		"smarty": {
+			"name": "meta.block.smarty",
+			"begin": "\\{(?!\\s)",
+			"beginCaptures": {
+				"0": { "name": "punctuation.section.embedded.begin.smarty" }
+			},
+			"end": "\\s*(\\})",
+			"endCaptures": {
+				"1": { "name": "punctuation.section.embedded.end.smarty" }
+			},
+			"patterns": [
+				{ "include": "#smartyBlockFor" },
+				{ "include": "#smartyBlockForEach" },
+				{ "include": "#smartyBlockCondition" },
+				{ "include": "#smartyBlock" },
+				{ "include": "#smartyFunctionModifier" },
+				{ "include": "#smartyFunction" },
+				{ "include": "#smartyExpression" },
+				{ "name": "invalid.illegal.smarty", "match": "." }
+			]
+		},
+		"smartyBlockFor": {
+			"name": "meta.block-for.smarty",
+			"begin": "\\G((?i:for))\\b\\s*",
+			"beginCaptures": {
+				"1": { "name": "keyword.control.function.smarty" }
+			},
+			"end": "({/)((?i:\\1))(?=})",
+			"endCaptures": {
+				"0": { "name": "meta.block-for.close.begin.smarty" },
+				"1": { "name": "punctuation.section.embedded.block-for.close.begin.smarty" },
+				"2": { "name": "keyword.control.function.smarty" }
+			},
+			"patterns": [
+				{ "include": "#blockContent" },
+				{
+					"match": "\\s*(=)\\s*",
+					"captures": {
+						"0": { "name": "keyword.operator.expression.for.assignment.smarty" }
+					}
+				},
+				{
+					"match": "\\s+(to|step)\\s+",
+					"captures": {
+						"0": { "name": "keyword.operator.expression.for.$1.smarty" }
+					}
+				},
+				{
+					"match": "\\s*(;)\\s*",
+					"captures": {
+						"0": { "name": "punctuation.terminator.block-for.statement.smarty" }
+					}
+				},
+				{
+					"match": "\\s*(,)\\s*",
+					"captures": {
+						"0": { "name": "punctuation.separator.block-for.comma.smarty" }
+					}
+				},
+				{ "include": "#namedAttribute" },
+				{ "include": "#expressionACUONMSx" },
+				{ "name": "invalid.illegal.block-for.smarty", "match": "." }
+			]
+		},
+		"smartyBlockForEach": {
+			"name": "meta.block-foreach.smarty",
+			"begin": "\\G((?i:foreach))\\b",
+			"beginCaptures": {
+				"1": { "name": "keyword.control.function.smarty" }
+			},
+			"end": "({/)((?i:\\1))(?=})",
+			"endCaptures": {
+				"0": { "name": "meta.block-foreach.close.begin.smarty" },
+				"1": { "name": "punctuation.section.embedded.block-foreach.close.begin.smarty" },
+				"2": { "name": "keyword.control.function.smarty" }
+			},
+			"patterns": [
+				{ "include": "#blockContent" },
+				{
+					"match": "\\s*(=>)\\s*",
+					"captures": {
+						"0": { "name": "keyword.operator.block-foreach.value.smarty" }
+					}
+				},
+				{
+					"match": "\\s+(as)\\b",
+					"captures": {
+						"0": { "name": "keyword.operator.expression.block-foreach.as.smarty" }
+					}
+				},
+				{ "include": "#namedAttribute" },
+				{ "include": "#unnamedAttribute" },
+				{ "name": "invalid.illegal.block-foreach.smarty", "match": "." }
+			]
+		},
+		"smartyBlockCondition": {
+			"name": "meta.block-$1-condition.smarty",
+			"begin": "\\G((?i:if|while))\\s+",
+			"beginCaptures": {
+				"1": { "name": "keyword.control.function.smarty" }
+			},
+			"end": "({/)((?i:\\1))(?=})",
+			"endCaptures": {
+				"0": { "name": "meta.block-$2.close.smarty" },
+				"1": { "name": "punctuation.section.embedded.block-$2.close.begin.smarty" },
+				"2": { "name": "keyword.control.function.smarty" }
+			},
+			"patterns": [
+				{ "match": "\\s+" },
+				{ "include": "#blockContent" },
+				{ "include": "#expressionACUONMSx" },
+				{ "name": "invalid.illegal.block.smarty", "match": "." }
+			]
+		},
+		"smartyBlock": {
+			"name": "meta.block-$1.smarty",
+			"begin": "\\G((?i:foreach|function|mdx_loop|section|setfilter|strip))\\b",
+			"beginCaptures": {
+				"1": { "name": "keyword.control.function.smarty" }
+			},
+			"end": "({/)((?i:\\1))(?=})",
+			"endCaptures": {
+				"0": { "name": "meta.block-$2.close.smarty" },
+				"1": { "name": "punctuation.section.embedded.block-$2.close.begin.smarty" },
+				"2": { "name": "keyword.control.function.smarty" }
+			},
+			"patterns": [
+				{ "include": "#blockContent" },
+				{ "include": "#namedAttribute" },
+				{ "include": "#unnamedAttribute" },
+				{ "name": "invalid.illegal.block.smarty", "match": "." }
+			]
+		},
+		"blockContent": {
+			"contentName": "meta.block.content.smarty",
+			"begin": "\\}",
+			"beginCaptures": {
+				"0": { "name": "punctuation.section.embedded.open.end.smarty" }
+			},
+			"end": "(?=\\{/)",
+			"patterns": [
+				{ "include": "#nonSmarty" },
+				{ "include": "#smartyComment" },
+				{ "include": "#smartyLiteralBlock" },
+				{ "include": "#smartySubBlockForElse" },
+				{ "include": "#smartySubBlockForEachElse" },
+				{ "include": "#smartySubBlockElseIf" },
+				{ "include": "#smartySubBlockElse" },
+				{ "include": "#smartySubBlockSectionElse" },
+				{ "include": "#smarty" },
+				{ "include": "#others" }
+			]
+		},
+		"smartySubBlockForElse": {
+			"name": "meta.sub-block-forelse.smarty",
+			"begin": "({)((?i:forelse))\\b",
+			"beginCaptures": {
+				"1": { "name": "punctuation.section.embedded.begin.smarty" },
+				"2": { "name": "keyword.control.function.smarty" }
+			},
+			"end": "(?={/(?i:for))",
+			"patterns": [
+				{ "include": "#blockContent" },
+				{ "name": "invalid.illegal.sub-block-forelse.smarty", "match": "." }
+			]
+		},
+		"smartySubBlockForEachElse": {
+			"name": "meta.sub-block-foreachelse.smarty",
+			"begin": "(\\{)((?i:foreachelse))\\b",
+			"beginCaptures": {
+				"1": { "name": "punctuation.section.embedded.begin.smarty" },
+				"2": { "name": "keyword.control.function.smarty" }
+			},
+			"end": "(?={/(?i:foreach))",
+			"patterns": [
+				{ "include": "#blockContent" },
+				{ "name": "invalid.illegal.sub-block-foreachelse.smarty", "match": "." }
+			]
+		},
+		"smartySubBlockElseIf": {
+			"name": "meta.sub-block-elseif.smarty",
+			"begin": "({)((?i:else\\s*if))\\s+",
+			"beginCaptures": {
+				"1": { "name": "punctuation.section.embedded.begin.smarty" },
+				"2": { "name": "keyword.control.function.smarty" }
+			},
+			"end": "(?={/(?i:if))",
+			"patterns": [
+				{ "match": "\\s+" },
+				{ "include": "#blockContent" },
+				{ "include": "#expressionACUONMSx" },
+				{ "name": "invalid.illegal.sub-block-elseif.smarty", "match": "." }
+			]
+		},
+		"smartySubBlockElse": {
+			"name": "meta.sub-block-else.smarty",
+			"begin": "(\\{)((?i:else))\\b",
+			"beginCaptures": {
+				"1": { "name": "punctuation.section.embedded.begin.smarty" },
+				"2": { "name": "keyword.control.function.smarty" }
+			},
+			"end": "(?=\\{/(?i:if))",
+			"patterns": [
+				{ "include": "#blockContent" },
+				{ "name": "invalid.illegal.sub-block-else.smarty", "match": "." }
+			]
+		},
+		"smartySubBlockSectionElse": {
+			"name": "meta.sub-block-sectionelse.smarty",
+			"begin": "(\\{)((?i:sectionelse))\\b",
+			"beginCaptures": {
+				"1": { "name": "punctuation.section.embedded.begin.smarty" },
+				"2": { "name": "keyword.control.function.smarty" }
+			},
+			"end": "(?=\\{/(?i:section))",
+			"patterns": [
+				{ "include": "#blockContent" },
+				{ "name": "invalid.illegal.sub-block-sectionelse.smarty", "match": "." }
+			]
+		},
+		"namedAttribute": {
+			"name": "meta.named-attribute.name-$1.smarty",
+			"begin": "(?:^|\\s+)([a-zA-Z_][a-zA-Z0-9_]*)\\s?=\\s?",
+			"beginCaptures": {
+				"1": { "name": "entity.other.attribute-name.smarty" }
+			},
+			"end": "(?=[}\\s])",
+			"patterns": [
+				{ "include": "#expressionACUONMSx" },
+				{ "name": "invalid.illegal.named-attribute.smarty", "match": "." }
+			]
+		},
+		"unnamedAttribute": {
+			"name": "meta.unnamed-attribute.smarty",
+			"begin": "(\\s++|^)(?=[^=])",
+			"beginCaptures": {
+				"1": { "name": "punctuation.separator.unnamed-attribute.begin.smarty" }
+			},
+			"end": "(?<!$)(?=\\}|\\s++(?!(?:!==|!=|=>|<=|>=|<|>|===|==|&&|&|\\|\\|\\+|\\-|\\*|/|%)|(?i:and|or|eq|neq|ne|gte|gt|ge|lte|lt|le|mod|is)\\b))",
+			"patterns": [
+				{ "include": "#expressionACUONMSx" },
+				{ "name": "invalid.illegal.unnamed-attribute.smarty", "match": "." }
+			]
+		},
+
+		"smartyFunctionModifier": {
+			"name": "meta.function-call.name-$1.smarty",
+			"begin": "\\G([a-zA-Z_][a-zA-Z0-9_]*)(?=\\|)",
+			"beginCaptures": {
+				"1": { "name": "entity.name.function.smarty" }
+			},
+			"end": "(?=\\})",
+			"patterns": [
+				{ "include": "#modifier" },
+				{ "name": "invalid.illegal.function-modifier.smarty", "match": "." }
+			]
+		},
+
+		"smartyFunction": {
+			"name": "meta.function-call.name-$1.smarty",
+			"begin": "\\G([a-zA-Z_][a-zA-Z0-9_]*)",
+			"beginCaptures": {
+				"1": { "name": "entity.name.function.smarty" }
+			},
+			"end": "(?=\\})",
+			"patterns": [
+				{ "include": "#namedAttribute" },
+				{ "include": "#unnamedAttribute" },
+				{ "name": "invalid.illegal.function.smarty", "match": "." }
+			]
+		},
+
+		"smartyExpression": {
+			"name": "meta.expression.smarty",
+			"patterns": [
+				{ "include": "#expressionAACUONMS" },
+				{ "name": "invalid.illegal.expression.smarty", "match": "." }
+			]
+		},
+
+		"/* Expressions (combinations of Basic Data Types) */": {},
+
+		"expression": {
+			"patterns":  [
+				{ "include": "#singleQuotedString" },
+				{ "include": "#doubleQuotedString" },
+				{ "include": "#typeCasting" },
+				{ "include": "#variable" },
+				{ "include": "#encapsulatedExpression" }
+			]
+		},
+
+		"expressionAUONMS": {
+			"patterns":  [
+				{ "include": "#expression" },
+				{ "include": "#array" },
+				{ "include": "#operation" },
+				{ "include": "#operationIsBy" },
+				{ "include": "#operationIs" },
+				{ "include": "#negation" },
+				{ "include": "#unquotedString" },
+				{ "include": "#number" },
+				{ "include": "#modifier" },
+				{ "include": "#smartyComment" },
+				{ "include": "#smarty" },
+				{ "name": "invalid.illegal.expression-auonms.smarty", "match": "." }
+			]
+		},
+
+		"expressionAACUONMS": {
+			"patterns":  [
+				{ "include": "#expression" },
+				{ "include": "#array" },
+				{ "include": "#assignment" },
+				{ "include": "#constant" },
+				{ "include": "#operation" },
+				{ "include": "#operationIsBy" },
+				{ "include": "#operationIs" },
+				{ "include": "#negation" },
+				{ "include": "#unquotedString" },
+				{ "include": "#number" },
+				{ "include": "#modifier" },
+				{ "include": "#smartyComment" },
+				{ "include": "#smarty" },
+				{ "name": "invalid.illegal.expression-aauonms.smarty", "match": "." }
+			]
+		},
+
+		"expressionACUONMS": {
+			"patterns":  [
+				{ "include": "#expression" },
+				{ "include": "#array" },
+				{ "include": "#constant" },
+				{ "include": "#operation" },
+				{ "include": "#operationIsBy" },
+				{ "include": "#operationIs" },
+				{ "include": "#negation" },
+				{ "include": "#unquotedString" },
+				{ "include": "#number" },
+				{ "include": "#modifier" },
+				{ "include": "#smartyComment" },
+				{ "include": "#smarty" },
+				{ "name": "invalid.illegal.expression-acuonms.smarty", "match": "." }
+			]
+		},
+
+		"expressionACUONMSx": {
+			"patterns":  [
+				{ "include": "#expression" },
+				{ "include": "#array" },
+				{ "include": "#constant" },
+				{ "include": "#operation" },
+				{ "include": "#operationIsBy" },
+				{ "include": "#operationIs" },
+				{ "include": "#negation" },
+				{ "include": "#unquotedString" },
+				{ "include": "#number" },
+				{ "include": "#modifier" },
+				{ "include": "#smartyComment" },
+				{ "include": "#smarty" }
+			]
+		},
+
+		"encapsulatedExpression": {
+			"name": "meta.encapsulated-expression.smarty",
+			"begin": "(\\()\\s*",
+			"beginCaptures": {
+				"1": { "name": "meta.brace.begin.smarty" }
+			},
+			"end": "\\s*(\\))",
+			"endCaptures": {
+				"1": { "name": "meta.brace.end.smarty" }
+			},
+			"patterns": [
+				{ "match": "\\s+" },
+				{ "include": "#expressionACUONMS" }
+			]
+		},
+
+		"operation": {
+			"name": "meta.operation.smarty",
+			"match": "\\s*(?:(!==|!=|=>|<=|>=|<|>|===|==|&&|&|\\|\\|)|(\\+|\\-|\\*|/|%)|\\b(?:((?i:and|or|eq|neq|ne|gte|gt|ge|lte|lt|le))|((?i:mod)))\\s)\\s*",
+			"captures": {
+				"1": { "name": "keyword.operator.logical.smarty" },
+				"2": { "name": "keyword.operator.arithmetic.smarty" },
+				"3": { "name": "keyword.operator.logical.smarty" },
+				"4": { "name": "keyword.operator.arithmetic.smarty" }
+			}
+		},
+
+		"operationIsBy": {
+			"name": "meta.operation.is-by.smarty",
+			"match": "\\s*\\b((?i:is)(?i:\\s+not)?\\s+(?i:div|even|odd)\\s+(?i:by))\\s+",
+			"captures": {
+				"1": { "name": "keyword.operator.logical.smarty" }
+			}
+		},
+
+		"operationIs": {
+			"name": "meta.operation.is.smarty",
+			"match": "\\s*\\b((?i:is)(?i:\\s+not)?)\\s+((?i:even|odd))\\b",
+			"captures": {
+				"1": { "name": "keyword.operator.logical.smarty" },
+				"2": { "name": "keyword.operator.logical.constant.smarty" }
+			}
+		},
+
+		"negation": {
+			"name": "meta.negation.smarty",
+			"match": "\\s*((?:!)|\\s(?:not)\\s)\\s*",
+			"captures": {
+				"1": { "name": "keyword.operator.negation.smarty" }
+			}
+		},
+
+		"/* Basic Data Types */": {},
+
+		"singleQuotedString": {
+			"name": "string.quoted.single.smarty",
+			"contentName": "string.content.smarty",
+			"begin": "'",
+			"beginCaptures": {
+				"0": { "name": "punctuation.definition.string.begin.smarty" }
+			},
+			"end": "'",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.string.end.smarty" }
+			},
+			"patterns": [
+				{
+					"name": "constant.character.escape.smarty",
+					"match": "\\\\\\\\|\\\\'"
+				}
+			]
+		},
+
+		"doubleQuotedString": {
+			"name": "string.quoted.double.smarty",
+			"contentName": "string.content.smarty",
+			"begin": "\"",
+			"beginCaptures": {
+				"0": { "name": "punctuation.definition.string.begin.smarty" }
+			},
+			"end": "\"",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.string.end.smarty" }
+			},
+			"patterns": [
+				{
+					"name": "constant.character.escape.smarty",
+					"match": "\\\\\\\\|\\\\\"|\\\\\\$|\\\\{"
+				},
+				{ "include": "#basicVariable" },
+				{ "include": "#smartyComment" },
+				{ "include": "#smartyLiteralBlock" },
+				{ "include": "#smarty" },
+				{
+					"name": "meta.template-expression.smarty",
+					"begin": "`(?=\\$[a-zA-Z_][a-zA-Z0-9_]*)",
+					"beginCaptures": {
+						"0": { "name": "punctuation.definition.template-expression.begin.smarty" }
+					},
+					"end": "`",
+					"endCaptures": {
+						"0": { "name": "punctuation.definition.template-expression.end.smarty" }
+					},
+					"patterns": [
+						{ "include": "#expressionACUONMSx" },
+						{ "name": "invalid.illegal.wrapped-variable-expression.smarty", "match": "." }
+					]
+				}
+			]
+		},
+
+		"unquotedString": {
+			"name"	: "string.unquoted.smarty",
+			"match": "[a-zA-Z_][a-zA-Z0-9_]*|\\d+[a-df-zA-DF-Z_][a-zA-Z0-9_]*|\\d+[eE]([a-zA-Z_][a-zA-Z0-9_]*|\\d+[a-zA-Z_][a-zA-Z0-9_]*)",
+			"captures": {
+				"0": { "name": "string.content.smarty" }
+			}
+		},
+
+		"number": {
+			"name": "constant.numeric.smarty",
+			"match": "((?:\\d+\\.\\d*)|(?:\\d*\\.\\d+)|(?:\\d+))(?:[eE](\\d+))?",
+			"captures": {
+				"1": { "name": "constant.numeric.value.smarty" },
+				"2": { "name": "constant.numeric.exponent.smarty" }
+			}
+		},
+
+		"constant": {
+			"name": "constant.language.$1.smarty",
+			"match": "\\b((?i:true|false|null))\\b"
+		},
+
+		"array": {
+			"name": "meta.array.literal.smarty",
+			"begin": "(\\[)\\s*",
+			"beginCaptures": {
+				"1": { "name": "punctuation.definition.array.begin.smarty" }
+			},
+			"end": "\\s*(\\])",
+			"endCaptures": {
+				"1": { "name": "punctuation.definition.array.end.smarty" }
+			},
+			"patterns": [
+				{
+					"match": "\\s*(,)\\s*",
+					"captures": {
+						"1": { "name": "punctuation.separator.array.comma.smarty" }
+					}
+				},
+				{
+					"match": "\\s+"
+				},
+				{
+					"contentName": "meta.array.item.value.smarty",
+					"begin": "\\s*(=>)\\s*",
+					"beginCaptures": {
+						"1": { "name": "punctuation.separator.array.key-value.smarty" }
+					},
+					"end": "(?=\\s*(?:,|\\]))",
+					"patterns": [
+						{ "match": "\\s+" },
+						{ "include": "#expressionACUONMS" }
+					]
+				},
+				{ "include": "#expressionACUONMSx" },
+				{ "name": "invalid.illegal.array.literal.smarty", "match": "." }
+			]
+		},
+
+		"variable": {
+			"name": "variable.smarty",
+			"begin": "(\\$)([a-zA-Z0-9_]+)(?:(@)([a-zA-Z_][a-zA-Z0-9_]*))?",
+			"beginCaptures": {
+				"1": { "name": "punctuation.definition.variable.begin.smarty" },
+				"2": { "name": "entity.name.variable.smarty" },
+				"3": { "name": "punctuation.separator.variable.property.smarty" },
+				"4": { "name": "entity.name.variable.property.name-$3.smarty" }
+			},
+			"end": "(\\+\\+|--\\s*\\})?|(?=.)",
+			"endCaptures": {
+				"1": { "name": "keyword.operator.unary.smarty" }
+			},
+			"applyEndPatternLast": 1,
+			"patterns": [
+				{ "include": "#property" }
+			]
+		},
+
+		"basicVariable": {
+			"name": "variable.basic.smarty",
+			"match": "\\$([a-zA-Z0-9_]+)",
+			"captures": {
+				"1": { "name": "entity.name.variable.smarty" }
+			}
+		},
+
+		"property": {
+			"patterns": [
+				{
+					"name": "variable.other.property.smarty",
+					"begin": "(\\.|->)",
+					"beginCaptures": {
+						"0": { "name": "punctuation.separator.property.smarty" }
+					},
+					"end": "(?=.)",
+					"applyEndPatternLast": 1,
+					"patterns": [
+						{
+							"name": "entity.name.property.smarty",
+							"match": "\\G[a-zA-Z0-9_]+"
+						},
+						{ "include": "#basicVariable" },
+						{ "include": "#smartyComment" },
+						{ "include": "#smarty" }
+					]
+				},
+				{
+					"name": "meta.property-expression.smarty",
+					"begin": "(\\[)\\s*",
+					"beginCaptures": {
+						"1": { "name": "punctuation.definition.property.begin.smarty" }
+					},
+					"end":"\\s*(\\])",
+					"endCaptures": {
+						"1": { "name": "punctuation.definition.property.end.smarty" }
+					},
+					"patterns": [
+						{ "include": "#expressionAUONMS" }
+					]
+				}
+			]
+		},
+
+		"assignment": {
+			"name": "meta.assignment.smarty",
+			"begin": "\\s*(=)(?!=)\\s*",
+			"beginCaptures": {
+				"1": { "name": "keyword.operator.assignment.smarty" }
+			},
+			"end": "(?=[};,])",
+			"patterns": [
+				{ "match": "^\\s+" },
+				{ "include": "#expressionACUONMSx" },
+				{ "name": "invalid.illegal.assignment.smarty", "match": "." }
+			]
+		},
+
+		"modifier": {
+			"name": "meta.modifier.smarty",
+			"begin": "(\\|)(@)?([a-zA-Z0-9_]+)",
+			"beginCaptures": {
+				"1": { "name": "punctuation.definition.modifier.begin.smarty" },
+				"2": { "name": "punctuation.definition.modifier.array.smarty" },
+				"3": { "name": "entity.name.function.modifier.smarty" }
+			},
+			"end": "(?=\\s*+[^:])",
+			"patterns": [
+				{
+					"begin": "\\s*+(\\:)\\s*+",
+					"beginCaptures": {
+						"1": { "name": "punctuation.separator.modifier.parameter.smarty" }
+					},
+					"end": "(?<!\\G|[+-])(?!$)",
+					"patterns": [
+						{
+							"match": "\\s*+(:)\\s*+",
+							"captures": {
+								"1": { "name": "punctuation.separator.modifier.parameter.smarty" }
+							}
+						},
+						{
+							"name": "wurstbrot",
+							"match": "^\\s*+"
+						},
+						{ "include": "#expressionACUONMSx" }
+					]
+				}
+			]
+		},
+
+		"typeCasting": {
+			"name": "meta.type-casting.smarty",
+			"match": "(\\()((?i:int|integer|bool|boolean|float|double|real|string|array|object))(\\))",
+			"captures": {
+				"1": { "name": "punctuation.definition.type-casting.begin.smarty" },
+				"2": { "name": "entity.name.type.smarty" },
+				"3": { "name": "punctuation.definition.type-casting.end.smarty" }
+			}
+		},
+
+		"/* External Definitions */": {},
+
+		"others": {
+			"patterns": [
+				{
+					"begin": "<(script)>",
+					"end": "</(script)>",
+					"beginCaptures": {
+						"0": { "name":"punctuation.definition.tag.start.html" },
+						"1": { "name": "entity.name.tag.html" }
+					},
+					"endCaptures": {
+						"0": { "name":"punctuation.definition.tag.end.html" },
+						"1": { "name": "entity.name.tag.html" }
+					},
+					"patterns": [
+						{ "include": "#nonSmarty"},
+						{ "include": "#smartyComment" },
+						{ "include": "#smartyLiteralBlock" },
+						{ "include": "#smarty" },
+						{ "include": "source.js" }
+					]
+				},
+				{
+					"begin": "<(style)>",
+					"end": "</(style)>",
+					"beginCaptures": {
+						"0": { "name":"punctuation.definition.tag.start.html" },
+						"1": { "name": "entity.name.tag.html" }
+					},
+					"endCaptures": {
+						"0": { "name":"punctuation.definition.tag.end.html" },
+						"1": { "name": "entity.name.tag.html" }
+					},
+					"patterns": [
+						{ "include": "#nonSmarty"},
+						{ "include": "#smartyComment" },
+						{ "include": "#smartyLiteralBlock" },
+						{ "include": "#smarty" },
+						{ "include": "source.css" }
+					]
+				},
+				{
+					"name": "punctuation.definition.tag.doctype.html",
+					"begin": "<!(DOCTYPE)",
+					"beginCaptures": {
+						"1": { "name": "entity.name.tag.html" }
+					},
+					"end": ">",
+					"patterns": [
+						{ "include": "#smartyComment" },
+						{ "include": "#smarty" },
+						{
+							"name": "entity.other.attribute-name.content.html",
+							"match": "[^>]+"
+						}
+					]
+				},
+				{ "include": "#html" }
+			]
+		},
+
+		"html": {
+			"patterns": [
+				{
+					"name": "comment.block.html",
+					"begin": "<!--",
+					"beginCaptures": {
+						"1": { "name": "punctuation.definition.comment.html" }
+					},
+					"end": "-->"
+				},
+				{
+					"name": "source.html",
+					"begin": "<(\/)?([a-zA-Z0-9]+)",
+					"beginCaptures": {
+						"0": { "name": "punctuation.definition.tag.start.html" },
+						"1": { "name": "punctuation.definition.tag.start.html" },
+						"2": { "name": "variable.name.tag.html" }
+					},
+					"end": ">",
+					"endCaptures": {
+						"0": { "name": "punctuation.definition.tag.end.html" }
+					},
+					"patterns": [
+						{ "include": "#comment" },
+						{ "include": "#nonSmarty"},
+						{ "include": "#smartyComment" },
+						{ "include": "#smartyLiteralBlock" },
+						{ "include": "#smarty" },
+						{
+							"name": "variable.attribute.html",
+							"match": "\\b([a-zA-Z0-9\\-]+)(=)",
+							"captures": {
+								"0": { "name": "variable.parameter.html" },
+								"2": { "name": "keyword.operator.assignment.html" }
+							}
+						},
+						{ "include": "#string" }
+					]
+				},
+				{
+					"name": "punctuation.definition.tag.isolated.start.html",
+					"match": "<"
+				},
+				{
+					"name": "constant.character.html",
+					"match": "&([a-zA-Z0-9]+);"
+				}
+			]
+		}
+	}
+}
