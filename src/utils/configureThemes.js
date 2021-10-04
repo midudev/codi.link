@@ -4,7 +4,7 @@ import strip from 'strip-comments'
 
 import * as themes from '../public/assets/themes'
 import { subscribe, getState } from '../state'
-import { $ } from '../utils/dom'
+import { $, updateSelectValue } from './dom'
 
 const themeSelect = $('.select select[data-for="theme"]')
 
@@ -21,10 +21,12 @@ const defineTheme = ({ name, config }) => {
 }
 
 export default function configureThemes () {
-  configureCustomTheme(getState().customTheme)
+  const { customTheme, theme } = getState()
+  configureCustomTheme(customTheme)
   Object.entries(themes).forEach(([name, config]) => {
     defineTheme({ name, config })
   })
+  updateSelectValue(themeSelect, theme)
 }
 
 export const configureCustomTheme = customTheme => {
