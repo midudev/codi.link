@@ -1,4 +1,4 @@
-import { $, $$ } from './utils/dom.js'
+import { $$, $ } from './utils'
 
 const $aside = $('aside')
 const $buttons = $$('button', $aside)

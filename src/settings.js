@@ -1,4 +1,4 @@
-import { $$, setFormControlValue } from './utils/dom.js'
+import { $$, setFormControlValue } from './utils'
 import { getState } from './state.js'
 
 const $settings = $$('#settings [data-for]')

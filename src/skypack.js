@@ -1,5 +1,4 @@
-import debounce from './utils/debounce.js'
-import { $ } from './utils/dom.js'
+import { $, debounce } from './utils'
 import escapeHTML from 'escape-html'
 
 const API_URL = 'https://api.skypack.dev/v1'

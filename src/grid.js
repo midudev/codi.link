@@ -1,5 +1,5 @@
 import Split from 'split-grid'
-import { $ } from './utils/dom.js'
+import { $ } from './utils'
 
 Split({
   columnGutters: [{

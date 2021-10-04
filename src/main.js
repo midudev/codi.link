@@ -1,12 +1,9 @@
 import './style.css'
 
-import { initEditorHotKeys } from './utils/editor-hotkeys.js'
 import { encode, decode } from 'js-base64'
-import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
-import debounce from './utils/debounce.js'
-import { capitalize } from './utils/string'
 import { subscribe } from './state'
+import { $, capitalize, debounce, initEditorHotKeys } from './utils'
 
 import './aside.js'
 import './skypack.js'
