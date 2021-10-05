@@ -1,20 +1,23 @@
-import JSZip from 'jszip'
+const getZip = () =>
+  import('jszip').then(({ default: JSZip }) => new JSZip())
 
-export function downloadUserCode ({
+export async function downloadUserCode ({
   htmlContent,
   cssContent,
   jsContent,
   fileName = 'codi.link',
   zipInSingleFile = false
 }) {
-  const createZip = zipInSingleFile ? createZipWithSingleFile : createZipWithMultipleFiles
+  const createZip = zipInSingleFile
+    ? createZipWithSingleFile
+    : createZipWithMultipleFiles
 
-  const zip = createZip({ htmlContent, cssContent, jsContent })
-  generateZip({ zip, fileName })
+  const zip = await createZip({ htmlContent, cssContent, jsContent })
+  return generateZip({ zip, fileName })
 }
 
-function createZipWithSingleFile ({ htmlContent, cssContent, jsContent }) {
-  const zip = new JSZip()
+async function createZipWithSingleFile ({ htmlContent, cssContent, jsContent }) {
+  const zip = await getZip()
 
   const indexHtml = `
 <!DOCTYPE html>
@@ -37,8 +40,8 @@ function createZipWithSingleFile ({ htmlContent, cssContent, jsContent }) {
   return zip
 }
 
-function createZipWithMultipleFiles ({ htmlContent, cssContent, jsContent }) {
-  const zip = new JSZip()
+async function createZipWithMultipleFiles ({ htmlContent, cssContent, jsContent }) {
+  const zip = await getZip()
 
   const indexHtml = `
 <!DOCTYPE html>
@@ -60,7 +63,7 @@ function createZipWithMultipleFiles ({ htmlContent, cssContent, jsContent }) {
 }
 
 function generateZip ({ zip, fileName }) {
-  zip.generateAsync({ type: 'blob' }).then((blobData) => {
+  return zip.generateAsync({ type: 'blob' }).then((blobData) => {
     const zipBlob = new window.Blob([blobData])
     const element = window.document.createElement('a')
 
