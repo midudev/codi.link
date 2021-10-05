@@ -21,4 +21,5 @@ export const searchByLine = (str, input, lines = 10) => {
 export const copyToClipboard = (str) => {
   navigator.clipboard.writeText(str).then(() => {
     window.alert('El enlace se ha copiado en el portapapeles')
+  })
 }
