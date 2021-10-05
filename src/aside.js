@@ -7,6 +7,11 @@ const $buttons = $$('button', $aside)
 const SIMPLE_CLICK_ACTIONS = {
   'download-user-code': () => {
     eventBus.emit(EVENTS.DOWNLOAD_USER_CODE)
+  },
+
+  'copy-to-clipboard': async () => {
+    await navigator.clipboard.writeText(window.location.href)
+    window.alert('Sharable URL has been copied to clipboard.')
   }
 }
 
@@ -40,7 +45,7 @@ $buttons.forEach(button => {
   button.addEventListener('click', ({ currentTarget }) => {
     let action = button.getAttribute('data-action')
     const isSimpleClickAction = button.getAttribute('data-is-simple-click-action') === 'true'
-
+    
     if (isSimpleClickAction) return ACTIONS[action]()
 
     const alreadyActive = currentTarget.classList.contains('is-active')

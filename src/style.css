@@ -137,7 +137,8 @@ aside button .button-title {
   &:after {
     content: '';
     position: absolute;
-    transform: translateX(-100%);
+    transform: translate(-100%,-50%);
+    top: 50%;
     left: 1px;
     right: 0;
     width: 0px;
@@ -150,7 +151,8 @@ aside button .button-title {
   &:before {
     content: '';
     position: absolute;
-    transform: translateX(-100%);
+    transform: translate(-100%, -50%);
+    top: 50%;
     left: 0px;
     right: 0;
     width: 0px;
