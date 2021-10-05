@@ -20,7 +20,7 @@
     "emmet-monaco-es": "^4.7.1",
     "escape-html": "1.0.3",
     "hotkeys-js": "3.8.7",
-    "js-base64": "3.6.1",
+    "lz-string": "^1.4.4",
     "monaco-editor": "0.27.0",
     "split-grid": "1.0.11",
     "zustand": "3.5.10"

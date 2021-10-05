@@ -1,7 +1,7 @@
 import './style.css'
 
 import { initEditorHotKeys } from './utils/editor-hotkeys.js'
-import { encode, decode } from 'js-base64'
+import { decodeURL, encodeURL } from './utils/url'
 import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
@@ -17,13 +17,13 @@ const $js = $('#js')
 const $css = $('#css')
 const $html = $('#html')
 
-const { pathname } = window.location
+const urlParams = decodeURL()
 
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+const [rawHtml, rawCss, rawJs] = urlParams.split('|')
 
-const html = rawHtml ? decode(rawHtml) : ''
-const css = rawCss ? decode(rawCss) : ''
-const js = rawJs ? decode(rawJs) : ''
+const html = rawHtml || ''
+const css = rawCss || ''
+const js = rawJs || ''
 
 const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
 const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
@@ -72,9 +72,9 @@ function update () {
   const css = cssEditor.getValue()
   const js = jsEditor.getValue()
 
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  const encodedURL = encodeURL({ html, js, css })
 
-  window.history.replaceState(null, null, `/${hashedCode}`)
+  window.history.replaceState(null, null, `/${encodedURL}`)
 
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
