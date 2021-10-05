@@ -17,3 +17,8 @@ export const searchByLine = (str, input, lines = 10) => {
   const parsedInput = input.endsWith(';') ? input.slice(0, -1) : input
   return linesArr.slice(0, lines).find((line) => line.includes(parsedInput))
 }
+
+export const copyToClipboard = (str) => {
+  navigator.clipboard.writeText(str).then(() => {
+    window.alert('El enlace se ha copiado en el portapapeles')
+}
