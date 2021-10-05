@@ -11,7 +11,7 @@ By contributing to this project, you:
 * Agree that the content you contribute may be provided under the Project license(s)
 * Agree that, if you did not author 100% of the content, the appropriate licenses and copyrights have been added along with any other necessary attribution.
 
-## Getting started
+## Getting Started
 
 **What does "contributing" mean?**
 
@@ -26,8 +26,8 @@ If you'd like to learn more about contributing in general, the [Guide to Idiomat
 
 Please keep in mind that open source software is built by people like you, who spend their free time creating things the rest the community can use.
 
-Don't have time to contribute? No worries, here are some other ways to show your support for codi.link:
+Don't have time to contribute? Don't worry, here are some other ways to show your support to codi.link:
 
-- star the [project](https://github.com/midudev/codi.link)
-- tweet your support for codi.link
+- Start the [project](https://github.com/midudev/codi.link)
+- Tweet your support for codi.link
 
