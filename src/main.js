@@ -12,7 +12,7 @@ import './aside.js'
 import './skypack.js'
 import './settings.js'
 import './grid.js'
-import './session'
+import './session/main'
 
 const {
   setEditors
