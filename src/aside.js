@@ -45,7 +45,7 @@ $buttons.forEach(button => {
   button.addEventListener('click', ({ currentTarget }) => {
     let action = button.getAttribute('data-action')
     const isSimpleClickAction = button.getAttribute('data-is-simple-click-action') === 'true'
-    
+
     if (isSimpleClickAction) return ACTIONS[action]()
 
     const alreadyActive = currentTarget.classList.contains('is-active')
