@@ -1,3 +1,4 @@
+
 import * as monaco from 'monaco-editor-core'
 import strip from 'strip-comments'
 
@@ -7,9 +8,46 @@ import { $, updateSelectValue } from './dom'
 
 const themeSelect = $('.select select[data-for="theme"]')
 
+const convertTheme = (theme) => {
+  const monacoThemeRule = []
+  const returnTheme = {
+    inherit: true,
+    base: 'vs-dark',
+    colors: theme.colors,
+    rules: monacoThemeRule,
+    encodedTokensColors: []
+  }
+  theme.tokenColors.forEach((color) => {
+    if (typeof color.scope === 'string') {
+      const split = color.scope.split(',')
+      if (split.length > 1) {
+        color.scope = split
+        evalAsArray()
+        return
+      }
+      monacoThemeRule.push(Object.assign({}, color.settings, {
+        // token: color.scope.replace(/\s/g, '')
+        token: color.scope
+      }))
+      return
+    }
+    evalAsArray()
+    function evalAsArray () {
+      if (color.scope) {
+        color.scope.forEach((scope) => {
+          monacoThemeRule.push(Object.assign({}, color.settings, {
+            token: scope
+          }))
+        })
+      }
+    }
+  })
+  return returnTheme
+}
+
 const defineTheme = ({ name, config }) => {
   try {
-    monaco.editor.defineTheme(name, { ...window.convertTheme(config), inherit: true })
+    monaco.editor.defineTheme(name, convertTheme(config))
     const option = document.createElement('option')
     option.text = name
     option.value = name
