@@ -6,13 +6,17 @@ import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { capitalize } from './utils/string'
-import { subscribe } from './state'
+import { subscribe, getState } from './state'
 
 import './aside.js'
 import './skypack.js'
 import './settings.js'
 import './grid.js'
 import './session'
+
+const {
+  setEditors
+} = getState().editors
 
 const $js = $('#js')
 const $css = $('#css')
@@ -39,7 +43,7 @@ window.onmessage = ({ data }) => {
 subscribe(state => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
   EDITORS.forEach(editor => {
-    const { minimap, ...restOfOptions } = state
+    const { minimap, ...restOfOptions } = state.settings
 
     const newOptions = {
       ...restOfOptions,
@@ -64,6 +68,7 @@ cssEditor.onDidChangeModelContent(debouncedUpdate)
 jsEditor.onDidChangeModelContent(debouncedUpdate)
 
 initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
+setEditors({ html: htmlEditor, css: cssEditor, js: jsEditor })
 
 const htmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', htmlForPreview)

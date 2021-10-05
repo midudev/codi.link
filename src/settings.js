@@ -6,7 +6,7 @@ const $settings = $$('#settings [data-for]')
 const {
   updateSettings,
   ...settings
-} = getState()
+} = getState().settings
 
 $settings.forEach(el => {
   const settingKey = el.getAttribute('data-for')

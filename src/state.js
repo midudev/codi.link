@@ -15,16 +15,40 @@ const appInitialState = getLocalStorage('appInitialState') || {
 }
 
 const useStore = create((set, get) => ({
-  ...appInitialState,
-  updateSettings: ({ key, value }) => {
-    set(state => {
-      setLocalStorage('appInitialState', {
-        ...state,
-        [key]: value
+  editors: {
+    html: null,
+    css: null,
+    js: null,
+    setEditors: ({ html, css, js }) => {
+      set(state => {
+        const editors = { html, css, js }
+        return {
+          ...state,
+          editors
+        }
       })
+    }
+  },
+  settings: {
+    ...appInitialState,
+    updateSettings: ({ key, value }) => {
+      set(state => {
+        setLocalStorage('appInitialState', {
+          ...state.settings,
+          [key]: value
+        })
 
-      return { [key]: value }
-    })
+        const settings = {
+          ...state.settings,
+          [key]: value
+        }
+
+        return {
+          ...state,
+          settings
+        }
+      })
+    }
   }
 }))
 

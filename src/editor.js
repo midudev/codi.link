@@ -13,7 +13,7 @@ const {
   wordWrap,
   fontLigatures,
   fontFamily
-} = getState()
+} = getState().settings
 
 const COMMON_EDITOR_OPTIONS = {
   fontSize,
