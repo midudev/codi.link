@@ -2,7 +2,7 @@ import Peer from 'peerjs'
 import * as monaco from 'monaco-editor'
 import { decode } from 'js-base64'
 import sillyname from 'https://cdn.skypack.dev/sillyname'
-import { EditorContentManager } from '@convergencelabs/monaco-collab-ext'
+import { EditorContentManager, RemoteSelectionManager, RemoteCursorManager } from '@convergencelabs/monaco-collab-ext'
 
 import { $, $$ } from './utils/dom'
 import { getSessionId, removeIdFromUrl } from './utils/url'
@@ -23,10 +23,82 @@ const contentManagers = {
   js: null
 }
 
+const selectionManagers = {
+  html: {
+    manager: null,
+    selections: new Map()
+  },
+  css: {
+    manager: null,
+    selections: new Map()
+  },
+  js: {
+    manager: null,
+    selections: new Map()
+  }
+}
+
+const remoteCursorManagers = {
+  html: {
+    manager: null,
+    cursors: new Map()
+  },
+  css: {
+    manager: null,
+    cursors: new Map()
+  },
+  js: {
+    manager: null,
+    cursors: new Map()
+  }
+}
+
+let lastSelection
 const initializeContentManager = () => {
   const editors = getState().editors
   for (const key in editors) {
     const editor = editors[key]
+    editor.onDidChangeCursorPosition(({ position }) => {
+      // setLocalCursor
+      const offset = editor.getModel().getOffsetAt(position)
+      session.broadcast({
+        type: 'UPDATE_CURSOR',
+        editor: key,
+        offset,
+        peer: session.peer.id
+      })
+    })
+    editor.onDidChangeCursorSelection(e => {
+      // setLocalSelection
+      const selection = editor.getSelection()
+      if (!selection.isEmpty()) {
+        const editorModel = editor.getModel()
+        const start = editorModel.getOffsetAt(selection.getStartPosition())
+        const end = editorModel.getOffsetAt(selection.getEndPosition())
+        lastSelection = { start, end }
+        session.broadcast({
+          type: 'UPDATE_SELECTION',
+          editor: key,
+          peer: session.peer.id,
+          value: lastSelection
+        })
+      } else if (lastSelection) {
+        // this._selectionReference.clear();
+        lastSelection = null
+        session.broadcast({
+          type: 'UPDATE_SELECTION',
+          editor: key,
+          peer: session.peer.id,
+          value: lastSelection
+        })
+      }
+    })
+    remoteCursorManagers[key].manager = new RemoteCursorManager({
+      editor,
+      tooltips: true,
+      tooltipDuration: 2
+    })
+    selectionManagers[key].manager = new RemoteSelectionManager({ editor })
     contentManagers[key] = new EditorContentManager({
       editor,
       onInsert (index, text) {
@@ -132,6 +204,43 @@ const EVENTS = {
   DELETE_TEXT: (conn, data) => {
     const { index, length, editor } = data
     contentManagers[editor].delete(index, length)
+  },
+  UPDATE_CURSOR: (conn, data) => {
+    const { peer, offset, editor } = data
+    // ignore local cursor
+    if (session.peer.id === peer) return
+
+    let remoteCursor = remoteCursorManagers[editor].cursors.get(peer)
+    if (!remoteCursor && offset !== null) {
+      const color = '#ff23b5'
+      const participant = session.network.find(p => p.conn.peer === conn.peer)
+      remoteCursor = remoteCursorManagers[editor].manager.addCursor(peer, color, participant.name)
+      remoteCursorManagers[editor].cursors.set(peer, remoteCursor)
+    }
+    if (offset !== null) {
+      remoteCursor.setOffset(offset)
+    } else if (remoteCursor) {
+      remoteCursor.hide()
+    }
+  },
+  UPDATE_SELECTION: (conn, data) => {
+    // ignore local cursor
+    const { peer, value, editor } = data
+    if (session.peer.id === peer) {
+      return
+    }
+
+    let remoteSelection = selectionManagers[editor].selections.get(peer)
+    if (!remoteSelection && value !== null) {
+      const color = '#ff23b5'
+      remoteSelection = selectionManagers[editor].manager.addSelection(peer, color)
+      selectionManagers[editor].selections.set(peer, remoteSelection)
+    }
+    if (value !== null) {
+      remoteSelection.setOffsets(value.start, value.end)
+    } else if (remoteSelection) {
+      remoteSelection.hide()
+    }
   }
 }
 
