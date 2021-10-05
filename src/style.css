@@ -500,3 +500,8 @@ select {
     width: 20px;
   }
 }
+
+/* Magic Menu Styles */
+.preview { 
+  position: relative;
+}
