@@ -14,7 +14,8 @@
     "@s-ui/mono": "2",
     "postcss-nesting": "8.0.1",
     "standard": "16.0.4",
-    "vite": "2.6.3"
+    "vite": "2.6.3",
+    "cypress": "^8.5.0"
   },
   "dependencies": {
     "emmet-monaco-es": "^4.7.2",
