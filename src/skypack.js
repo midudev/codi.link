@@ -1,4 +1,4 @@
-import { EE, EVENTS } from './events-controller.js'
+import { eventBus, EVENTS } from './events-controller.js'
 import debounce from './utils/debounce.js'
 import { $ } from './utils/dom.js'
 import escapeHTML from 'escape-html'
@@ -63,6 +63,5 @@ async function fetchPackages (packageName) {
 function handlePackageSelected (packageName) {
   let parsedName = packageName.split('/').join('-')
   if (parsedName.startsWith('@')) parsedName = parsedName.substr(1)
-
-  EE.emit(EVENTS.ADD_SKYPACK_PACKAGE, { skypackPackage: parsedName, url: `${CDN_URL}/${packageName}` })
+  eventBus.emit(EVENTS.ADD_SKYPACK_PACKAGE, { skypackPackage: parsedName, url: `${CDN_URL}/${packageName}` })
 }

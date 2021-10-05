@@ -1,8 +1,8 @@
-import { EventEmitter } from 'eventemitter3'
+import mitt from 'mitt'
 import { capitalize } from './utils/string.js'
 import { downloadUserCode } from './download.js'
 
-export const EE = new EventEmitter()
+export const eventBus = mitt()
 
 let jsEditor
 let htmlEditor
@@ -23,11 +23,11 @@ export const EVENTS = {
   DOWNLOAD_USER_CODE: 'DOWNLOAD_USER_CODE'
 }
 
-EE.on(EVENTS.ADD_SKYPACK_PACKAGE, ({ skypackPackage, url }) => {
+eventBus.on(EVENTS.ADD_SKYPACK_PACKAGE, ({ skypackPackage, url }) => {
   jsEditor.setValue(`import ${capitalize(skypackPackage)} from '${url}';\n${jsEditor.getValue()}`)
 })
 
-EE.on(EVENTS.DOWNLOAD_USER_CODE, () => {
+eventBus.on(EVENTS.DOWNLOAD_USER_CODE, () => {
   downloadUserCode({
     htmlContent: htmlEditor.getValue(),
     cssContent: cssEditor.getValue(),

@@ -1,4 +1,4 @@
-import { EE, EVENTS } from './events-controller.js'
+import { eventBus, EVENTS } from './events-controller.js'
 import { $, $$ } from './utils/dom.js'
 
 const $aside = $('aside')
@@ -6,7 +6,7 @@ const $buttons = $$('button', $aside)
 
 const SIMPLE_CLICK_ACTIONS = {
   'download-user-code': () => {
-    EE.emit(EVENTS.DOWNLOAD_USER_CODE)
+    eventBus.emit(EVENTS.DOWNLOAD_USER_CODE)
   }
 }
 
