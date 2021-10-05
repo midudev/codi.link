@@ -15,7 +15,6 @@ $buttonDown.addEventListener('click', () => {
 
 $editor.addEventListener('scroll', () => {
   const $aside = $('aside')
-
   if ($editor.scrollTop >= (editorHeight) * 3) {
     $aside.style.top = '-80px'
     $editor.style.margin = '0'
