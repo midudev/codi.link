@@ -5,8 +5,8 @@ import { encode, decode } from 'js-base64'
 import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
-import { capitalize } from './utils/string'
 import { createHtml } from './utils/createHtml'
+import { initializeEventsController } from './events-controller.js'
 import { subscribe } from './state'
 
 import './aside.js'
@@ -29,12 +29,6 @@ const js = rawJs ? decode(rawJs) : ''
 const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
 const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
 const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
-
-window.onmessage = ({ data }) => {
-  if (Object.prototype.toString.call(data) === '[object Object]' && Object.keys(data).includes('package')) {
-    jsEditor.setValue(`import ${capitalize(data.package)} from '${data.url}';\n${jsEditor.getValue()}`)
-  }
-}
 
 subscribe(state => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
@@ -64,6 +58,7 @@ cssEditor.onDidChangeModelContent(debouncedUpdate)
 jsEditor.onDidChangeModelContent(debouncedUpdate)
 
 initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
+initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
 const htmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', htmlForPreview)
