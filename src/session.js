@@ -2,8 +2,11 @@ import Peer from 'peerjs'
 import * as monaco from 'monaco-editor'
 import { decode } from 'js-base64'
 import sillyname from 'https://cdn.skypack.dev/sillyname'
+import { EditorContentManager } from '@convergencelabs/monaco-collab-ext'
+
 import { $, $$ } from './utils/dom'
 import { getSessionId, removeIdFromUrl } from './utils/url'
+import { getState } from './state'
 
 const $liveShareBar = $('#live-share')
 const $buttons = $$('button', $liveShareBar)
@@ -13,6 +16,51 @@ const $sessionInput = $('input[data-for=join-session]')
 const $usernameInput = $('input[data-for=session-user]')
 const $sessionId = $('span[data-for=session-id]')
 const $participantsList = $('.participants-list')
+
+const contentManagers = {
+  html: null,
+  css: null,
+  js: null
+}
+
+const initializeContentManager = () => {
+  const editors = getState().editors
+  for (const key in editors) {
+    const editor = editors[key]
+    contentManagers[key] = new EditorContentManager({
+      editor,
+      onInsert (index, text) {
+        session.broadcast({
+          type: 'INSERT_TEXT',
+          editor: key,
+          index,
+          text
+        })
+      },
+      onReplace (index, length, text) {
+        session.broadcast([{
+          type: 'DELETE_TEXT',
+          editor: key,
+          index,
+          length
+        }, {
+          type: 'INSERT_TEXT',
+          editor: key,
+          index,
+          text
+        }])
+      },
+      onDelete (index, length) {
+        session.broadcast({
+          type: 'DELETE_TEXT',
+          editor: key,
+          index,
+          length
+        })
+      }
+    })
+  }
+}
 
 const getData = () => {
   const { pathname } = window.location
@@ -48,14 +96,6 @@ const removeParticipants = () => {
   $participantsList.innerHTML = ''
 }
 
-// const removeParticipant = (peer) => {
-//   for (const participant of $participantsList.children) {
-//     if (participant.getAttribute('data-peer') === peer) {
-//       return participant.remove()
-//     }
-//   }
-// }
-
 const updateParticipants = () => {
   const $quantity = $('span[data-for=session-participants]')
   $quantity.innerHTML = session.network.length + 1
@@ -83,6 +123,14 @@ const EVENTS = {
       serverConn.role = data.server.role
     }
     updateParticipants()
+  },
+  INSERT_TEXT: (conn, data) => {
+    const { index, text, editor } = data
+    contentManagers[editor].insert(index, text)
+  },
+  DELETE_TEXT: (conn, data) => {
+    const { index, length, editor } = data
+    contentManagers[editor].delete(index, length)
   }
 }
 
@@ -127,6 +175,7 @@ class Session {
 
   _onPeerOpen () {
     this.peer.on('open', (id) => {
+      initializeContentManager()
       if (this.targetId) return this.connect(this.targetId)
       showSessionContent('connected')
       loadSessionId(id)
@@ -178,7 +227,10 @@ class Session {
 
   _onConnectionData (conn) {
     conn.on('data', (data) => {
-      EVENTS[data.type](conn, data)
+      const events = Array.isArray(data) ? data : [data]
+      events.forEach(d => {
+        EVENTS[d.type](conn, d)
+      })
     })
   }
 
