@@ -1,4 +1,3 @@
-
 import * as monaco from 'monaco-editor-core'
 import strip from 'strip-comments'
 

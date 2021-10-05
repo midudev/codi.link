@@ -56,7 +56,9 @@ window.MonacoEnvironment = {
 }
 
 export async function createEditors (configs) {
-  await loadWASM('node_modules/onigasm/lib/onigasm.wasm')
+  const response = await window.fetch('https://cdn.jsdelivr.net/npm/onigasm@2.2.5/lib/onigasm.wasm')
+  const buffer = await response.arrayBuffer()
+  await loadWASM(buffer) // await loadWASM('node_modules/onigasm/lib/onigasm.wasm') fails in vercel deployment wasm is converted to html
 
   const registry = new Registry({
     getGrammarDefinition: async (scopeName) => {
