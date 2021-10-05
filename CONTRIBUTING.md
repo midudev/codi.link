@@ -28,6 +28,6 @@ Please keep in mind that open source software is built by people like you, who s
 
 Don't have time to contribute? Don't worry, here are some other ways to show your support to codi.link:
 
-- Start the [project](https://github.com/midudev/codi.link)
-- Tweet your support for codi.link
+- ⭐ Star the [project](https://github.com/midudev/codi.link)
+- 🐦 Tweet your support for codi.link
 
