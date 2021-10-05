@@ -1,13 +1,14 @@
 import Peer from 'peerjs'
-import * as monaco from 'monaco-editor'
 import { decode } from 'js-base64'
 import sillyname from 'https://cdn.skypack.dev/sillyname'
 import { EditorContentManager, RemoteSelectionManager, RemoteCursorManager } from '@convergencelabs/monaco-collab-ext'
+import { ColorAssigner } from '@convergence/color-assigner'
 
 import { $, $$ } from './utils/dom'
 import { getSessionId, removeIdFromUrl } from './utils/url'
 import { getState } from './state'
 
+const colorAssigner = new ColorAssigner()
 const $liveShareBar = $('#live-share')
 const $buttons = $$('button', $liveShareBar)
 const $contents = $$('.live-share-content', $liveShareBar)
@@ -23,17 +24,20 @@ const contentManagers = {
   js: null
 }
 
-const selectionManagers = {
+const remoteSelectionManagers = {
   html: {
     manager: null,
+    event: null,
     selections: new Map()
   },
   css: {
     manager: null,
+    event: null,
     selections: new Map()
   },
   js: {
     manager: null,
+    event: null,
     selections: new Map()
   }
 }
@@ -41,25 +45,32 @@ const selectionManagers = {
 const remoteCursorManagers = {
   html: {
     manager: null,
+    event: null,
     cursors: new Map()
   },
   css: {
     manager: null,
+    event: null,
     cursors: new Map()
   },
   js: {
     manager: null,
+    event: null,
     cursors: new Map()
   }
 }
 
 let lastSelection
 const initializeContentManager = () => {
-  const editors = getState().editors
+  const editors = getEditors()
   for (const key in editors) {
     const editor = editors[key]
-    editor.onDidChangeCursorPosition(({ position }) => {
-      // setLocalCursor
+    remoteCursorManagers[key].manager = new RemoteCursorManager({
+      editor,
+      tooltips: true,
+      tooltipDuration: 2
+    })
+    remoteCursorManagers[key].event = editor.onDidChangeCursorPosition(({ position }) => {
       const offset = editor.getModel().getOffsetAt(position)
       session.broadcast({
         type: 'UPDATE_CURSOR',
@@ -68,8 +79,8 @@ const initializeContentManager = () => {
         peer: session.peer.id
       })
     })
-    editor.onDidChangeCursorSelection(e => {
-      // setLocalSelection
+    remoteSelectionManagers[key].manager = new RemoteSelectionManager({ editor })
+    remoteSelectionManagers[key].event = editor.onDidChangeCursorSelection(e => {
       const selection = editor.getSelection()
       if (!selection.isEmpty()) {
         const editorModel = editor.getModel()
@@ -83,7 +94,6 @@ const initializeContentManager = () => {
           value: lastSelection
         })
       } else if (lastSelection) {
-        // this._selectionReference.clear();
         lastSelection = null
         session.broadcast({
           type: 'UPDATE_SELECTION',
@@ -93,12 +103,6 @@ const initializeContentManager = () => {
         })
       }
     })
-    remoteCursorManagers[key].manager = new RemoteCursorManager({
-      editor,
-      tooltips: true,
-      tooltipDuration: 2
-    })
-    selectionManagers[key].manager = new RemoteSelectionManager({ editor })
     contentManagers[key] = new EditorContentManager({
       editor,
       onInsert (index, text) {
@@ -134,6 +138,31 @@ const initializeContentManager = () => {
   }
 }
 
+const removeRemoteCursor = (peer) => {
+  for (const editor in remoteCursorManagers) {
+    const remoteCursor = remoteCursorManagers[editor].cursors.get(peer)
+    if (remoteCursor) {
+      remoteCursorManagers[editor].cursors.delete(peer)
+      remoteCursor.dispose()
+    }
+  }
+}
+
+const removeRemoteSelection = (peer) => {
+  for (const editor in remoteSelectionManagers) {
+    const remoteSelection = remoteSelectionManagers[editor].selections.get(peer)
+    if (remoteSelection) {
+      remoteSelectionManagers[editor].selections.delete(peer)
+      remoteSelection.dispose()
+    }
+  }
+}
+
+const getEditors = () => {
+  const { html, css, js } = getState().editors
+  return { html, css, js }
+}
+
 const getData = () => {
   const { pathname } = window.location
   const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
@@ -141,8 +170,10 @@ const getData = () => {
 }
 
 const setData = ([rawHtml, rawCss, rawJs]) => {
-  const decodedData = [rawHtml ? decode(rawHtml) : '', rawCss ? decode(rawCss) : '', rawJs ? decode(rawJs) : '']
-  monaco.editor.getModels().forEach((e, i) => e.setValue(decodedData[i]))
+  const { html: htmlEditor, css: cssEditor, js: jsEditor } = getEditors()
+  htmlEditor.setValue(rawHtml ? decode(rawHtml) : '')
+  cssEditor.setValue(rawCss ? decode(rawCss) : '')
+  jsEditor.setValue(rawJs ? decode(rawJs) : '')
 }
 
 const showSessionContent = (status) => {
@@ -178,6 +209,37 @@ const updateParticipants = () => {
   })
 }
 
+const disconnectSession = () => {
+  removeIdFromUrl()
+  showSessionContent('disconnected')
+  removeParticipants()
+  loadSessionId('')
+  for (const editor of ['html', 'css', 'js']) {
+    contentManagers[editor] = null
+    remoteSelectionManagers[editor].event.dispose()
+    remoteCursorManagers[editor].event.dispose()
+    remoteSelectionManagers[editor] = {
+      manager: null,
+      event: null,
+      selections: new Map()
+    }
+    remoteCursorManagers[editor] = {
+      manager: null,
+      event: null,
+      cursors: new Map()
+    }
+  }
+  session = null
+}
+
+const initializeSession = (id) => {
+  removeIdFromUrl()
+  initializeContentManager()
+  loadSessionId(id)
+  updateParticipants()
+  showSessionContent('connected')
+}
+
 const EVENTS = {
   ADD_TO_NETWORK: (conn, data) => {
     const { name, role, peer } = data
@@ -185,17 +247,13 @@ const EVENTS = {
     session.connect(peer, name, role)
   },
   SETUP: (conn, data) => {
-    showSessionContent('connected')
-    loadSessionId(data.server.peer)
-    removeIdFromUrl()
     setData(data.data)
-    initializeContentManager()
     const serverConn = session.network.find(p => p.conn.peer === data.server.peer)
     if (serverConn) {
       serverConn.name = data.server.name
       serverConn.role = data.server.role
     }
-    updateParticipants()
+    initializeSession(data.server.peer)
   },
   INSERT_TEXT: (conn, data) => {
     const { index, text, editor } = data
@@ -207,36 +265,32 @@ const EVENTS = {
   },
   UPDATE_CURSOR: (conn, data) => {
     const { peer, offset, editor } = data
-    // ignore local cursor
     if (session.peer.id === peer) return
 
     let remoteCursor = remoteCursorManagers[editor].cursors.get(peer)
-    if (!remoteCursor && offset !== null) {
-      const color = '#ff23b5'
-      const participant = session.network.find(p => p.conn.peer === conn.peer)
-      remoteCursor = remoteCursorManagers[editor].manager.addCursor(peer, color, participant.name)
-      remoteCursorManagers[editor].cursors.set(peer, remoteCursor)
-    }
     if (offset !== null) {
+      if (!remoteCursor) {
+        const color = colorAssigner.getColorAsHex(peer)
+        const participant = session.network.find(p => p.conn.peer === conn.peer)
+        remoteCursor = remoteCursorManagers[editor].manager.addCursor(peer, color, participant.name)
+        remoteCursorManagers[editor].cursors.set(peer, remoteCursor)
+      }
       remoteCursor.setOffset(offset)
     } else if (remoteCursor) {
       remoteCursor.hide()
     }
   },
   UPDATE_SELECTION: (conn, data) => {
-    // ignore local cursor
     const { peer, value, editor } = data
-    if (session.peer.id === peer) {
-      return
-    }
+    if (session.peer.id === peer) return
 
-    let remoteSelection = selectionManagers[editor].selections.get(peer)
-    if (!remoteSelection && value !== null) {
-      const color = '#ff23b5'
-      remoteSelection = selectionManagers[editor].manager.addSelection(peer, color)
-      selectionManagers[editor].selections.set(peer, remoteSelection)
-    }
+    let remoteSelection = remoteSelectionManagers[editor].selections.get(peer)
     if (value !== null) {
+      if (!remoteSelection) {
+        const color = colorAssigner.getColorAsHex(peer)
+        remoteSelection = remoteSelectionManagers[editor].manager.addSelection(peer, color)
+        remoteSelectionManagers[editor].selections.set(peer, remoteSelection)
+      }
       remoteSelection.setOffsets(value.start, value.end)
     } else if (remoteSelection) {
       remoteSelection.hide()
@@ -245,10 +299,10 @@ const EVENTS = {
 }
 
 class Session {
-  constructor (role, targetId, name) {
+  constructor (role, name, target) {
     this.role = role
-    this.targetId = targetId
     this.name = name || sillyname()
+    this.target = target
     this.peer = new Peer()
     this.network = []
     this._listenToPeer()
@@ -285,11 +339,8 @@ class Session {
 
   _onPeerOpen () {
     this.peer.on('open', (id) => {
-      if (this.role === 'owner') initializeContentManager()
-      if (this.targetId) return this.connect(this.targetId)
-      showSessionContent('connected')
-      loadSessionId(id)
-      updateParticipants()
+      if (this.target) return this.connect(this.target)
+      initializeSession(id)
     })
   }
 
@@ -323,8 +374,7 @@ class Session {
   _onPeerClose () {
     this.peer.on('close', () => {
       console.log('Peer destroyed')
-      removeIdFromUrl()
-      showSessionContent('disconnected')
+      disconnectSession()
     })
   }
 
@@ -346,7 +396,9 @@ class Session {
 
   _onConnectionClose (conn) {
     conn.on('close', () => {
-      if (this._isSessionOwner(conn.peer)) return this.peer.destroy()
+      removeRemoteCursor(conn.peer)
+      removeRemoteSelection(conn.peer)
+      if (this._isSessionOwner(conn.peer)) return this.close()
       this._removeFromNetwork(conn.peer)
     })
   }
@@ -385,15 +437,15 @@ class Session {
 }
 
 let session = null
-const targetId = getSessionId()
-if (targetId) session = new Session('guest', targetId)
+const target = getSessionId()
+if (target) session = new Session('guest', null, target)
 
 const ACTIONS = {
   'generate-name': () => {
     $usernameInput.value = sillyname()
   },
   'share-session': () => {
-    session = new Session('owner', null, $usernameInput.value)
+    session = new Session('owner', $usernameInput.value, null)
   },
   'join-session': () => {},
   'disconnect-session': () => {
@@ -409,7 +461,7 @@ const ACTIONS = {
 
 $joinForm.addEventListener('submit', (e) => {
   e.preventDefault()
-  session = new Session('guest', $sessionInput.value, $usernameInput.value)
+  session = new Session('guest', $usernameInput.value, $sessionInput.value)
 })
 
 $buttons.forEach(button => {
