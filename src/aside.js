@@ -1,23 +1,12 @@
+import { eventBus, EVENTS } from './events-controller.js'
 import { $, $$ } from './utils/dom.js'
 
 const $aside = $('aside')
 const $buttons = $$('button', $aside)
 
-const ACTIONS = {
-  'close-aside-bar': () => {
-    $('.aside-bar').setAttribute('hidden', '')
-  },
-
-  'show-skypack-bar': () => {
-    $('.aside-bar').removeAttribute('hidden')
-    $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
-    $('#skypack').removeAttribute('hidden')
-  },
-
-  'show-settings-bar': () => {
-    $('.aside-bar').removeAttribute('hidden')
-    $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
-    $('#settings').removeAttribute('hidden')
+const SIMPLE_CLICK_ACTIONS = {
+  'download-user-code': () => {
+    eventBus.emit(EVENTS.DOWNLOAD_USER_CODE)
   },
 
   'copy-to-clipboard': async () => {
@@ -26,26 +15,51 @@ const ACTIONS = {
   }
 }
 
+const NON_SIMPLE_CLICK_ACTIONS = {
+  'close-aside-bar': () => {
+    $('.aside-bar').setAttribute('hidden', '')
+  },
+
+  'show-skypack-bar': () => {
+    showAsideBar('#skypack')
+    $('#skypack-search-input').focus()
+  },
+
+  'show-settings-bar': () => {
+    showAsideBar('#settings')
+  }
+}
+
+const showAsideBar = (selector) => {
+  $('.aside-bar').removeAttribute('hidden')
+  $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
+  $(selector).removeAttribute('hidden')
+}
+
+const ACTIONS = {
+  ...SIMPLE_CLICK_ACTIONS,
+  ...NON_SIMPLE_CLICK_ACTIONS
+}
+
 $buttons.forEach(button => {
   button.addEventListener('click', ({ currentTarget }) => {
-    let action = currentTarget.getAttribute('data-action')
-    const isOffActiveState = currentTarget.getAttribute('data-off-active-state')
+    let action = button.getAttribute('data-action')
+    const isSimpleClickAction = button.getAttribute('data-is-simple-click-action') === 'true'
+    
+    if (isSimpleClickAction) return ACTIONS[action]()
 
-    if (!isOffActiveState) {
-      const alreadyActive = currentTarget.classList.contains('is-active')
-      $('.is-active').classList.remove('is-active')
+    const alreadyActive = currentTarget.classList.contains('is-active')
+    $('.is-active').classList.remove('is-active')
 
-      action = alreadyActive
-        ? 'close-aside-bar'
-        : action
+    action = alreadyActive
+      ? 'close-aside-bar'
+      : action
 
-      const elementToActive = alreadyActive
-        ? $("button[data-action='close-aside-bar']")
-        : currentTarget
+    const elementToActive = alreadyActive
+      ? $("button[data-action='close-aside-bar']")
+      : currentTarget
 
-      elementToActive.classList.add('is-active')
-    }
-
+    elementToActive.classList.add('is-active')
     ACTIONS[action]()
   })
 })
