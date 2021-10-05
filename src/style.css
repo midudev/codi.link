@@ -421,10 +421,12 @@ select {
     position: absolute;
     top: 0;
     z-index: 10;
+    transition: top 0.2s;
   }
 
   .aside-bar {
     width: 100%;
+    max-height: calc(100vh - 75px);
   }
 
   .aside-sections {
@@ -434,16 +436,14 @@ select {
     height: fit-content;
   }
 
-  .aside-sections > header {
+  .aside-sections > header,
+  .aside-sections > footer {
     flex-direction: row;
+    gap: 0 5px;
   }
 
-  .bar-button > svg {
+  .bar-button {
     transform: scale(0.8);
-  }
-
-  .editor-button {
-    margin-right: 1em;
   }
 
   .aside-sections button.is-active,
@@ -460,15 +460,26 @@ select {
   }
 
   #editor {
-    overflow: scroll;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+
     display: flex;
     flex-direction: column;
     margin: 75px 0 0;
   }
+  
+  .editor{
+    min-height: calc(100vh - 75px);
+    scroll-snap-align: start;
+  }
 
-  .editor,
-  iframe {
+  .iframe-container {
+    scroll-snap-align: start;
     min-height: 100vh;
+  }
+
+  iframe body {
+    padding: 0 0 5em;
   }
 
   .vertical-gutter,
@@ -490,6 +501,12 @@ select {
     background: #E99F1E;
   }
 
+  #html::after,
+  #css::after,
+  #js::after {
+    display: none;
+  }
+
   .iPadShowKeyboard {
     display: none;
   }
@@ -503,7 +520,7 @@ select {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0 1.5em;
+    gap: 0 1em;
     z-index: 10;
   }
 
@@ -513,10 +530,17 @@ select {
     border: none;
     border-radius: 50%;
 
+    opacity: 0.2;
     background: #158BF3;
     cursor: pointer;
+    transition: opacity 0.2s;
+    -webkit-tap-highlight-color: transparent;
   }
   
+  .scroll-button:focus {
+    opacity: 1;
+  }
+
   .scroll-button > svg {
     width: 20px;
   }

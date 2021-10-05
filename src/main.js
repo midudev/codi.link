@@ -12,7 +12,7 @@ import './aside.js'
 import './skypack.js'
 import './settings.js'
 import './grid.js'
-import './scroll-buttons'
+import './scroll'
 
 const $js = $('#js')
 const $css = $('#css')

@@ -16,7 +16,7 @@
       <aside>
         <div class='aside-sections'>
           <header>
-            <button class="is-active bar-button editor-button" data-action="close-aside-bar">
+            <button class="is-active bar-button" data-action="close-aside-bar">
               <span role="tooltip" class="button-title">Editor</span>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><defs/><path fill="#C5C5C5" d="M17.5 0h-9L7 1.5V6H2.5L1 7.5v15L2.5 24h12l1.5-1.4V18h4.7l1.3-1.4V4.5L17.5 0zm0 2.1l2.4 2.4h-2.4V2.1zm-3 20.4h-12v-15H7v9L8.5 18h6v4.5zm6-6h-12v-15H16V6h4.5v10.5z"/></svg>
             </button>
@@ -33,7 +33,7 @@
           </header>
 
           <footer>
-            <button data-action="copy-to-clipboard" data-is-simple-click-action="true">
+            <button class="bar-button" data-action="copy-to-clipboard" data-is-simple-click-action="true">
               <span role="tooltip" class="button-title">Copy to clipboard</span>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g fill="none" stroke="#C5C5C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></g></svg>
             </button>
@@ -172,7 +172,7 @@
         <div class='editor' id='js'></div>
         <div class='editor' id='css'></div>
 
-        <div>
+        <div class='iframe-container'>
           <iframe srcdoc=""></iframe>
         </div>
 
