@@ -350,11 +350,15 @@ select {
   }
 
   & .checkbox input {
-    position: absolute;
-    width: 1px;
+    border: 0;
+    clip: rect(0, 0, 0, 0);
     height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    position: absolute;
     overflow: hidden;
-    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
   }
 
   & .checkbox span {
@@ -372,17 +376,18 @@ select {
   }
 
   & .checkbox span::before {
+    align-items: center;
     background: #444d56;
-    border: 1px solid #1b1f23;
     border-radius: 3px;
+    border: 1px solid #1b1f23;
     color: #e1e4e8;
     content: '';
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
     height: 18px;
+    justify-content: center;
     margin-right: 9px;
+    min-width: 18px;
+    width: 18px;
   }
 
   & .input {
