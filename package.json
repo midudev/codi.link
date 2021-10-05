@@ -6,6 +6,7 @@
     "co": "sui-mono commit",
     "lint": "standard",
     "dev": "vite",
+    "cypress": "node_modules/.bin/cypress open",
     "build": "vite build",
     "serve": "vite preview",
     "postinstall": "git config core.hooksPath ./git-hooks"
