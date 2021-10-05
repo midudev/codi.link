@@ -48,19 +48,21 @@ const removeParticipants = () => {
   $participantsList.innerHTML = ''
 }
 
-const removeParticipant = (peer) => {
-  for (const participant of $participantsList.children) {
-    if (participant.getAttribute('data-peer') === peer) return participant.remove()
-  }
-}
+// const removeParticipant = (peer) => {
+//   for (const participant of $participantsList.children) {
+//     if (participant.getAttribute('data-peer') === peer) {
+//       return participant.remove()
+//     }
+//   }
+// }
 
 const updateParticipants = () => {
   const $quantity = $('span[data-for=session-participants]')
   $quantity.innerHTML = session.network.length + 1
   removeParticipants()
-  addParticipant(session.name, session.peer.id)
+  addParticipant(`${session.name} (you)`, session.peer.id)
   session.network.forEach(participant => {
-    addParticipant(participant.name, participant.conn.id)
+    addParticipant(participant.name, participant.conn.peer)
   })
 }
 
@@ -182,8 +184,14 @@ class Session {
 
   _onConnectionClose (conn) {
     conn.on('close', () => {
+      if (this._isSessionOwner(conn.peer)) return this.peer.destroy()
       this._removeFromNetwork(conn.peer)
     })
+  }
+
+  _isSessionOwner (peer) {
+    const participant = this.network.find(p => p.conn.peer === peer)
+    return participant ? participant.role === 'owner' : false
   }
 
   _existsOnNetwork (peer) {
@@ -209,8 +217,8 @@ class Session {
   }
 
   _removeFromNetwork (peer) {
-    this.network = this.network.filter(p => p.conn !== peer)
-    removeParticipant(peer)
+    this.network = this.network.filter(p => p.conn.peer !== peer)
+    updateParticipants(peer)
   }
 }
 
