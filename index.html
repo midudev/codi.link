@@ -1,168 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>codi.link | HTML, CSS, JavaScript Live Editor Playground</title>
-    <meta name="description" content="codi.link is a live editor for HTML, CSS and JS. It allows you to edit your code in real-time, and see the result instantly">
-    <meta charset="UTF-8" />
-    <link rel="icon" type=image/x-icon href="/assets/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://waterboa.midu.dev/script.js" data-site="LPFWYLUB" defer></script>
-    <link as="font" rel="preload" crossorigin="anonymous" href="/assets/fonts/CascadiaCodePL.woff2">
-    <link as="font" rel="preload" crossorigin="anonymous"  href="/assets/fonts/CascadiaCodePLItalic.woff2">
-  </head>
-  <body>
-    <div id="app">
-      <aside>
-        <div class='aside-sections'>
-          <header>
-            <button class="is-active" data-action="close-aside-bar">
-              <span role="tooltip" class="button-title">Editor</span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><defs/><path fill="#C5C5C5" d="M17.5 0h-9L7 1.5V6H2.5L1 7.5v15L2.5 24h12l1.5-1.4V18h4.7l1.3-1.4V4.5L17.5 0zm0 2.1l2.4 2.4h-2.4V2.1zm-3 20.4h-12v-15H7v9L8.5 18h6v4.5zm6-6h-12v-15H16V6h4.5v10.5z"/></svg>
-            </button>
 
-            <button data-action="show-skypack-bar">
-              <span role="tooltip" class="button-title">Skypack</span>
-              <svg fill="#C5C5C5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 26"><path d="M17.387 12.213L10.95 9l6.438-3.212c.3-.15.487-.45.487-.788a.875.875 0 00-.488-.788l-8-4a.874.874 0 00-.787 0l-8 4c-.3.15-.487.45-.487.788v8c0 .3.162.588.412.75l.075.037L7.038 17 .6 20.212c-.3.15-.487.45-.487.788 0 .337.187.637.487.788l8 4a.874.874 0 00.388.087.874.874 0 00.387-.087l8-4c.3-.15.488-.45.488-.788v-8a.842.842 0 00-.476-.787zM9 1.975L15.037 5 9 8.025 2.963 5 9 1.975zM1.875 6.413L7.038 9l-5.163 2.588V6.413zM2.963 13L9 9.975 15.037 13 9 16.025 2.963 13zm5.162 5.413v5.162l-5.162-2.587 5.162-2.575zm8 2.05l-6.25 3.124V17.55l6.25-3.125v6.037z"></path></svg>
-            </button>
-          </header>
+<head>
+  <title>codi.link | HTML, CSS, JavaScript Live Editor Playground</title>
+  <meta name="description"
+    content="codi.link is a live editor for HTML, CSS and JS. It allows you to edit your code in real-time, and see the result instantly">
+  <meta charset="UTF-8" />
+  <link rel="icon" type=image/x-icon href="/assets/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://waterboa.midu.dev/script.js" data-site="LPFWYLUB" defer></script>
+  <link as="font" rel="preload" crossorigin="anonymous" href="/assets/fonts/CascadiaCodePL.woff2">
+  <link as="font" rel="preload" crossorigin="anonymous" href="/assets/fonts/CascadiaCodePLItalic.woff2">
+  <link rel="stylesheet" href="./src/style.css">
+</head>
 
-          <footer>
-            <button data-action="open-iframe-tab">
-              <span role="tooltip" class="button-title">Preview</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" ><path fill="#C5C5C5" d="M41.47 4.986A1.5 1.5 0 0 0 41.31 5H27.5a1.5 1.5 0 1 0 0 3h10.379l-15.44 15.44a1.5 1.5 0 1 0 2.122 2.12L40 10.122V20.5a1.5 1.5 0 1 0 3 0V6.69a1.5 1.5 0 0 0-1.53-1.704zM12.5 8C8.375 8 5 11.375 5 15.5v20c0 4.125 3.375 7.5 7.5 7.5h20c4.125 0 7.5-3.375 7.5-7.5v-10a1.5 1.5 0 1 0-3 0v10c0 2.503-1.997 4.5-4.5 4.5h-20A4.477 4.477 0 0 1 8 35.5v-20c0-2.503 1.997-4.5 4.5-4.5h10a1.5 1.5 0 1 0 0-3h-10z"/></svg>
-            </button>
-            <button data-action="show-settings-bar">
-              <span role="tooltip" class="button-title">Settings</span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><defs/><path fill="#C5C5C5" fill-rule="evenodd" d="M19.85 8.75l4.15.83v4.84l-4.15.83 2.35 3.52-3.43 3.43-3.52-2.35-.83 4.15H9.58l-.83-4.15-3.52 2.35-3.43-3.43 2.35-3.52L0 14.42V9.58l4.15-.83L1.8 5.23 5.23 1.8l3.52 2.35L9.58 0h4.84l.83 4.15 3.52-2.35 3.43 3.43-2.35 3.52zm-1.57 5.07l4-.81v-2l-4-.81-.54-1.3 2.29-3.43-1.43-1.43-3.43 2.29-1.3-.54-.81-4h-2l-.81 4-1.3.54-3.43-2.29-1.43 1.43L6.38 8.9l-.54 1.3-4 .81v2l4 .81.54 1.3-2.29 3.43 1.43 1.43 3.43-2.29 1.3.54.81 4h2l.81-4 1.3-.54 3.43 2.29 1.43-1.43-2.29-3.43.54-1.3zm-8.19-4.67a3.43 3.43 0 113.82 5.7 3.43 3.43 0 01-3.82-5.7zm.96 4.27a1.71 1.71 0 101.9-2.84 1.71 1.71 0 00-1.9 2.84z" clip-rule="evenodd"/></svg>
-            </button>
-          </footer>
-        </div>
+<body>
+  <div id="app">
+    <aside>
+      <div class='aside-sections'>
+        <header>
+          <button class="is-active" data-action="close-aside-bar">
+            <span role="tooltip" class="button-title">Editor</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <defs />
+              <path fill="#C5C5C5"
+                d="M17.5 0h-9L7 1.5V6H2.5L1 7.5v15L2.5 24h12l1.5-1.4V18h4.7l1.3-1.4V4.5L17.5 0zm0 2.1l2.4 2.4h-2.4V2.1zm-3 20.4h-12v-15H7v9L8.5 18h6v4.5zm6-6h-12v-15H16V6h4.5v10.5z" />
+            </svg>
+          </button>
 
-        <div class='aside-bar' hidden>
-          <div id="skypack" hidden class="bar-content skypack">
-            <div class="skypack-content">
-              <div class="skypack-item">
-                <strong>
-                  <span class="skypack-type">JavaScript:</span>
-                  Add dependency
-                </strong>
-                An import statement will be added to the top of the JavaScript editor for the package.
+          <button data-action="show-skypack-bar">
+            <span role="tooltip" class="button-title">Skypack</span>
+            <svg fill="#C5C5C5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 26">
+              <path
+                d="M17.387 12.213L10.95 9l6.438-3.212c.3-.15.487-.45.487-.788a.875.875 0 00-.488-.788l-8-4a.874.874 0 00-.787 0l-8 4c-.3.15-.487.45-.487.788v8c0 .3.162.588.412.75l.075.037L7.038 17 .6 20.212c-.3.15-.487.45-.487.788 0 .337.187.637.487.788l8 4a.874.874 0 00.388.087.874.874 0 00.387-.087l8-4c.3-.15.488-.45.488-.788v-8a.842.842 0 00-.476-.787zM9 1.975L15.037 5 9 8.025 2.963 5 9 1.975zM1.875 6.413L7.038 9l-5.163 2.588V6.413zM2.963 13L9 9.975 15.037 13 9 16.025 2.963 13zm5.162 5.413v5.162l-5.162-2.587 5.162-2.575zm8 2.05l-6.25 3.124V17.55l6.25-3.125v6.037z">
+              </path>
+            </svg>
+          </button>
 
-                <div class="input">
-                  <svg viewBox="0 0 56.7 56.7" class="input-icon" width="18" height="18"><path d="M42.8,7.3C33-2.4,17.1-2.4,7.3,7.3c-9.8,9.8-9.8,25.7,0,35.5c8.7,8.7,22.2,9.7,32,2.9l9.6,9.6c1.8,1.8,4.7,1.8,6.4,0 c1.8-1.8,1.8-4.7,0-6.4l-9.6-9.6C52.5,29.5,51.5,16,42.8,7.3z M36.6,36.6c-6.4,6.4-16.7,6.4-23.1,0s-6.4-16.7,0-23.1 c6.4-6.4,16.7-6.4,23.1,0C43,19.9,43,30.3,36.6,36.6z"></path></svg>
-                  <input type="search" placeholder="Search npm and add a package..." autocomplete="off">
-                </div>
-                <div class="search-results">
-                  <p class="search-results-message"></p>
-                  <ul></ul>
-                </div>
-              </div>
-            </div>
-          </div>
+          <button data-action="download-user-code" data-is-simple-click-action="true">
+            <span role="tooltip" class="button-title">Download</span>
+            <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M3 1h11v6l-1 1v7H2V2l1-1Zm3 1H5v2h1V2Zm0 12h4V8L9 7V2H7v3H6v1H5V5H4V2H3v12h2v-1h1v1Zm0-2v1h1v-1H6Zm0-1v1H5v-1h1Zm0-1h1v1H6v-1Zm0-1v1H5V9h1Zm0-1h1v1H6V8Zm0-1v1H5V7h1Zm0 0h1V6H6v1Zm6 0 1-1V2h-3v4l1 1v7h1V7Z"
+                fill="#C5C5C5" />
+            </svg>
+          </button>
+        </header>
 
-          <div id="settings" hidden class="bar-content settings">
-            <div class="settings-content">
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor:</span>
-                  Line Numbers
-                </strong>
-                Controls the display of line numbers.
-                <div class="select">
-                  <select data-for='lineNumbers'>
-                    <option value="on">on</option>
-                    <option value="off">off</option>
-                    <option value="relative">relative</option>
-                    <option value="interval">interval</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor:</span>
-                  Word Wrap
-                </strong>
-                Controls how lines should wrap.
-                <div class="select">
-                  <select data-for='wordWrap'>
-                    <option value="on">on</option>
-                    <option value="off">off</option>
-                    <option value="wordWrapColumn">wordWrapColumn</option>
-                    <option value="bounded">bounded</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Workbench:</span>
-                  Color theme
-                </strong>
-                Specifies the color theme used in the workbench.
-                <div class="select">
-                  <select data-for='theme'>
-                    <option value="vs-dark">Dark</option>
-                    <option value="vs">Light</option>
-                    <option value="hc-black">High Contrast Dark</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor:</span>
-                  Font Size
-                </strong>
-                Controls the font size in pixels.
-                <input data-for="fontSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false" type="number" wrap="off" tabindex="-1" value="16">
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor › Minimap:</span>
-                  Enabled
-                </strong>
-                <div>
-                  <label class='checkbox'>
-                    <input data-for="minimap" type='checkbox' />
-                    <span>Controls whether the minimap is shown.</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor:</span>
-                  Font Ligatures
-                </strong>
-                <div>
-                  <label class='checkbox'>
-                    <input data-for="fontLigatures" type='checkbox' />
-                    <span>Controls whether the ligatures is enabled.</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      <div id="editor" class="grid">
-        <div class='editor' id='html'></div>
-        <div class='editor' id='js'></div>
-        <div class='editor' id='css'></div>
-
-        <div>
-          <iframe srcdoc=""></iframe>
-        </div>
-
-        <div class="vertical-gutter"></div>
-        <div class="horizontal-gutter"></div>
+        <footer>
+          <button data-action="open-iframe-tab" data-is-simple-click-action="true">
+            <span role="tooltip" class="button-title">Preview</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+              <path fill="#C5C5C5"
+                d="M41.47 4.986A1.5 1.5 0 0 0 41.31 5H27.5a1.5 1.5 0 1 0 0 3h10.379l-15.44 15.44a1.5 1.5 0 1 0 2.122 2.12L40 10.122V20.5a1.5 1.5 0 1 0 3 0V6.69a1.5 1.5 0 0 0-1.53-1.704zM12.5 8C8.375 8 5 11.375 5 15.5v20c0 4.125 3.375 7.5 7.5 7.5h20c4.125 0 7.5-3.375 7.5-7.5v-10a1.5 1.5 0 1 0-3 0v10c0 2.503-1.997 4.5-4.5 4.5h-20A4.477 4.477 0 0 1 8 35.5v-20c0-2.503 1.997-4.5 4.5-4.5h10a1.5 1.5 0 1 0 0-3h-10z" />
+            </svg>
+          </button>
+          <button data-action="show-settings-bar">
+            <span role="tooltip" class="button-title">Settings</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <defs />
+              <path fill="#C5C5C5" fill-rule="evenodd"
+                d="M19.85 8.75l4.15.83v4.84l-4.15.83 2.35 3.52-3.43 3.43-3.52-2.35-.83 4.15H9.58l-.83-4.15-3.52 2.35-3.43-3.43 2.35-3.52L0 14.42V9.58l4.15-.83L1.8 5.23 5.23 1.8l3.52 2.35L9.58 0h4.84l.83 4.15 3.52-2.35 3.43 3.43-2.35 3.52zm-1.57 5.07l4-.81v-2l-4-.81-.54-1.3 2.29-3.43-1.43-1.43-3.43 2.29-1.3-.54-.81-4h-2l-.81 4-1.3.54-3.43-2.29-1.43 1.43L6.38 8.9l-.54 1.3-4 .81v2l4 .81.54 1.3-2.29 3.43 1.43 1.43 3.43-2.29 1.3.54.81 4h2l.81-4 1.3-.54 3.43 2.29 1.43-1.43-2.29-3.43.54-1.3zm-8.19-4.67a3.43 3.43 0 113.82 5.7 3.43 3.43 0 01-3.82-5.7zm.96 4.27a1.71 1.71 0 101.9-2.84 1.71 1.71 0 00-1.9 2.84z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+        </footer>
       </div>
 
+      <div class='aside-bar' hidden>
+        <div id="skypack" hidden class="bar-content skypack">
+          <div class="skypack-content">
+            <div class="skypack-item">
+              <strong>
+                <span class="skypack-type">JavaScript:</span>
+                Add dependency
+              </strong>
+              An import statement will be added to the top of the JavaScript editor for the package.
+
+              <div class="input">
+                <svg viewBox="0 0 56.7 56.7" class="input-icon" width="18" height="18">
+                  <path
+                    d="M42.8,7.3C33-2.4,17.1-2.4,7.3,7.3c-9.8,9.8-9.8,25.7,0,35.5c8.7,8.7,22.2,9.7,32,2.9l9.6,9.6c1.8,1.8,4.7,1.8,6.4,0 c1.8-1.8,1.8-4.7,0-6.4l-9.6-9.6C52.5,29.5,51.5,16,42.8,7.3z M36.6,36.6c-6.4,6.4-16.7,6.4-23.1,0s-6.4-16.7,0-23.1 c6.4-6.4,16.7-6.4,23.1,0C43,19.9,43,30.3,36.6,36.6z">
+                  </path>
+                </svg>
+                <input id="skypack-search-input" type="search" placeholder="Search npm and add a package..."
+                  autocomplete="off">
+              </div>
+              <div class="search-results">
+                <p class="search-results-message"></p>
+                <ul></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="settings" hidden class="bar-content settings">
+          <div class="settings-content">
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor:</span>
+                Line Numbers
+              </strong>
+              Controls the display of line numbers.
+              <div class="select">
+                <select data-for='lineNumbers'>
+                  <option value="on">on</option>
+                  <option value="off">off</option>
+                  <option value="relative">relative</option>
+                  <option value="interval">interval</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor:</span>
+                Word Wrap
+              </strong>
+              Controls how lines should wrap.
+              <div class="select">
+                <select data-for='wordWrap'>
+                  <option value="on">on</option>
+                  <option value="off">off</option>
+                  <option value="wordWrapColumn">wordWrapColumn</option>
+                  <option value="bounded">bounded</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Workbench:</span>
+                Color theme
+              </strong>
+              Specifies the color theme used in the workbench.
+              <div class="select">
+                <select data-for='theme'>
+                  <option value="vs-dark">Dark</option>
+                  <option value="vs">Light</option>
+                  <option value="hc-black">High Contrast Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor:</span>
+                Font Size
+              </strong>
+              Controls the font size in pixels.
+              <input data-for="fontSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
+                type="number" wrap="off" tabindex="-1" value="16">
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor › Minimap:</span>
+                Enabled
+              </strong>
+              <div>
+                <label class='checkbox'>
+                  <input data-for="minimap" type='checkbox' />
+                  <span>Controls whether the minimap is shown.</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor:</span>
+                Font Ligatures
+              </strong>
+              <div>
+                <label class='checkbox'>
+                  <input data-for="fontLigatures" type='checkbox' />
+                  <span>Controls whether the ligatures is enabled.</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Workbench:</span>
+                Preserve Grid
+              </strong>
+              <div>
+                <label class='checkbox'>
+                  <input data-for="preserveGrid" type='checkbox' />
+                  <span>Controls whether the grid template is preserved</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div id="editor" class="grid">
+      <div class='editor' id='html'></div>
+      <div class='editor' id='js'></div>
+      <div class='editor' id='css'></div>
+
+      <div>
+        <iframe srcdoc=""></iframe>
+      </div>
+
+      <div class="vertical-gutter"></div>
+      <div class="horizontal-gutter"></div>
     </div>
 
-    <script type="module" src="/src/main.js"></script>
-  </body>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>
