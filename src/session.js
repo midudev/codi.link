@@ -117,6 +117,7 @@ const EVENTS = {
     loadSessionId(data.server.peer)
     removeIdFromUrl()
     setData(data.data)
+    initializeContentManager()
     const serverConn = session.network.find(p => p.conn.peer === data.server.peer)
     if (serverConn) {
       serverConn.name = data.server.name
@@ -175,7 +176,7 @@ class Session {
 
   _onPeerOpen () {
     this.peer.on('open', (id) => {
-      initializeContentManager()
+      if (this.role === 'owner') initializeContentManager()
       if (this.targetId) return this.connect(this.targetId)
       showSessionContent('connected')
       loadSessionId(id)
