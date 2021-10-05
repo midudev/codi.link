@@ -214,7 +214,7 @@ const disconnectSession = () => {
   showSessionContent('disconnected')
   removeParticipants()
   loadSessionId('')
-  for (const editor of ['html', 'css', 'js']) {
+  for (const editor in getEditors()) {
     contentManagers[editor] = null
     remoteSelectionManagers[editor].event.dispose()
     remoteCursorManagers[editor].event.dispose()
@@ -233,6 +233,7 @@ const disconnectSession = () => {
 }
 
 const initializeSession = (id) => {
+  session.status = 'connected'
   removeIdFromUrl()
   initializeContentManager()
   loadSessionId(id)
@@ -305,6 +306,7 @@ class Session {
     this.target = target
     this.peer = new Peer()
     this.network = []
+    this.status = 'disconnected'
     this._listenToPeer()
   }
 
@@ -317,6 +319,8 @@ class Session {
   }
 
   close () {
+    if (this.status === 'disconnected') return
+    this.status = 'disconnected'
     this.peer.destroy()
   }
 
