@@ -1,16 +1,8 @@
 <div id="top"></div>
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
- 
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
 
   <h3 align="center">Codi.Link</h3>
 
@@ -23,6 +15,14 @@
   </p>
 </div>
 
+<div align="center">
+
+[![GitHub issues](https://img.shields.io/github/issues/midudev/codi.link)](https://github.com/midudev/codi.link/issues)
+[![GitHub forks](https://img.shields.io/github/forks/midudev/codi.link)](https://github.com/midudev/codi.link/network)
+[![GitHub stars](https://img.shields.io/github/stars/midudev/codi.link)](https://github.com/midudev/codi.link/stargazers)
+[![GitHub contributors](https://img.shields.io/github/contributors/midudev/codi.link)](https://github.com/midudev/codi.link/graphs/contributors)
+
+</div>
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -112,7 +112,7 @@ Project Link: [https://github.com/midudev/codi.link](https://github.com/midudev/
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+<!-- [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/midudev/codi.link/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
 [forks-url]: https://github.com/midudev/codi.link/network/members
@@ -122,4 +122,4 @@ Project Link: [https://github.com/midudev/codi.link](https://github.com/midudev/
 [issues-url]: https://github.com/midudev/codi.link/issues
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
 [license-url]: https://github.com/midudev/codi.link/LICENSE.txt
-[product-screenshot]: ./assets/screen.png
+[product-screenshot]: ./assets/screen.png -->
