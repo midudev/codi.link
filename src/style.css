@@ -138,7 +138,8 @@ aside button .button-title {
   &:after {
     content: '';
     position: absolute;
-    transform: translateX(-100%);
+    transform: translate(-100%,-50%);
+    top: 50%;
     left: 1px;
     right: 0;
     width: 0px;
@@ -151,7 +152,8 @@ aside button .button-title {
   &:before {
     content: '';
     position: absolute;
-    transform: translateX(-100%);
+    transform: translate(-100%, -50%);
+    top: 50%;
     left: 0px;
     right: 0;
     width: 0px;
@@ -178,6 +180,27 @@ aside button:hover {
   width: 310px;
   height: 100vh;
   overflow-y: auto;
+  scrollbar-gutter: stable;
+
+  &::-webkit-scrollbar {
+    width: 0.85em;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: hsla(0, 0%, 50%, 0);
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: hsla(0, 0%, 50%, 0.4);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: hsla(0, 0%, 50%, 0.6);
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    background-color: hsla(0, 0%, 50%, 1);
+  }
 }
 
 .aside-sections {
@@ -343,7 +366,15 @@ select {
   }
 
   & .checkbox input {
-    display: none;
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    position: absolute;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   & .checkbox span {
@@ -351,22 +382,28 @@ select {
     align-items: center;
   }
 
+  & .checkbox input:focus + span::before {
+    content: '';
+    outline: 1px solid #fff;
+  }
+
   & .checkbox input:checked + span::before {
     content: '✓';
   }
 
   & .checkbox span::before {
+    align-items: center;
     background: #444d56;
-    border: 1px solid #1b1f23;
     border-radius: 3px;
+    border: 1px solid #1b1f23;
     color: #e1e4e8;
     content: '';
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
     height: 18px;
+    justify-content: center;
     margin-right: 9px;
+    min-width: 18px;
+    width: 18px;
   }
 
   & .input {
@@ -375,4 +412,9 @@ select {
     border: 1px solid var(--bdc-input);
     padding: .3em;
   }
+}
+
+/* Magic Menu Styles */
+.preview { 
+  position: relative;
 }

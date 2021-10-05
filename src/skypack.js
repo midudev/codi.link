@@ -1,5 +1,7 @@
+import { eventBus, EVENTS } from './events-controller.js'
 import debounce from './utils/debounce.js'
 import { $ } from './utils/dom.js'
+import escapeHTML from 'escape-html'
 
 const API_URL = 'https://api.skypack.dev/v1'
 const CDN_URL = 'https://cdn.skypack.dev'
@@ -10,41 +12,44 @@ const $searchResultsMessage = $('#skypack .search-results-message')
 const $skypackSearch = $('#skypack input[type="search"]')
 $skypackSearch.addEventListener('input', debounce(handleSearch, 200))
 
+let lastSearchInput = ''
+
 async function handleSearch () {
   const $searchInput = $skypackSearch
 
-  $searchResults.classList.remove('hidden')
-  $searchResultsList.innerHTML = ''
+  const searchTerm = $searchInput.value.toLowerCase().trim()
 
-  let results = []
+  if (searchTerm === lastSearchInput) return
 
-  const searchTerm = $searchInput.value.toLowerCase()
+  lastSearchInput = searchTerm
 
-  if (searchTerm === '' || searchTerm.trim() === '') {
+  if (!searchTerm) {
     $searchResults.classList.add('hidden')
     return
   }
 
+  $searchResults.classList.remove('hidden')
+  $searchResultsList.innerHTML = ''
+
   $searchResultsMessage.innerHTML = 'Searching...'
 
-  results = await fetchPackages(searchTerm)
+  const results = await fetchPackages(searchTerm)
 
-  for (let i = 0; i < results.length; i++) {
-    const result = results[i]
+  results.forEach(result => {
     const $li = document.createElement('li')
     $li.title = result.description
 
     $li.innerHTML = `
-        <strong>${result.name}</strong>
-        <small>${result.description}</small>
+        <strong>${escapeHTML(result.name)}</strong>
+        <small>${escapeHTML(result.description)}</small>
     `
 
     $li.addEventListener('click', () => handlePackageSelected(result.name))
 
     $searchResultsList.appendChild($li)
-  }
+  })
 
-  $searchResultsMessage.innerHTML = `${results.length} results for "${searchTerm}"`
+  $searchResultsMessage.innerHTML = `${results.length} results for "${escapeHTML(searchTerm)}"`
 
   $searchResults.classList.remove('hidden')
 }
@@ -58,5 +63,5 @@ async function fetchPackages (packageName) {
 function handlePackageSelected (packageName) {
   let parsedName = packageName.split('/').join('-')
   if (parsedName.startsWith('@')) parsedName = parsedName.substr(1)
-  window.postMessage({ package: parsedName, url: `${CDN_URL}/${packageName}` })
+  eventBus.emit(EVENTS.ADD_SKYPACK_PACKAGE, { skypackPackage: parsedName, url: `${CDN_URL}/${packageName}` })
 }
