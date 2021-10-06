@@ -12,6 +12,9 @@ const ACTIONS = {
     session = new Session('owner', getState().settings.userName, null)
   },
   'join-session': () => {},
+  'remove-participant': (label) => {
+    session.removeParticipant(label)
+  },
   'disconnect-session': () => {
     session.close()
   },
@@ -33,4 +36,21 @@ SessionDOM.buttons.forEach(button => {
     const action = button.getAttribute('data-action')
     ACTIONS[action]()
   })
+})
+
+SessionDOM.sessionDetails.addEventListener('click', (e) => {
+  const { tagName } = e.target
+  if (!['path', 'g', 'svg', 'BUTTON'].includes(tagName)) return
+  const maxNesting = 3
+  for (let i = 0; i < maxNesting; i++) {
+    if (e.path[i].matches('.icon-button')) {
+      const action = e.path[i].getAttribute('data-action')
+      if (action === 'remove-participant') {
+        const li = e.path[i].parentElement
+        const label = li.getAttribute('data-label')
+        ACTIONS['remove-participant'](label)
+      }
+      return
+    }
+  }
 })
