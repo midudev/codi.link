@@ -7,17 +7,14 @@ const CheckImportSkypack = () => {
   return describe('Check Skypack is importing correctly', () => {
     it('Import React and check that is imported in the JS', () => {
       cy.get('[data-action="show-skypack-bar"]').click()
-      cy.get('#skypack-search-input').clear()
       cy.get('#skypack-search-input').type('react')
       cy.get(
         '[title="React is a JavaScript library for building user interfaces."]'
       ).click()
-      return cy.get('[style="top:16px;height:24px;"] > :nth-child(1) > .mtk22').should(
-        'have.text',
-        'React'
-      )
+      return cy.get('[class="mtk22"]').should('have.text', 'React')
     })
     it('Type @ and get 0 results', () => {
+      cy.get('[data-action="show-skypack-bar"]').click()
       cy.get('#skypack-search-input').type('@')
       cy.get('.skypack-item').click()
       return cy.get('.search-results-message').should(
@@ -26,11 +23,10 @@ const CheckImportSkypack = () => {
       )
     })
     it('Import @Material-ui and check if the @ is imported', () => {
+      cy.get('[data-action="show-skypack-bar"]').click()
       cy.get('#skypack-search-input').type('@material')
       cy.get(':nth-child(1) > small').click()
-      return cy.get(
-        '[style="top:16px;height:24px;"] > :nth-child(1) > .mtk22'
-      ).should('have.text', 'MaterialUiCore')
+      return cy.get('[class="mtk22"]').should('have.text', 'MaterialUiCore')
     })
   })
 }
