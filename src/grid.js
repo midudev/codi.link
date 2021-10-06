@@ -37,7 +37,7 @@ const getInitialGridStyle = () => {
 
 const setGridLayout = ({ gutters, style, type = '' }) => {
   const initialStyle = !splitInstance && getInitialGridStyle()
-  console.log(initialStyle)
+
   $editor.setAttribute('data-layout', type)
   $editor.setAttribute('style', initialStyle || style)
 
