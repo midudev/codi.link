@@ -108,7 +108,7 @@
               </div>
               <div class="live-share-item">
                 <ul class="session-details">
-                  <li>ID: <span data-for="session-id"></span></li>
+                  <li class="session-id">ID: <span data-for="session-id"></span></li>
                   <li>
                     Participants (<span data-for="session-participants">0</span>)
                     <ul class="participants-list">
@@ -230,6 +230,20 @@
                   </button>
                 </div>
               </div>
+
+              <div class="settings-item">
+                <strong>
+                  <span class="settings-type">Session:</span>
+                  Streamer mode
+                </strong>
+                <div>
+                  <label class='checkbox'>
+                    <input data-for="streamerMode" type='checkbox' />
+                    <span>Controls whether the session ID is hidden.</span>
+                  </label>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
