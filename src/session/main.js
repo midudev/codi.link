@@ -25,7 +25,7 @@ const ACTIONS = {
 
 SessionDOM.joinForm.addEventListener('submit', (e) => {
   e.preventDefault()
-  session = new Session('guest', SessionDOM.usernameInput.value, SessionDOM.sessionInput.value)
+  session = new Session('guest', getState().settings.userName, SessionDOM.sessionInput.value)
 })
 
 SessionDOM.buttons.forEach(button => {
