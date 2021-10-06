@@ -1,7 +1,3 @@
-import { ColorAssigner } from '@convergence/color-assigner'
-
-const colorAssigner = new ColorAssigner()
-
 export const SESSION_EVENTS = {
   ADD_TO_NETWORK: function (conn, data) {
     const { name, role, peer } = data
@@ -32,7 +28,7 @@ export const SESSION_EVENTS = {
     let remoteCursor = this.monacoCollabAdapter._cursorManager[editor].cursors.get(peer)
     if (offset !== null) {
       if (!remoteCursor) {
-        const color = colorAssigner.getColorAsHex(peer)
+        const color = this.colorAssigner.getColorAsHex(peer)
         const participant = this.network.find(p => p.conn.peer === conn.peer)
         remoteCursor = this.monacoCollabAdapter._cursorManager[editor].manager.addCursor(peer, color, participant.name)
         this.monacoCollabAdapter._cursorManager[editor].cursors.set(peer, remoteCursor)
@@ -49,7 +45,7 @@ export const SESSION_EVENTS = {
     let remoteSelection = this.monacoCollabAdapter._selectionManager[editor].selections.get(peer)
     if (value !== null) {
       if (!remoteSelection) {
-        const color = colorAssigner.getColorAsHex(peer)
+        const color = this.colorAssigner.getColorAsHex(peer)
         remoteSelection = this.monacoCollabAdapter._selectionManager[editor].manager.addSelection(peer, color)
         this.monacoCollabAdapter._selectionManager[editor].selections.set(peer, remoteSelection)
       }
