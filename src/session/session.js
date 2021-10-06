@@ -19,10 +19,10 @@ function loadSessionId (id) {
   SessionDOM.sessionId.innerHTML = id
 }
 
-function addParticipant (name, peer) {
+function addParticipant (name, label) {
   const li = document.createElement('li')
   li.innerHTML = name
-  li.setAttribute('data-peer', peer)
+  if (label) li.setAttribute('data-label', label)
   li.classList = 'participant'
   SessionDOM.participantsList.append(li)
 }
@@ -34,9 +34,9 @@ function removeParticipants () {
 
 function updateParticipants () {
   removeParticipants()
-  addParticipant(`${this.name} (you)`, this.peer.id)
+  addParticipant(`${this.name} (you)`)
   this.network.forEach(participant => {
-    addParticipant(participant.name, participant.conn.peer)
+    addParticipant(participant.name, participant.conn.label)
   })
   SessionDOM.participantsQuantity.innerHTML = this.network.length + 1
 }
