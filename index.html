@@ -161,21 +161,7 @@
                 </div>
               </div>
 
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Workbench:</span>
-                  Color theme
-                </strong>
-                Specifies the color theme used in the workbench.
-                <div class="select">
-                  <select data-for='theme'>
-                    <option value="vs-dark">Dark</option>
-                    <option value="vs">Light</option>
-                    <option value="hc-black">High Contrast Dark</option>
-                  </select>
-                </div>
-              </div>
-
+              
               <div class="settings-item">
                 <strong>
                   <span class="settings-type">Editor:</span>
@@ -183,19 +169,6 @@
                 </strong>
                 Controls the font size in pixels.
                 <input data-for="fontSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false" type="number" wrap="off" value="16">
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor › Minimap:</span>
-                  Enabled
-                </strong>
-                <div>
-                  <label class='checkbox'>
-                    <input data-for="minimap" type='checkbox' />
-                    <span>Controls whether the minimap is shown.</span>
-                  </label>
-                </div>
               </div>
 
               <div class="settings-item">
@@ -213,6 +186,19 @@
 
               <div class="settings-item">
                 <strong>
+                  <span class="settings-type">Editor › Minimap:</span>
+                  Enabled
+                </strong>
+                <div>
+                  <label class='checkbox'>
+                    <input data-for="minimap" type='checkbox' />
+                    <span>Controls whether the minimap is shown.</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div class="settings-item">
+                <strong>
                   <span class="settings-type">Workbench:</span>
                   Preserve Grid
                 </strong>
@@ -221,6 +207,21 @@
                     <input data-for="preserveGrid" type='checkbox' />
                     <span>Controls whether the grid template is preserved</span>
                   </label>
+                </div>
+              </div>
+
+              <div class="settings-item">
+                <strong>
+                  <span class="settings-type">Workbench:</span>
+                  Color theme
+                </strong>
+                Specifies the color theme used in the workbench.
+                <div class="select">
+                  <select data-for='theme'>
+                    <option value="vs-dark">Dark</option>
+                    <option value="vs">Light</option>
+                    <option value="hc-black">High Contrast Dark</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -232,11 +233,11 @@
         <div class='editor' id='html'></div>
         <div class='editor' id='js'></div>
         <div class='editor' id='css'></div>
-
+        
         <div>
           <iframe srcdoc=""></iframe>
         </div>
-
+        
         <div class="vertical-gutter"></div>
         <div class="horizontal-gutter"></div>
       </div>
