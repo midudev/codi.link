@@ -12,6 +12,8 @@ const appInitialState = getLocalStorage('appInitialState') || {
   wordWrap: 'on',
   fontLigatures: 'on',
   preserveGrid: true,
+  zipFileName: 'codi.link',
+  zipInSingleFile: false,
   fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'"
 }
 

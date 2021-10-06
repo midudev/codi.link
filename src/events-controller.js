@@ -1,6 +1,7 @@
 import mitt from 'mitt'
 import { capitalize } from './utils/string.js'
 import { downloadUserCode } from './download.js'
+import { getState } from './state'
 
 export const eventBus = mitt()
 
@@ -28,7 +29,14 @@ eventBus.on(EVENTS.ADD_SKYPACK_PACKAGE, ({ skypackPackage, url }) => {
 })
 
 eventBus.on(EVENTS.DOWNLOAD_USER_CODE, () => {
+  const {
+    zipInSingleFile,
+    zipFileName
+  } = getState()
+
   downloadUserCode({
+    zipFileName,
+    zipInSingleFile,
     htmlContent: htmlEditor.getValue(),
     cssContent: cssEditor.getValue(),
     jsContent: jsEditor.getValue()

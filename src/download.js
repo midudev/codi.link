@@ -1,19 +1,23 @@
 const getZip = () =>
   import('jszip').then(({ default: JSZip }) => new JSZip())
 
+const DEFAULT_ZIP_FILE_NAME = 'codi.link'
+
 export async function downloadUserCode ({
   htmlContent,
   cssContent,
   jsContent,
-  fileName = 'codi.link',
+  zipFileName = DEFAULT_ZIP_FILE_NAME,
   zipInSingleFile = false
 }) {
+  zipFileName = zipFileName === '' ? DEFAULT_ZIP_FILE_NAME : zipFileName
+
   const createZip = zipInSingleFile
     ? createZipWithSingleFile
     : createZipWithMultipleFiles
 
   const zip = await createZip({ htmlContent, cssContent, jsContent })
-  return generateZip({ zip, fileName })
+  return generateZip({ zip, zipFileName })
 }
 
 async function createZipWithSingleFile ({ htmlContent, cssContent, jsContent }) {
@@ -60,13 +64,13 @@ async function createZipWithMultipleFiles ({ htmlContent, cssContent, jsContent 
   return zip
 }
 
-function generateZip ({ zip, fileName }) {
+function generateZip ({ zip, zipFileName }) {
   return zip.generateAsync({ type: 'blob' }).then((blobData) => {
     const zipBlob = new window.Blob([blobData])
     const element = window.document.createElement('a')
 
     element.href = window.URL.createObjectURL(zipBlob)
-    element.download = `${fileName}.zip`
+    element.download = `${zipFileName}.zip`
     element.click()
   })
 }
