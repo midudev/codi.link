@@ -2,7 +2,7 @@ import { ColorAssigner } from '@convergence/color-assigner'
 
 const colorAssigner = new ColorAssigner()
 
-export const EVENTS = {
+export const SESSION_EVENTS = {
   ADD_TO_NETWORK: function (conn, data) {
     const { name, role, peer } = data
     if (peer === this.peer.id || this._existsOnNetwork(peer)) return
