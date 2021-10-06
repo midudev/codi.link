@@ -1,6 +1,7 @@
 import Peer from 'peerjs'
 import sillyname from 'sillyname'
 import { decode } from 'js-base64'
+import { ColorAssigner } from '@convergence/color-assigner'
 import { SESSION_EVENTS } from './events'
 import { eventBus, EVENTS } from '../events-controller.js'
 import { getState } from '../state'
@@ -19,11 +20,19 @@ function loadSessionId (id) {
   SessionDOM.sessionId.innerHTML = id
 }
 
-function addParticipant (name, label) {
+function addParticipant ({ role, name, label, color, self }) {
   const li = document.createElement('li')
-  li.innerHTML = name
+  li.innerHTML = `<div>${SessionDOM.dotSVG} ${name}</div>`
   if (label) li.setAttribute('data-label', label)
   li.classList = 'participant'
+  if (color) li.children[0].children[0].children[0].style.fill = color
+  if (!self && role === 'owner') {
+    const button = document.createElement('button')
+    button.setAttribute('data-action', 'remove-participant')
+    button.classList = 'icon-button'
+    button.innerHTML = SessionDOM.closeSVG
+    li.append(button)
+  }
   SessionDOM.participantsList.append(li)
 }
 
@@ -34,9 +43,10 @@ function removeParticipants () {
 
 function updateParticipants () {
   removeParticipants()
-  addParticipant(`${this.name} (you)`)
+  addParticipant({ role: this.role, name: `${this.name} (you)`, self: true })
   this.network.forEach(participant => {
-    addParticipant(participant.name, participant.conn.label)
+    const color = this.colorAssigner.getColorAsHex(participant.conn.peer)
+    addParticipant({ role: this.role, name: participant.name, label: participant.conn.label, color })
   })
   SessionDOM.participantsQuantity.innerHTML = this.network.length + 1
 }
@@ -60,6 +70,7 @@ export default class Session {
     this.peer = new Peer()
     this.network = []
     this.status = 'disconnected'
+    this.colorAssigner = new ColorAssigner()
     this._listenToPeer()
   }
 
@@ -79,6 +90,11 @@ export default class Session {
 
   broadcast (data) {
     this.network.forEach(p => p.conn.send(data))
+  }
+
+  removeParticipant (label) {
+    const participant = this.network.find(p => p.conn.label === label)
+    participant.conn.close()
   }
 
   _setDefaultName () {
