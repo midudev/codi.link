@@ -26,9 +26,7 @@ const NON_SIMPLE_CLICK_ACTIONS = {
   },
 
   'show-live-share-bar': () => {
-    $('.aside-bar').removeAttribute('hidden')
-    $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
-    $('#live-share').removeAttribute('hidden')
+    showAsideBar('#live-share')
   },
 
   'show-settings-bar': () => {
