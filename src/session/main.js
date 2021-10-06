@@ -1,19 +1,15 @@
-import sillyname from 'https://cdn.skypack.dev/sillyname'
-
 import Session from './session'
 import * as SessionDOM from './dom'
 import { getSessionId } from '../utils/url'
+import { getState } from '../state'
 
 let session = null
 const target = getSessionId()
 if (target) session = new Session('guest', null, target)
 
 const ACTIONS = {
-  'generate-name': () => {
-    SessionDOM.usernameInput.value = sillyname()
-  },
   'share-session': () => {
-    session = new Session('owner', SessionDOM.usernameInput.value, null)
+    session = new Session('owner', getState().settings.userName, null)
   },
   'join-session': () => {},
   'disconnect-session': () => {
