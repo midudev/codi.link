@@ -19,7 +19,6 @@
   "dependencies": {
     "@convergence/color-assigner": "^0.3.0",
     "@convergencelabs/monaco-collab-ext": "^0.3.2",
-    "peerjs": "^1.3.2",
     "emmet-monaco-es": "^4.7.2",
     "escape-html": "1.0.3",
     "hotkeys-js": "3.8.7",
@@ -27,6 +26,8 @@
     "jszip": "3.7.1",
     "mitt": "3.0.0",
     "monaco-editor": "0.28.1",
+    "peerjs": "^1.3.2",
+    "sillyname": "^0.1.0",
     "split-grid": "1.0.11",
     "zustand": "3.5.12"
   },

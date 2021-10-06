@@ -1,5 +1,5 @@
 import Peer from 'peerjs'
-import sillyname from 'https://cdn.skypack.dev/sillyname'
+import sillyname from 'sillyname'
 import { decode } from 'js-base64'
 import { SESSION_EVENTS } from './events'
 import { eventBus, EVENTS } from '../events-controller.js'

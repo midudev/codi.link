@@ -1,5 +1,5 @@
 import create from 'zustand/vanilla'
-import sillyname from 'https://cdn.skypack.dev/sillyname'
+import sillyname from 'sillyname'
 
 const getLocalStorage = (key) => JSON.parse(window.localStorage.getItem(key))
 const setLocalStorage = (key, value) =>

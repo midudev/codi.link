@@ -1,4 +1,4 @@
-import sillyname from 'https://cdn.skypack.dev/sillyname'
+import sillyname from 'sillyname'
 
 import { $$, $, setFormControlValue } from './utils/dom.js'
 import { getState } from './state.js'
