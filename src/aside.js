@@ -1,5 +1,6 @@
 import { eventBus, EVENTS } from './events-controller.js'
 import { $, $$ } from './utils/dom.js'
+import { alert } from './utils/alerts.js'
 
 const $aside = $('aside')
 const $buttons = $$('button', $aside)
@@ -11,7 +12,7 @@ const SIMPLE_CLICK_ACTIONS = {
 
   'copy-to-clipboard': async () => {
     await navigator.clipboard.writeText(window.location.href)
-    window.alert('Sharable URL has been copied to clipboard.')
+    alert('slide-in-right', 'Sharable URL has been copied to clipboard.🙌 ', 1000, 'fade-out')
   }
 }
 

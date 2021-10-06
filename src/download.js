@@ -1,3 +1,5 @@
+import { alert } from './utils/alerts'
+
 const getZip = () =>
   import('jszip').then(({ default: JSZip }) => new JSZip())
 
@@ -70,5 +72,6 @@ function generateZip ({ zip, fileName }) {
     element.href = window.URL.createObjectURL(zipBlob)
     element.download = `${fileName}.zip`
     element.click()
+    alert('scale-up-center', 'Download Success!')
   })
 }
