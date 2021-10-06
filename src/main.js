@@ -1,17 +1,15 @@
-import './style.css'
-
-import { initEditorHotKeys } from './utils/editor-hotkeys.js'
-import { encode, decode } from 'js-base64'
-import { $ } from './utils/dom.js'
-import { createEditor } from './editor.js'
-import debounce from './utils/debounce.js'
-import { capitalize } from './utils/string'
-import { subscribe, getState } from './state'
-
+import { decode, encode } from 'js-base64'
 import './aside.js'
-import './skypack.js'
-import './settings.js'
+import { createEditor } from './editor.js'
+import { initializeEventsController } from './events-controller.js'
 import setGridLayout from './grid'
+import './settings.js'
+import './skypack.js'
+import { getState, subscribe } from './state'
+import './style.css'
+import debounce from './utils/debounce.js'
+import { $ } from './utils/dom.js'
+import { initEditorHotKeys } from './utils/editor-hotkeys.js'
 
 const { layout: currentLayout } = getState()
 
@@ -32,12 +30,6 @@ const js = rawJs ? decode(rawJs) : ''
 const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
 const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
 const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
-
-window.onmessage = ({ data }) => {
-  if (Object.prototype.toString.call(data) === '[object Object]' && Object.keys(data).includes('package')) {
-    jsEditor.setValue(`import ${capitalize(data.package)} from '${data.url}';\n${jsEditor.getValue()}`)
-  }
-}
 
 subscribe(state => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
@@ -68,6 +60,7 @@ cssEditor.onDidChangeModelContent(debouncedUpdate)
 jsEditor.onDidChangeModelContent(debouncedUpdate)
 
 initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
+initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
 const htmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', htmlForPreview)

@@ -14,6 +14,7 @@ const appInitialState = getLocalStorage('appInitialState') || {
   wordWrap: 'on',
   fontLigatures: 'on',
   fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'",
+  preserveGrid: true,
   layout: {
     gutters: DEFAULT_LAYOUT,
     style: DEFAULT_GRID_TEMPLATE,

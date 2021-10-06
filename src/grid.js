@@ -1,9 +1,9 @@
 import Split from 'split-grid'
+import { getState } from './state'
 import { $, $$ } from './utils/dom'
 
 const $editor = $('#editor')
 const $$layoutSelector = $$('.layout-preview')
-
 let splitInstance
 
 const formatGutters = gutter => ({
@@ -11,25 +11,52 @@ const formatGutters = gutter => ({
   element: $(gutter.element)
 })
 
-const setGridLayout = ({ gutters, style, type = '' }) => {
-  $editor.setAttribute('data-layout', type)
-  $editor.setAttribute('style', style)
+// Metodo de preservasión de grid
+const saveGridTemplate = () => {
+  const { preserveGrid } = getState()
+  if (!preserveGrid) return
 
-  $$layoutSelector.forEach(layoutEl => {
-    layoutEl.className = type === layoutEl.id ? 'layout-preview active' : 'layout-preview'
+  const gridStyles = $('.grid').style
+
+  const gridTemplate = JSON.stringify({
+    'grid-template-columns': gridStyles['grid-template-columns'],
+    'grid-template-rows': gridStyles['grid-template-rows']
   })
 
-  gutters = {
+  window.localStorage.setItem('gridTemplate', gridTemplate)
+}
+
+const getInitialGridStyle = () => {
+  const { preserveGrid } = getState()
+  if (!preserveGrid) return window.localStorage.removeItem('gridTemplate')
+
+  const gridTemplate = JSON.parse(window.localStorage.getItem('gridTemplate'))
+
+  return gridTemplate && `grid-template-columns: ${gridTemplate['grid-template-columns']}; grid-template-rows: ${gridTemplate['grid-template-rows']}`
+}
+
+const setGridLayout = ({ gutters, style, type = '' }) => {
+  const initialStyle = !splitInstance && getInitialGridStyle()
+  console.log(initialStyle)
+  $editor.setAttribute('data-layout', type)
+  $editor.setAttribute('style', initialStyle || style)
+
+  $$layoutSelector.forEach(layoutEl => {
+    layoutEl.classList.toggle('active', type === layoutEl.id)
+  })
+
+  const splitConfig = {
     ...gutters,
     ...gutters.columnGutters && { columnGutters: gutters.columnGutters.map(formatGutters) },
-    ...gutters.rowGutters && { rowGutters: gutters.rowGutters.map(formatGutters) }
+    ...gutters.rowGutters && { rowGutters: gutters.rowGutters.map(formatGutters) },
+    onDragEnd: saveGridTemplate
   }
 
   if (splitInstance) {
     splitInstance.destroy(true)
   }
 
-  splitInstance = Split(gutters)
+  splitInstance = Split(splitConfig)
 }
 
 export default setGridLayout
