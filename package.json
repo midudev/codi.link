@@ -5,8 +5,8 @@
   "scripts": {
     "co": "sui-mono commit",
     "lint": "standard",
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "vite --mode development",
+    "build": "vite build --mode production",
     "serve": "vite preview",
     "postinstall": "git config core.hooksPath ./git-hooks"
   },
@@ -19,9 +19,11 @@
   "dependencies": {
     "emmet-monaco-es": "^4.7.1",
     "escape-html": "1.0.3",
+    "firebase": "^9.1.1",
     "hotkeys-js": "3.8.7",
     "js-base64": "3.6.1",
     "monaco-editor": "0.27.0",
+    "shortid": "^2.2.16",
     "split-grid": "1.0.11",
     "zustand": "3.5.10"
   },

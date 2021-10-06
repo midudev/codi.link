@@ -1,33 +1,50 @@
-import './style.css'
-
-import { initEditorHotKeys } from './utils/editor-hotkeys.js'
-import { encode, decode } from 'js-base64'
-import { $ } from './utils/dom.js'
-import { createEditor } from './editor.js'
-import debounce from './utils/debounce.js'
-import { capitalize } from './utils/string'
-import { subscribe } from './state'
-
+import { decode } from 'js-base64'
 import './aside.js'
-import './skypack.js'
-import './settings.js'
+import { createEditor } from './editor.js'
 import './grid.js'
+import { getCodeState } from './services/code/code.service.js'
+import initDatabase from './services/database'
+import './settings.js'
+import './skypack.js'
+import { subscribe } from './state'
+import './style.css'
+import { updateIframePreview, updatePreview } from './utils/code.js'
+import debounce from './utils/debounce.js'
+import { $ } from './utils/dom.js'
+import { initEditorHotKeys } from './utils/editor-hotkeys.js'
+import { capitalize } from './utils/string'
 
-const $js = $('#js')
-const $css = $('#css')
-const $html = $('#html')
+let htmlEditor, cssEditor, jsEditor
 
-const { pathname } = window.location
+initDatabase()
+  .then(() => getCodeState({ id: window.location.pathname.slice(1) }))
+  .then(({ code = '' }) => {
+    const [rawHtml, rawCss, rawJs] = code.split('|')
+    const html = rawHtml ? decode(rawHtml) : ''
+    const css = rawCss ? decode(rawCss) : ''
+    const js = rawJs ? decode(rawJs) : ''
 
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+    htmlEditor = createEditor({ domElement: $('#html'), language: 'html', value: html })
+    cssEditor = createEditor({ domElement: $('#css'), language: 'css', value: css })
+    jsEditor = createEditor({ domElement: $('#js'), language: 'javascript', value: js })
 
-const html = rawHtml ? decode(rawHtml) : ''
-const css = rawCss ? decode(rawCss) : ''
-const js = rawJs ? decode(rawJs) : ''
+    updateIframePreview({ html, css, js })
 
-const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
-const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
-const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
+    const MS_UPDATE_DEBOUNCED_TIME = 200
+    const debouncedUpdate = debounce(() =>
+      updatePreview({
+        html: htmlEditor.getValue(),
+        css: cssEditor.getValue(),
+        js: jsEditor.getValue()
+      }), MS_UPDATE_DEBOUNCED_TIME)
+
+    htmlEditor.focus()
+    htmlEditor.onDidChangeModelContent(debouncedUpdate)
+    cssEditor.onDidChangeModelContent(debouncedUpdate)
+
+    jsEditor.onDidChangeModelContent(debouncedUpdate)
+    initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
+  })
 
 window.onmessage = ({ data }) => {
   if (Object.prototype.toString.call(data) === '[object Object]' && Object.keys(data).includes('package')) {
@@ -53,47 +70,3 @@ subscribe(state => {
     })
   })
 })
-
-const MS_UPDATE_DEBOUNCED_TIME = 200
-const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
-
-htmlEditor.focus()
-htmlEditor.onDidChangeModelContent(debouncedUpdate)
-cssEditor.onDidChangeModelContent(debouncedUpdate)
-jsEditor.onDidChangeModelContent(debouncedUpdate)
-
-initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
-
-const htmlForPreview = createHtml({ html, js, css })
-$('iframe').setAttribute('srcdoc', htmlForPreview)
-
-function update () {
-  const html = htmlEditor.getValue()
-  const css = cssEditor.getValue()
-  const js = jsEditor.getValue()
-
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
-
-  window.history.replaceState(null, null, `/${hashedCode}`)
-
-  const htmlForPreview = createHtml({ html, js, css })
-  $('iframe').setAttribute('srcdoc', htmlForPreview)
-}
-
-function createHtml ({ html, js, css }) {
-  return `
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <style>
-      ${css}
-    </style>
-  </head>
-  <body>
-    ${html}
-    <script type="module">
-    ${js}
-    </script>
-  </body>
-</html>`
-}
