@@ -1,4 +1,5 @@
 import create from 'zustand/vanilla'
+import sillyname from 'https://cdn.skypack.dev/sillyname'
 
 const getLocalStorage = (key) => JSON.parse(window.localStorage.getItem(key))
 const setLocalStorage = (key, value) =>
@@ -12,7 +13,8 @@ const appInitialState = getLocalStorage('appInitialState') || {
   wordWrap: 'on',
   fontLigatures: 'on',
   preserveGrid: true,
-  fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'"
+  fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'",
+  userName: sillyname()
 }
 
 const useStore = create((set, get) => ({
