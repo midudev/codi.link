@@ -75,7 +75,7 @@ export default class MonacoCollabAdapter {
   _setCursorManager (editorType, editor, broadcast, peer) {
     this._cursorManager[editorType].manager = new RemoteCursorManager({
       editor,
-      tooltips: true,
+      tooltips: false, // Disabled due to styles bug
       tooltipDuration: 2
     })
     this._cursorManager[editorType].event = editor.onDidChangeCursorPosition(({ position }) => {
