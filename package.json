@@ -6,24 +6,28 @@
     "co": "sui-mono commit",
     "lint": "standard",
     "dev": "vite",
+    "cypress": "node_modules/.bin/cypress open",
     "build": "vite build",
     "serve": "vite preview",
     "postinstall": "git config core.hooksPath ./git-hooks"
   },
   "devDependencies": {
     "@s-ui/mono": "2",
-    "postcss-nesting": "^8.0.1",
-    "standard": "16.0.3",
-    "vite": "2.5.0"
+    "postcss-nesting": "8.0.1",
+    "standard": "16.0.4",
+    "vite": "2.6.3",
+    "cypress": "^8.5.0"
   },
   "dependencies": {
-    "emmet-monaco-es": "^4.7.1",
+    "emmet-monaco-es": "^4.7.2",
     "escape-html": "1.0.3",
     "hotkeys-js": "3.8.7",
-    "js-base64": "3.6.1",
-    "monaco-editor": "0.27.0",
+    "js-base64": "3.7.2",
+    "jszip": "3.7.1",
+    "mitt": "3.0.0",
+    "monaco-editor": "0.28.1",
     "split-grid": "1.0.11",
-    "zustand": "3.5.10"
+    "zustand": "3.5.12"
   },
   "eslintConfig": {
     "extends": [
