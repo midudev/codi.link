@@ -1,7 +1,8 @@
 import Peer from 'peerjs'
 import sillyname from 'https://cdn.skypack.dev/sillyname'
 import { decode } from 'js-base64'
-import { EVENTS } from './events'
+import { SESSION_EVENTS } from './events'
+import { eventBus, EVENTS } from '../events-controller.js'
 import { getState } from '../state'
 import { removeIdFromUrl } from '../utils/url'
 import * as SessionDOM from './dom'
@@ -54,7 +55,7 @@ function getData () {
 export default class Session {
   constructor (role, name, target) {
     this.role = role
-    this.name = name || sillyname()
+    this.name = name || this._setDefaultName()
     this.target = target
     this.peer = new Peer()
     this.network = []
@@ -78,6 +79,12 @@ export default class Session {
 
   broadcast (data) {
     this.network.forEach(p => p.conn.send(data))
+  }
+
+  _setDefaultName () {
+    const name = sillyname()
+    eventBus.emit(EVENTS.SET_DEFAULT_NAME, name)
+    return name
   }
 
   _listenToPeer () {
@@ -162,7 +169,7 @@ export default class Session {
     conn.on('data', (data) => {
       const events = Array.isArray(data) ? data : [data]
       events.forEach(d => {
-        EVENTS[d.type].call(this, conn, d)
+        SESSION_EVENTS[d.type].call(this, conn, d)
       })
     })
   }
