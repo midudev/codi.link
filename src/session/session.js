@@ -28,15 +28,16 @@ function addParticipant (name, peer) {
 
 function removeParticipants () {
   SessionDOM.participantsList.innerHTML = ''
+  SessionDOM.participantsQuantity.innerHTML = 0
 }
 
 function updateParticipants () {
-  SessionDOM.participantsQuantity.innerHTML = this.network.length + 1
   removeParticipants()
   addParticipant(`${this.name} (you)`, this.peer.id)
   this.network.forEach(participant => {
     addParticipant(participant.name, participant.conn.peer)
   })
+  SessionDOM.participantsQuantity.innerHTML = this.network.length + 1
 }
 
 function getEditors () {
