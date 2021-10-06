@@ -414,43 +414,15 @@ select {
     border: 1px solid var(--bdc-input);
     padding: .3em;
   }
-}
-
-.live-share {
-  & .live-share-content {
-    color: #fff;
-    padding: 1em;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5em;
-  }
-
-  & .live-share-item {
-    display: flex;
-    flex-direction: column;
-    gap: .7em;
-  }
-
-  & p {
-    margin: 0;
-  }
-
-  & .input {
-    background-color: var(--bgc-input);
-    outline: none;
-    color: var(--c-input);
-    border: 1px solid var(--bdc-input);
-    padding: .5em;
-    width: 100%;
-  }
 
   & .input-container {
     display: flex;
     background-color: var(--bgc-input);
     border: 1px solid var(--bdc-input);
     color: var(--c-input);
-    padding: .5em;
+    padding: .3em;
     position: relative;
+    margin-top: 8px;
   }
 
   & .input-container button {
@@ -463,7 +435,7 @@ select {
     position: absolute;
     right: 0;
     top: 0;
-    padding: .55em;
+    height: 100%;
     margin: 0;
   }
 
@@ -481,6 +453,35 @@ select {
     background-color: transparent;
     outline: none;
     color: var(--c-input);
+  }
+}
+
+.live-share {
+  & .live-share-content {
+    color: #fff;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+  }
+
+  & .live-share-item {
+    display: flex;
+    flex-direction: column;
+    gap: .7em;
+  }
+
+  & .input {
+    background-color: var(--bgc-input);
+    outline: none;
+    color: var(--c-input);
+    border: 1px solid var(--bdc-input);
+    padding: .5em;
+    width: 100%;
+  }
+
+  & p {
+    margin: 0;
   }
 
   & .session-header {
