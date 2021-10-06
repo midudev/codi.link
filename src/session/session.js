@@ -130,7 +130,7 @@ export default class Session {
     showSessionContent('disconnected')
     removeParticipants()
     loadSessionId('')
-    this.monacoCollabAdapter.reset()
+    if (this.monacoCollabAdapter) this.monacoCollabAdapter.reset()
   }
 
   _onPeerOpen () {
@@ -163,13 +163,13 @@ export default class Session {
 
   _onPeerDisconnected () {
     this.peer.on('disconnected', () => {
-      console.log('Peer disconnected')
+      // console.log('Peer disconnected')
     })
   }
 
   _onPeerClose () {
     this.peer.on('close', () => {
-      console.log('Peer destroyed')
+      // console.log('Peer destroyed')
       this._disconnectSession()
     })
   }
