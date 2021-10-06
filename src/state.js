@@ -1,5 +1,6 @@
 import create from 'zustand/vanilla'
 import sillyname from 'sillyname'
+import { toggleSessionID } from './session/dom'
 
 const getLocalStorage = (key) => JSON.parse(window.localStorage.getItem(key))
 const setLocalStorage = (key, value) =>
@@ -14,7 +15,8 @@ const appInitialState = getLocalStorage('appInitialState') || {
   fontLigatures: 'on',
   preserveGrid: true,
   fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'",
-  userName: sillyname()
+  userName: sillyname(),
+  streamerMode: false
 }
 
 const useStore = create((set, get) => ({
@@ -35,6 +37,7 @@ const useStore = create((set, get) => ({
   settings: {
     ...appInitialState,
     updateSettings: ({ key, value }) => {
+      if (key === 'streamerMode') toggleSessionID(value)
       set(state => {
         setLocalStorage('appInitialState', {
           ...state.settings,
@@ -54,6 +57,8 @@ const useStore = create((set, get) => ({
     }
   }
 }))
+
+toggleSessionID(useStore.getState().settings.streamerMode)
 
 export const {
   getState,
