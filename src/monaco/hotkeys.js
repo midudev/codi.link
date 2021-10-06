@@ -1,5 +1,5 @@
-import * as monaco from 'monaco-editor-core'
-import { $ } from './dom.js'
+import { monaco } from './index'
+import { $ } from '../utils/dom.js'
 
 export const initEditorHotKeys = ({ htmlEditor, jsEditor, cssEditor }) => {
   const editors = [htmlEditor, jsEditor, cssEditor]

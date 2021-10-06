@@ -1,0 +1,94 @@
+import { monaco } from '.'
+import { emmetHTML } from 'emmet-monaco-es'
+import { loadWASM } from 'onigasm'
+import { Registry } from 'monaco-textmate'
+import { wireTmGrammars } from 'monaco-editor-textmate'
+
+import { getState } from '../state.js'
+import configureThemes from './themes'
+
+import * as syntaxes from '../assets/syntaxes'
+
+monaco.languages.register({ id: 'javascript' })
+monaco.languages.register({ id: 'typescript' })
+monaco.languages.register({ id: 'css' })
+monaco.languages.register({ id: 'html' })
+
+const {
+  fontSize,
+  lineNumbers,
+  minimap,
+  theme,
+  wordWrap,
+  fontLigatures,
+  fontFamily
+} = getState()
+
+const COMMON_EDITOR_OPTIONS = {
+  fontSize,
+  lineNumbers,
+  minimap: {
+    enabled: minimap
+  },
+  wordWrap,
+  theme,
+  fontLigatures,
+  fontFamily,
+
+  automaticLayout: true,
+  fixedOverflowWidgets: true,
+  scrollBeyondLastLine: false,
+  roundedSelection: false,
+  padding: {
+    top: 16
+  }
+}
+
+emmetHTML(monaco)
+
+export async function createEditors (configs) {
+  try {
+    const response = await window.fetch('https://cdn.jsdelivr.net/npm/onigasm@2.2.5/lib/onigasm.wasm')
+    const buffer = await response.arrayBuffer()
+    await loadWASM(buffer)
+
+    const registry = new Registry({
+      getGrammarDefinition: async (scopeName) => {
+        try {
+          const extension = scopeName.split('.')[1]
+          const data = {
+            format: 'json',
+            content: JSON.stringify(syntaxes[extension])
+          }
+          return data
+        } catch (error) {
+          console.log('Failed to load tmLanguages files', error)
+        }
+      }
+    })
+
+    const grammars = new Map()
+    grammars.set('css', 'source.css')
+    grammars.set('html', 'text.html.basic')
+    grammars.set('typescript', 'source.ts')
+    grammars.set('javascript', 'source.js')
+
+    await configureThemes()
+
+    const editors = {}
+
+    await Promise.all(configs.map(async ({ language, value, domElement }) => {
+      const editor = monaco.editor.create(domElement, {
+        value,
+        language,
+        ...COMMON_EDITOR_OPTIONS
+      })
+      editors[language] = editor
+      return await wireTmGrammars(monaco, registry, grammars, editor)
+    }))
+
+    return editors
+  } catch (error) {
+    console.log('Error setting up editors', error)
+  }
+}

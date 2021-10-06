@@ -1,20 +1,19 @@
 
-import { monaco } from '../monaco'
+import { monaco } from '.'
 import strip from 'strip-comments'
 
-import * as themes from '../public/assets/themes'
+import * as themes from '../assets/themes'
 import { subscribe, getState } from '../state'
-import { $, updateSelectValue } from './dom'
+import { $, updateSelectValue } from '../utils/dom'
 
 const themeSelect = $('.select select[data-for="theme"]')
 
 const convertTheme = (theme) => {
-  const monacoThemeRule = []
   const returnTheme = {
-    inherit: true,
+    inherit: false,
     base: 'vs-dark',
     colors: theme.colors,
-    rules: monacoThemeRule,
+    rules: [],
     encodedTokensColors: []
   }
   theme.tokenColors.forEach((color) => {
@@ -25,7 +24,7 @@ const convertTheme = (theme) => {
         evalAsArray()
         return
       }
-      monacoThemeRule.push(Object.assign({}, color.settings, {
+      returnTheme.rules.push(Object.assign({}, color.settings, {
         // token: color.scope.replace(/\s/g, '')
         token: color.scope
       }))
@@ -35,12 +34,16 @@ const convertTheme = (theme) => {
     function evalAsArray () {
       if (color.scope) {
         color.scope.forEach((scope) => {
-          monacoThemeRule.push(Object.assign({}, color.settings, {
+          returnTheme.rules.push(Object.assign({}, color.settings, {
             token: scope
           }))
         })
       }
     }
+  })
+  returnTheme.rules.push({
+    token: '',
+    foreground: returnTheme.colors['editor.foreground']
   })
   return returnTheme
 }
@@ -64,7 +67,7 @@ export default async function configureThemes () {
     defineTheme({ name, config })
   })
   updateSelectValue(themeSelect, theme)
-  await import('../monaco/languages')
+  await import('./languages')
 }
 
 export const configureCustomTheme = customTheme => {
@@ -76,9 +79,9 @@ export const configureCustomTheme = customTheme => {
   }
 
   const parsedTheme = strip(customTheme.replaceAll('null', '""')).replaceAll('\n\t\t', '').replace(',\n\t}', '}')
-  const jsonTheme = JSON.parse(parsedTheme)
+  const jsonTheme = JSON.parse(parsedTheme || null)
 
-  if (customTheme) {
+  if (jsonTheme) {
     defineTheme({
       name: 'Custom',
       config: jsonTheme

@@ -1,9 +1,9 @@
 import './style.css'
 
-import { initEditorHotKeys } from './utils/editor-hotkeys.js'
+import { initEditorHotKeys } from './monaco/hotkeys'
 import { encode, decode } from 'js-base64'
 import { $ } from './utils/dom.js'
-import { createEditors } from './editor.js'
+import { createEditors } from './monaco/editor.js'
 import debounce from './utils/debounce.js'
 import { capitalize } from './utils/string'
 import { subscribe } from './state'
