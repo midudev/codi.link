@@ -1,5 +1,5 @@
 
-import * as monaco from 'monaco-editor-core'
+import { monaco } from '../monaco'
 import strip from 'strip-comments'
 
 import * as themes from '../public/assets/themes'
@@ -57,13 +57,14 @@ const defineTheme = ({ name, config }) => {
   }
 }
 
-export default function configureThemes () {
+export default async function configureThemes () {
   const { customTheme, theme } = getState()
   configureCustomTheme(customTheme)
   Object.entries(themes).forEach(([name, config]) => {
     defineTheme({ name, config })
   })
   updateSelectValue(themeSelect, theme)
+  await import('../monaco/languages')
 }
 
 export const configureCustomTheme = customTheme => {

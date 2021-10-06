@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor-core'
+import { monaco } from './monaco'
 import { emmetHTML } from 'emmet-monaco-es'
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
@@ -81,7 +81,7 @@ export async function createEditors (configs) {
   grammars.set('typescript', 'source.ts')
   grammars.set('javascript', 'source.js')
 
-  configureThemes()
+  await configureThemes()
 
   const editors = {}
 
