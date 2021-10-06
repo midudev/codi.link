@@ -1,4 +1,6 @@
-import { $$, setFormControlValue } from './utils/dom.js'
+import sillyname from 'https://cdn.skypack.dev/sillyname'
+
+import { $$, $, setFormControlValue } from './utils/dom.js'
 import { getState } from './state.js'
 
 const ELEMENT_TYPES = {
@@ -8,6 +10,8 @@ const ELEMENT_TYPES = {
 }
 
 const $settings = $$('#settings [data-for]')
+const $generateButton = $('button[data-action=generate-name]')
+const $usernameInput = $('input[data-for=userName]')
 
 const {
   updateSettings,
@@ -47,4 +51,12 @@ $settings.forEach(el => {
       })
     })
   }
+})
+
+$generateButton.addEventListener('click', () => {
+  $usernameInput.value = sillyname()
+  updateSettings({
+    key: 'userName',
+    value: $usernameInput.value
+  })
 })
