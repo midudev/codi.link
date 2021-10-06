@@ -19,8 +19,7 @@ export async function downloadUserCode ({
 async function createZipWithSingleFile ({ htmlContent, cssContent, jsContent }) {
   const zip = await getZip()
 
-  const indexHtml = `
-<!DOCTYPE html>
+  const indexHtml = `<!DOCTYPE html>
 <html lang="en">
   <head>
     <style>
@@ -43,8 +42,7 @@ async function createZipWithSingleFile ({ htmlContent, cssContent, jsContent }) 
 async function createZipWithMultipleFiles ({ htmlContent, cssContent, jsContent }) {
   const zip = await getZip()
 
-  const indexHtml = `
-<!DOCTYPE html>
+  const indexHtml = `<!DOCTYPE html>
 <html lang="en">
   <head>
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
