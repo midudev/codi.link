@@ -1,4 +1,4 @@
-import { monaco } from '.'
+import { monaco } from './index.js'
 import { emmetHTML } from 'emmet-monaco-es'
 import { loadWASM } from 'onigasm'
 import { Registry } from 'monaco-textmate'
@@ -8,6 +8,11 @@ import { getState } from '../state.js'
 import configureThemes from './themes'
 
 import * as syntaxes from '../assets/syntaxes'
+
+import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
+import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
+import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 
 monaco.languages.register({ id: 'javascript' })
 monaco.languages.register({ id: 'typescript' })
@@ -41,6 +46,21 @@ const COMMON_EDITOR_OPTIONS = {
   roundedSelection: false,
   padding: {
     top: 16
+  }
+}
+
+window.MonacoEnvironment = {
+  getWorker (_, label) {
+    if (label === 'css' || label === 'scss' || label === 'less') {
+      return new CssWorker()
+    }
+    if (label === 'html' || label === 'handlebars' || label === 'razor') {
+      return new HtmlWorker()
+    }
+    if (label === 'typescript' || label === 'javascript') {
+      return new TsWorker()
+    }
+    return new EditorWorker()
   }
 }
 
