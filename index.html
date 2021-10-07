@@ -9,30 +9,17 @@
     <meta charset="UTF-8" />
     <link rel="icon" type=image/x-icon href="/assets/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script
-      src="https://waterboa.midu.dev/script.js"
-      data-site="LPFWYLUB"
-      defer
-    ></script>
-    <link
-      as="font"
-      rel="preload"
-      crossorigin="anonymous"
-      href="/assets/fonts/CascadiaCodePL.woff2"
-    />
-    <link
-      as="font"
-      rel="preload"
-      crossorigin="anonymous"
-      href="/assets/fonts/CascadiaCodePLItalic.woff2"
-    />
+    <script src="https://waterboa.midu.dev/script.js" data-site="LPFWYLUB" defer></script>
+    <link as="font" rel="preload" crossorigin="anonymous" href="/assets/fonts/CascadiaCodePL.woff2">
+    <link as="font" rel="preload" crossorigin="anonymous"  href="/assets/fonts/CascadiaCodePLItalic.woff2">
+    <link rel="stylesheet" href="./src/style.css">
   </head>
   <body>
     <div id="app">
       <aside>
         <div class="aside-sections">
           <header>
-            <button class="is-active" data-action="close-aside-bar">
+            <button class="is-active bar-button" data-action="close-aside-bar">
               <span role="tooltip" class="button-title">Editor</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -46,8 +33,8 @@
                 />
               </svg>
             </button>
-
-            <button data-action="show-skypack-bar">
+            
+            <button class="bar-button" data-action="show-skypack-bar">
               <span role="tooltip" class="button-title">Skypack</span>
               <svg
                 fill="#C5C5C5"
@@ -58,6 +45,11 @@
                   d="M17.387 12.213L10.95 9l6.438-3.212c.3-.15.487-.45.487-.788a.875.875 0 00-.488-.788l-8-4a.874.874 0 00-.787 0l-8 4c-.3.15-.487.45-.487.788v8c0 .3.162.588.412.75l.075.037L7.038 17 .6 20.212c-.3.15-.487.45-.487.788 0 .337.187.637.487.788l8 4a.874.874 0 00.388.087.874.874 0 00.387-.087l8-4c.3-.15.488-.45.488-.788v-8a.842.842 0 00-.476-.787zM9 1.975L15.037 5 9 8.025 2.963 5 9 1.975zM1.875 6.413L7.038 9l-5.163 2.588V6.413zM2.963 13L9 9.975 15.037 13 9 16.025 2.963 13zm5.162 5.413v5.162l-5.162-2.587 5.162-2.575zm8 2.05l-6.25 3.124V17.55l6.25-3.125v6.037z"
                 ></path>
               </svg>
+            </button>
+
+            <button class="bar-button" data-action="download-user-code" data-is-simple-click-action="true">
+              <span role="tooltip" class="button-title">Download</span>
+              <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 1h11v6l-1 1v7H2V2l1-1Zm3 1H5v2h1V2Zm0 12h4V8L9 7V2H7v3H6v1H5V5H4V2H3v12h2v-1h1v1Zm0-2v1h1v-1H6Zm0-1v1H5v-1h1Zm0-1h1v1H6v-1Zm0-1v1H5V9h1Zm0-1h1v1H6V8Zm0-1v1H5V7h1Zm0 0h1V6H6v1Zm6 0 1-1V2h-3v4l1 1v7h1V7Z" fill="#C5C5C5"/></svg>
             </button>
           </header>
 
@@ -95,7 +87,12 @@
               </svg>
             </button>
 
-            <button data-action="show-settings-bar">
+            <button class="bar-button" data-action="copy-to-clipboard" data-is-simple-click-action="true">
+              <span role="tooltip" class="button-title">Copy to clipboard</span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g fill="none" stroke="#C5C5C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></g></svg>
+            </button>
+            
+            <button class="bar-button" data-action="show-settings-bar">
               <span role="tooltip" class="button-title">Settings</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -296,17 +293,7 @@
                   Font Size
                 </strong>
                 Controls the font size in pixels.
-                <input
-                  data-for="fontSize"
-                  class="input"
-                  autocorrect="off"
-                  autocapitalize="off"
-                  spellcheck="false"
-                  type="number"
-                  wrap="off"
-                  tabindex="-1"
-                  value="16"
-                />
+                <input data-for="fontSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false" type="number" wrap="off" value="16">
               </div>
 
               <div class="settings-item">
@@ -341,12 +328,14 @@
 
       <div id="editor" class="top-grid">
         <div class="editor" id="html"></div>
+    
         <div class="gutter-col gutter-col-1"></div>
 
         <div class="editor" id="js"></div>
         <div class="gutter-col gutter-col-3"></div>
 
         <div class="editor" id="css"></div>
+
 
         <div class="iframe-container">
           <iframe srcdoc=""></iframe>
@@ -355,9 +344,21 @@
         <div class="gutter-row gutter-row-1"></div>
         <div class="gutter-row gutter-row-3"></div>
 
-
         <div class="central-gutter central-gutter-1"></div>
-        <div class="central-gutter central-gutter-3"></div>
+
+
+        <div class="scroll-buttons-container">
+          <button class="scroll-button button-up">
+            <svg width="52" height="29" viewBox="0 0 52 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9946 5.57505L4.579 26.9906L1.53809 23.9497L24.4741 1.01367L27.515 1.01367L50.4511 23.9497L47.4102 26.9906L25.9946 5.57505Z" fill="#FFF" stroke="#FFF" stroke-width="1.5"/>
+             </svg>        
+          </button>
+          <button class="scroll-button button-down">
+            <svg width="52" height="29" viewBox="0 0 52 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9946 23.0004L4.579 1.58484L1.53809 4.62576L24.4741 27.5618L27.515 27.5618L50.4511 4.62576L47.4102 1.58484L25.9946 23.0004Z" fill="#FFF" stroke="#FFF" stroke-width="1.5"/>
+            </svg>           
+          </button>
+        </div>
       </div>
     </div>
 

@@ -5,13 +5,14 @@ import { encode, decode } from 'js-base64'
 import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
-import { capitalize } from './utils/string'
+import { initializeEventsController } from './events-controller.js'
 import { subscribe } from './state'
 
 import './aside.js'
 import './skypack.js'
 import './settings.js'
 import './grid.js'
+import './scroll'
 
 const $js = $('#js')
 const $css = $('#css')
@@ -41,20 +42,7 @@ const jsEditor = createEditor({
   value: js
 })
 
-window.onmessage = ({ data }) => {
-  if (
-    Object.prototype.toString.call(data) === '[object Object]' &&
-    Object.keys(data).includes('package')
-  ) {
-    jsEditor.setValue(
-      `import ${capitalize(data.package)} from '${
-        data.url
-      }';\n${jsEditor.getValue()}`
-    )
-  }
-}
-
-subscribe((state) => {
+subscribe(state => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
 
   // applying editor settings
@@ -76,7 +64,9 @@ subscribe((state) => {
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
+const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
+const debouncedUpdateHash = debounce(updateHashedCode, MS_UPDATE_HASH_DEBOUNCED_TIME)
 
 htmlEditor.focus()
 htmlEditor.onDidChangeModelContent(debouncedUpdate)
@@ -84,6 +74,7 @@ cssEditor.onDidChangeModelContent(debouncedUpdate)
 jsEditor.onDidChangeModelContent(debouncedUpdate)
 
 initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
+initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
 const htmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', htmlForPreview)
@@ -93,12 +84,15 @@ function update () {
   const css = cssEditor.getValue()
   const js = jsEditor.getValue()
 
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
-
-  window.history.replaceState(null, null, `/${hashedCode}`)
-
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
+
+  debouncedUpdateHash({ html, css, js })
+}
+
+function updateHashedCode ({ html, css, js }) {
+  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  window.history.replaceState(null, null, `/${hashedCode}`)
 }
 
 function createHtml ({ html, js, css }) {
