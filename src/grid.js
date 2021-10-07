@@ -45,6 +45,8 @@ const setGridLayout = ({ gutters, style, type = '' }) => {
     layoutEl.classList.toggle('active', type === layoutEl.id)
   })
 
+  saveGridTemplate()
+
   const splitConfig = {
     ...gutters,
     ...gutters.columnGutters && { columnGutters: gutters.columnGutters.map(formatGutters) },
