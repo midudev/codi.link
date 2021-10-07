@@ -5,7 +5,7 @@ import { getState } from '../state'
 
 let session = null
 const target = getSessionId()
-if (target) session = new Session('guest', null, target)
+if (target) session = new Session('guest', getState().settings.userName, target)
 
 const ACTIONS = {
   'share-session': () => {
