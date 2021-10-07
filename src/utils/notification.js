@@ -8,10 +8,16 @@ const STATE_ICONS = {
 
 const TRANSITION_DURATION = 400 // ms
 const NOTIFICATION_DURATION = 3000 // ms
-const notificationsWrapper = $('#notifications-wrapper')
-
 export default {
-  show: (type, message) => {
+  /**
+   * Display a notification
+   * @param {Object} options - The options object
+   * @param {string} options.type - Notification type: info, warning, danger
+   * @param {string} options.message - Message to display
+   * @param {string} options.position - Position of the notification: top-left, top-center top-right, bottom-left, bottom-center, bottom-right
+   */
+  show: ({ type, message, position = 'bottom-right' }) => {
+    const notifications = $('#notifications')
     const notification = document.createElement('div')
     notification.className = `notification notification--${type}`
     notification.innerHTML = `
@@ -26,7 +32,20 @@ export default {
             </div>
         `
 
+    if (!$(`#notifications-wrapper.notification--${position}`)) {
+      const wrapper = document.createElement('div')
+      wrapper.setAttribute('id', 'notifications-wrapper')
+      wrapper.classList.add(`notification--${position}`)
+      notifications.appendChild(wrapper)
+    }
+    const notificationsWrapper = $(`#notifications-wrapper.notification--${position}`)
+
     notification.classList.add('bounce-active')
+
+    // Accesibility attributes
+    notification.setAttribute('role', 'alert')
+    notification.setAttribute('aria-live', 'assertive')
+    notification.setAttribute('aria-atomic', 'true')
 
     setTimeout(() => {
       notification.classList.remove('bounce-active')
@@ -47,6 +66,11 @@ export default {
       }, TRANSITION_DURATION / 2)
     })
 
-    notificationsWrapper.appendChild(notification)
+    if (position.match(/top-/)) {
+      notificationsWrapper.insertAdjacentElement('afterbegin', notification)
+    }
+    if (position.match(/bottom-/)) {
+      notificationsWrapper.insertAdjacentElement('beforeend', notification)
+    }
   }
 }
