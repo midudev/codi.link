@@ -31,6 +31,7 @@ function addParticipant ({ role, name, label, color, self }) {
     button.setAttribute('data-action', 'remove-participant')
     button.classList = 'icon-button'
     button.innerHTML = SessionDOM.closeSVG
+    button.prepend(SessionDOM.createSimpleTooltip('Remove participant'))
     li.append(button)
   }
   SessionDOM.participantsList.append(li)
