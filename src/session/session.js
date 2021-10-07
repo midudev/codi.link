@@ -136,7 +136,7 @@ export default class Session {
 
   _onPeerOpen () {
     this.peer.on('open', (id) => {
-      if (this._target) return this.connect(this._target)
+      if (this._target) return this._connect(this._target)
       this._initSession()
     })
   }
