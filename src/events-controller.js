@@ -31,7 +31,7 @@ export const EVENTS = {
 
 eventBus.on(EVENTS.ADD_SKYPACK_PACKAGE, ({ skypackPackage, url }) => {
   const importStatement = `import ${capitalize(skypackPackage)} from '${url}';`
-  const existPackage = searchByLine(jsEditor.getValue(), importStatement)
+  const existPackage = searchByLine(jsEditor.getValue(), url)
   if (!existPackage) {
     jsEditor.setValue(`${importStatement}\n${jsEditor.getValue()}`)
   }
