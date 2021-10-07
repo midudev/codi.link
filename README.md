@@ -1,11 +1,9 @@
-<div id="top"></div>
-
-<!-- PROJECT LOGO -->
-<br />
 <div align="center">
 
-  <h3 align="center">Codi.Link</h3>
-
+  ### <img src="https://raw.githubusercontent.com/midudev/codi.link/main/assets/favicon.ico" height="30px"/> [Codi.link](https://codi.link)
+  
+  ***Your HTML5/CSS3/JS/JavaScript Playground Editor***
+ 
   <p align="center">
     <a href="https://codi.link">View Demo</a>
     ·
@@ -17,13 +15,17 @@
 
 <div align="center">
 
-[![GitHub issues](https://img.shields.io/github/issues/midudev/codi.link)](https://github.com/midudev/codi.link/issues)
-[![GitHub forks](https://img.shields.io/github/forks/midudev/codi.link)](https://github.com/midudev/codi.link/network)
-[![GitHub stars](https://img.shields.io/github/stars/midudev/codi.link)](https://github.com/midudev/codi.link/stargazers)
-[![GitHub contributors](https://img.shields.io/github/contributors/midudev/codi.link)](https://github.com/midudev/codi.link/graphs/contributors)
+[![GitHub Issues](https://img.shields.io/github/issues/midudev/codi.link)](https://github.com/midudev/codi.link/issues)
+[![GitHub Forks](https://img.shields.io/github/forks/midudev/codi.link)](https://github.com/midudev/codi.link/network)
+[![GitHub Stars](https://img.shields.io/github/stars/midudev/codi.link)](https://github.com/midudev/codi.link/stargazers)
+[![GitHub Contributors](https://img.shields.io/github/contributors/midudev/codi.link)](https://github.com/midudev/codi.link/graphs/contributors)
+![](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)
+![](https://img.shields.io/badge/Maintained%3F-Yes-brightgreen.svg)
 
 </div>
+
 <!-- TABLE OF CONTENTS -->
+
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -99,8 +101,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- CONTACT -->
-
 ## Contact
 
 MiduDev - [@midudev](https://twitter.com/midudev) - miduga@gmail.com
@@ -109,17 +109,40 @@ Project Link: [https://github.com/midudev/codi.link](https://github.com/midudev/
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+## Manual 📖
 
-<!-- [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/midudev/codi.link/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/midudev/codi.link/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/midudev/codi.link/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/midudev/codi.link/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/midudev/codi.link/LICENSE.txt
-[product-screenshot]: ./assets/screen.png -->
+1. Install
+```sh
+$ npm install
+// or
+$ yarn
+```
+2. Usage
+```sh
+$ npm run dev
+// or
+$ yarn dev
+```
+>#### Contributions
+1. Add git hook
+```sh
+$ git add your/file/path
+$ npm run postinstall
+// or
+$ yarn postinstall
+```
+2. How commit
+
+```sh
+$ git add your/file/path
+$ npm run co 
+// or
+$ yarn co
+```
+
+## Contributing 🤝
+Contributions, issues and feature requests are welcome.<br>Feel free to check [issues page](https://github.com/midudev/codi.link/issues) if you want to contribute.
+
+## Author 👨‍💻
+**Miguel Ángel Durán @midudev**
+* [Twitter](https://twitter.com/midudev)
