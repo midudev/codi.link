@@ -272,6 +272,8 @@ select {
 
   & .skypack-item strong {
     display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   & .input {
@@ -361,6 +363,8 @@ select {
 
     & .skypack-description {
       font-size: 0.9em;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
     & footer {
