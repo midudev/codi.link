@@ -7,6 +7,7 @@ import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { initializeEventsController } from './events-controller.js'
 import { subscribe } from './state'
+import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
 
 import './aside.js'
 import './skypack.js'
@@ -61,6 +62,7 @@ initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
 const htmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', htmlForPreview)
+configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
 
 function update () {
   const html = htmlEditor.getValue()
