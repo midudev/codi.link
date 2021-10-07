@@ -1,5 +1,5 @@
 import mitt from 'mitt'
-import { capitalize } from './utils'
+import { capitalize, searchByLine } from './utils'
 import { downloadUserCode } from './download.js'
 
 export const eventBus = mitt()
@@ -24,7 +24,11 @@ export const EVENTS = {
 }
 
 eventBus.on(EVENTS.ADD_SKYPACK_PACKAGE, ({ skypackPackage, url }) => {
-  jsEditor.setValue(`import ${capitalize(skypackPackage)} from '${url}';\n${jsEditor.getValue()}`)
+  const importStatement = `import ${capitalize(skypackPackage)} from '${url}';`
+  const existPackage = searchByLine(jsEditor.getValue(), importStatement)
+  if (!existPackage) {
+    jsEditor.setValue(`${importStatement}\n${jsEditor.getValue()}`)
+  }
 })
 
 eventBus.on(EVENTS.DOWNLOAD_USER_CODE, () => {
