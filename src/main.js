@@ -1,6 +1,7 @@
 import { decode } from 'js-base64'
 import './aside.js'
 import { createEditor } from './editor.js'
+import { initializeEventsController } from './events-controller.js'
 import './grid.js'
 import { getCodeState } from './services/code/code.service.js'
 import initDatabase from './services/database'
@@ -12,7 +13,6 @@ import { updateIframePreview, updatePreview } from './utils/code.js'
 import debounce from './utils/debounce.js'
 import { $ } from './utils/dom.js'
 import { initEditorHotKeys } from './utils/editor-hotkeys.js'
-import { capitalize } from './utils/string'
 
 let htmlEditor, cssEditor, jsEditor
 
@@ -44,13 +44,8 @@ initDatabase()
 
     jsEditor.onDidChangeModelContent(debouncedUpdate)
     initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
+    initializeEventsController({ htmlEditor, cssEditor, jsEditor })
   })
-
-window.onmessage = ({ data }) => {
-  if (Object.prototype.toString.call(data) === '[object Object]' && Object.keys(data).includes('package')) {
-    jsEditor.setValue(`import ${capitalize(data.package)} from '${data.url}';\n${jsEditor.getValue()}`)
-  }
-}
 
 subscribe(state => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
