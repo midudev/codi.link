@@ -2,7 +2,7 @@ export const SESSION_EVENTS = {
   ADD_TO_NETWORK: function (conn, data) {
     const { name, role, peer } = data
     if (peer === this.peer.id || this._existsOnNetwork(peer)) return
-    this.connect(peer, name, role)
+    this._connect(peer, name, role)
   },
   SETUP: function (conn, data) {
     this._setData(data.data)
@@ -28,7 +28,7 @@ export const SESSION_EVENTS = {
     let remoteCursor = this.monacoCollabAdapter._cursorManager[editor].cursors.get(peer)
     if (offset !== null) {
       if (!remoteCursor) {
-        const color = this.colorAssigner.getColorAsHex(peer)
+        const color = this._colorAssigner.getColorAsHex(peer)
         const participant = this.network.find(p => p.conn.peer === conn.peer)
         remoteCursor = this.monacoCollabAdapter._cursorManager[editor].manager.addCursor(peer, color, participant.name)
         this.monacoCollabAdapter._cursorManager[editor].cursors.set(peer, remoteCursor)
@@ -45,7 +45,7 @@ export const SESSION_EVENTS = {
     let remoteSelection = this.monacoCollabAdapter._selectionManager[editor].selections.get(peer)
     if (value !== null) {
       if (!remoteSelection) {
-        const color = this.colorAssigner.getColorAsHex(peer)
+        const color = this._colorAssigner.getColorAsHex(peer)
         remoteSelection = this.monacoCollabAdapter._selectionManager[editor].manager.addSelection(peer, color)
         this.monacoCollabAdapter._selectionManager[editor].selections.set(peer, remoteSelection)
       }

@@ -46,7 +46,7 @@ function updateParticipants () {
   removeParticipants()
   addParticipant({ role: this.role, name: `${this.name} (you)`, self: true })
   this.network.forEach(participant => {
-    const color = this.colorAssigner.getColorAsHex(participant.conn.peer)
+    const color = this._colorAssigner.getColorAsHex(participant.conn.peer)
     addParticipant({ role: this.role, name: participant.name, label: participant.conn.label, color })
   })
   SessionDOM.participantsQuantity.innerHTML = this.network.length + 1
@@ -67,20 +67,12 @@ export default class Session {
   constructor (role, name, target) {
     this.role = role
     this.name = name || this._setDefaultName()
-    this.target = target
+    this._target = target
     this.peer = new Peer()
     this.network = []
     this.status = 'disconnected'
-    this.colorAssigner = new ColorAssigner()
+    this._colorAssigner = new ColorAssigner()
     this._listenToPeer()
-  }
-
-  connect (id, name, role) {
-    const conn = this.peer.connect(id, { metadata: { name: this.name, role: this.role } })
-    conn.on('open', () => {
-      this._addToNetwork(conn, false, name, role)
-    })
-    this._listenToConnection(conn)
   }
 
   close () {
@@ -96,6 +88,14 @@ export default class Session {
   removeParticipant (label) {
     const participant = this.network.find(p => p.conn.label === label)
     participant.conn.close()
+  }
+
+  _connect (id, name, role) {
+    const conn = this.peer.connect(id, { metadata: { name: this.name, role: this.role } })
+    conn.on('open', () => {
+      this._addToNetwork(conn, false, name, role)
+    })
+    this._listenToConnection(conn)
   }
 
   _setDefaultName () {
@@ -136,7 +136,7 @@ export default class Session {
 
   _onPeerOpen () {
     this.peer.on('open', (id) => {
-      if (this.target) return this.connect(this.target)
+      if (this._target) return this.connect(this._target)
       this._initSession()
     })
   }
