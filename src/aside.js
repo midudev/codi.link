@@ -18,15 +18,18 @@ const SIMPLE_CLICK_ACTIONS = {
 const NON_SIMPLE_CLICK_ACTIONS = {
   'close-aside-bar': () => {
     $('.aside-bar').setAttribute('hidden', '')
+    $('.scroll-buttons-container').removeAttribute('hidden')
   },
 
   'show-skypack-bar': () => {
     showAsideBar('#skypack')
     $('#skypack-search-input').focus()
+    $('.scroll-buttons-container').setAttribute('hidden', '')
   },
 
   'show-settings-bar': () => {
     showAsideBar('#settings')
+    $('.scroll-buttons-container').setAttribute('hidden', '')
   }
 }
 
