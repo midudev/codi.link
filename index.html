@@ -14,7 +14,7 @@
   <body>
     <div id="app">
       <aside>
-        <div class='aside-sections'>
+        <div class="aside-sections">
           <header>
             <button id="editor-aside-button" class="is-active bar-button" data-action="close-aside-bar">
               <span role="tooltip" class="button-title">Editor</span>
@@ -49,7 +49,7 @@
           </footer>
         </div>
 
-        <div class='aside-bar' hidden>
+        <div class="aside-bar" hidden>
           <div id="skypack" hidden class="bar-content skypack">
             <div class="skypack-content">
               <div class="skypack-item">
@@ -80,7 +80,7 @@
                 </strong>
                 Controls the display of line numbers.
                 <div class="select">
-                  <select data-for='lineNumbers'>
+                  <select data-for="lineNumbers">
                     <option value="on">on</option>
                     <option value="off">off</option>
                     <option value="relative">relative</option>
@@ -96,7 +96,7 @@
                 </strong>
                 Controls how lines should wrap.
                 <div class="select">
-                  <select data-for='wordWrap'>
+                  <select data-for="wordWrap">
                     <option value="on">on</option>
                     <option value="off">off</option>
                     <option value="wordWrapColumn">wordWrapColumn</option>
@@ -112,7 +112,7 @@
                 </strong>
                 Specifies the color theme used in the workbench.
                 <div class="select">
-                  <select data-for='theme'>
+                  <select data-for="theme">
                     <option value="vs-dark">Dark</option>
                     <option value="vs">Light</option>
                     <option value="hc-black">High Contrast Dark</option>
@@ -135,8 +135,8 @@
                   Enabled
                 </strong>
                 <div>
-                  <label class='checkbox'>
-                    <input data-for="minimap" type='checkbox' />
+                  <label class="checkbox">
+                    <input data-for="minimap" type="checkbox" />
                     <span>Controls whether the minimap is shown.</span>
                   </label>
                 </div>
@@ -148,8 +148,8 @@
                   Font Ligatures
                 </strong>
                 <div>
-                  <label class='checkbox'>
-                    <input data-for="fontLigatures" type='checkbox' />
+                  <label class="checkbox">
+                    <input data-for="fontLigatures" type="checkbox" />
                     <span>Controls whether the ligatures is enabled.</span>
                   </label>
                 </div>
@@ -173,9 +173,9 @@
       </aside>
 
       <div id="editor" class="grid">
-        <div class='editor' id='html'></div>
-        <div class='editor' id='js'></div>
-        <div class='editor' id='css'></div>
+        <div class="editor" id="html"></div>
+        <div class="editor" id="js"></div>
+        <div class="editor" id="css"></div>
 
         <div class='iframe-container'>
           <iframe srcdoc=""></iframe>
@@ -197,7 +197,6 @@
           </button>
         </div>
       </div>
-
     </div>
 
     <script type="module" src="/src/main.js"></script>
