@@ -7,6 +7,7 @@ import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { initializeEventsController } from './events-controller.js'
 import { subscribe } from './state'
+import WindowPreviewer from './utils/WindowPreviewer.js'
 
 import './aside.js'
 import './skypack.js'
@@ -62,8 +63,8 @@ jsEditor.onDidChangeModelContent(debouncedUpdate)
 initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
-const htmlForPreview = createHtml({ html, js, css })
-$('iframe').setAttribute('srcdoc', htmlForPreview)
+const initialHtmlForPreview = createHtml({ html, js, css })
+$('iframe').setAttribute('srcdoc', initialHtmlForPreview)
 
 function update () {
   const html = htmlEditor.getValue()
@@ -73,6 +74,7 @@ function update () {
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
 
+  WindowPreviewer.updateWindowContent(htmlForPreview)
   debouncedUpdateHash({ html, css, js })
 }
 
