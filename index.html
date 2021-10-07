@@ -19,12 +19,12 @@
       <aside>
         <div class='aside-sections'>
           <header>
-            <button class="is-active" data-action="close-aside-bar">
+            <button id="editor-aside-button" class="is-active bar-button" data-action="close-aside-bar">
               <span role="tooltip" class="button-title">Editor</span>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><defs/><path fill="#C5C5C5" d="M17.5 0h-9L7 1.5V6H2.5L1 7.5v15L2.5 24h12l1.5-1.4V18h4.7l1.3-1.4V4.5L17.5 0zm0 2.1l2.4 2.4h-2.4V2.1zm-3 20.4h-12v-15H7v9L8.5 18h6v4.5zm6-6h-12v-15H16V6h4.5v10.5z"/></svg>
             </button>
-
-            <button data-action="show-skypack-bar">
+            
+            <button class="bar-button" data-action="show-skypack-bar">
               <span role="tooltip" class="button-title">Skypack</span>
               <svg fill="#C5C5C5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 26"><path d="M17.387 12.213L10.95 9l6.438-3.212c.3-.15.487-.45.487-.788a.875.875 0 00-.488-.788l-8-4a.874.874 0 00-.787 0l-8 4c-.3.15-.487.45-.487.788v8c0 .3.162.588.412.75l.075.037L7.038 17 .6 20.212c-.3.15-.487.45-.487.788 0 .337.187.637.487.788l8 4a.874.874 0 00.388.087.874.874 0 00.387-.087l8-4c.3-.15.488-.45.488-.788v-8a.842.842 0 00-.476-.787zM9 1.975L15.037 5 9 8.025 2.963 5 9 1.975zM1.875 6.413L7.038 9l-5.163 2.588V6.413zM2.963 13L9 9.975 15.037 13 9 16.025 2.963 13zm5.162 5.413v5.162l-5.162-2.587 5.162-2.575zm8 2.05l-6.25 3.124V17.55l6.25-3.125v6.037z"></path></svg>
             </button>
@@ -34,18 +34,23 @@
               <svg fill="#C5C5C5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m15.19 0-1.54.76v2.89h-1.12a12.16 12.16 0 0 0-8 2.74 11.84 11.84 0 0 0-4.2 7.28A8.89 8.89 0 0 0 0 16.08l1.65.54c4.17-5.43 7-5.56 11.37-5.54h.63v3l1.54.77 8.61-6.51V6.81Zm.39 12.2v-3H13c-3.87 0-6.91.16-10.5 3.6a11.14 11.14 0 0 1 2.61-4.43A9.78 9.78 0 0 1 8.52 6.2a10 10 0 0 1 4-.64h3.08V2.7l6 4.87ZM10 14.77a4.62 4.62 0 1 0 4.62 4.61A4.61 4.61 0 0 0 10 14.77Zm0 7.38a2.77 2.77 0 1 1 2.77-2.77A2.77 2.77 0 0 1 10 22.15Z"/></svg>
             </button>
             
-            <button data-action="download-user-code" data-is-simple-click-action="true">
+            <button class="bar-button" data-action="download-user-code" data-is-simple-click-action="true">
               <span role="tooltip" class="button-title">Download</span>
               <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 1h11v6l-1 1v7H2V2l1-1Zm3 1H5v2h1V2Zm0 12h4V8L9 7V2H7v3H6v1H5V5H4V2H3v12h2v-1h1v1Zm0-2v1h1v-1H6Zm0-1v1H5v-1h1Zm0-1h1v1H6v-1Zm0-1v1H5V9h1Zm0-1h1v1H6V8Zm0-1v1H5V7h1Zm0 0h1V6H6v1Zm6 0 1-1V2h-3v4l1 1v7h1V7Z" fill="#C5C5C5"/></svg>
             </button>
           </header>
 
           <footer>
-            <button data-action="copy-to-clipboard" data-is-simple-click-action="true">
+            <button data-action="open-iframe-tab" data-is-simple-click-action="true">
+              <span role="tooltip" class="button-title">Preview</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" ><path fill="#C5C5C5" d="M41.47 4.986A1.5 1.5 0 0 0 41.31 5H27.5a1.5 1.5 0 1 0 0 3h10.379l-15.44 15.44a1.5 1.5 0 1 0 2.122 2.12L40 10.122V20.5a1.5 1.5 0 1 0 3 0V6.69a1.5 1.5 0 0 0-1.53-1.704zM12.5 8C8.375 8 5 11.375 5 15.5v20c0 4.125 3.375 7.5 7.5 7.5h20c4.125 0 7.5-3.375 7.5-7.5v-10a1.5 1.5 0 1 0-3 0v10c0 2.503-1.997 4.5-4.5 4.5h-20A4.477 4.477 0 0 1 8 35.5v-20c0-2.503 1.997-4.5 4.5-4.5h10a1.5 1.5 0 1 0 0-3h-10z"/></svg>
+            </button>
+
+            <button class="bar-button" data-action="copy-to-clipboard" data-is-simple-click-action="true">
               <span role="tooltip" class="button-title">Copy to clipboard</span>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g fill="none" stroke="#C5C5C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></g></svg>
             </button>
-            <button data-action="show-settings-bar">
+            <button class="bar-button" data-action="show-settings-bar">
               <span role="tooltip" class="button-title">Settings</span>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><defs/><path fill="#C5C5C5" fill-rule="evenodd" d="M19.85 8.75l4.15.83v4.84l-4.15.83 2.35 3.52-3.43 3.43-3.52-2.35-.83 4.15H9.58l-.83-4.15-3.52 2.35-3.43-3.43 2.35-3.52L0 14.42V9.58l4.15-.83L1.8 5.23 5.23 1.8l3.52 2.35L9.58 0h4.84l.83 4.15 3.52-2.35 3.43 3.43-2.35 3.52zm-1.57 5.07l4-.81v-2l-4-.81-.54-1.3 2.29-3.43-1.43-1.43-3.43 2.29-1.3-.54-.81-4h-2l-.81 4-1.3.54-3.43-2.29-1.43 1.43L6.38 8.9l-.54 1.3-4 .81v2l4 .81.54 1.3-2.29 3.43 1.43 1.43 3.43-2.29 1.3.54.81 4h2l.81-4 1.3-.54 3.43 2.29 1.43-1.43-2.29-3.43.54-1.3zm-8.19-4.67a3.43 3.43 0 113.82 5.7 3.43 3.43 0 01-3.82-5.7zm.96 4.27a1.71 1.71 0 101.9-2.84 1.71 1.71 0 00-1.9 2.84z" clip-rule="evenodd"/></svg>
             </button>
@@ -255,13 +260,26 @@
         <div class='editor' id='html'></div>
         <div class='editor' id='js'></div>
         <div class='editor' id='css'></div>
-        
-        <div>
+
+        <div class='iframe-container'>
           <iframe srcdoc=""></iframe>
         </div>
         
         <div class="vertical-gutter"></div>
         <div class="horizontal-gutter"></div>
+      
+        <div class="scroll-buttons-container">
+          <button class="scroll-button button-up">
+            <svg width="52" height="29" viewBox="0 0 52 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9946 5.57505L4.579 26.9906L1.53809 23.9497L24.4741 1.01367L27.515 1.01367L50.4511 23.9497L47.4102 26.9906L25.9946 5.57505Z" fill="#FFF" stroke="#FFF" stroke-width="1.5"/>
+             </svg>        
+          </button>
+          <button class="scroll-button button-down">
+            <svg width="52" height="29" viewBox="0 0 52 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9946 23.0004L4.579 1.58484L1.53809 4.62576L24.4741 27.5618L27.515 27.5618L50.4511 4.62576L47.4102 1.58484L25.9946 23.0004Z" fill="#FFF" stroke="#FFF" stroke-width="1.5"/>
+            </svg>           
+          </button>
+        </div>
       </div>
 
     </div>

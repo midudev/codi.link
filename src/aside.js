@@ -1,12 +1,22 @@
 import { eventBus, EVENTS } from './events-controller.js'
 import { $, $$ } from './utils/dom.js'
+import WindowPreviewer from './utils/WindowPreviewer'
 
 const $asideSections = $('.aside-sections')
 const $buttons = $$('button', $asideSections)
+const $editorAsideButton = $('#editor-aside-button')
+
+const toggleAsideBar = (isHidden) => {
+  $('.aside-bar').toggleAttribute('hidden', isHidden)
+}
 
 const SIMPLE_CLICK_ACTIONS = {
   'download-user-code': () => {
     eventBus.emit(EVENTS.DOWNLOAD_USER_CODE)
+  },
+
+  'open-iframe-tab': () => {
+    WindowPreviewer.openWindow()
   },
 
   'copy-to-clipboard': async () => {
@@ -17,12 +27,14 @@ const SIMPLE_CLICK_ACTIONS = {
 
 const NON_SIMPLE_CLICK_ACTIONS = {
   'close-aside-bar': () => {
-    $('.aside-bar').setAttribute('hidden', '')
+    toggleAsideBar(true)
+    $('.scroll-buttons-container').removeAttribute('hidden')
   },
 
   'show-skypack-bar': () => {
     showAsideBar('#skypack')
     $('#skypack-search-input').focus()
+    $('.scroll-buttons-container').setAttribute('hidden', '')
   },
 
   'show-live-share-bar': () => {
@@ -31,6 +43,7 @@ const NON_SIMPLE_CLICK_ACTIONS = {
 
   'show-settings-bar': () => {
     showAsideBar('#settings')
+    $('.scroll-buttons-container').setAttribute('hidden', '')
   }
 }
 
@@ -55,15 +68,13 @@ $buttons.forEach(button => {
     const alreadyActive = currentTarget.classList.contains('is-active')
     $('.is-active').classList.remove('is-active')
 
+    const buttonToActive = alreadyActive ? $editorAsideButton : currentTarget
+    buttonToActive.classList.add('is-active')
+
     action = alreadyActive
       ? 'close-aside-bar'
       : action
 
-    const elementToActive = alreadyActive
-      ? $("button[data-action='close-aside-bar']")
-      : currentTarget
-
-    elementToActive.classList.add('is-active')
     ACTIONS[action]()
   })
 })
