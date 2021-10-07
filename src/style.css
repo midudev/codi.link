@@ -258,6 +258,33 @@ aside button:hover {
   justify-content: center;
 }
 
+.simple-tooltip {
+  background: #2d323c;
+  border-radius: 3px;
+  border: 1px solid #000;
+  box-shadow: 0 0 15px 2px rgb(0 0 0 / 30%);
+  color: #c5c5c5;
+  display: none;
+  font-size: 1.1em;
+  white-space: nowrap;
+  padding: 0.5em .75em;
+  position: absolute;
+  transform: translate(0, 110%);
+  z-index: 1000;
+}
+
+.simple-tooltip.top {
+  transform: translate(0, -110%);
+}
+
+.simple-tooltip.left {
+  transform: translate(-70%, 0);
+}
+
+.simple-tooltip.right {
+  transform: translate(70%, 0);
+}
+
 [hidden] {
   display: none !important;
 }
@@ -509,10 +536,19 @@ select {
     justify-content: center;
     cursor: pointer;
     color: #fff;
+    position: relative;
+  }
+
+  & .simple-tooltip {
+    right: -20px;
   }
 
   & .icon-button:hover {
     background: rgba(128, 128, 128, 0.14);
+  }
+
+  & .icon-button:hover .simple-tooltip {
+    display: block;
   }
 
   & .action-icon {
