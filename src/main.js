@@ -5,7 +5,7 @@ import { encode, decode } from 'js-base64'
 import { $ } from './utils/dom.js'
 import { createEditors } from './monaco/editor.js'
 import debounce from './utils/debounce.js'
-import { capitalize } from './utils/string'
+import { initializeEventsController } from './events-controller.js'
 import { subscribe } from './state'
 
 import './aside.js'
@@ -32,12 +32,6 @@ const js = rawJs ? decode(rawJs) : '';
       { domElement: $css, language: 'css', value: css },
       { domElement: $js, language: 'javascript', value: js }
     ])
-
-  window.onmessage = ({ data }) => {
-    if (Object.prototype.toString.call(data) === '[object Object]' && Object.keys(data).includes('package')) {
-      jsEditor.setValue(`import ${capitalize(data.package)} from '${data.url}';\n${jsEditor.getValue()}`)
-    }
-  }
 
   subscribe(state => {
     const EDITORS = [htmlEditor, cssEditor, jsEditor]
@@ -67,6 +61,7 @@ const js = rawJs ? decode(rawJs) : '';
   jsEditor.onDidChangeModelContent(debouncedUpdate)
 
   initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
+  initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)

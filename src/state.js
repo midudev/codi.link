@@ -12,7 +12,8 @@ const appInitialState = getLocalStorage('appInitialState') || {
   wordWrap: 'on',
   fontLigatures: 'on',
   fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'",
-  customTheme: ''
+  customTheme: '',
+  preserveGrid: true
 }
 
 const useStore = create((set, get) => ({

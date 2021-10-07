@@ -1,6 +1,12 @@
 import { $$, setFormControlValue } from './utils/dom.js'
 import { getState } from './state.js'
 
+const ELEMENT_TYPES = {
+  INPUT: 'input',
+  SELECT: 'select',
+  CHECKBOX: 'checkbox'
+}
+
 const $settings = $$('#settings [data-for]')
 
 const {
@@ -12,20 +18,33 @@ $settings.forEach(el => {
   const settingKey = el.getAttribute('data-for')
   const actualSettingValue = settings[settingKey]
 
-  // reflejar en settings la configuración inicial
+  // Reflect the initial configuration in the settings section.
   setFormControlValue(el, actualSettingValue)
 
-  // escuchar eventos de cambio de settings
-  el.addEventListener('change', ({ target }) => {
-    const { checked, value } = target
-    const isNumber = target.getAttribute('type') === 'number'
+  const elementTagName = el.tagName.toLowerCase()
 
-    let settingValue = typeof checked === 'boolean' ? checked : value
-    if (isNumber) settingValue = +value
+  if (elementTagName === ELEMENT_TYPES.INPUT) {
+    // Add event lister to input elements
+    el.addEventListener('input', ({ target }) => {
+      const { value, checked } = target
+      const isCheckbox = target.type === ELEMENT_TYPES.CHECKBOX
 
-    updateSettings({
-      key: settingKey,
-      value: settingValue
+      const settingValue = isCheckbox ? checked : value
+
+      updateSettings({
+        key: settingKey,
+        value: settingValue
+      })
     })
-  })
+  } else {
+    // Add event listener to default elements
+    el.addEventListener('change', ({ target }) => {
+      const { value } = target
+
+      updateSettings({
+        key: settingKey,
+        value: value
+      })
+    })
+  }
 })

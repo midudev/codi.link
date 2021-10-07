@@ -89,6 +89,6 @@ export async function createEditors (configs) {
 
     return editors
   } catch (error) {
-    console.log('Error setting up editors', error)
+    console.log('Error while setting up editors', error)
   }
 }
