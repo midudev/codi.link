@@ -1,6 +1,6 @@
 const initDatabase = async () => {
   const { initializeApp } = await import('firebase/app')
-  // Please replace with you own firebaseConfig
+  // Please replace with your own firebaseConfig
   const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
     authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
