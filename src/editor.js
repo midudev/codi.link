@@ -5,7 +5,7 @@ import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import { getState } from './state.js'
-import { registerAutoCompleteHTMLTag } from './utils/editor-auto-complete-html-tag'
+import { registerAutoCompleteHTMLTag } from './editor-extensions/autocomplete-html-tag.js'
 
 const {
   fontSize,
