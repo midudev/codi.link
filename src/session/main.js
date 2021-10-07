@@ -19,9 +19,7 @@ const ACTIONS = {
     session.close()
   },
   'copy-session-link': (button) => {
-    let sessionId = ''
-    if (session.role === 'owner') sessionId = session.peer.id
-    if (session.role === 'guest') sessionId = session.network.find(c => c.role === 'owner').conn.peer
+    const sessionId = session.role === 'owner' ? session.peer.id : session.network.find(c => c.role === 'owner').conn.peer
     navigator.clipboard.writeText(`${window.location.origin}/?join=${sessionId}`)
     const [tooltip] = button.children
     tooltip.innerHTML = 'Copied to clipboard!'
