@@ -22,7 +22,7 @@ const SIMPLE_CLICK_ACTIONS = {
 
   'copy-to-clipboard': async () => {
     await navigator.clipboard.writeText(window.location.href)
-    Notification.show('info', 'Sharable URL has been copied to clipboard.')
+    Notification.show({ type: 'info', message: 'Sharable URL has been copied to clipboard.' })
   }
 }
 
