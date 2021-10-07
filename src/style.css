@@ -435,6 +435,8 @@ select {
 
   & .skypack-item strong {
     display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   & .input {
@@ -478,11 +480,86 @@ select {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+
+    & header {
+      display: flex;
+      align-items: center;
+
+      & .skypack-result-badges {
+        display: flex;
+        align-items: center;
+        padding-left: 0.25rem;
+
+        & .skypack-badge {
+          margin-left: 0.25rem;
+          margin-right: 0.25rem;
+          border: 0px;
+          border-radius: 0.3em;
+          font-size: 0.7em;
+          padding: 0.125em 0.375em 0.12em;
+
+          &.popular {
+            background-color: #80b918;
+            color: #000;
+          }
+
+          &.deprecated {
+            background-color: #c81d25;
+            color: #fff;
+          }
+
+          &.exact-match {
+            background-color: #ffc300;
+            color: #000;
+          }
+
+          &.typescript {
+              width: 18px;
+              height: 18px;
+              background: url(/assets/typescript.svg) no-repeat 50% 50%;
+          }
+        }
+      }
+    }
+
+    & .skypack-description {
+      font-size: 0.9em;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    & footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      & .skypack-updated {
+        font-size: 0.8em;
+        opacity: 0.5;
+      }
+
+      & .skypack-open {
+        font-size: 0.7em;
+        opacity: 0;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
   }
 
   & .search-results ul li:hover {
     background-color: rgba(128, 128, 128, 0.14);
+
+    & .skypack-open {
+      opacity: 1;
+    }
   }
+
 }
 
 .layout {
