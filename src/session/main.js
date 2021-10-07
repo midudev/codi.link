@@ -18,11 +18,16 @@ const ACTIONS = {
   'disconnect-session': () => {
     session.close()
   },
-  'copy-session-link': () => {
+  'copy-session-link': (button) => {
     let sessionId = ''
     if (session.role === 'owner') sessionId = session.peer.id
     if (session.role === 'guest') sessionId = session.network.find(c => c.role === 'owner').conn.peer
     navigator.clipboard.writeText(`${window.location.origin}/?join=${sessionId}`)
+    const [tooltip] = button.children
+    tooltip.innerHTML = 'Copied to clipboard!'
+    setTimeout(() => {
+      tooltip.innerHTML = 'Copy session link'
+    }, 1500)
   }
 }
 
@@ -34,7 +39,7 @@ SessionDOM.joinForm.addEventListener('submit', (e) => {
 SessionDOM.buttons.forEach(button => {
   button.addEventListener('click', () => {
     const action = button.getAttribute('data-action')
-    ACTIONS[action]()
+    ACTIONS[action](button)
   })
 })
 
