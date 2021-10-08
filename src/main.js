@@ -5,15 +5,20 @@ import { decodeURL, encodeURL } from './utils/url'
 import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
+import { createHtml } from './utils/createHtml'
 import { initializeEventsController } from './events-controller.js'
-import { subscribe } from './state'
+import { getState, subscribe } from './state.js'
 import WindowPreviewer from './utils/WindowPreviewer.js'
+import setGridLayout from './grid.js'
 
 import './aside.js'
 import './skypack.js'
 import './settings.js'
-import './grid.js'
-import './scroll'
+import './scroll.js'
+
+const { layout: currentLayout } = getState()
+
+setGridLayout(currentLayout)
 
 const $js = $('#js')
 const $css = $('#css')
@@ -48,6 +53,7 @@ subscribe(state => {
       ...newOptions
     })
   })
+  setGridLayout(state.layout)
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
@@ -85,22 +91,4 @@ function update () {
 function updateHashedCode ({ html, css, js }) {
   const hashedCode = encodeURL({ html, css, js })
   window.history.replaceState(null, null, `/${hashedCode}`)
-}
-
-function createHtml ({ html, js, css }) {
-  return `
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <style>
-      ${css}
-    </style>
-  </head>
-  <body>
-    ${html}
-    <script type="module">
-    ${js}
-    </script>
-  </body>
-</html>`
 }

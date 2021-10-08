@@ -1,12 +1,14 @@
 import { eventBus, EVENTS } from './events-controller.js'
 import { $, $$ } from './utils/dom.js'
 import WindowPreviewer from './utils/WindowPreviewer'
+import Notification from './utils/notification.js'
 
 const $aside = $('aside')
 const $buttons = $$('button', $aside)
+const $editorAsideButton = $('#editor-aside-button')
 
-const toggleAsideBar = (status) => {
-  $('.aside-bar').toggleAttribute('hidden', status)
+const toggleAsideBar = (isHidden) => {
+  $('.aside-bar').toggleAttribute('hidden', isHidden)
 }
 
 const SIMPLE_CLICK_ACTIONS = {
@@ -20,7 +22,7 @@ const SIMPLE_CLICK_ACTIONS = {
 
   'copy-to-clipboard': async () => {
     await navigator.clipboard.writeText(window.location.href)
-    window.alert('Sharable URL has been copied to clipboard.')
+    Notification.show({ type: 'info', message: 'Sharable URL has been copied to clipboard.' })
   }
 }
 
@@ -62,6 +64,9 @@ $buttons.forEach(button => {
 
     const alreadyActive = currentTarget.classList.contains('is-active')
     $('.is-active').classList.remove('is-active')
+
+    const buttonToActive = alreadyActive ? $editorAsideButton : currentTarget
+    buttonToActive.classList.add('is-active')
 
     action = alreadyActive
       ? 'close-aside-bar'
