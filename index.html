@@ -20,7 +20,7 @@
               <span role="tooltip" class="button-title">Editor</span>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><defs/><path fill="#C5C5C5" d="M17.5 0h-9L7 1.5V6H2.5L1 7.5v15L2.5 24h12l1.5-1.4V18h4.7l1.3-1.4V4.5L17.5 0zm0 2.1l2.4 2.4h-2.4V2.1zm-3 20.4h-12v-15H7v9L8.5 18h6v4.5zm6-6h-12v-15H16V6h4.5v10.5z"/></svg>
             </button>
-            
+
             <button class="bar-button" aria-label="Show skypack bar" data-action="show-skypack-bar">
               <span role="tooltip" class="button-title">Skypack</span>
               <svg fill="#C5C5C5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 26"><path d="M17.387 12.213L10.95 9l6.438-3.212c.3-.15.487-.45.487-.788a.875.875 0 00-.488-.788l-8-4a.874.874 0 00-.787 0l-8 4c-.3.15-.487.45-.487.788v8c0 .3.162.588.412.75l.075.037L7.038 17 .6 20.212c-.3.15-.487.45-.487.788 0 .337.187.637.487.788l8 4a.874.874 0 00.388.087.874.874 0 00.387-.087l8-4c.3-.15.488-.45.488-.788v-8a.842.842 0 00-.476-.787zM9 1.975L15.037 5 9 8.025 2.963 5 9 1.975zM1.875 6.413L7.038 9l-5.163 2.588V6.413zM2.963 13L9 9.975 15.037 13 9 16.025 2.963 13zm5.162 5.413v5.162l-5.162-2.587 5.162-2.575zm8 2.05l-6.25 3.124V17.55l6.25-3.125v6.037z"></path></svg>
@@ -163,30 +163,10 @@
                 <div>
                   <span>Change view layout</span>
                   <div class="layout-preview-container">
-                    <div class="layout-preview" id="default">
-                      <div class="layout-preview-html"></div>
-                      <div class="layout-preview-css"></div>
-                      <div class="layout-preview-js"></div>
-                      <div class="layout-preview-result"></div>
-                    </div>
-                    <div class="layout-preview" id="layout-2">
-                      <div class="layout-preview-html"></div>
-                      <div class="layout-preview-css"></div>
-                      <div class="layout-preview-js"></div>
-                      <div class="layout-preview-result"></div>
-                    </div>
-                    <div class="layout-preview" id="vertical">
-                      <div class="layout-preview-html"></div>
-                      <div class="layout-preview-css"></div>
-                      <div class="layout-preview-js"></div>
-                      <div class="layout-preview-result"></div>
-                    </div>
-                    <div class="layout-preview" id="horizontal">
-                      <div class="layout-preview-html"></div>
-                      <div class="layout-preview-css"></div>
-                      <div class="layout-preview-js"></div>
-                      <div class="layout-preview-result"></div>
-                    </div>
+										<layout-preview layout="default"></layout-preview>
+										<layout-preview layout="layout-2"></layout-preview>
+										<layout-preview layout="vertical"></layout-preview>
+										<layout-preview layout="horizontal"></layout-preview>
                   </div>
                 </div>
               </div>
@@ -242,23 +222,23 @@
         <div class="first-gutter"></div>
         <div class="second-gutter"></div>
         <div class="last-gutter"></div>
-      
+
         <div class="scroll-buttons-container">
           <button class="scroll-button button-up">
             <svg width="52" height="29" viewBox="0 0 52 29" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9946 5.57505L4.579 26.9906L1.53809 23.9497L24.4741 1.01367L27.515 1.01367L50.4511 23.9497L47.4102 26.9906L25.9946 5.57505Z" fill="#FFF" stroke="#FFF" stroke-width="1.5"/>
-             </svg>        
+             </svg>
           </button>
           <button class="scroll-button button-down">
             <svg width="52" height="29" viewBox="0 0 52 29" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9946 23.0004L4.579 1.58484L1.53809 4.62576L24.4741 27.5618L27.515 27.5618L50.4511 4.62576L47.4102 1.58484L25.9946 23.0004Z" fill="#FFF" stroke="#FFF" stroke-width="1.5"/>
-            </svg>           
+            </svg>
           </button>
         </div>
       </div>
-      
+
       <div id="notifications"></div>
-      
+
     </div>
 
     <script type="module" src="/src/main.js"></script>

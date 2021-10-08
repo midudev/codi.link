@@ -1,5 +1,3 @@
-import './style.css'
-
 import { initEditorHotKeys } from './utils/editor-hotkeys.js'
 import { encode, decode } from 'js-base64'
 import { $ } from './utils/dom.js'
@@ -16,6 +14,8 @@ import './aside.js'
 import './skypack.js'
 import './settings.js'
 import './scroll.js'
+
+import './components/layout-preview/layout-preview.js'
 
 const { layout: currentLayout } = getState()
 
