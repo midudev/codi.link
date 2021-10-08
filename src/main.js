@@ -1,15 +1,15 @@
-import { decode, encode } from 'js-base64'
-import './aside.js'
-import { createEditor } from './editor.js'
-import { initializeEventsController } from './events-controller.js'
-import setGridLayout from './grid'
-import './settings.js'
-import './skypack.js'
-import { getState, subscribe } from './state'
 import './style.css'
-import debounce from './utils/debounce.js'
-import { $ } from './utils/dom.js'
+
 import { initEditorHotKeys } from './utils/editor-hotkeys.js'
+import { encode, decode } from 'js-base64'
+import { $ } from './utils/dom.js'
+import { createEditor } from './editor.js'
+import debounce from './utils/debounce.js'
+import { initializeEventsController } from './events-controller.js'
+import { getState, subscribe } from './state'
+import WindowPreviewer from './utils/WindowPreviewer.js'
+
+import setGridLayout from './grid'
 
 const { layout: currentLayout } = getState()
 
@@ -52,7 +52,9 @@ subscribe(state => {
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
+const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
+const debouncedUpdateHash = debounce(updateHashedCode, MS_UPDATE_HASH_DEBOUNCED_TIME)
 
 htmlEditor.focus()
 htmlEditor.onDidChangeModelContent(debouncedUpdate)
@@ -62,20 +64,24 @@ jsEditor.onDidChangeModelContent(debouncedUpdate)
 initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
-const htmlForPreview = createHtml({ html, js, css })
-$('iframe').setAttribute('srcdoc', htmlForPreview)
+const initialHtmlForPreview = createHtml({ html, js, css })
+$('iframe').setAttribute('srcdoc', initialHtmlForPreview)
 
 function update () {
   const html = htmlEditor.getValue()
   const css = cssEditor.getValue()
   const js = jsEditor.getValue()
 
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
-
-  window.history.replaceState(null, null, `/${hashedCode}`)
-
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
+
+  WindowPreviewer.updateWindowContent(htmlForPreview)
+  debouncedUpdateHash({ html, css, js })
+}
+
+function updateHashedCode ({ html, css, js }) {
+  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  window.history.replaceState(null, null, `/${hashedCode}`)
 }
 
 function createHtml ({ html, js, css }) {
