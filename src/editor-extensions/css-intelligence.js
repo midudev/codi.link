@@ -41,8 +41,11 @@ const buildCompletionList = ({ className, position: { lineNumber, column } }, mo
 
   const filteredClasses = classes.filter(name => name.startsWith(`.${className}`))
 
+  // Remove duplicates
+  const uniqueClasses = [...new Set(filteredClasses)]
+
   // Build the completion list
-  const suggestions = filteredClasses.map(filteredClass => ({
+  const suggestions = uniqueClasses.map(filteredClass => ({
     label: filteredClass.slice(1),
     kind: monaco.languages.CompletionItemKind.Class,
     insertText: filteredClass.slice(1),
