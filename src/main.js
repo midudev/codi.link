@@ -5,7 +5,7 @@ import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { createHtml } from './utils/createHtml'
 import { initializeEventsController } from './events-controller.js'
-import { getState, subscribe } from './state.js'
+import { useEditorsStore, useSettingsStore } from './state'
 import WindowPreviewer from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
 
@@ -16,7 +16,7 @@ import './scroll.js'
 
 import './components/layout-preview/layout-preview.js'
 
-const { layout: currentLayout } = getState()
+const { layout: currentLayout } = useSettingsStore.getState()
 
 setGridLayout(currentLayout)
 
@@ -36,7 +36,7 @@ const htmlEditor = createEditor({ domElement: $html, language: 'html', value: ht
 const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
 const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
 
-subscribe(state => {
+useEditorsStore.subscribe(state => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
   EDITORS.forEach(editor => {
     const { minimap, ...restOfOptions } = state
@@ -53,8 +53,9 @@ subscribe(state => {
       ...newOptions
     })
   })
-  setGridLayout(state.layout)
 })
+
+useSettingsStore.subscribe((currentLayout) => setGridLayout(currentLayout), state => state.layout)
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
 const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000

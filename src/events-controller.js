@@ -1,7 +1,7 @@
 import mitt from 'mitt'
 import { capitalize, searchByLine } from './utils/string.js'
 import { downloadUserCode } from './download.js'
-import { getState } from './state'
+import { useSettingsStore } from './state'
 
 export const eventBus = mitt()
 
@@ -36,7 +36,7 @@ eventBus.on(EVENTS.DOWNLOAD_USER_CODE, () => {
   const {
     zipInSingleFile,
     zipFileName
-  } = getState()
+  } = useSettingsStore.getState()
 
   downloadUserCode({
     zipFileName,

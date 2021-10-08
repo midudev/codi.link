@@ -1,33 +1,29 @@
 import create from 'zustand/vanilla'
+import { getLocalStorage, setLocalStorage } from './utils/useLocalStorage'
 
-import { DEFAULT_INITIAL_SETTINGS } from './constants/initial-settings'
+import { DEFAULT_APP_SETTINGS, DEFAULT_EDITOR_SETTINGS } from './constants/initial-settings'
 
-const getLocalStorage = (key) => JSON.parse(window.localStorage.getItem(key))
-const setLocalStorage = (key, value) =>
-  window.localStorage.setItem(key, JSON.stringify(value))
+const updateStore = ({ key, value, set, storeName }) => {
+  set(state => {
+    setLocalStorage(storeName, {
+      ...state,
+      [key]: value
+    })
 
-const appInitialState = {
-  ...DEFAULT_INITIAL_SETTINGS,
-  ...getLocalStorage('appInitialState')
+    return { [key]: value }
+  })
 }
 
-const useStore = create((set, get) => ({
-  ...appInitialState,
-  updateSettings: ({ key, value }) => {
-    set(state => {
-      setLocalStorage('appInitialState', {
-        ...state,
-        [key]: value
-      })
+const editorsInitialState = { ...DEFAULT_EDITOR_SETTINGS, ...getLocalStorage('editorsInitialState') }
 
-      return { [key]: value }
-    })
-  }
+export const useEditorsStore = create((set, get) => ({
+  ...editorsInitialState,
+  updateStore: ({ key, value }) => updateStore({ key, value, set, storeName: 'editorsInitialState' })
 }))
 
-export const {
-  getState,
-  setState,
-  subscribe,
-  destroy
-} = useStore
+const settingsInitialState = { ...DEFAULT_APP_SETTINGS, ...getLocalStorage('settingsInitialState') }
+
+export const useSettingsStore = create((set, get) => ({
+  ...settingsInitialState,
+  updateStore: ({ key, value }) => updateStore({ key, value, set, storeName: 'settingsInitialState' })
+}))

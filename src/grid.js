@@ -1,6 +1,7 @@
 import Split from 'split-grid'
-import { getState } from './state'
+import { useSettingsStore } from './state'
 import { $, $$ } from './utils/dom'
+import { getLocalStorage, setLocalStorage, deleteLocalStorage } from './utils/useLocalStorage'
 
 const $editor = $('#editor')
 const $$layoutSelector = $$('layout-preview')
@@ -13,24 +14,24 @@ const formatGutters = gutter => ({
 
 // Metodo de preservasión de grid
 const saveGridTemplate = () => {
-  const { preserveGrid } = getState()
+  const { preserveGrid } = useSettingsStore.getState()
   if (!preserveGrid) return
 
   const gridStyles = $('.grid').style
 
-  const gridTemplate = JSON.stringify({
+  const gridTemplate = {
     'grid-template-columns': gridStyles['grid-template-columns'],
     'grid-template-rows': gridStyles['grid-template-rows']
-  })
+  }
 
-  window.localStorage.setItem('gridTemplate', gridTemplate)
+  setLocalStorage('gridTemplate', gridTemplate)
 }
 
 const getInitialGridStyle = () => {
-  const { preserveGrid } = getState()
-  if (!preserveGrid) return window.localStorage.removeItem('gridTemplate')
+  const { preserveGrid } = useSettingsStore.getState()
+  if (!preserveGrid) return deleteLocalStorage('gridTemplate')
 
-  const gridTemplate = JSON.parse(window.localStorage.getItem('gridTemplate'))
+  const gridTemplate = getLocalStorage('gridTemplate')
 
   return gridTemplate && `grid-template-columns: ${gridTemplate['grid-template-columns']}; grid-template-rows: ${gridTemplate['grid-template-rows']}`
 }

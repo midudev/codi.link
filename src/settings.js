@@ -1,6 +1,6 @@
 import { DEFAULT_GRID_TEMPLATE, EDITOR_GRID_TEMPLATE } from './constants/editor-grid-template.js'
 import { DEFAULT_LAYOUT, HORIZONTAL_LAYOUT, VERTICAL_LAYOUT } from './constants/grid-templates.js'
-import { getState } from './state.js'
+import { useEditorsStore, useSettingsStore } from './state.js'
 import { $$, setFormControlValue } from './utils/dom.js'
 
 const ELEMENT_TYPES = {
@@ -12,13 +12,10 @@ const ELEMENT_TYPES = {
 const $settings = $$('#settings [data-for]')
 const $$layoutSelector = $$('layout-preview')
 
-const {
-  updateSettings,
-  ...settings
-} = getState()
-
 $settings.forEach(el => {
   const settingKey = el.getAttribute('data-for')
+  const editorStore = useEditorsStore.getState()
+  const { updateStore, ...settings } = (Object.prototype.hasOwnProperty.call(editorStore, settingKey) ? editorStore : useSettingsStore.getState())
   const actualSettingValue = settings[settingKey]
 
   // Reflect the initial configuration in the settings section.
@@ -34,7 +31,7 @@ $settings.forEach(el => {
 
       const settingValue = isCheckbox ? checked : value
 
-      updateSettings({
+      updateStore({
         key: settingKey,
         value: settingValue
       })
@@ -44,7 +41,7 @@ $settings.forEach(el => {
     el.addEventListener('change', ({ target }) => {
       const { value } = target
 
-      updateSettings({
+      updateStore({
         key: settingKey,
         value: value
       })
@@ -55,6 +52,7 @@ $settings.forEach(el => {
 $$layoutSelector.forEach(layoutEl => {
   layoutEl.addEventListener('click', ({ target }) => {
     const { layout } = target
+    const { updateStore } = useSettingsStore.getState()
 
     const style = EDITOR_GRID_TEMPLATE[layout] || DEFAULT_GRID_TEMPLATE
     let gutters
@@ -65,7 +63,7 @@ $$layoutSelector.forEach(layoutEl => {
       default: gutters = DEFAULT_LAYOUT
     }
 
-    updateSettings({
+    updateStore({
       key: 'layout',
       value: { gutters, style, type: layout }
     })
