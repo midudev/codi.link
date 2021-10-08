@@ -6,12 +6,18 @@ import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { initializeEventsController } from './events-controller.js'
-import { subscribe } from './state'
+import { getState, subscribe } from './state.js'
+import WindowPreviewer from './utils/WindowPreviewer.js'
+import setGridLayout from './grid.js'
 
 import './aside.js'
 import './skypack.js'
 import './settings.js'
-import './grid.js'
+import './scroll.js'
+
+const { layout: currentLayout } = getState()
+
+setGridLayout(currentLayout)
 
 const $js = $('#js')
 const $css = $('#css')
@@ -46,10 +52,13 @@ subscribe(state => {
       ...newOptions
     })
   })
+  setGridLayout(state.layout)
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
+const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
+const debouncedUpdateHash = debounce(updateHashedCode, MS_UPDATE_HASH_DEBOUNCED_TIME)
 
 htmlEditor.focus()
 htmlEditor.onDidChangeModelContent(debouncedUpdate)
@@ -59,20 +68,24 @@ jsEditor.onDidChangeModelContent(debouncedUpdate)
 initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
-const htmlForPreview = createHtml({ html, js, css })
-$('iframe').setAttribute('srcdoc', htmlForPreview)
+const initialHtmlForPreview = createHtml({ html, js, css })
+$('iframe').setAttribute('srcdoc', initialHtmlForPreview)
 
 function update () {
   const html = htmlEditor.getValue()
   const css = cssEditor.getValue()
   const js = jsEditor.getValue()
 
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
-
-  window.history.replaceState(null, null, `/${hashedCode}`)
-
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
+
+  WindowPreviewer.updateWindowContent(htmlForPreview)
+  debouncedUpdateHash({ html, css, js })
+}
+
+function updateHashedCode ({ html, css, js }) {
+  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  window.history.replaceState(null, null, `/${hashedCode}`)
 }
 
 function createHtml ({ html, js, css }) {

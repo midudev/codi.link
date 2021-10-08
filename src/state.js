@@ -1,20 +1,14 @@
 import create from 'zustand/vanilla'
 
+import { DEFAULT_INITIAL_SETTINGS } from './constants/initial-settings'
+
 const getLocalStorage = (key) => JSON.parse(window.localStorage.getItem(key))
 const setLocalStorage = (key, value) =>
   window.localStorage.setItem(key, JSON.stringify(value))
 
-const appInitialState = getLocalStorage('appInitialState') || {
-  fontSize: 18,
-  lineNumbers: 'off',
-  minimap: false,
-  theme: 'vs-dark',
-  wordWrap: 'on',
-  fontLigatures: 'on',
-  preserveGrid: true,
-  zipFileName: 'codi.link',
-  zipInSingleFile: false,
-  fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'"
+const appInitialState = {
+  ...DEFAULT_INITIAL_SETTINGS,
+  ...getLocalStorage('appInitialState')
 }
 
 const useStore = create((set, get) => ({

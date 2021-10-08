@@ -1,5 +1,7 @@
-import { $$, setFormControlValue } from './utils/dom.js'
+import { DEFAULT_GRID_TEMPLATE, EDITOR_GRID_TEMPLATE } from './constants/editor-grid-template.js'
+import { DEFAULT_LAYOUT, HORIZONTAL_LAYOUT, VERTICAL_LAYOUT } from './constants/grid-templates.js'
 import { getState } from './state.js'
+import { $$, setFormControlValue } from './utils/dom.js'
 
 const ELEMENT_TYPES = {
   INPUT: 'input',
@@ -8,6 +10,7 @@ const ELEMENT_TYPES = {
 }
 
 const $settings = $$('#settings [data-for]')
+const $$layoutSelector = $$('.layout-preview')
 
 const {
   updateSettings,
@@ -47,4 +50,25 @@ $settings.forEach(el => {
       })
     })
   }
+})
+
+$$layoutSelector.forEach(layoutEl => {
+  layoutEl.addEventListener('click', ({ target }) => {
+    const element = target.className === 'layout-preview' ? target : target.closest('.layout-preview')
+    const { id: type } = element
+
+    const isVerticalLayout = type === 'vertical'
+    const isHorizontalLayout = type === 'horizontal'
+
+    const layout = isVerticalLayout ? VERTICAL_LAYOUT : isHorizontalLayout ? HORIZONTAL_LAYOUT : DEFAULT_LAYOUT
+
+    updateSettings({
+      key: 'layout',
+      value: {
+        gutters: layout,
+        style: EDITOR_GRID_TEMPLATE[type] || DEFAULT_GRID_TEMPLATE,
+        type
+      }
+    })
+  })
 })

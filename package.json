@@ -7,6 +7,7 @@
     "lint": "standard",
     "dev": "vite",
     "build": "vite build",
+    "phoenix": "rm -rf ./node_modules && npm install",
     "serve": "vite preview",
     "postinstall": "git config core.hooksPath ./git-hooks"
   },
