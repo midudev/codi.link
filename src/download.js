@@ -1,3 +1,5 @@
+import { createHtml } from './utils/createHtml.js'
+
 const getZip = () =>
   import('jszip').then(({ default: JSZip }) => new JSZip())
 
@@ -22,23 +24,9 @@ export async function downloadUserCode ({
 
 async function createZipWithSingleFile ({ htmlContent, cssContent, jsContent }) {
   const zip = await getZip()
+  const indexHTML = createHtml({ css: cssContent, html: htmlContent, js: jsContent })
 
-  const indexHtml = `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <style>
-      ${cssContent}
-    </style>
-  </head>
-  <body>
-    ${htmlContent}
-    <script type="module">
-    ${jsContent}
-    </script>
-  </body>
-</html>`
-
-  zip.file('index.html', indexHtml)
+  zip.file('index.html', indexHTML)
 
   return zip
 }
