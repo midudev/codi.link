@@ -19,10 +19,10 @@ const saveGridTemplate = () => {
 
   const gridStyles = $('.grid').style
 
-  const gridTemplate = JSON.stringify({
+  const gridTemplate = {
     'grid-template-columns': gridStyles['grid-template-columns'],
     'grid-template-rows': gridStyles['grid-template-rows']
-  })
+  }
 
   setLocalStorage('gridTemplate', gridTemplate)
 }

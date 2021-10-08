@@ -53,8 +53,9 @@ useEditorsStore.subscribe(state => {
       ...newOptions
     })
   })
-  setGridLayout(state.layout)
 })
+
+useSettingsStore.subscribe((currentLayout) => setGridLayout(currentLayout), state => state.layout)
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
 const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
