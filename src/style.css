@@ -94,7 +94,7 @@ iframe {
 
 .grid {
   display: grid;
-  grid-template-areas: 'editor-html . editor-js' 
+  grid-template-areas: 'editor-html . editor-js'
                         '. . .'
                         'editor-css . editor-preview';
   grid-template-columns: 1fr 5px 1fr;
@@ -123,8 +123,8 @@ iframe {
   }
   &[data-layout="horizontal"] {
     grid-template-areas: 'editor-html'
-                         '.' 
-                         'editor-css' 
+                         '.'
+                         'editor-css'
                          '.'
                          'editor-js'
                          '.'
@@ -146,15 +146,15 @@ iframe {
   & #html {
     grid-area: editor-html;
   }
-  
+
   & #css {
     grid-area: editor-css;
   }
-  
+
   & #js {
     grid-area: editor-js;
   }
-  
+
   & #editor-preview {
     grid-area: editor-preview;
   }
@@ -199,7 +199,7 @@ aside button .button-title {
   font-size: 1.1em;
   padding: 0.5em .75em;
   position: absolute;
-  right: -10px; 
+  right: -10px;
   transform: translateX(100%);
   z-index: 1000;
 
@@ -548,7 +548,7 @@ select {
   & .input .input-icon {
     fill: rgba(128, 128, 128, 0.50);
   }
-  
+
   & .input input {
     width: 100%;
     padding: .05em;
@@ -680,50 +680,6 @@ select {
       display: flex;
       justify-content: space-between;
       padding: 10px 0;
-      & .layout-preview {
-        display: grid;
-        height: 40px;
-        width: 40px;
-        padding: 5px;
-        cursor: pointer;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-        grid-template-areas: 'html js' 'css result';
-        gap: 2px;
-        &.active {
-          background-color: #797b80;
-          border-radius: 5px;
-        }
-        &#layout-2 {
-          grid-template-areas: 'html css' 'js result';
-        }
-        &#vertical {
-          grid-template-columns: repeat(4, 1fr);
-          grid-template-rows: 1fr;
-          grid-template-areas: 'html css js result';
-        }
-        &#horizontal {
-          grid-template-rows: repeat(4, 1fr);
-          grid-template-columns: 1fr;
-          grid-template-areas: 'html' 'css' 'js' 'result';
-        }
-        & .layout-preview-html {
-          grid-area: html;
-          background-color: #e34f26;
-        }
-        & .layout-preview-css {
-          grid-area: css;
-          background-color: #30a9dc;
-        }
-        & .layout-preview-js {
-          grid-area: js;
-          background-color: #f7df1e;
-        }
-        & .layout-preview-result {
-          grid-area: result;
-          background-color: white;
-        }
-      }
     }
 
   }
@@ -791,7 +747,7 @@ select {
 }
 
 /* Magic Menu Styles */
-.preview { 
+.preview {
   position: relative;
 }
 
@@ -853,7 +809,7 @@ select {
     flex-direction: column;
     margin: 75px 0 0;
   }
-  
+
   .editor{
     min-height: calc(100vh - 75px);
     scroll-snap-align: start;
@@ -896,7 +852,7 @@ select {
   .iPadShowKeyboard {
     display: none;
   }
-  
+
   .scroll-buttons-container {
     display: block;
     position: absolute;
@@ -922,7 +878,7 @@ select {
     transition: opacity 0.2s;
     -webkit-tap-highlight-color: transparent;
   }
-  
+
   .scroll-button:focus {
     opacity: 1;
   }

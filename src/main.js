@@ -16,6 +16,8 @@ import './skypack.js'
 import './settings.js'
 import './scroll.js'
 
+import './components/layout-preview/layout-preview.js'
+
 const { layout: currentLayout } = getState()
 
 setGridLayout(currentLayout)
