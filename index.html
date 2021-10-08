@@ -157,6 +157,41 @@
 
               <div class="settings-item">
                 <strong>
+                  <span class="settings-type">Editor:</span>
+                  Layout
+                </strong>
+                <div>
+                  <span>Change view layout</span>
+                  <div class="layout-preview-container">
+                    <div class="layout-preview" id="default">
+                      <div class="layout-preview-html"></div>
+                      <div class="layout-preview-css"></div>
+                      <div class="layout-preview-js"></div>
+                      <div class="layout-preview-result"></div>
+                    </div>
+                    <div class="layout-preview" id="layout-2">
+                      <div class="layout-preview-html"></div>
+                      <div class="layout-preview-css"></div>
+                      <div class="layout-preview-js"></div>
+                      <div class="layout-preview-result"></div>
+                    </div>
+                    <div class="layout-preview" id="vertical">
+                      <div class="layout-preview-html"></div>
+                      <div class="layout-preview-css"></div>
+                      <div class="layout-preview-js"></div>
+                      <div class="layout-preview-result"></div>
+                    </div>
+                    <div class="layout-preview" id="horizontal">
+                      <div class="layout-preview-html"></div>
+                      <div class="layout-preview-css"></div>
+                      <div class="layout-preview-js"></div>
+                      <div class="layout-preview-result"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="settings-item">
+                <strong>
                   <span class="settings-type">Workbench:</span>
                   Preserve Grid
                 </strong>
@@ -177,12 +212,13 @@
         <div class="editor" id="js"></div>
         <div class="editor" id="css"></div>
 
-        <div class='iframe-container'>
+        <div id="editor-preview" class='iframe-container'>
           <iframe srcdoc="" title="CodiLink Preview"></iframe>
         </div>
 
-        <div class="vertical-gutter"></div>
-        <div class="horizontal-gutter"></div>
+        <div class="first-gutter"></div>
+        <div class="second-gutter"></div>
+        <div class="last-gutter"></div>
       
         <div class="scroll-buttons-container">
           <button class="scroll-button button-up">

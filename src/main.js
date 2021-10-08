@@ -6,14 +6,14 @@ import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { initializeEventsController } from './events-controller.js'
-import { subscribe } from './state'
+import { getState, subscribe } from './state'
 import WindowPreviewer from './utils/WindowPreviewer.js'
 
-import './aside.js'
-import './skypack.js'
-import './settings.js'
-import './grid.js'
-import './scroll'
+import setGridLayout from './grid'
+
+const { layout: currentLayout } = getState()
+
+setGridLayout(currentLayout)
 
 const $js = $('#js')
 const $css = $('#css')
@@ -48,6 +48,7 @@ subscribe(state => {
       ...newOptions
     })
   })
+  setGridLayout(state.layout)
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
