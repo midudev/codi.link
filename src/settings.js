@@ -10,7 +10,7 @@ const ELEMENT_TYPES = {
 }
 
 const $settings = $$('#settings [data-for]')
-const $$layoutSelector = $$('.layout-preview')
+const $$layoutSelector = $$('layout-preview')
 
 const {
   updateSettings,
@@ -54,21 +54,20 @@ $settings.forEach(el => {
 
 $$layoutSelector.forEach(layoutEl => {
   layoutEl.addEventListener('click', ({ target }) => {
-    const element = target.className === 'layout-preview' ? target : target.closest('.layout-preview')
-    const { id: type } = element
+    const { layout } = target
 
-    const isVerticalLayout = type === 'vertical'
-    const isHorizontalLayout = type === 'horizontal'
+    const style = EDITOR_GRID_TEMPLATE[layout] || DEFAULT_GRID_TEMPLATE
+    let gutters
 
-    const layout = isVerticalLayout ? VERTICAL_LAYOUT : isHorizontalLayout ? HORIZONTAL_LAYOUT : DEFAULT_LAYOUT
+    switch (layout) {
+      case 'vertical': gutters = VERTICAL_LAYOUT; break
+      case 'horizontal': gutters = HORIZONTAL_LAYOUT; break
+      default: gutters = DEFAULT_LAYOUT
+    }
 
     updateSettings({
       key: 'layout',
-      value: {
-        gutters: layout,
-        style: EDITOR_GRID_TEMPLATE[type] || DEFAULT_GRID_TEMPLATE,
-        type
-      }
+      value: { gutters, style, type: layout }
     })
   })
 })
