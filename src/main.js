@@ -1,5 +1,3 @@
-import './style.css'
-
 import { initEditorHotKeys } from './utils/editor-hotkeys.js'
 import { encode, decode } from 'js-base64'
 import { $ } from './utils/dom.js'
