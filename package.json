@@ -6,7 +6,9 @@
     "co": "sui-mono commit",
     "lint": "standard",
     "dev": "vite",
+    "cypress": "node_modules/.bin/cypress open",
     "build": "vite build",
+    "phoenix": "rm -rf ./node_modules && npm install",
     "serve": "vite preview",
     "postinstall": "git config core.hooksPath ./git-hooks"
   },
@@ -14,7 +16,8 @@
     "@s-ui/mono": "2",
     "postcss-nesting": "8.0.1",
     "standard": "16.0.4",
-    "vite": "2.6.3"
+    "vite": "2.6.3",
+    "cypress": "^8.5.0"
   },
   "dependencies": {
     "css-format-monaco": "^2.0.4",
