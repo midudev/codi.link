@@ -6,7 +6,7 @@ import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { initializeEventsController } from './events-controller.js'
-import { subscribe } from './state'
+import { useEditorsStore } from './state'
 import WindowPreviewer from './utils/WindowPreviewer.js'
 
 import './aside.js'
@@ -31,7 +31,7 @@ const htmlEditor = createEditor({ domElement: $html, language: 'html', value: ht
 const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
 const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
 
-subscribe(state => {
+useEditorsStore.subscribe(state => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
   EDITORS.forEach(editor => {
     const { minimap, ...restOfOptions } = state

@@ -1,6 +1,6 @@
 import Split from 'split-grid'
 import { $ } from './utils/dom.js'
-import { getState } from './state'
+import { useSettingsStore } from './state'
 
 const splitGrid = Split({
   columnGutters: [{
@@ -15,7 +15,7 @@ const splitGrid = Split({
 
 // Metodo de preservasión de grid
 const saveGridTemplate = () => {
-  const { preserveGrid } = getState()
+  const { preserveGrid } = useSettingsStore.getState()
 
   if (preserveGrid) {
     const gridStyles = $('.grid').style
@@ -29,7 +29,7 @@ const saveGridTemplate = () => {
 }
 
 const setGridTemplate = () => {
-  const { preserveGrid } = getState()
+  const { preserveGrid } = useSettingsStore.getState()
 
   if (!preserveGrid) return window.localStorage.removeItem('gridTemplate')
 

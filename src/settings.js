@@ -1,5 +1,5 @@
 import { $$, setFormControlValue } from './utils/dom.js'
-import { getState } from './state.js'
+import { useEditorsStore, useSettingsStore } from './state.js'
 
 const ELEMENT_TYPES = {
   INPUT: 'input',
@@ -9,13 +9,10 @@ const ELEMENT_TYPES = {
 
 const $settings = $$('#settings [data-for]')
 
-const {
-  updateSettings,
-  ...settings
-} = getState()
-
 $settings.forEach(el => {
   const settingKey = el.getAttribute('data-for')
+  const editorStore = useEditorsStore.getState()
+  const { updateStore, ...settings } = (Object.prototype.hasOwnProperty.call(editorStore, settingKey) ? editorStore : useSettingsStore.getState())
   const actualSettingValue = settings[settingKey]
 
   // Reflect the initial configuration in the settings section.
@@ -31,7 +28,7 @@ $settings.forEach(el => {
 
       const settingValue = isCheckbox ? checked : value
 
-      updateSettings({
+      updateStore({
         key: settingKey,
         value: settingValue
       })
@@ -41,7 +38,7 @@ $settings.forEach(el => {
     el.addEventListener('change', ({ target }) => {
       const { value } = target
 
-      updateSettings({
+      updateStore({
         key: settingKey,
         value: value
       })
