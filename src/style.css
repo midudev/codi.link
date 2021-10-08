@@ -325,6 +325,194 @@ select {
   width: 100%;
 }
 
+@keyframes bounceInDown {
+  from,
+  60%,
+  75%,
+  90%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.455, 1);
+  }
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -3000px, 0);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(0, 25px, 0);
+  }
+  75% {
+    transform: translate3d(0, -10px, 0);
+  }
+  90% {
+    transform: translate3d(0, 5px, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes bounceInUp {
+  from,
+  60%,
+  75%,
+  90%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.455, 1);
+  }
+  from {
+    opacity: 0;
+    transform: translate3d(0, 3000px, 0);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(0, -20px, 0);
+  }
+  75% {
+    transform: translate3d(0, 10px, 0);
+  }
+  90% {
+    transform: translate3d(0, -5px, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes bounceOutDown {
+  20% {
+    transform: translate3d(0, 10px, 0);
+  }
+  40%,
+  45% {
+    opacity: 1;
+    transform: translate3d(0, -20px, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, 2000px, 0);
+  }
+}
+
+@keyframes bounceOutUp {
+  20% {
+    transform: translate3d(0, -10px, 0);
+  }
+  40%,
+  45% {
+    opacity: 1;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -2000px, 0);
+  }
+}
+
+#notifications {
+  position: relative;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+}
+
+#notifications-wrapper {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  column-gap: 0.33rem;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #000;
+    box-shadow: 0 0 15px 2px rgb(0 0 0 / 30%);
+  background-color: #2f363d;
+  color: rgb(225, 228, 232);
+  transition: opacity cubic-bezier(0.215, 0.61, 0.455, 1);
+  user-select: none;
+  cursor: pointer;
+}
+
+.icon-close {
+  color: rgba(225, 228, 232, 0.822);
+  margin-left: 0.5rem;
+}
+
+.icon-close:hover {
+  color: rgb(225, 228, 232);
+}
+
+.notification__icon, .notification__message, .icon-close {
+  display: flex;
+  align-self: center;
+}
+
+#notifications-wrapper.notification--top-left {
+  top: 10px;
+  left: 10px;
+}
+
+#notifications-wrapper.notification--top-center {
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#notifications-wrapper.notification--top-right {
+  top: 10px;
+  right: 10px;
+}
+
+#notifications-wrapper.notification--bottom-left {
+  bottom: 10px;
+  left: 10px;
+}
+
+#notifications-wrapper.notification--bottom-center {
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#notifications-wrapper.notification--bottom-right {
+  bottom: 10px;
+  right: 10px;
+}
+
+#notifications-wrapper[class|='notification--top'] .bounce-active {
+  animation: bounceInDown 0.4s;
+}
+
+#notifications-wrapper[class|='notification--bottom'] .bounce-active {
+  animation: bounceInUp 0.4s;
+}
+
+#notifications-wrapper[class|='notification--top'] .bounce-leave {
+  animation: bounceOutUp 0.4s;
+}
+
+#notifications-wrapper[class|='notification--bottom'] .bounce-leave {
+  animation: bounceOutDown 0.4s;
+}
+
+.notification--info .notification__icon {
+  color: #6199cb;
+}
+
+.notification--warning .notification__icon {
+  color: #c3a001;
+}
+
+.notification--danger .notification__icon {
+  color: #a34535;
+}
+
 .skypack {
   & .skypack-type {
     padding-bottom: 8px;
