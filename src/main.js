@@ -1,19 +1,24 @@
-import './style.css'
-
 import { initEditorHotKeys } from './utils/editor-hotkeys.js'
 import { encode, decode } from 'js-base64'
 import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
+import { createHtml } from './utils/createHtml'
 import { initializeEventsController } from './events-controller.js'
-import { useEditorsStore } from './state'
+import { useEditorsStore, useSettingsStore } from './state'
 import WindowPreviewer from './utils/WindowPreviewer.js'
+import setGridLayout from './grid.js'
 
 import './aside.js'
 import './skypack.js'
 import './settings.js'
-import './grid.js'
-import './scroll'
+import './scroll.js'
+
+import './components/layout-preview/layout-preview.js'
+
+const { layout: currentLayout } = useSettingsStore.getState()
+
+setGridLayout(currentLayout)
 
 const $js = $('#js')
 const $css = $('#css')
@@ -48,6 +53,7 @@ useEditorsStore.subscribe(state => {
       ...newOptions
     })
   })
+  setGridLayout(state.layout)
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
@@ -81,22 +87,4 @@ function update () {
 function updateHashedCode ({ html, css, js }) {
   const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
   window.history.replaceState(null, null, `/${hashedCode}`)
-}
-
-function createHtml ({ html, js, css }) {
-  return `
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <style>
-      ${css}
-    </style>
-  </head>
-  <body>
-    ${html}
-    <script type="module">
-    ${js}
-    </script>
-  </body>
-</html>`
 }

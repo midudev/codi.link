@@ -1,8 +1,8 @@
 import create from 'zustand/vanilla'
+import { getLocalStorage, setLocalStorage } from './utils/useLocalStorage'
 
-const getLocalStorage = (key) => JSON.parse(window.localStorage.getItem(key))
-const setLocalStorage = (key, value) =>
-  window.localStorage.setItem(key, JSON.stringify(value))
+import { DEFAULT_APP_SETTINGS, DEFAULT_EDITOR_SETTINGS } from './constants/initial-settings'
+
 const updateStore = ({ key, value, set, storeName }) => {
   set(state => {
     setLocalStorage(storeName, {
@@ -14,22 +14,14 @@ const updateStore = ({ key, value, set, storeName }) => {
   })
 }
 
-const editorsInitialState = getLocalStorage('editorsInitialState') || {
-  fontSize: 18,
-  lineNumbers: 'off',
-  minimap: false,
-  theme: 'vs-dark',
-  wordWrap: 'on',
-  fontLigatures: 'on',
-  fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'"
-}
+const editorsInitialState = { ...DEFAULT_EDITOR_SETTINGS, ...getLocalStorage('editorsInitialState') }
 
 export const useEditorsStore = create((set, get) => ({
   ...editorsInitialState,
   updateStore: ({ key, value }) => updateStore({ key, value, set, storeName: 'editorsInitialState' })
 }))
 
-const settingsInitialState = getLocalStorage('settingsInitialState') || { preserveGrid: true }
+const settingsInitialState = { ...DEFAULT_APP_SETTINGS, ...getLocalStorage('settingsInitialState') }
 
 export const useSettingsStore = create((set, get) => ({
   ...settingsInitialState,

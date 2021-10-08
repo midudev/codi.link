@@ -1,6 +1,7 @@
 import mitt from 'mitt'
 import { capitalize, searchByLine } from './utils/string.js'
 import { downloadUserCode } from './download.js'
+import { useSettingsStore } from './state'
 
 export const eventBus = mitt()
 
@@ -25,14 +26,21 @@ export const EVENTS = {
 
 eventBus.on(EVENTS.ADD_SKYPACK_PACKAGE, ({ skypackPackage, url }) => {
   const importStatement = `import ${capitalize(skypackPackage)} from '${url}';`
-  const existPackage = searchByLine(jsEditor.getValue(), importStatement)
+  const existPackage = searchByLine(jsEditor.getValue(), url)
   if (!existPackage) {
     jsEditor.setValue(`${importStatement}\n${jsEditor.getValue()}`)
   }
 })
 
 eventBus.on(EVENTS.DOWNLOAD_USER_CODE, () => {
+  const {
+    zipInSingleFile,
+    zipFileName
+  } = useSettingsStore.getState()
+
   downloadUserCode({
+    zipFileName,
+    zipInSingleFile,
     htmlContent: htmlEditor.getValue(),
     cssContent: cssEditor.getValue(),
     jsContent: jsEditor.getValue()
