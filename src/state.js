@@ -1,25 +1,14 @@
 import create from 'zustand/vanilla'
-import { DEFAULT_GRID_TEMPLATE } from './constants/editor-grid-template'
-import { DEFAULT_LAYOUT } from './constants/grid-templates'
+
+import { DEFAULT_INITIAL_SETTINGS } from './constants/initial-settings'
 
 const getLocalStorage = (key) => JSON.parse(window.localStorage.getItem(key))
 const setLocalStorage = (key, value) =>
   window.localStorage.setItem(key, JSON.stringify(value))
 
-const appInitialState = getLocalStorage('appInitialState') || {
-  fontSize: 18,
-  lineNumbers: 'off',
-  minimap: false,
-  theme: 'vs-dark',
-  wordWrap: 'on',
-  fontLigatures: 'on',
-  fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'",
-  preserveGrid: true,
-  layout: {
-    gutters: DEFAULT_LAYOUT,
-    style: DEFAULT_GRID_TEMPLATE,
-    type: 'default'
-  }
+const appInitialState = {
+  ...DEFAULT_INITIAL_SETTINGS,
+  ...getLocalStorage('appInitialState')
 }
 
 const useStore = create((set, get) => ({
