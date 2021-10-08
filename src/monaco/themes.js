@@ -1,5 +1,5 @@
 
-import { monaco } from '.'
+import { monaco } from './index.js'
 import strip from 'strip-comments'
 
 import * as themes from '../assets/themes'
@@ -43,7 +43,8 @@ const convertTheme = (theme) => {
   })
   returnTheme.rules.push({
     token: '',
-    foreground: returnTheme.colors['editor.foreground']
+    foreground: returnTheme.colors['editor.foreground'],
+    background: returnTheme.colors['editor.background']
   })
   return returnTheme
 }

@@ -5,13 +5,22 @@ import { encode, decode } from 'js-base64'
 import { $ } from './utils/dom.js'
 import { createEditors } from './monaco/editor.js'
 import debounce from './utils/debounce.js'
+import { createHtml } from './utils/createHtml'
 import { initializeEventsController } from './events-controller.js'
-import { subscribe } from './state'
+import { getState, subscribe } from './state.js'
+import WindowPreviewer from './utils/WindowPreviewer.js'
+import setGridLayout from './grid.js'
 
 import './aside.js'
 import './skypack.js'
 import './settings.js'
-import './grid.js'
+import './scroll.js'
+
+import './components/layout-preview/layout-preview.js'
+
+const { layout: currentLayout } = getState()
+
+setGridLayout(currentLayout)
 
 const $js = $('#js')
 const $css = $('#css')
@@ -23,7 +32,9 @@ const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
 
 const html = rawHtml ? decode(rawHtml) : ''
 const css = rawCss ? decode(rawCss) : ''
-const js = rawJs ? decode(rawJs) : '';
+const js = rawJs
+  ? decode(rawJs)
+  : '';
 
 (async () => {
   const { javascript: jsEditor, html: htmlEditor, css: cssEditor } = await createEditors(
@@ -50,50 +61,38 @@ const js = rawJs ? decode(rawJs) : '';
         ...newOptions
       })
     })
+    setGridLayout(state.layout)
   })
 
   const MS_UPDATE_DEBOUNCED_TIME = 200
+  const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
   const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
+  const debouncedUpdateHash = debounce(updateHashedCode, MS_UPDATE_HASH_DEBOUNCED_TIME)
 
   htmlEditor.focus()
   htmlEditor.onDidChangeModelContent(debouncedUpdate)
   cssEditor.onDidChangeModelContent(debouncedUpdate)
   jsEditor.onDidChangeModelContent(debouncedUpdate)
-
   initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
   initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
-  const htmlForPreview = createHtml({ html, js, css })
-  $('iframe').setAttribute('srcdoc', htmlForPreview)
+  const initialHtmlForPreview = createHtml({ html, js, css })
+  $('iframe').setAttribute('srcdoc', initialHtmlForPreview)
 
   function update () {
     const html = htmlEditor.getValue()
     const css = cssEditor.getValue()
     const js = jsEditor.getValue()
 
-    const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
-
-    window.history.replaceState(null, null, `/${hashedCode}`)
-
     const htmlForPreview = createHtml({ html, js, css })
     $('iframe').setAttribute('srcdoc', htmlForPreview)
+
+    WindowPreviewer.updateWindowContent(htmlForPreview)
+    debouncedUpdateHash({ html, css, js })
   }
 
-  function createHtml ({ html, js, css }) {
-    return `
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <style>
-      ${css}
-    </style>
-  </head>
-  <body>
-    ${html}
-    <script type="module">
-    ${js}
-    </script>
-  </body>
-</html>`
+  function updateHashedCode ({ html, css, js }) {
+    const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+    window.history.replaceState(null, null, `/${hashedCode}`)
   }
 })()

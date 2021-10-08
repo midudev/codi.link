@@ -6,6 +6,7 @@ import { wireTmGrammars } from 'monaco-editor-textmate'
 
 import { getState } from '../state.js'
 import configureThemes from './themes'
+import { registerAutoCompleteHTMLTag } from '../editor-extensions/autocomplete-html-tag'
 
 import * as syntaxes from '../assets/syntaxes'
 
@@ -94,6 +95,8 @@ export async function createEditors (configs) {
     grammars.set('javascript', 'source.js')
 
     await configureThemes()
+
+    registerAutoCompleteHTMLTag(monaco)
 
     const editors = {}
 
