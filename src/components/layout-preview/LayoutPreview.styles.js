@@ -19,7 +19,7 @@ export const LayoutPreviewStyles = css`
 }
 
 :host([layout=layout-2]){
-  grid-template-areas: 'html js' 'css result';
+  grid-template-areas: 'html css' 'js result';
 }
 
 :host([layout=vertical]){
