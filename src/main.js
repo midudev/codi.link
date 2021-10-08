@@ -6,10 +6,14 @@ import { $ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { initializeEventsController } from './events-controller.js'
-import { getState, subscribe } from './state'
+import { getState, subscribe } from './state.js'
 import WindowPreviewer from './utils/WindowPreviewer.js'
+import setGridLayout from './grid.js'
 
-import setGridLayout from './grid'
+import './aside.js'
+import './skypack.js'
+import './settings.js'
+import './scroll.js'
 
 const { layout: currentLayout } = getState()
 
