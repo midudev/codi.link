@@ -94,17 +94,17 @@ iframe {
 
 .grid {
   display: grid;
-  grid-template-areas: 'editor-html . editor-css'
-                       '. . .'
-                       'editor-js . editor-preview';
+  grid-template-areas: 'editor-html . editor-js' 
+                        '. . .'
+                        'editor-css . editor-preview';
   grid-template-columns: 1fr 5px 1fr;
   grid-template-rows: 1fr 5px 1fr;
   height: 100vh;
 
   &[data-layout="layout-2"] {
-    grid-template-areas: 'editor-html . editor-js' 
-                         '. . .'
-                         'editor-css . editor-preview';
+    grid-template-areas: 'editor-html . editor-css'
+    '. . .'
+    'editor-js . editor-preview';
   }
   &[data-layout="vertical"] {
     grid-template-areas: 'editor-html . editor-css . editor-js . editor-preview';
@@ -688,14 +688,14 @@ select {
         cursor: pointer;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
-        grid-template-areas: 'html css' 'js result';
+        grid-template-areas: 'html js' 'css result';
         gap: 2px;
         &.active {
           background-color: #797b80;
           border-radius: 5px;
         }
         &#layout-2 {
-          grid-template-areas: 'html js' 'css result';
+          grid-template-areas: 'html css' 'js result';
         }
         &#vertical {
           grid-template-columns: repeat(4, 1fr);
