@@ -33,7 +33,7 @@ const getMatchingTagName = ({ model, position: { lineNumber, column } }) => {
     endColumn: column
   })
 
-  return textFromCurrentLineUntilPosition.match(/.*<(\w+)>$/)?.[1]
+  return textFromCurrentLineUntilPosition.match(/.*<(\w+).*>$/)?.[1]
 }
 
 const checkIsEmptyTag = (tagName) => EMPTY_HTML_TAGS.includes(tagName)
