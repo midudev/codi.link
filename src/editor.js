@@ -6,6 +6,7 @@ import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import { getState } from './state.js'
 import { registerAutoCompleteHTMLTag } from './editor-extensions/autocomplete-html-tag.js'
+import { registerCSSIntelligence } from './editor-extensions/css-intelligence.js'
 
 const {
   fontSize,
@@ -49,6 +50,7 @@ window.MonacoEnvironment = {
 }
 
 registerAutoCompleteHTMLTag(monaco)
+registerCSSIntelligence(monaco)
 
 export const createEditor = ({ domElement, language, value }) => {
   return monaco.editor.create(domElement, {
