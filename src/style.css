@@ -202,6 +202,15 @@ aside button .button-title {
   right: -10px; 
   transform: translateX(100%);
   z-index: 1000;
+  -moz-animation: hideTooltip 0s ease-in 2s forwards;
+    /* Firefox */
+  -webkit-animation: hideTooltip 0s ease-in 2s forwards;
+    /* Safari and Chrome */
+  -o-animation: hideTooltip 0s ease-in 2s forwards;
+    /* Opera */
+  animation: hideTooltip 0s ease-in 2s forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
 
   &:after {
     content: '';
@@ -229,6 +238,23 @@ aside button .button-title {
     border-top: 0.5em solid transparent;
     border-bottom: 0.5em solid transparent;
     border-right: 0.5em solid #000;
+  }
+}
+
+@keyframes hideTooltip {
+  to {
+      width:0;
+      height:0;
+      overflow:hidden;
+      left: -100px
+  }
+}
+@-webkit-keyframes hideTooltip {
+  to {
+      width:0;
+      height:0;
+      visibility:hidden;
+      left: -100px
   }
 }
 
