@@ -66,7 +66,7 @@ function displayResults ({ results, searchTerm }) {
 
 function getResultHTML ({ result, searchTerm }) {
   const resultBadgesHTML = getResultBadgesHTML({ result, searchTerm })
-  const updatedAt = Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(result.updatedAt))
+  const updatedAt = Intl.DateTimeFormat('en', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(result.updatedAt))
   return `
     <header>
       <strong>${escapeHTML(result.name)}</strong>
