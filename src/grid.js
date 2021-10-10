@@ -1,61 +1,68 @@
 import Split from 'split-grid'
-import { $ } from './utils/dom.js'
 import { getState } from './state'
+import { $, $$ } from './utils/dom'
 
-const splitGrid = Split({
-  columnGutters: [{
-    track: 1,
-    element: $('.vertical-gutter')
-  }],
-  rowGutters: [{
-    track: 1,
-    element: $('.horizontal-gutter')
-  }]
+const $editor = $('#editor')
+const $$layoutSelector = $$('layout-preview')
+let splitInstance
+
+const formatGutters = gutter => ({
+  ...gutter,
+  element: $(gutter.element)
 })
 
 // Metodo de preservasión de grid
 const saveGridTemplate = () => {
   const { preserveGrid } = getState()
+  if (!preserveGrid) return
 
-  if (preserveGrid) {
-    const gridStyles = $('.grid').style
-    const gridTemplate = JSON.stringify({
-      'grid-template-columns': gridStyles['grid-template-columns'],
-      'grid-template-rows': gridStyles['grid-template-rows']
-    })
+  const gridStyles = $('.grid').style
 
-    window.localStorage.setItem('gridTemplate', gridTemplate)
-  }
+  const gridTemplate = JSON.stringify({
+    'grid-template-columns': gridStyles['grid-template-columns'],
+    'grid-template-rows': gridStyles['grid-template-rows']
+  })
+
+  window.localStorage.setItem('gridTemplate', gridTemplate)
 }
 
-const setGridTemplate = () => {
+const getInitialGridStyle = () => {
   const { preserveGrid } = getState()
-
   if (!preserveGrid) return window.localStorage.removeItem('gridTemplate')
 
   const gridTemplate = JSON.parse(window.localStorage.getItem('gridTemplate'))
-  if (gridTemplate !== null) {
-    const gridStyles = $('.grid').style
-    gridStyles['grid-template-rows'] = gridTemplate['grid-template-rows']
-    gridStyles['grid-template-columns'] = gridTemplate['grid-template-columns']
-  }
+
+  return gridTemplate && `grid-template-columns: ${gridTemplate['grid-template-columns']}; grid-template-rows: ${gridTemplate['grid-template-rows']}`
 }
 
-// Eventos para guardar el estado de la grid una vez que se termine de mover
-const { columnGutters, rowGutters } = splitGrid
+const setGridLayout = ({ gutters, style, type = '' }) => {
+  const initialStyle = !splitInstance && getInitialGridStyle()
 
-for (const gutterIndex in columnGutters) {
-  const gutter = columnGutters[gutterIndex]
-  gutter.onDragEnd = () => {
-    saveGridTemplate()
+  $editor.setAttribute('data-layout', type)
+  $editor.setAttribute('style', initialStyle || style)
+
+  $$layoutSelector.forEach(layoutEl => {
+    if (type === layoutEl.layout) {
+      layoutEl.setAttribute('active', '')
+    } else {
+      layoutEl.removeAttribute('active')
+    }
+  })
+
+  saveGridTemplate()
+
+  const splitConfig = {
+    ...gutters,
+    ...gutters.columnGutters && { columnGutters: gutters.columnGutters.map(formatGutters) },
+    ...gutters.rowGutters && { rowGutters: gutters.rowGutters.map(formatGutters) },
+    onDragEnd: saveGridTemplate
   }
+
+  if (splitInstance) {
+    splitInstance.destroy(true)
+  }
+
+  splitInstance = Split(splitConfig)
 }
 
-for (const gutterIndex in rowGutters) {
-  const gutter = rowGutters[gutterIndex]
-  gutter.onDragEnd = () => {
-    saveGridTemplate()
-  }
-}
-
-setGridTemplate()
+export default setGridLayout

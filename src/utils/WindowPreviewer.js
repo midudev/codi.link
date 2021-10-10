@@ -12,6 +12,8 @@ class WindowPreviewer {
   }
 
   setupWindowIframe () {
+    const title = `${document.title} | Preview`
+    this.previewerWindow.document.title = title
     this.previewerWindow.document.body.style.margin = 0
     this.iframe = this.previewerWindow.document.createElement('iframe')
     Object.entries(this.iframeStyles).forEach(
