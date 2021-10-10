@@ -1,5 +1,6 @@
 import { decode } from 'js-base64'
 import './aside.js'
+import './nav.js'
 import { createEditor } from './editor.js'
 import { initializeEventsController } from './events-controller.js'
 import './grid.js'
