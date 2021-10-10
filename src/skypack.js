@@ -12,6 +12,7 @@ const $searchResults = $('#skypack .search-results')
 const $searchResultsList = $searchResults.querySelector('ul')
 const $searchResultsMessage = $('#skypack .search-results-message')
 const $skypackSearch = $('#skypack input[type="search"]')
+const $spinner = $searchResults.querySelector('.spinner')
 
 $skypackSearch.addEventListener('input', debounce(handleSearchInput, 200))
 
@@ -28,29 +29,44 @@ async function handleSearchInput () {
 
   lastSearchInput = searchTerm
 
-  if (!searchTerm) {
-    $searchResults.classList.add('hidden')
-    return
-  }
+  if (!searchTerm) return clearSearch()
 
+  await startSearch()
+}
+
+function clearSearch () {
+  hideSpinner()
+  $searchResultsMessage.innerHTML = ''
+  $searchResults.classList.add('hidden')
+}
+
+async function startSearch () {
   $searchResults.classList.remove('hidden')
   $searchResultsList.innerHTML = ''
 
   $searchResultsMessage.innerHTML = 'Searching...'
 
+  showSpinner()
   await fetchPackagesAndDisplayResults({ page: 1 })
 
   $searchResults.classList.remove('hidden')
 }
 
+function finishSearch () {
+  hideSpinner()
+}
+
 async function fetchPackagesAndDisplayResults ({ page = 1 }) {
-  const { results, meta } = await fetchPackages({ packageName: lastSearchInput, page })
+  const fetchResult = await fetchPackages({ page, packageName: lastSearchInput })
+
+  const { results, meta } = fetchResult
   currentPage = meta.page
   totalPages = meta.totalPages
 
+  // microbenchmark: only displays total count at first time
   currentPage === 1 && displayTotalCount(meta.totalCount)
 
-  if (results.length === 0) return
+  if (results.length === 0) return finishSearch()
 
   displayResults({ results, lastSearchInput })
 
@@ -66,7 +82,7 @@ function displayTotalCount (totalCount) {
 
 async function fetchNextPagePackagesAndDisplayResults () {
   const nextPage = currentPage + 1
-  if (nextPage > totalPages) return
+  if (nextPage > totalPages) return finishSearch()
 
   await fetchPackagesAndDisplayResults({ page: nextPage })
 }
@@ -143,4 +159,12 @@ function createLoadMoreResultsSentinelObserver ($sentinelEl) {
 
   const observer = new window.IntersectionObserver(handleIntersect, observerOptions)
   observer.observe($sentinelEl)
+}
+
+function showSpinner () {
+  $spinner.removeAttribute('hidden')
+}
+
+function hideSpinner () {
+  $spinner.setAttribute('hidden', '')
 }
