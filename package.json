@@ -3,27 +3,31 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "co": "sui-mono commit",
-    "lint": "standard",
     "dev": "vite --mode development",
     "build": "vite build --mode production",
-    "serve": "vite preview",
-    "postinstall": "git config core.hooksPath ./git-hooks"
+    "co": "sui-mono commit",
+    "cypress": "cypress open",
+    "lint": "standard",
+    "phoenix": "rm -rf ./node_modules && npm install",
+    "postinstall": "git config core.hooksPath ./git-hooks",
+    "serve": "vite preview"
   },
   "devDependencies": {
     "@s-ui/mono": "2",
     "postcss-nesting": "8.0.1",
     "standard": "16.0.4",
-    "vite": "2.6.3"
+    "vite": "2.6.3",
+    "cypress": "8.5.0"
   },
   "dependencies": {
-    "emmet-monaco-es": "^4.7.2",
+    "emmet-monaco-es": "4.7.2",
     "escape-html": "1.0.3",
     "firebase": "^9.1.1",
     "hotkeys-js": "3.8.7",
     "shortid": "^2.2.16",
     "js-base64": "3.7.2",
     "jszip": "3.7.1",
+    "lit": "2.0.2",
     "mitt": "3.0.0",
     "monaco-editor": "0.28.1",
     "split-grid": "1.0.11",

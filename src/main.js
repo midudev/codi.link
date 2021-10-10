@@ -3,7 +3,6 @@ import './aside.js'
 import './nav.js'
 import { createEditor } from './editor.js'
 import { initializeEventsController } from './events-controller.js'
-import './grid.js'
 import { getCodeState } from './services/code/code.service.js'
 import initDatabase from './services/database'
 import './settings.js'
@@ -14,6 +13,8 @@ import { updateIframePreview, updatePreview } from './utils/code.js'
 import debounce from './utils/debounce.js'
 import { $ } from './utils/dom.js'
 import { initEditorHotKeys } from './utils/editor-hotkeys.js'
+import './components/layout-preview/layout-preview.js'
+import setGridLayout from './grid.js'
 
 let htmlEditor, cssEditor, jsEditor
 
@@ -65,4 +66,5 @@ subscribe(state => {
       ...newOptions
     })
   })
+  setGridLayout(state.layout)
 })

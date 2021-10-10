@@ -1,41 +1,32 @@
+import { createHtml } from './utils/createHtml.js'
+
 const getZip = () =>
   import('jszip').then(({ default: JSZip }) => new JSZip())
+
+const DEFAULT_ZIP_FILE_NAME = 'codi.link'
 
 export async function downloadUserCode ({
   htmlContent,
   cssContent,
   jsContent,
-  fileName = 'codi.link',
+  zipFileName = DEFAULT_ZIP_FILE_NAME,
   zipInSingleFile = false
 }) {
+  zipFileName = zipFileName === '' ? DEFAULT_ZIP_FILE_NAME : zipFileName
+
   const createZip = zipInSingleFile
     ? createZipWithSingleFile
     : createZipWithMultipleFiles
 
   const zip = await createZip({ htmlContent, cssContent, jsContent })
-  return generateZip({ zip, fileName })
+  return generateZip({ zip, zipFileName })
 }
 
 async function createZipWithSingleFile ({ htmlContent, cssContent, jsContent }) {
   const zip = await getZip()
+  const indexHTML = createHtml({ css: cssContent, html: htmlContent, js: jsContent })
 
-  const indexHtml = `
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <style>
-      ${cssContent}
-    </style>
-  </head>
-  <body>
-    ${htmlContent}
-    <script type="module">
-    ${jsContent}
-    </script>
-  </body>
-</html>`
-
-  zip.file('index.html', indexHtml)
+  zip.file('index.html', indexHTML)
 
   return zip
 }
@@ -43,8 +34,7 @@ async function createZipWithSingleFile ({ htmlContent, cssContent, jsContent }) 
 async function createZipWithMultipleFiles ({ htmlContent, cssContent, jsContent }) {
   const zip = await getZip()
 
-  const indexHtml = `
-<!DOCTYPE html>
+  const indexHtml = `<!DOCTYPE html>
 <html lang="en">
   <head>
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
@@ -62,13 +52,13 @@ async function createZipWithMultipleFiles ({ htmlContent, cssContent, jsContent 
   return zip
 }
 
-function generateZip ({ zip, fileName }) {
+function generateZip ({ zip, zipFileName }) {
   return zip.generateAsync({ type: 'blob' }).then((blobData) => {
     const zipBlob = new window.Blob([blobData])
     const element = window.document.createElement('a')
 
     element.href = window.URL.createObjectURL(zipBlob)
-    element.download = `${fileName}.zip`
+    element.download = `${zipFileName}.zip`
     element.click()
   })
 }
