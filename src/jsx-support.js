@@ -1,12 +1,17 @@
 import { transform } from '@babel/standalone'
-import pluginReact from '@babel/preset-react'
+import presetReact from '@babel/preset-react'
+import { getState } from './state.js'
 
 export default function (code) {
+  const { jsxEnabled } = getState()
+
+  if (!jsxEnabled) return code
+
   return transform(code, {
     babelrc: false,
     configFile: false,
     ast: false,
-    highlightCode: true,
-    presets: [pluginReact]
+    highlightCode: false,
+    presets: [presetReact]
   }).code
 }

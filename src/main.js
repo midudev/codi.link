@@ -76,9 +76,9 @@ $('iframe').setAttribute('srcdoc', initialHtmlForPreview)
 function update () {
   const html = htmlEditor.getValue()
   const css = cssEditor.getValue()
-  const js = jsxCompiler(jsEditor.getValue())
+  const js = jsEditor.getValue()
 
-  const htmlForPreview = createHtml({ html, js, css })
+  const htmlForPreview = createHtml({ html, js: jsxCompiler(js), css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
 
   WindowPreviewer.updateWindowContent(htmlForPreview)

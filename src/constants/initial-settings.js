@@ -16,5 +16,6 @@ export const DEFAULT_INITIAL_SETTINGS = {
     gutters: DEFAULT_LAYOUT,
     style: DEFAULT_GRID_TEMPLATE,
     type: 'default'
-  }
+  },
+  jsxEnabled: true
 }
