@@ -7,15 +7,19 @@ const API_URL = 'https://api.skypack.dev/v1'
 const CDN_URL = 'https://cdn.skypack.dev'
 const PACKAGE_VIEW_URL = 'https://www.skypack.dev/view'
 
+const $asideBar = $('.aside-bar')
 const $searchResults = $('#skypack .search-results')
 const $searchResultsList = $searchResults.querySelector('ul')
 const $searchResultsMessage = $('#skypack .search-results-message')
 const $skypackSearch = $('#skypack input[type="search"]')
-$skypackSearch.addEventListener('input', debounce(handleSearch, 200))
+
+$skypackSearch.addEventListener('input', debounce(handleSearchInput, 200))
 
 let lastSearchInput = ''
+let currentPage = 1
+let totalPages = 1
 
-async function handleSearch () {
+async function handleSearchInput () {
   const $searchInput = $skypackSearch
 
   const searchTerm = $searchInput.value.toLowerCase().trim()
@@ -34,19 +38,42 @@ async function handleSearch () {
 
   $searchResultsMessage.innerHTML = 'Searching...'
 
-  const results = await fetchPackages(searchTerm)
-
-  $searchResultsMessage.innerHTML = `${results.length} results for "${escapeHTML(searchTerm)}"`
-
-  displayResults({ results, searchTerm })
+  await fetchPackagesAndDisplayResults({ page: 1 })
 
   $searchResults.classList.remove('hidden')
 }
 
-async function fetchPackages (packageName) {
-  const response = await window.fetch(`${API_URL}/search?q=${packageName}&p=1`)
-  const { results } = await response.json()
-  return results
+async function fetchPackagesAndDisplayResults ({ page = 1 }) {
+  const { results, meta } = await fetchPackages({ packageName: lastSearchInput, page })
+  currentPage = meta.page
+  totalPages = meta.totalPages
+
+  currentPage === 1 && displayTotalCount(meta.totalCount)
+
+  if (results.length === 0) return
+
+  displayResults({ results, lastSearchInput })
+
+  const $loadMoreResultsSentinel = $searchResultsList.querySelector('li:last-child')
+  createLoadMoreResultsSentinelObserver($loadMoreResultsSentinel)
+}
+
+function displayTotalCount (totalCount) {
+  const moreResultsSymbol = (totalCount === 10_000 ? '+' : '')
+  const formattedTotalCount = Intl.NumberFormat('es').format(totalCount) + moreResultsSymbol
+  $searchResultsMessage.innerHTML = `${formattedTotalCount} results for "${escapeHTML(lastSearchInput)}"`
+}
+
+async function fetchNextPagePackagesAndDisplayResults () {
+  const nextPage = currentPage + 1
+  if (nextPage > totalPages) return
+
+  await fetchPackagesAndDisplayResults({ page: nextPage })
+}
+
+async function fetchPackages ({ packageName, page = 1 }) {
+  const response = await window.fetch(`${API_URL}/search?q=${packageName}&p=${page}`)
+  return response.json()
 }
 
 function displayResults ({ results, searchTerm }) {
@@ -98,4 +125,22 @@ function handlePackageSelected (packageName) {
   let parsedName = packageName.split('/').join('-')
   if (parsedName.startsWith('@')) parsedName = parsedName.substr(1)
   eventBus.emit(EVENTS.ADD_SKYPACK_PACKAGE, { skypackPackage: parsedName, url: `${CDN_URL}/${packageName}` })
+}
+
+function createLoadMoreResultsSentinelObserver ($sentinelEl) {
+  const handleIntersect = async (entries, observer) => {
+    const [entry] = entries
+    if (!entry.isIntersecting) return
+
+    observer.disconnect()
+    await fetchNextPagePackagesAndDisplayResults()
+  }
+
+  const observerOptions = {
+    root: $asideBar,
+    rootMargin: '100%'
+  }
+
+  const observer = new window.IntersectionObserver(handleIntersect, observerOptions)
+  observer.observe($sentinelEl)
 }
