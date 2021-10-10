@@ -18,36 +18,37 @@ import setGridLayout from './grid.js'
 
 let htmlEditor, cssEditor, jsEditor
 
-initDatabase()
-  .then(() => getCodeState({ id: window.location.pathname.slice(1) }))
-  .then(({ code = '' }) => {
-    const [rawHtml, rawCss, rawJs] = code.split('|')
-    const html = rawHtml ? decode(rawHtml) : ''
-    const css = rawCss ? decode(rawCss) : ''
-    const js = rawJs ? decode(rawJs) : ''
+(async () => {
+  await initDatabase()
+  const { code = '' } = await getCodeState({ id: window.location.pathname.slice(1) })
 
-    htmlEditor = createEditor({ domElement: $('#html'), language: 'html', value: html })
-    cssEditor = createEditor({ domElement: $('#css'), language: 'css', value: css })
-    jsEditor = createEditor({ domElement: $('#js'), language: 'javascript', value: js })
+  const [rawHtml, rawCss, rawJs] = code.split('|')
+  const html = rawHtml ? decode(rawHtml) : ''
+  const css = rawCss ? decode(rawCss) : ''
+  const js = rawJs ? decode(rawJs) : ''
 
-    updateIframePreview({ html, css, js })
+  htmlEditor = createEditor({ domElement: $('#html'), language: 'html', value: html })
+  cssEditor = createEditor({ domElement: $('#css'), language: 'css', value: css })
+  jsEditor = createEditor({ domElement: $('#js'), language: 'javascript', value: js })
 
-    const MS_UPDATE_DEBOUNCED_TIME = 200
-    const debouncedUpdate = debounce(() =>
-      updatePreview({
-        html: htmlEditor.getValue(),
-        css: cssEditor.getValue(),
-        js: jsEditor.getValue()
-      }), MS_UPDATE_DEBOUNCED_TIME)
+  updateIframePreview({ html, css, js })
 
-    htmlEditor.focus()
-    htmlEditor.onDidChangeModelContent(debouncedUpdate)
-    cssEditor.onDidChangeModelContent(debouncedUpdate)
+  const MS_UPDATE_DEBOUNCED_TIME = 200
+  const debouncedUpdate = debounce(() =>
+    updatePreview({
+      html: htmlEditor.getValue(),
+      css: cssEditor.getValue(),
+      js: jsEditor.getValue()
+    }), MS_UPDATE_DEBOUNCED_TIME)
 
-    jsEditor.onDidChangeModelContent(debouncedUpdate)
-    initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
-    initializeEventsController({ htmlEditor, cssEditor, jsEditor })
-  })
+  htmlEditor.focus()
+  htmlEditor.onDidChangeModelContent(debouncedUpdate)
+  cssEditor.onDidChangeModelContent(debouncedUpdate)
+
+  jsEditor.onDidChangeModelContent(debouncedUpdate)
+  initEditorHotKeys({ htmlEditor, cssEditor, jsEditor })
+  initializeEventsController({ htmlEditor, cssEditor, jsEditor })
+})()
 
 subscribe(state => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]

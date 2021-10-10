@@ -2,6 +2,7 @@ import { DEFAULT_GRID_TEMPLATE } from './editor-grid-template'
 import { DEFAULT_LAYOUT } from './grid-templates'
 
 export const DEFAULT_INITIAL_SETTINGS = {
+  user: {},
   fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'",
   fontLigatures: 'on',
   fontSize: 18,
