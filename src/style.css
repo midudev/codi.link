@@ -774,7 +774,7 @@ select {
   .aside-sections {
     flex-direction: row;
     width: 100%;
-    padding: 0 10px;
+    padding-inline: 10px;
     height: fit-content;
   }
 
