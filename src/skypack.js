@@ -9,7 +9,7 @@ const CDN_URL = 'https://cdn.skypack.dev'
 const $searchResults = $('#skypack .search-results')
 const $searchResultsList = $searchResults.querySelector('ul')
 const $searchResultsMessage = $('#skypack .search-results-message')
-const $skypackSearch = $('#skypack input[type="search"]')
+const $skypackSearch = $('.skypack-content codi-text-field')
 $skypackSearch.addEventListener('input', debounce(handleSearch, 200))
 
 let lastSearchInput = ''

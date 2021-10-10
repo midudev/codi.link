@@ -16,6 +16,8 @@ import './scroll.js'
 
 import './components/layout-preview/layout-preview.js'
 import './components/modal/modal.js'
+import './components/share/share.js'
+import './components/text-field/text-field.js'
 
 const { layout: currentLayout } = getState()
 
