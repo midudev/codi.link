@@ -19,6 +19,7 @@ $skypackSearch.addEventListener('input', debounce(handleSearchInput, 200))
 let lastSearchInput = ''
 let currentPage = 1
 let totalPages = 1
+let lastFetchAbortController
 
 async function handleSearchInput () {
   const $searchInput = $skypackSearch
@@ -35,6 +36,7 @@ async function handleSearchInput () {
 }
 
 function clearSearch () {
+  lastFetchAbortController?.abort()
   hideSpinner()
   $searchResultsMessage.innerHTML = ''
   $searchResults.classList.add('hidden')
@@ -57,7 +59,17 @@ function finishSearch () {
 }
 
 async function fetchPackagesAndDisplayResults ({ page = 1 }) {
-  const fetchResult = await fetchPackages({ page, packageName: lastSearchInput })
+  lastFetchAbortController?.abort()
+  lastFetchAbortController = new window.AbortController()
+
+  const [error, fetchResult] = await fetchPackages({
+    page,
+    abortController: lastFetchAbortController,
+    packageName: lastSearchInput
+  })
+
+  // the last aborted fetch enters here
+  if (error) return
 
   const { results, meta } = fetchResult
   currentPage = meta.page
@@ -87,9 +99,16 @@ async function fetchNextPagePackagesAndDisplayResults () {
   await fetchPackagesAndDisplayResults({ page: nextPage })
 }
 
-async function fetchPackages ({ packageName, page = 1 }) {
-  const response = await window.fetch(`${API_URL}/search?q=${packageName}&p=${page}`)
-  return response.json()
+async function fetchPackages ({ abortController, packageName, page = 1 }) {
+  const fetchUrl = `${API_URL}/search?q=${packageName}&p=${page}`
+  const fetchOptions = { signal: abortController.signal }
+  try {
+    const resultFetch = await window.fetch(fetchUrl, fetchOptions)
+    const resultFetchJson = await resultFetch.json()
+    return [null, resultFetchJson]
+  } catch (error) {
+    return [error, {}]
+  }
 }
 
 function displayResults ({ results, searchTerm }) {
