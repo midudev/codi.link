@@ -5,6 +5,7 @@ import escapeHTML from 'escape-html'
 
 const API_URL = 'https://api.skypack.dev/v1'
 const CDN_URL = 'https://cdn.skypack.dev'
+const PACKAGE_VIEW_URL = 'https://www.skypack.dev/view'
 
 const $searchResults = $('#skypack .search-results')
 const $searchResultsList = $searchResults.querySelector('ul')
@@ -74,7 +75,7 @@ function getResultHTML ({ result, searchTerm }) {
     <section class="skypack-description">${escapeHTML(result.description)}</section>
     <footer>
       <div class="skypack-updated" >Updated: ${updatedAt}</div>
-      <a class="skypack-open" target="_blank" href="https://www.skypack.dev/view/${result.name}">details</a>
+      <a class="skypack-open" target="_blank" href="${PACKAGE_VIEW_URL}/${result.name}">details</a>
     </footer>`
 }
 
