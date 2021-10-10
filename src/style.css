@@ -887,3 +887,11 @@ select {
     width: 20px;
   }
 }
+
+button {
+  &:disabled, &:hover:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+
+}
