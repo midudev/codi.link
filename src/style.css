@@ -209,7 +209,7 @@ aside button:hover {
 
 .aside-bar {
   width: 310px;
-  height: 100vh;
+  height: calc(100vh - 50px);
   overflow-y: auto;
   scrollbar-gutter: stable;
 
