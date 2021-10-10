@@ -8,6 +8,7 @@ import { initializeEventsController } from './events-controller.js'
 import { getState, subscribe } from './state.js'
 import WindowPreviewer from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
+import jsxCompiler from './jsx-support.js'
 
 import './aside.js'
 import './skypack.js'
@@ -75,7 +76,7 @@ $('iframe').setAttribute('srcdoc', initialHtmlForPreview)
 function update () {
   const html = htmlEditor.getValue()
   const css = cssEditor.getValue()
-  const js = jsEditor.getValue()
+  const js = jsxCompiler(jsEditor.getValue())
 
   const htmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', htmlForPreview)
