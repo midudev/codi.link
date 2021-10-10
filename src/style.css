@@ -515,7 +515,7 @@ select {
   color: #a34535;
 }
 
-.skypack {
+.skypack, .image-search {
   & .skypack-type {
     padding-bottom: 8px;
     opacity: .6;
@@ -527,6 +527,12 @@ select {
     flex-direction: column;
     width: 100%;
     padding: 1em;
+
+      & .logo-pixabay {
+        margin-top: 16px;
+        display: block;
+      }
+
   }
 
   & .skypack-item strong {
@@ -561,6 +567,25 @@ select {
 
   & .search-results.hidden {
     display: none;
+  }
+
+  & .search-results {
+    
+    & .container-image-results{
+      columns: 2 120px;
+      column-gap: 0.2em;
+    
+        & img {
+          width: 100%;
+          display: block;
+          margin-bottom: 0.2em;
+          cursor: pointer;
+          transition: opacity .3s ease;
+          &:hover{
+            opacity: 0.7;
+          }
+        }
+    }
   }
 
   & .search-results ul {

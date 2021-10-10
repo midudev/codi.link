@@ -38,6 +38,12 @@ const NON_SIMPLE_CLICK_ACTIONS = {
     $('.scroll-buttons-container').setAttribute('hidden', '')
   },
 
+  'show-search-image': () => {
+    showAsideBar('#search-image')
+    $('#image-search-input').focus()
+    $('.scroll-buttons-container').setAttribute('hidden', '')
+  },
+
   'show-settings-bar': () => {
     showAsideBar('#settings')
     $('.scroll-buttons-container').setAttribute('hidden', '')
