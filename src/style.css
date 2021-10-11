@@ -901,6 +901,6 @@ select {
 
 @keyframes spin {
   0% {
-      transform: rotate(360deg);
+      transform: rotate(-360deg);
   }
 }
