@@ -896,7 +896,7 @@ select {
   border-left-color: #c5c5c5;
   margin: auto;
 
-  animation: spin 1s ease infinite;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
