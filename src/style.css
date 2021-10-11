@@ -887,3 +887,23 @@ select {
     width: 20px;
   }
 }
+.button-copy-to-clipboard{
+  position:absolute;
+  z-index: 1;
+  top: 5px;
+  right: 18px;
+  background-color: #2d323c;
+  border-radius: 9999px;
+  padding:.5rem;
+  border:none;
+  cursor: pointer;
+}
+.button-copy-to-clipboard:hover{
+  transition: background-color ease 1s;
+  background-color: #8d9aa8;
+}
+
+.icon-copy-to-clipboard{
+  width: 20px;
+  height: 20px;
+}
