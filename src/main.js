@@ -26,7 +26,7 @@ const $html = $('#html')
 
 const { pathname } = window.location
 
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+const [rawHtml, rawCss, rawJs] = pathname.slice(1).split(/%7C|\|/)
 
 const html = rawHtml ? decode(rawHtml) : ''
 const css = rawCss ? decode(rawCss) : ''
