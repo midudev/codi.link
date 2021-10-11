@@ -13,6 +13,7 @@ import './aside.js'
 import './skypack.js'
 import './settings.js'
 import './scroll.js'
+import { copyToClipboard, $buttonCopyHtml, $buttonCopyCSS, $buttonCopyJS } from './copy-to-clipboard'
 
 import './components/layout-preview/layout-preview.js'
 
@@ -35,6 +36,10 @@ const js = rawJs ? decode(rawJs) : ''
 const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
 const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
 const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
+
+$buttonCopyHtml.addEventListener('click', () => copyToClipboard({ text: htmlEditor.getValue() }))
+$buttonCopyCSS.addEventListener('click', () => copyToClipboard({ text: cssEditor.getValue() }))
+$buttonCopyJS.addEventListener('click', () => copyToClipboard({ text: jsEditor.getValue() }))
 
 subscribe(state => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
