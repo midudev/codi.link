@@ -15,6 +15,7 @@ import './settings.js'
 import './scroll.js'
 
 import './components/layout-preview/layout-preview.js'
+import { EDITOR_CODE_SAMPLES } from './constants/editor-code-samples.js'
 
 const { layout: currentLayout } = getState()
 
@@ -28,9 +29,9 @@ const { pathname } = window.location
 
 const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
 
-const html = rawHtml ? decode(rawHtml) : ''
-const css = rawCss ? decode(rawCss) : ''
-const js = rawJs ? decode(rawJs) : ''
+const html = rawHtml ? decode(rawHtml) : EDITOR_CODE_SAMPLES.html
+const css = rawCss ? decode(rawCss) : EDITOR_CODE_SAMPLES.css
+const js = rawJs ? decode(rawJs) : EDITOR_CODE_SAMPLES.js
 
 const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
 const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
