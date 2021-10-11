@@ -1,61 +1,69 @@
 import Split from 'split-grid'
-import { $, $$ } from './utils/dom.js'
-import { subscribe, getState } from './state'
+import { getState } from './state'
+import { $, $$ } from './utils/dom'
 
 const $editor = $('#editor')
-const $layouts = $$('#layout .layout-item')
+const $$layoutSelector = $$('layout-preview')
 
-// initial layout
-const { layout } = getState()
+let splitInstance
 
-$layouts.forEach((el) => {
-  el.classList.remove('active')
+const formatGutters = gutter => ({
+  ...gutter,
+  element: $(gutter.element)
+})
 
-  if (el.getAttribute('data-layout') === layout) {
-    el.classList.add('active')
+// Metodo de preservasión de grid
+const saveGridTemplate = () => {
+  const { preserveGrid } = getState()
+  if (!preserveGrid) return
+
+  const gridStyles = $('.grid').style
+
+  const gridTemplate = JSON.stringify({
+    'grid-template-columns': gridStyles['grid-template-columns'],
+    'grid-template-rows': gridStyles['grid-template-rows']
+  })
+
+  window.localStorage.setItem('gridTemplate', gridTemplate)
+}
+
+const getInitialGridStyle = () => {
+  const { preserveGrid } = getState()
+  if (!preserveGrid) return window.localStorage.removeItem('gridTemplate')
+
+  const gridTemplate = JSON.parse(window.localStorage.getItem('gridTemplate'))
+
+  return gridTemplate && `grid-template-columns: ${gridTemplate['grid-template-columns']}; grid-template-rows: ${gridTemplate['grid-template-rows']}`
+}
+
+const setGridLayout = ({ gutters, style, type = '' }) => {
+  const initialStyle = !splitInstance && getInitialGridStyle()
+
+  $editor.setAttribute('data-layout', type)
+  $editor.setAttribute('style', initialStyle || style)
+
+  $$layoutSelector.forEach(layoutEl => {
+    if (type === layoutEl.layout) {
+      layoutEl.setAttribute('active', '')
+    } else {
+      layoutEl.removeAttribute('active')
+    }
+  })
+
+  saveGridTemplate()
+
+  const splitConfig = {
+    ...gutters,
+    ...gutters.columnGutters && { columnGutters: gutters.columnGutters.map(formatGutters) },
+    ...gutters.rowGutters && { rowGutters: gutters.rowGutters.map(formatGutters) },
+    onDragEnd: saveGridTemplate
   }
-})
 
-$editor.setAttribute('class', `${layout}-grid`)
+  if (splitInstance) {
+    splitInstance.destroy(true)
+  }
 
-// initializing split
-Split({
-  columnGutters: [
-    {
-      track: 1,
-      element: $('.gutter-col-1')
-    },
-    {
-      track: 3,
-      element: $('.gutter-col-3')
-    },
-    {
-      track: 1,
-      element: $('.central-gutter-1')
-    }
-  ],
-  rowGutters: [
-    {
-      track: 1,
-      element: $('.gutter-row-1')
-    },
-    {
-      track: 3,
-      element: $('.gutter-row-3')
-    },
-    {
-      track: 1,
-      element: $('.central-gutter-1')
-    }
-  ]
-})
+  splitInstance = Split(splitConfig)
+}
 
-// subscribe to change layout
-subscribe((state) => {
-  const { layout } = state
-
-  $editor.setAttribute('class', `${layout}-grid`)
-
-  // removing previous layout grid inline styles
-  $editor.removeAttribute('style')
-})
+export default setGridLayout

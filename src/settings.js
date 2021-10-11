@@ -1,5 +1,7 @@
-import { $$, setFormControlValue, updateSelectLayout } from './utils/dom.js'
+import { DEFAULT_GRID_TEMPLATE, EDITOR_GRID_TEMPLATE } from './constants/editor-grid-template.js'
+import { DEFAULT_LAYOUT, HORIZONTAL_LAYOUT, LEFT_LAYOUT, VERTICAL_LAYOUT, RIGHT_LAYOUT, TOP_LAYOUT } from './constants/grid-templates.js'
 import { getState } from './state.js'
+import { $$, setFormControlValue } from './utils/dom.js'
 
 const ELEMENT_TYPES = {
   INPUT: 'input',
@@ -8,7 +10,7 @@ const ELEMENT_TYPES = {
 }
 
 const $settings = $$('#settings [data-for]')
-const $layouts = $$('#layout .layout-item')
+const $$layoutSelector = $$('layout-preview')
 
 const { updateSettings, ...settings } = getState()
 
@@ -47,15 +49,25 @@ $settings.forEach((el) => {
   }
 })
 
-$layouts.forEach((el) => {
-  const settingValue = el.getAttribute('data-layout')
-  // escuchar eventos de cambio de layout
-  el.addEventListener('click', () => {
-    updateSelectLayout(el)
+$$layoutSelector.forEach(layoutEl => {
+  layoutEl.addEventListener('click', ({ target }) => {
+    const { layout } = target
+
+    const style = EDITOR_GRID_TEMPLATE[layout] || DEFAULT_GRID_TEMPLATE
+    let gutters
+
+    switch (layout) {
+      case 'vertical': gutters = VERTICAL_LAYOUT; break
+      case 'horizontal': gutters = HORIZONTAL_LAYOUT; break
+      case 'left': gutters = LEFT_LAYOUT; break
+      case 'right': gutters = RIGHT_LAYOUT; break
+      case 'top': gutters = TOP_LAYOUT; break
+      default: gutters = DEFAULT_LAYOUT
+    }
 
     updateSettings({
       key: 'layout',
-      value: settingValue
+      value: { gutters, style, type: layout }
     })
   })
 })
