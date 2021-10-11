@@ -1,6 +1,6 @@
 import { initEditorHotKeys } from './utils/editor-hotkeys.js'
 import { encode, decode } from 'js-base64'
-import { $ } from './utils/dom.js'
+import { $, $$ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { createHtml } from './utils/createHtml'
@@ -8,6 +8,7 @@ import { initializeEventsController } from './events-controller.js'
 import { getState, subscribe } from './state.js'
 import WindowPreviewer from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
+import { copyToClipboard } from './utils/clipboard.js'
 
 import './aside.js'
 import './skypack.js'
@@ -35,10 +36,21 @@ const js = rawJs ? decode(rawJs) : ''
 const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
 const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
 const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
+const editorsDictionary = {
+  html: htmlEditor,
+  css: cssEditor,
+  js: jsEditor
+}
 
-// $('#copy-html').addEventListener('click', () => copyToClipboard(htmlEditor.getValue()))
-// $('#copy-css').addEventListener('click', () => copyToClipboard(cssEditor.getValue()))
-// $('#copy-js').addEventListener('click', () => copyToClipboard(jsEditor.getValue()))
+$$('.editor-button').forEach(languageIcon => {
+  const clickedLanguage = languageIcon.closest('.editor')
+
+  if (clickedLanguage) {
+    const language = clickedLanguage.id
+    const editor = editorsDictionary[language]
+    languageIcon.addEventListener('click', () => editor && copyToClipboard(editor.getValue()))
+  }
+})
 
 subscribe(state => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]

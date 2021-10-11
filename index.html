@@ -212,9 +212,21 @@
       </aside>
 
       <div id="editor" class="grid">
-        <div class="editor" id="html"></div>
-        <div class="editor" id="js"></div>
-        <div class="editor" id="css"></div>
+        <div class="editor" id="html">
+          <button class="editor-button" aria-label="Copy HTML to clipboard">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g fill="none" stroke="#C5C5C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></g></svg>
+          </button>
+        </div>
+        <div class="editor" id="js">
+          <button class="editor-button" aria-label="Copy JS to clipboard">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g fill="none" stroke="#C5C5C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></g></svg>
+          </button>
+        </div>
+        <div class="editor" id="css">
+          <button class="editor-button" aria-label="Copy CSS to clipboard">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g fill="none" stroke="#C5C5C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></g></svg>
+          </button>
+        </div>
 
         <div id="editor-preview" class='iframe-container'>
           <iframe srcdoc="" title="CodiLink Preview"></iframe>

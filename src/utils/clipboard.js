@@ -1,8 +1,8 @@
-import toastr from 'toastr'
+import Notification from './notification'
 
 export const copyToClipboard = (text) => {
   navigator.clipboard
     .writeText(text)
-    .then(() => toastr.success('Copied successfully!', 'Copy to clipboard'))
-    .catch((error) => toastr.error(error, 'Copy to clipboard'))
+    .then(() => Notification.show({ type: 'info', message: 'Code copied successfully!' }))
+    .catch((error) => Notification.show({ type: 'error', message: error }))
 }
