@@ -888,6 +888,14 @@ select {
   }
 }
 
+
+button {
+  &:disabled, &:hover:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+}
+
 .spinner {
   border: 3px solid rgba(0, 0, 0, 0.1);
   width: 26px;
