@@ -41,6 +41,12 @@ const NON_SIMPLE_CLICK_ACTIONS = {
     $('.scroll-buttons-container').setAttribute('hidden', '')
   },
 
+  [BUTTON_ACTIONS.showSearchImage]: () => {
+    showAsideBar('#search-image')
+    $('#image-search-input').focus()
+    $('.scroll-buttons-container').setAttribute('hidden', '')
+  },
+
   [BUTTON_ACTIONS.showSettingsBar]: () => {
     showAsideBar('#settings')
     $('.scroll-buttons-container').setAttribute('hidden', '')
