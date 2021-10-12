@@ -657,7 +657,7 @@ select {
   }
 
   & .search-results .extensions {
-    max-height: 75vh;
+    height: 75vh;
     overflow-y: auto;
 
     &::-webkit-scrollbar {
