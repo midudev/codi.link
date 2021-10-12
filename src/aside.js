@@ -2,6 +2,7 @@ import { eventBus, EVENTS } from './events-controller.js'
 import { $, $$ } from './utils/dom.js'
 import WindowPreviewer from './utils/WindowPreviewer'
 import Notification from './utils/notification.js'
+import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
 const $aside = $('aside')
 const $buttons = $$('button', $aside)
@@ -12,33 +13,35 @@ const toggleAsideBar = (isHidden) => {
 }
 
 const SIMPLE_CLICK_ACTIONS = {
-  'download-user-code': () => {
+  [BUTTON_ACTIONS.downloadUserCode]: () => {
     eventBus.emit(EVENTS.DOWNLOAD_USER_CODE)
   },
 
-  'open-iframe-tab': () => {
+  [BUTTON_ACTIONS.openIframeTab]: () => {
     WindowPreviewer.openWindow()
   },
 
-  'copy-to-clipboard': async () => {
+  [BUTTON_ACTIONS.copyToClipboard]: async () => {
     await navigator.clipboard.writeText(window.location.href)
     Notification.show({ type: 'info', message: 'Sharable URL has been copied to clipboard.' })
   }
 }
 
+console.log(SIMPLE_CLICK_ACTIONS)
+
 const NON_SIMPLE_CLICK_ACTIONS = {
-  'close-aside-bar': () => {
+  [BUTTON_ACTIONS.closeAsideBar]: () => {
     toggleAsideBar(true)
     $('.scroll-buttons-container').removeAttribute('hidden')
   },
 
-  'show-skypack-bar': () => {
+  [BUTTON_ACTIONS.showSkypackBar]: () => {
     showAsideBar('#skypack')
     $('#skypack-search-input').focus()
     $('.scroll-buttons-container').setAttribute('hidden', '')
   },
 
-  'show-settings-bar': () => {
+  [BUTTON_ACTIONS.showSettingsBar]: () => {
     showAsideBar('#settings')
     $('.scroll-buttons-container').setAttribute('hidden', '')
   }
