@@ -38,11 +38,6 @@ const NON_SIMPLE_CLICK_ACTIONS = {
     $('.scroll-buttons-container').setAttribute('hidden', '')
   },
 
-  'show-layout-settings': () => {
-    showAsideBar('#layout')
-    $('.scroll-buttons-container').setAttribute('hidden', '')
-  },
-
   'show-settings-bar': () => {
     showAsideBar('#settings')
     $('.scroll-buttons-container').setAttribute('hidden', '')
