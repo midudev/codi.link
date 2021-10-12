@@ -21,8 +21,7 @@ export const initializeEventsController = ({
 
 export const EVENTS = {
   ADD_SKYPACK_PACKAGE: 'ADD_SKYPACK_PACKAGE',
-  DOWNLOAD_USER_CODE: 'DOWNLOAD_USER_CODE',
-  ADD_IMAGE_HTML: 'ADD_IMAGE_HTML'
+  DOWNLOAD_USER_CODE: 'DOWNLOAD_USER_CODE'
 }
 
 eventBus.on(EVENTS.ADD_SKYPACK_PACKAGE, ({ skypackPackage, url }) => {
@@ -31,10 +30,6 @@ eventBus.on(EVENTS.ADD_SKYPACK_PACKAGE, ({ skypackPackage, url }) => {
   if (!existPackage) {
     jsEditor.setValue(`${importStatement}\n${jsEditor.getValue()}`)
   }
-})
-
-eventBus.on(EVENTS.ADD_IMAGE_HTML, ({ image }) => {
-  htmlEditor.setValue(`${htmlEditor.getValue()}\n${image}`)
 })
 
 eventBus.on(EVENTS.DOWNLOAD_USER_CODE, () => {

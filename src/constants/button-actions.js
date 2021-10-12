@@ -4,6 +4,5 @@ export const BUTTON_ACTIONS = {
   copyToClipboard: 'copy-to-clipboard',
   closeAsideBar: 'close-aside-bar',
   showSkypackBar: 'show-skypack-bar',
-  showSettingsBar: 'show-settings-bar',
-  showSearchImage: 'show-search-image'
+  showSettingsBar: 'show-settings-bar'
 }

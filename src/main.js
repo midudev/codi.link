@@ -13,7 +13,6 @@ import './aside.js'
 import './skypack.js'
 import './settings.js'
 import './scroll.js'
-import './search-image.js'
 
 import './components/layout-preview/layout-preview.js'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
