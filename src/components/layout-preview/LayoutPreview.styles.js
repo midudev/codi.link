@@ -34,6 +34,32 @@ export const LayoutPreviewStyles = css`
   grid-template-areas: 'html' 'css' 'js' 'result';
 }
 
+:host([layout=left]){
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas: 
+  'html result' 
+  'css result' 
+  'js result';
+}
+
+:host([layout=right]){
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas: 
+  'result html' 
+  'result css' 
+  'result js';
+}
+
+:host([layout=top]){
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: 
+  'html css js' 
+  'result result result'
+}
+
 .html {
   grid-area: html;
   background-color: var(--layout-preview-background-color-html, #e34f26);

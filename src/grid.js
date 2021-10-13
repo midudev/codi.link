@@ -4,6 +4,7 @@ import { $, $$ } from './utils/dom'
 
 const $editor = $('#editor')
 const $$layoutSelector = $$('layout-preview')
+
 let splitInstance
 
 const formatGutters = gutter => ({

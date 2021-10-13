@@ -33,13 +33,27 @@ const html = rawHtml ? decode(rawHtml) : ''
 const css = rawCss ? decode(rawCss) : ''
 const js = rawJs ? decode(rawJs) : ''
 
-const htmlEditor = createEditor({ domElement: $html, language: 'html', value: html })
-const cssEditor = createEditor({ domElement: $css, language: 'css', value: css })
-const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: js })
+const htmlEditor = createEditor({
+  domElement: $html,
+  language: 'html',
+  value: html
+})
+const cssEditor = createEditor({
+  domElement: $css,
+  language: 'css',
+  value: css
+})
+const jsEditor = createEditor({
+  domElement: $js,
+  language: 'javascript',
+  value: js
+})
 
 subscribe(state => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
-  EDITORS.forEach(editor => {
+
+  // applying editor settings
+  EDITORS.forEach((editor) => {
     const { minimap, ...restOfOptions } = state
 
     const newOptions = {

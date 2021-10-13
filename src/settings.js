@@ -1,5 +1,5 @@
 import { DEFAULT_GRID_TEMPLATE, EDITOR_GRID_TEMPLATE } from './constants/editor-grid-template.js'
-import { DEFAULT_LAYOUT, HORIZONTAL_LAYOUT, VERTICAL_LAYOUT } from './constants/grid-templates.js'
+import { DEFAULT_LAYOUT, HORIZONTAL_LAYOUT, LEFT_LAYOUT, VERTICAL_LAYOUT, RIGHT_LAYOUT, TOP_LAYOUT } from './constants/grid-templates.js'
 import { getState } from './state.js'
 import { $$, setFormControlValue } from './utils/dom.js'
 
@@ -12,12 +12,9 @@ const ELEMENT_TYPES = {
 const $settings = $$('#settings [data-for]')
 const $$layoutSelector = $$('layout-preview')
 
-const {
-  updateSettings,
-  ...settings
-} = getState()
+const { updateSettings, ...settings } = getState()
 
-$settings.forEach(el => {
+$settings.forEach((el) => {
   const settingKey = el.getAttribute('data-for')
   const actualSettingValue = settings[settingKey]
 
@@ -62,6 +59,9 @@ $$layoutSelector.forEach(layoutEl => {
     switch (layout) {
       case 'vertical': gutters = VERTICAL_LAYOUT; break
       case 'horizontal': gutters = HORIZONTAL_LAYOUT; break
+      case 'left': gutters = LEFT_LAYOUT; break
+      case 'right': gutters = RIGHT_LAYOUT; break
+      case 'top': gutters = TOP_LAYOUT; break
       default: gutters = DEFAULT_LAYOUT
     }
 
