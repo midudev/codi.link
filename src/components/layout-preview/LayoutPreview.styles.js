@@ -34,6 +34,12 @@ export const LayoutPreviewStyles = css`
   grid-template-areas: 'html' 'css' 'js' 'result';
 }
 
+:host([layout=lateral]){
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 'html result' 'css result' 'js result';
+}
+
 .html {
   grid-area: html;
   background-color: var(--layout-preview-background-color-html, #e34f26);

@@ -142,6 +142,26 @@ iframe {
       cursor: row-resize
     }
   }
+  &[data-layout="lateral"] {
+    grid-template-areas: 'editor-html . editor-preview'
+                         '. . editor-preview'
+                         'editor-css . editor-preview'
+                         '. . editor-preview'
+                         'editor-js . editor-preview'
+                         ;
+    & .first-gutter {
+      grid-area: 2 / 1 / 2 / 1;
+      cursor: row-resize
+    }
+    & .second-gutter {
+      grid-area: 4 / 1 / 4 / 1;
+      cursor: row-resize
+    }
+    & .last-gutter {
+      grid-area: 1 / 2 / 6 / 2;
+      cursor: col-resize
+    }
+  }
 
   & #html {
     grid-area: editor-html;

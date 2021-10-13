@@ -1,5 +1,5 @@
 import { DEFAULT_GRID_TEMPLATE, EDITOR_GRID_TEMPLATE } from './constants/editor-grid-template.js'
-import { DEFAULT_LAYOUT, HORIZONTAL_LAYOUT, VERTICAL_LAYOUT } from './constants/grid-templates.js'
+import { DEFAULT_LAYOUT, HORIZONTAL_LAYOUT, VERTICAL_LAYOUT, LATERAL_LAYOUT } from './constants/grid-templates.js'
 import { getState } from './state.js'
 import { $$, setFormControlValue } from './utils/dom.js'
 
@@ -62,6 +62,7 @@ $$layoutSelector.forEach(layoutEl => {
     switch (layout) {
       case 'vertical': gutters = VERTICAL_LAYOUT; break
       case 'horizontal': gutters = HORIZONTAL_LAYOUT; break
+      case 'lateral': gutters = LATERAL_LAYOUT; break
       default: gutters = DEFAULT_LAYOUT
     }
 
