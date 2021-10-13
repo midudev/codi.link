@@ -14,12 +14,14 @@ const {
   theme,
   wordWrap,
   fontLigatures,
-  fontFamily
+  fontFamily,
+  tabSize
 } = getState()
 
 const COMMON_EDITOR_OPTIONS = {
   fontSize,
   lineNumbers,
+  tabSize,
   minimap: {
     enabled: minimap
   },
