@@ -3,7 +3,7 @@ import presetReact from '@babel/preset-react'
 import { getState } from './state.js'
 
 export default function (code) {
-  const { jsxEnabled } = getState()
+  const { jsxEnabled, jsxPragma, jsxPragmaFrag } = getState()
 
   if (!jsxEnabled) return code
 
@@ -12,6 +12,14 @@ export default function (code) {
     configFile: false,
     ast: false,
     highlightCode: false,
-    presets: [presetReact]
+    presets: [
+      [
+        presetReact,
+        {
+          pragma: jsxPragma,
+          pragmaFrag: jsxPragmaFrag
+        }
+      ]
+    ]
   }).code
 }

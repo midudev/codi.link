@@ -17,5 +17,7 @@ export const DEFAULT_INITIAL_SETTINGS = {
     style: DEFAULT_GRID_TEMPLATE,
     type: 'default'
   },
-  jsxEnabled: true
+  jsxEnabled: true,
+  jsxPragma: 'React.createElement',
+  jsxPragmaFrag: 'React.Fragment'
 }
