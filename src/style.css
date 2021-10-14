@@ -520,9 +520,14 @@ select {
 }
 
 .skypack {
+  height: 100%;
   & .skypack-type {
     padding-bottom: 8px;
     opacity: .6;
+  }
+
+  & .skypack-content {
+    height: 100%
   }
 
   & .skypack-item {
@@ -531,9 +536,10 @@ select {
     flex-direction: column;
     width: 100%;
     padding: 1em;
+    height: 175px;
   }
 
-  & .skypack-item strong {
+  & strong {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -564,7 +570,14 @@ select {
   }
 
   & .search-results {
-    width: calc(100% + 0.85em);
+    width: 100%;
+    height: calc(100% - 175px + 1em);
+    padding-left: 1em;
+
+    & .search-results-message{
+      margin: 0;
+      color: #fff;
+    }
   }
 
   & .search-results.hidden {
@@ -575,7 +588,7 @@ select {
     list-style: none;
     margin: 0.5em 0;
     padding: 0;
-    height: 74vh;
+    height: calc(100% - 40px);
   }
 
   & .search-results ul li {
@@ -588,6 +601,7 @@ select {
     display: flex;
     flex-direction: column;
     margin-right: 0.5em;
+    color: #fff;
 
     & header {
       display: flex;
