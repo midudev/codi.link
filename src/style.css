@@ -587,8 +587,8 @@ select {
   & .search-results ul {
     list-style: none;
     margin: 0.5em 0;
-    padding: 0;
-    height: calc(100% - 40px);
+    padding: 0 0 40px 0;
+    height: auto;
   }
 
   & .search-results ul li {
@@ -928,6 +928,7 @@ button {
   border-radius: 50%;
   border-left-color: #c5c5c5;
   margin: auto;
+  margin-top: -40px;
 
   animation: spin 1s linear infinite;
 }
