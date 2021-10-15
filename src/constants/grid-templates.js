@@ -41,3 +41,17 @@ export const HORIZONTAL_LAYOUT = {
     element: '.last-gutter'
   }]
 }
+
+export const BOTTOM_LAYOUT = {
+  columnGutters: [{
+    track: 1,
+    element: '.first-gutter'
+  }, {
+    track: 3,
+    element: '.second-gutter'
+  }],
+  rowGutters: [{
+    track: 1,
+    element: '.last-gutter'
+  }]
+}
