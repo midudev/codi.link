@@ -28,11 +28,22 @@ const ModalStyles = css`
 }
 
 :host .modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid rgb(28 28 28);
 }
 
 :host .modal .modal-header * {
     margin: 0;
+}
+
+:host .modal .modal-header svg {
+    cursor: pointer;
+}
+
+:host .modal .modal-header svg path {
+    fill: rgba(128, 128, 128, 0.50);
 }
 `
 
