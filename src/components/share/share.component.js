@@ -19,7 +19,7 @@ export class Share extends LitElement {
 
   render () {
     return html`
-    <h4>Copia el link de tu proyecto</h4>
+    <h4>Link del proyecto</h4>
     <codi-text-field value=${this.url} readonly=${true}>
       <svg xmlns="http://www.w3.org/2000/svg" slot="right-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path
@@ -27,7 +27,7 @@ export class Share extends LitElement {
             fill="#585b5f" />
       </svg>
     </codi-text-field>
-    <h4>o</h4>
+    <div class="divider"></div>
     <div class="share-options">
       <div class="social-container">
         <h4>Compártelo en tus redes sociales</h4>
@@ -56,7 +56,7 @@ export class Share extends LitElement {
       </div>
       </div>
       <div class="embed-container">
-        <h4>¡Añadelo en tu web!</h4>
+        <h4>¡Añádelo en tu web!</h4>
         <codi-text-field readonly=${true} value=${this.embedCode}>
           <svg xmlns="http://www.w3.org/2000/svg" slot="right-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path

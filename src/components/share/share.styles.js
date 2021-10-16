@@ -9,6 +9,13 @@ const ShareStyles = css`
     text-align: center;
 }
 
+:host .divider {
+    width: 20%;
+    height: 2px;
+    margin: 2rem auto;
+    background-color: #929292;
+}
+
 :host .share-options {
     display: flex;
 }
