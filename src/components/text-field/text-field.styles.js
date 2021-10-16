@@ -17,8 +17,7 @@ const TextFieldStyles = css`
       
 :host input {
     width: 100%;
-    padding: .05em;
-    padding-left: 8px;
+    padding: 0 0.5rem;
     border: none;
     background-color: transparent;
     outline: none;

@@ -29,10 +29,14 @@ export class TextField extends LitElement {
     this.placeholder = ''
   }
 
+  handleInput (event) {
+    this.value = event.target.value
+  }
+
   render () {
     return html`
         <slot name="left-icon"></slot>
-            <input .placeholder=${this.placeholder} .value=${this.value} .autocomplete=${this.autocomplete} ?readonly=${this.readonly}>
+            <input @input=${this.handleInput} .placeholder=${this.placeholder} .value=${this.value} .autocomplete=${this.autocomplete} ?readonly=${this.readonly}>
         <slot name="right-icon"></slot>
     `
   }
