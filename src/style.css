@@ -980,7 +980,8 @@ select {
   .aside-sections {
     flex-direction: row;
     width: 100%;
-    padding: 0 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
     height: fit-content;
   }
 
@@ -1091,5 +1092,30 @@ select {
 
   .scroll-button > svg {
     width: 20px;
+  }
+}
+
+
+button {
+  &:disabled, &:hover:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+}
+
+.spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border-left-color: #c5c5c5;
+  margin: auto;
+
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(-360deg);
   }
 }

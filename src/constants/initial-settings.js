@@ -7,6 +7,7 @@ export const DEFAULT_INITIAL_SETTINGS = {
   fontLigatures: 'on',
   fontSize: 18,
   lineNumbers: 'off',
+  tabSize: 2,
   minimap: false,
   preserveGrid: true,
   theme: 'vs-dark',
