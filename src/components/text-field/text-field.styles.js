@@ -3,9 +3,9 @@ import { css } from 'lit'
 const TextFieldStyles = css`
 :host {
     display: flex;
-    background-color: var(--bgc-input);
-    border: 1px solid var(--bdc-input);
-    color: var(--c-input);
+    background-color: var(--input-background);
+    border: 1px solid var(--input-border-color);
+    color: var(--input-color);
     padding: .5em;
     margin-top: 16px;
     font-size: 1rem;
@@ -21,7 +21,7 @@ const TextFieldStyles = css`
     border: none;
     background-color: transparent;
     outline: none;
-    color: var(--c-input);
+    color: var(--input-color);
 }
 `
 

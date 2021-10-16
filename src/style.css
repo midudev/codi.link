@@ -1,7 +1,7 @@
 :root {
-  --bgc-input: #2f363d;
-  --bdc-input: rgb(27, 31, 35);
-  --c-input: rgb(225, 228, 232);
+  --input-background: #2f363d;
+  --input-border-color: rgb(27, 31, 35);
+  --input-color: rgb(225, 228, 232);
 }
 
 body {
@@ -318,9 +318,9 @@ aside button.is-active {
 }
 
 select {
-  background-color: var(--bgc-input);
-  color: var(--c-input);
-  border: 1px solid var(--bdc-input);
+  background-color: var(--input-background);
+  color: var(--input-color);
+  border: 1px solid var(--input-border-color);
   height: 26px;
   margin-top: 8px;
   padding: 2px 8px;
@@ -743,7 +743,8 @@ select {
   .aside-sections {
     flex-direction: row;
     width: 100%;
-    padding: 0 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
     height: fit-content;
   }
 
@@ -854,5 +855,30 @@ select {
 
   .scroll-button > svg {
     width: 20px;
+  }
+}
+
+
+button {
+  &:disabled, &:hover:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+}
+
+.spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border-left-color: #c5c5c5;
+  margin: auto;
+
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(-360deg);
   }
 }
