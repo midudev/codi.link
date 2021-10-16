@@ -1,7 +1,6 @@
 import { eventBus, EVENTS } from './events-controller.js'
 import { $, $$ } from './utils/dom.js'
 import WindowPreviewer from './utils/WindowPreviewer'
-import Notification from './utils/notification.js'
 
 const $aside = $('aside')
 const $buttons = $$('button', $aside)
@@ -20,9 +19,14 @@ const SIMPLE_CLICK_ACTIONS = {
     WindowPreviewer.openWindow()
   },
 
-  'copy-to-clipboard': async () => {
-    await navigator.clipboard.writeText(window.location.href)
-    Notification.show({ type: 'info', message: 'Sharable URL has been copied to clipboard.' })
+  share: () => {
+    const modalEl = document.createElement('codi-modal')
+    modalEl.title = 'Compartir'
+
+    const shareEl = document.createElement('codi-share')
+    modalEl.append(shareEl)
+
+    document.body.appendChild(modalEl)
   }
 }
 
