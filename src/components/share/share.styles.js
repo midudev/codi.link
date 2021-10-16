@@ -1,8 +1,13 @@
 import { css } from 'lit'
 
 const ShareStyles = css`
-:host {
+:host codi-text-field#project-url {
+    max-width: 50%;
+    margin: auto;
+}
 
+:host {
+    --input-color: gray;
 }
 
 :host h4 {
