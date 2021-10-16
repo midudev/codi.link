@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit'
 import ShareStyle from './share.styles.js'
+import Notification from '../../utils/notification.js'
 
 export class Share extends LitElement {
   static get styles () {
@@ -17,10 +18,15 @@ export class Share extends LitElement {
     }
   }
 
+  async copyLink (link) {
+    await navigator.clipboard.writeText(link)
+    Notification.show({ type: 'info', message: 'Link copied successfully!' })
+  }
+
   render () {
     return html`
     <h4>Link del proyecto</h4>
-    <codi-text-field value=${this.url} readonly=${true} id="project-url">
+    <codi-text-field value=${this.url} readonly=${true} id="project-url" @click=${() => this.copyLink(this.url)}>
       <svg xmlns="http://www.w3.org/2000/svg" slot="right-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path
             d="M17.5 0H8.5L7 1.5V6H2.5L1 7.5V22.5699L2.5 24H14.5699L16 22.5699V18H20.7L22 16.5699V4.5L17.5 0ZM17.5 2.12L19.88 4.5H17.5V2.12ZM14.5 22.5H2.5V7.5H7V16.5699L8.5 18H14.5V22.5ZM20.5 16.5H8.5V1.5H16V6H20.5V16.5Z"
@@ -31,7 +37,7 @@ export class Share extends LitElement {
     <div class="share-options">
       <div class="embed-container">
         <h4>¡Añádelo en tu web!</h4>
-        <codi-text-field readonly=${true} value=${this.embedCode}>
+        <codi-text-field readonly=${true} value=${this.embedCode} @click=${() => this.copyLink(this.embedCode)}>
           <svg xmlns="http://www.w3.org/2000/svg" slot="right-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
                 d="M17.5 0H8.5L7 1.5V6H2.5L1 7.5V22.5699L2.5 24H14.5699L16 22.5699V18H20.7L22 16.5699V4.5L17.5 0ZM17.5 2.12L19.88 4.5H17.5V2.12ZM14.5 22.5H2.5V7.5H7V16.5699L8.5 18H14.5V22.5ZM20.5 16.5H8.5V1.5H16V6H20.5V16.5Z"
