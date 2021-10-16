@@ -8,10 +8,11 @@ import { $, updateSelectValue } from '../utils/dom'
 
 const themeSelect = $('.select select[data-for="theme"]')
 
-const convertTheme = (theme) => {
+const convertTheme = (theme, name) => {
+  const inherit = name !== 'Dark' && name !== 'Light'
   const returnTheme = {
-    inherit: false,
-    base: 'vs-dark',
+    inherit,
+    base: theme.type === 'dark' ? 'vs-dark' : 'vs',
     colors: theme.colors,
     rules: [],
     encodedTokensColors: []
@@ -51,7 +52,7 @@ const convertTheme = (theme) => {
 
 const defineTheme = ({ name, config }) => {
   try {
-    monaco.editor.defineTheme(name, convertTheme(config))
+    monaco.editor.defineTheme(name, convertTheme(config, name))
     const option = document.createElement('option')
     option.text = name
     option.value = name
