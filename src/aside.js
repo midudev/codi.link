@@ -1,7 +1,6 @@
 import { eventBus, EVENTS } from './events-controller.js'
 import { $, $$ } from './utils/dom.js'
 import WindowPreviewer from './utils/WindowPreviewer'
-import Notification from './utils/notification.js'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
 const $aside = $('aside')
@@ -21,9 +20,14 @@ const SIMPLE_CLICK_ACTIONS = {
     WindowPreviewer.openWindow()
   },
 
-  [BUTTON_ACTIONS.copyToClipboard]: async () => {
-    await navigator.clipboard.writeText(window.location.href)
-    Notification.show({ type: 'info', message: 'Sharable URL has been copied to clipboard.' })
+  [BUTTON_ACTIONS.share]: () => {
+    const modalEl = document.createElement('codi-modal')
+    modalEl.title = 'Compartir'
+
+    const shareEl = document.createElement('codi-share')
+    modalEl.append(shareEl)
+
+    document.body.appendChild(modalEl)
   }
 }
 
@@ -37,7 +41,7 @@ const NON_SIMPLE_CLICK_ACTIONS = {
 
   [BUTTON_ACTIONS.showSkypackBar]: () => {
     showAsideBar('#skypack')
-    $('#skypack-search-input').focus()
+    $('.skypack-content codi-text-field').focus()
     $('.scroll-buttons-container').setAttribute('hidden', '')
   },
 

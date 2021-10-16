@@ -15,6 +15,9 @@ import './settings.js'
 import './scroll.js'
 
 import './components/layout-preview/layout-preview.js'
+import './components/modal/modal.js'
+import './components/share/share.js'
+import './components/text-field/text-field.js'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
 const { layout: currentLayout } = getState()
@@ -95,7 +98,7 @@ function updateHashedCode ({ html, css, js }) {
 }
 
 function updateButtonAvailabilityIfContent ({ html, css, js }) {
-  const buttonActions = [BUTTON_ACTIONS.downloadUserCode, BUTTON_ACTIONS.openIframeTab, BUTTON_ACTIONS.copyToClipboard]
+  const buttonActions = [BUTTON_ACTIONS.downloadUserCode, BUTTON_ACTIONS.openIframeTab, BUTTON_ACTIONS.share]
   const hasContent = html || css || js
   buttonActions.forEach(action => {
     const button = $(`button[data-action='${action}']`)
