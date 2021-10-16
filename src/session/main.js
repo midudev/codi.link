@@ -5,11 +5,11 @@ import { getState } from '../state'
 
 let session = null
 const target = getSessionId()
-if (target) session = new Session('guest', getState().settings.userName, target)
+if (target) session = new Session('guest', getState().userName, target)
 
 const ACTIONS = {
   'share-session': () => {
-    session = new Session('owner', getState().settings.userName, null)
+    session = new Session('owner', getState().userName, null)
   },
   'join-session': () => {},
   'remove-participant': (label) => {
@@ -31,7 +31,7 @@ const ACTIONS = {
 
 SessionDOM.joinForm.addEventListener('submit', (e) => {
   e.preventDefault()
-  session = new Session('guest', getState().settings.userName, SessionDOM.sessionInput.value)
+  session = new Session('guest', getState().userName, SessionDOM.sessionInput.value)
 })
 
 SessionDOM.buttons.forEach(button => {

@@ -13,45 +13,32 @@ const appInitialState = {
 }
 
 const useStore = create((set, get) => ({
-  editors: {
-    html: null,
-    css: null,
-    js: null,
-    setEditors: ({ html, css, js }) => {
-      set(state => {
-        const editors = { html, css, js }
-        return {
-          ...state,
-          editors
-        }
+  ...appInitialState,
+  updateSettings: ({ key, value }) => {
+    if (key === 'streamerMode') toggleSessionID(value)
+    set(state => {
+      setLocalStorage('appInitialState', {
+        ...state,
+        [key]: value
       })
-    }
-  },
-  settings: {
-    ...appInitialState,
-    updateSettings: ({ key, value }) => {
-      if (key === 'streamerMode') toggleSessionID(value)
-      set(state => {
-        setLocalStorage('appInitialState', {
-          ...state.settings,
-          [key]: value
-        })
 
-        const settings = {
-          ...state.settings,
-          [key]: value
-        }
-
-        return {
-          ...state,
-          settings
-        }
-      })
-    }
+      return { [key]: value }
+    })
   }
 }))
 
-toggleSessionID(useStore.getState().settings.streamerMode)
+export const editorsState = create((set, get) => ({
+  html: null,
+  css: null,
+  js: null,
+  setEditors: ({ html, css, js }) => {
+    set(state => {
+      return { html, css, js }
+    })
+  }
+}))
+
+toggleSessionID(useStore.getState().streamerMode)
 
 export const {
   getState,

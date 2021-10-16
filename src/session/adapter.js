@@ -1,8 +1,8 @@
 import { EditorContentManager, RemoteSelectionManager, RemoteCursorManager } from '@convergencelabs/monaco-collab-ext'
-import { getState } from '../state'
+import { editorsState } from '../state'
 
 const getEditors = () => {
-  const { html, css, js } = getState().editors
+  const { html, css, js } = editorsState.getState()
   return { html, css, js }
 }
 

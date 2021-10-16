@@ -16,7 +16,7 @@ const {
   fontLigatures,
   fontFamily,
   tabSize
-} = getState().settings
+} = getState()
 
 const COMMON_EDITOR_OPTIONS = {
   fontSize,

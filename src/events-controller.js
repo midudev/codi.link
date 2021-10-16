@@ -7,7 +7,7 @@ export const eventBus = mitt()
 
 const {
   updateSettings
-} = getState().settings
+} = getState()
 
 let jsEditor
 let htmlEditor

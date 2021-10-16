@@ -4,7 +4,7 @@ import { decode } from 'js-base64'
 import { ColorAssigner } from '@convergence/color-assigner'
 import { SESSION_EVENTS } from './events'
 import { eventBus, EVENTS } from '../events-controller.js'
-import { getState } from '../state'
+import { editorsState } from '../state'
 import { removeIdFromUrl } from '../utils/url'
 import * as SessionDOM from './dom'
 import MonacoCollabAdapter from './adapter'
@@ -53,7 +53,7 @@ function updateParticipants () {
 }
 
 function getEditors () {
-  const { html, css, js } = getState().editors
+  const { html, css, js } = editorsState.getState()
   return { html, css, js }
 }
 

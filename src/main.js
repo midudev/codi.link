@@ -5,7 +5,7 @@ import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { createHtml } from './utils/createHtml'
 import { initializeEventsController } from './events-controller.js'
-import { getState, subscribe } from './state.js'
+import { editorsState, getState, subscribe } from './state.js'
 import WindowPreviewer from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
 
@@ -18,13 +18,13 @@ import './session/main'
 import './components/layout-preview/layout-preview.js'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
-const { layout: currentLayout } = getState().settings
+const { layout: currentLayout } = getState()
 
 setGridLayout(currentLayout)
 
 const {
   setEditors
-} = getState().editors
+} = editorsState.getState()
 
 const $js = $('#js')
 const $css = $('#css')
@@ -45,7 +45,7 @@ const jsEditor = createEditor({ domElement: $js, language: 'javascript', value: 
 subscribe(state => {
   const EDITORS = [htmlEditor, cssEditor, jsEditor]
   EDITORS.forEach(editor => {
-    const { minimap, ...restOfOptions } = state.settings
+    const { minimap, ...restOfOptions } = state
 
     const newOptions = {
       ...restOfOptions,
@@ -59,7 +59,7 @@ subscribe(state => {
       ...newOptions
     })
   })
-  setGridLayout(state.settings.layout)
+  setGridLayout(state.layout)
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200

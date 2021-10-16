@@ -18,7 +18,7 @@ const $usernameInput = $('input[data-for=userName]')
 const {
   updateSettings,
   ...settings
-} = getState().settings
+} = getState()
 
 $settings.forEach(el => {
   const settingKey = el.getAttribute('data-for')
