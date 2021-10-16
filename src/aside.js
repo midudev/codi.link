@@ -20,7 +20,7 @@ const SIMPLE_CLICK_ACTIONS = {
     WindowPreviewer.openWindow()
   },
 
-  share: () => {
+  [BUTTON_ACTIONS.share]: () => {
     const modalEl = document.createElement('codi-modal')
     modalEl.title = 'Compartir'
 
