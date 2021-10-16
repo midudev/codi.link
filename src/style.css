@@ -250,7 +250,7 @@ aside button.is-active {
   width: 310px;
   height: 100vh;
 
-  & #settings, & .search-results ul {
+  & #settings, & .search-results {
     overflow-y: auto;
     scrollbar-gutter: stable;
     max-height: 100%;
@@ -588,7 +588,6 @@ select {
     list-style: none;
     margin: 0.5em 0;
     padding: 0 0 40px 0;
-    height: auto;
   }
 
   & .search-results ul li {
@@ -928,7 +927,7 @@ button {
   border-radius: 50%;
   border-left-color: #c5c5c5;
   margin: auto;
-  margin-top: -40px;
+  margin-top: -50px;
 
   animation: spin 1s linear infinite;
 }
