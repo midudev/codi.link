@@ -535,30 +535,6 @@ select {
     text-overflow: ellipsis;
   }
 
-  & .input {
-    display: flex;
-    background-color: var(--bgc-input);
-    border: 1px solid var(--bdc-input);
-    color: var(--c-input);
-    padding: .5em;
-    margin-top: 16px;
-    font-size: 1rem;
-  }
-
-  & .input .input-icon {
-    fill: rgba(128, 128, 128, 0.50);
-  }
-
-  & .input input {
-    width: 100%;
-    padding: .05em;
-    padding-left: 8px;
-    border: none;
-    background-color: transparent;
-    outline: none;
-    color: var(--c-input);
-  }
-
   & .search-results.hidden {
     display: none;
   }
@@ -732,13 +708,6 @@ select {
     margin-right: 9px;
     min-width: 18px;
     width: 18px;
-  }
-
-  & .input {
-    background-color: var(--bgc-input);
-    color: var(--c-input);
-    border: 1px solid var(--bdc-input);
-    padding: .3em;
   }
 }
 
