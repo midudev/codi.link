@@ -17,6 +17,7 @@ import './settings.js'
 import './scroll.js'
 
 import './components/layout-preview/layout-preview.js'
+import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
 const { layout: currentLayout } = getState()
 
@@ -79,6 +80,9 @@ const js = rawJs
   const initialHtmlForPreview = createHtml({ html, js, css })
   $('iframe').setAttribute('srcdoc', initialHtmlForPreview)
 
+  const initButtonAvailabilityIfContent = () => updateButtonAvailabilityIfContent({ html, js, css })
+  initButtonAvailabilityIfContent()
+
   function update () {
     const html = htmlEditor.getValue()
     const css = cssEditor.getValue()
@@ -89,10 +93,20 @@ const js = rawJs
 
     WindowPreviewer.updateWindowContent(htmlForPreview)
     debouncedUpdateHash({ html, css, js })
+    updateButtonAvailabilityIfContent({ html, css, js })
   }
 
   function updateHashedCode ({ html, css, js }) {
     const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
     window.history.replaceState(null, null, `/${hashedCode}`)
+  }
+
+  function updateButtonAvailabilityIfContent ({ html, css, js }) {
+    const buttonActions = [BUTTON_ACTIONS.downloadUserCode, BUTTON_ACTIONS.openIframeTab, BUTTON_ACTIONS.copyToClipboard]
+    const hasContent = html || css || js
+    buttonActions.forEach(action => {
+      const button = $(`button[data-action='${action}']`)
+      button.disabled = !hasContent
+    })
   }
 })()
