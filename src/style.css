@@ -709,6 +709,13 @@ select {
     min-width: 18px;
     width: 18px;
   }
+
+  & .input {
+    background-color: var(--input-background);
+    color: var(--input-color);
+    border: 1px solid var(--input-border-color);
+    padding: .3em;
+  }
 }
 
 .scroll-buttons-container {
