@@ -11,17 +11,17 @@ const $asideBar = $('.aside-bar')
 const $searchResults = $('#skypack .search-results')
 const $searchResultsList = $searchResults.querySelector('ul')
 const $searchResultsMessage = $('#skypack .search-results-message')
-const $skypackSearch = $('#skypack input[type="search"]')
+const $skypackSearch = $('.skypack-content codi-text-field')
 const $spinner = $searchResults.querySelector('.spinner')
 
-$skypackSearch.addEventListener('input', debounce(handleSearchInput, 200))
+$skypackSearch.addEventListener('input', debounce(handleSearch, 200))
 
 let lastSearchInput = ''
 let currentPage = 1
 let totalPages = 1
 let lastFetchAbortController
 
-async function handleSearchInput () {
+async function handleSearch () {
   const $searchInput = $skypackSearch
 
   const searchTerm = $searchInput.value.toLowerCase().trim()

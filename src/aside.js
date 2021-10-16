@@ -37,7 +37,7 @@ const NON_SIMPLE_CLICK_ACTIONS = {
 
   [BUTTON_ACTIONS.showSkypackBar]: () => {
     showAsideBar('#skypack')
-    $('#skypack-search-input').focus()
+    $('.skypack-content codi-text-field').focus()
     $('.scroll-buttons-container').setAttribute('hidden', '')
   },
 

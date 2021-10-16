@@ -15,6 +15,7 @@ import './settings.js'
 import './scroll.js'
 
 import './components/layout-preview/layout-preview.js'
+import './components/text-field/text-field.js'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
 const { layout: currentLayout } = getState()
