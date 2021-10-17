@@ -9,8 +9,7 @@ export const isNodeCheckbox = el => el.nodeName === 'INPUT' && el.type === 'chec
 
 export const updateSelectValue = (el, value) => {
   const optionToSelect = el.querySelector(`option[value="${value}"]`)
-  if (!optionToSelect) return console.warn('Option to initialized not found')
-  optionToSelect.setAttribute('selected', '')
+  if (optionToSelect) return optionToSelect.setAttribute('selected', '')
 }
 
 export const setFormControlValue = (el, value) => {
