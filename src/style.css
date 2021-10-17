@@ -526,13 +526,20 @@ select {
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 1em;
   }
 
   & .skypack-item strong {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  & .skypack-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #2d323c;
+    padding: 1em;
   }
 
   & .input {
@@ -557,6 +564,14 @@ select {
     background-color: transparent;
     outline: none;
     color: var(--c-input);
+  }
+
+  & .search-results-message {
+    margin: 1em 0 0;
+  }
+
+  & .search-results {
+    padding: 0 1em;
   }
 
   & .search-results.hidden {
