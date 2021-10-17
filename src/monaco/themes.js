@@ -80,7 +80,7 @@ export const configureCustomTheme = customTheme => {
     return
   }
 
-  const parsedTheme = strip(customTheme.replaceAll('null', '""')).replaceAll('\n\t\t', '').replace(',\n\t}', '}')
+  const parsedTheme = strip(customTheme.replaceAll('null,', '"",')).replaceAll('\n\t\t', '').replace(',\n\t}', '}')
   const jsonTheme = JSON.parse(parsedTheme || null)
 
   if (jsonTheme) {
