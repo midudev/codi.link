@@ -516,6 +516,14 @@ select {
 }
 
 .skypack {
+  & .skypack-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #2d323c;
+    padding-top: 1em;
+  }
+
   & .skypack-type {
     padding-bottom: 8px;
     opacity: .6;
@@ -526,7 +534,7 @@ select {
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 1em;
+    padding: 0 1em 1em;
   }
 
   & .skypack-item strong {
@@ -557,6 +565,13 @@ select {
     background-color: transparent;
     outline: none;
     color: var(--c-input);
+  }
+
+  & .search-results-message {
+    font-weight: 500;
+    font-size: 14px;
+    margin: 4px 0 0;
+    padding-bottom: 8px;
   }
 
   & .search-results.hidden {
@@ -612,9 +627,9 @@ select {
           }
 
           &.typescript {
-              width: 18px;
-              height: 18px;
-              background: url(/assets/typescript.svg) no-repeat 50% 50%;
+            width: 18px;
+            height: 18px;
+            background: url(/assets/typescript.svg) no-repeat 50% 50%;
           }
         }
       }
@@ -626,24 +641,24 @@ select {
       overflow: hidden;
     }
 
+    & .skypack-updated {
+      font-size: 0.8em;
+      opacity: 0.5;
+    }
+
     & footer {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+    }
 
-      & .skypack-updated {
-        font-size: 0.8em;
-        opacity: 0.5;
-      }
+    & .skypack-open {
+      font-size: 0.7em;
+      opacity: 0;
+      text-decoration: none;
 
-      & .skypack-open {
-        font-size: 0.7em;
-        opacity: 0;
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
@@ -653,31 +668,6 @@ select {
 
     & .skypack-open {
       opacity: 1;
-    }
-  }
-
-  & .search-results .extensions {
-    height: 75vh;
-    overflow-y: auto;
-
-    &::-webkit-scrollbar {
-      width: 0.85em;
-    }
-  
-    &::-webkit-scrollbar-thumb {
-      background-color: hsla(0, 0%, 50%, 0);
-    }
-  
-    &:hover::-webkit-scrollbar-thumb {
-      background-color: hsla(0, 0%, 50%, 0.4);
-    }
-  
-    &::-webkit-scrollbar-thumb:hover {
-      background-color: hsla(0, 0%, 50%, 0.6);
-    }
-  
-    &::-webkit-scrollbar-thumb:active {
-      background-color: hsla(0, 0%, 50%, 1);
     }
   }
 }
