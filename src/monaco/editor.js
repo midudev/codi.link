@@ -1,12 +1,12 @@
 import { monaco } from './index.js'
-import { emmetHTML } from 'emmet-monaco-es'
+import { emmetHTML, emmetCSS, emmetJSX } from 'emmet-monaco-es'
 import { loadWASM } from 'onigasm'
 import { Registry } from 'monaco-textmate'
 import { wireTmGrammars } from 'monaco-editor-textmate'
 
 import { getState } from '../state.js'
 import configureThemes from './themes'
-import { registerAutoCompleteHTMLTag } from '../editor-extensions/autocomplete-html-tag'
+import { registerAutoCompleteHTMLTag } from '../monaco/autocompleteHTML'
 
 import * as syntaxes from '../assets/syntaxes'
 
@@ -66,6 +66,8 @@ window.MonacoEnvironment = {
 }
 
 emmetHTML(monaco)
+emmetCSS(monaco)
+emmetJSX(monaco)
 
 export async function createEditors (configs) {
   try {
@@ -119,7 +121,7 @@ export async function createEditors (configs) {
     }
 
     await Promise.all(configs.map(async ({ language, value, domElement }) => {
-      const editor = monaco.editor.create(domElement, {
+      const editor = domElement.createEditor({
         value,
         language,
         ...COMMON_EDITOR_OPTIONS
