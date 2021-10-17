@@ -563,13 +563,13 @@ select {
     display: none;
   }
 
-  & .search-results ul {
+  & .search-results .extensions ul {
     list-style: none;
     margin: 0.5em 0;
     padding: 0;
   }
 
-  & .search-results ul li {
+  & .search-results .extensions ul li {
     margin-bottom: 0.5em;
     padding: 0.5em;
     cursor: pointer;
@@ -656,6 +656,30 @@ select {
     }
   }
 
+  & .search-results .extensions {
+    height: 75vh;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 0.85em;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background-color: hsla(0, 0%, 50%, 0);
+    }
+  
+    &:hover::-webkit-scrollbar-thumb {
+      background-color: hsla(0, 0%, 50%, 0.4);
+    }
+  
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: hsla(0, 0%, 50%, 0.6);
+    }
+  
+    &::-webkit-scrollbar-thumb:active {
+      background-color: hsla(0, 0%, 50%, 1);
+    }
+  }
 }
 
 .settings {
