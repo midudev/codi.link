@@ -4,5 +4,6 @@ export const BUTTON_ACTIONS = {
   copyToClipboard: 'copy-to-clipboard',
   closeAsideBar: 'close-aside-bar',
   showSkypackBar: 'show-skypack-bar',
-  showSettingsBar: 'show-settings-bar'
+  showSettingsBar: 'show-settings-bar',
+  openFileDragging: 'open-file-dragging'
 }
