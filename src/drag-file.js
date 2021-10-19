@@ -2,7 +2,7 @@ import { $ } from './utils/dom'
 import { eventBus, EVENTS } from './events-controller'
 
 $('#input-file-drop').addEventListener('drop', (e) => {
-  readmultifiles(e)
+  readFiles(e)
   $('.zone-drag-drop').classList.remove('focus')
 })
 
@@ -14,10 +14,9 @@ $('#input-file-drop').addEventListener('dragleave', () => {
   $('.zone-drag-drop').classList.remove('focus')
 })
 
-function readmultifiles (e) {
+function readFiles (e) {
   const files = e.dataTransfer.files
-  Object.keys(files).forEach(i => {
-    const file = files[i]
+  Object.values(files).forEach(file => {
     const typeFile = file.type
     const reader = new window.FileReader()
     reader.onload = (e) => {
