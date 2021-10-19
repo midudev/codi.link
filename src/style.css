@@ -307,13 +307,10 @@ select {
   background-color: var(--bgc-input);
   color: var(--c-input);
   border: 1px solid var(--bdc-input);
+  height: 26px;
   margin-top: 8px;
-  padding: .5em 8px;
+  padding: 2px 8px;
   width: 100%;
-
-  &:focus-visible {
-    outline: none;
-  }
 }
 
 @keyframes bounceInDown {
@@ -741,17 +738,7 @@ select {
     background-color: var(--bgc-input);
     color: var(--c-input);
     border: 1px solid var(--bdc-input);
-    padding: .5em;
-    margin-top: .5em;
-
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-    }
-
-    &:focus-visible {
-      outline: none;
-    }
+    padding: .3em;
   }
 }
 
@@ -779,7 +766,7 @@ select {
     justify-content: center;
     position: relative;
     transition: .3s opacity ease;
-    &.enter{
+    &.focus{
       opacity: 1;
     }
     & strong {
