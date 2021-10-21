@@ -26,12 +26,28 @@ const editorElements = $$('codi-editor')
 
 const { pathname } = window.location
 
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+const pathnameString = pathname.slice(1)
+
+// eslint-disable-next-line
+const regexPathname = new RegExp(
+  '^(?:[A-Za-zd+/]{4})*(?:[A-Za-zd+/]{3}=|[A-Za-zd+/]{2}==)?%7C(?:[A-Za-zd+/]{4})*(?:[A-Za-zd+/]{3}=|[A-Za-zd+/]{2}==)?%7C(?:[A-Za-zd+/]{4})*(?:[A-Za-zd+/]{3}=|[A-Za-zd+/]{2}==)?$'
+)
+
+let isValidRoute = true
+
+if (pathnameString !== '') {
+  if (regexPathname.exec(pathnameString) === null) {
+    isValidRoute = false
+    window.history.replaceState(null, null, '/')
+  }
+}
+
+const [rawHtml, rawCss, rawJs] = pathnameString.split('%7C')
 
 const VALUES = {
-  html: rawHtml ? decode(rawHtml) : '',
-  css: rawCss ? decode(rawCss) : '',
-  javascript: rawJs ? decode(rawJs) : ''
+  html: pathnameString === '' ? '' : isValidRoute ? decode(rawHtml) : '',
+  css: pathnameString === '' ? '' : isValidRoute ? decode(rawCss) : '',
+  javascript: pathnameString === '' ? '' : isValidRoute ? decode(rawJs) : ''
 }
 
 const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
@@ -41,8 +57,8 @@ const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
   return acc
 }, {})
 
-subscribe(state => {
-  Object.values(EDITORS).forEach(editor => {
+subscribe((state) => {
+  Object.values(EDITORS).forEach((editor) => {
     const { minimap, ...restOfOptions } = state
 
     const newOptions = {
@@ -63,19 +79,25 @@ subscribe(state => {
 const MS_UPDATE_DEBOUNCED_TIME = 200
 const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
-const debouncedUpdateHash = debounce(updateHashedCode, MS_UPDATE_HASH_DEBOUNCED_TIME)
+const debouncedUpdateHash = debounce(
+  updateHashedCode,
+  MS_UPDATE_HASH_DEBOUNCED_TIME
+)
 
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
 const { html, css, javascript: js } = VALUES
 
 htmlEditor.focus()
-Object.values(EDITORS).forEach(editor => editor.onDidChangeModelContent(debouncedUpdate))
+Object.values(EDITORS).forEach((editor) =>
+  editor.onDidChangeModelContent(debouncedUpdate)
+)
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
 const initialHtmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', initialHtmlForPreview)
 
-const initButtonAvailabilityIfContent = () => updateButtonAvailabilityIfContent({ html, js, css })
+const initButtonAvailabilityIfContent = () =>
+  updateButtonAvailabilityIfContent({ html, js, css })
 initButtonAvailabilityIfContent()
 
 function update () {
@@ -99,9 +121,13 @@ function updateHashedCode ({ html, css, js }) {
 }
 
 function updateButtonAvailabilityIfContent ({ html, css, js }) {
-  const buttonActions = [BUTTON_ACTIONS.downloadUserCode, BUTTON_ACTIONS.openIframeTab, BUTTON_ACTIONS.copyToClipboard]
+  const buttonActions = [
+    BUTTON_ACTIONS.downloadUserCode,
+    BUTTON_ACTIONS.openIframeTab,
+    BUTTON_ACTIONS.copyToClipboard
+  ]
   const hasContent = html || css || js
-  buttonActions.forEach(action => {
+  buttonActions.forEach((action) => {
     const button = $(`button[data-action='${action}']`)
     button.disabled = !hasContent
   })
