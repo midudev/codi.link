@@ -28,26 +28,31 @@ const { pathname } = window.location
 
 const pathnameString = pathname.slice(1)
 
-// eslint-disable-next-line
-const regexPathname = new RegExp(
-  '^(?:[A-Za-zd+/]{4})*(?:[A-Za-zd+/]{3}=|[A-Za-zd+/]{2}==)?%7C(?:[A-Za-zd+/]{4})*(?:[A-Za-zd+/]{3}=|[A-Za-zd+/]{2}==)?%7C(?:[A-Za-zd+/]{4})*(?:[A-Za-zd+/]{3}=|[A-Za-zd+/]{2}==)?$'
-)
+const [rawHtml, rawCss, rawJs] = pathnameString.split('&')
 
-let isValidRoute = true
+/* eslint-disable */
+const regexBase64 =
+  /^(?:[A-Za-z\d+/]{4})*(?:[A-Za-z\d+/]{3}=|[A-Za-z\d+/]{2}==)?\&(?:[A-Za-z\d+/]{4})*(?:[A-Za-z\d+/]{3}=|[A-Za-z\d+/]{2}==)?\&(?:[A-Za-z\d+/]{4})*(?:[A-Za-z\d+/]{3}=|[A-Za-z\d+/]{2}==)?$/;
+/* eslint-enable */
+
+let isValidUrl = true
 
 if (pathnameString !== '') {
-  if (regexPathname.exec(pathnameString) === null) {
-    isValidRoute = false
+  if (regexBase64.test(pathnameString)) {
+    isValidUrl = true
+  } else {
     window.history.replaceState(null, null, '/')
+    isValidUrl = false
   }
+} else {
+  window.history.replaceState(null, null, '/')
+  isValidUrl = false
 }
 
-const [rawHtml, rawCss, rawJs] = pathnameString.split('%7C')
-
 const VALUES = {
-  html: pathnameString === '' ? '' : isValidRoute ? decode(rawHtml) : '',
-  css: pathnameString === '' ? '' : isValidRoute ? decode(rawCss) : '',
-  javascript: pathnameString === '' ? '' : isValidRoute ? decode(rawJs) : ''
+  html: isValidUrl ? decode(rawHtml) : '',
+  css: isValidUrl ? decode(rawCss) : '',
+  javascript: isValidUrl ? decode(rawJs) : ''
 }
 
 const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
@@ -116,7 +121,7 @@ function update () {
 }
 
 function updateHashedCode ({ html, css, js }) {
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  const hashedCode = `${encode(html)}&${encode(css)}&${encode(js)}`
   window.history.replaceState(null, null, `/${hashedCode}`)
 }
 
