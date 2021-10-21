@@ -44,11 +44,6 @@ const NON_SIMPLE_CLICK_ACTIONS = {
   [BUTTON_ACTIONS.showSettingsBar]: () => {
     showAsideBar('#settings')
     $('.scroll-buttons-container').setAttribute('hidden', '')
-  },
-
-  [BUTTON_ACTIONS.openFileDragging]: () => {
-    showAsideBar('#drag-file')
-    $('.scroll-buttons-container').setAttribute('hidden', '')
   }
 }
 

@@ -3,7 +3,7 @@ import { eventBus, EVENTS } from './events-controller'
 
 $('#input-file-drop').addEventListener('drop', (e) => {
   readFiles(e)
-  $('.zone-drag-drop').classList.remove('focus')
+  $('.overlay-drag').classList.add('hidden')
 })
 
 $('#input-file-drop').addEventListener('dragenter', () => {
@@ -12,6 +12,19 @@ $('#input-file-drop').addEventListener('dragenter', () => {
 
 $('#input-file-drop').addEventListener('dragleave', () => {
   $('.zone-drag-drop').classList.remove('focus')
+})
+
+window.addEventListener('dragenter', (e) => {
+  if (e.clientY >= 0 || e.clientX >= 0) {
+    $('.overlay-drag').classList.remove('hidden')
+  }
+})
+
+window.addEventListener('dragleave', (e) => {
+  if (e.clientY <= 0 || e.clientX <= 0 ||
+    (e.clientX >= window.innerWidth || e.clientY >= window.innerHeight)) {
+    $('.overlay-drag').classList.add('hidden')
+  }
 })
 
 function readFiles (e) {
