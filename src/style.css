@@ -649,6 +649,7 @@ select {
     }
   }
 
+  & .search-results ul li:focus,
   & .search-results ul li:hover {
     background-color: rgba(128, 128, 128, 0.14);
 

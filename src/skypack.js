@@ -116,10 +116,14 @@ function displayResults ({ results, searchTerm }) {
     const $li = document.createElement('li')
     $li.title = result.description
     $li.innerHTML = getResultHTML({ result, searchTerm })
+    $li.tabIndex = 0
 
     $li.addEventListener('click', (e) => {
       if (e.target.className === 'skypack-open') return
       handlePackageSelected(result.name)
+    })
+    $li.addEventListener('keydown', (e) => {
+      if (e.keyCode === 13) handlePackageSelected(result.name)
     })
 
     $searchResultsList.appendChild($li)
@@ -137,7 +141,7 @@ function getResultHTML ({ result, searchTerm }) {
     <section class="skypack-description">${escapeHTML(result.description)}</section>
     <footer>
       <div class="skypack-updated" >Updated: ${updatedAt}</div>
-      <a class="skypack-open" target="_blank" href="${PACKAGE_VIEW_URL}/${result.name}">details</a>
+      <a tabindex="-1" class="skypack-open" target="_blank" href="${PACKAGE_VIEW_URL}/${result.name}">details</a>
     </footer>`
 }
 
