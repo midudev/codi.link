@@ -1,5 +1,6 @@
 {
   "baseUrl": "http://localhost:3000",
   "experimentalStudio": true,
-  "defaultCommandTimeout": 5000
+  "defaultCommandTimeout": 5000,
+  "video": false
 }
