@@ -1,11 +1,4 @@
-import * as monaco from 'monaco-editor'
-import { emmetHTML } from 'emmet-monaco-es'
-import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
-import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
-import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import { getState } from './state.js'
-import { registerAutoCompleteHTMLTag } from './editor-extensions/autocomplete-html-tag.js'
 
 const {
   fontSize,
@@ -14,12 +7,14 @@ const {
   theme,
   wordWrap,
   fontLigatures,
-  fontFamily
+  fontFamily,
+  tabSize
 } = getState()
 
 const COMMON_EDITOR_OPTIONS = {
   fontSize,
   lineNumbers,
+  tabSize,
   minimap: {
     enabled: minimap
   },
@@ -37,23 +32,4 @@ const COMMON_EDITOR_OPTIONS = {
   }
 }
 
-emmetHTML(monaco)
-
-window.MonacoEnvironment = {
-  getWorker (_, label) {
-    if (label === 'html') return new HtmlWorker()
-    if (label === 'javascript') return new JsWorker()
-    if (label === 'css') return new CssWorker()
-    return new EditorWorker()
-  }
-}
-
-registerAutoCompleteHTMLTag(monaco)
-
-export const createEditor = ({ domElement, language, value }) => {
-  return monaco.editor.create(domElement, {
-    value,
-    language,
-    ...COMMON_EDITOR_OPTIONS
-  })
-}
+export const createEditor = (domElement) => domElement.createEditor({ ...COMMON_EDITOR_OPTIONS })

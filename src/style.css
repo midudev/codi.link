@@ -64,32 +64,18 @@ iframe {
   width: 100%;
 }
 
-.editor {
-  position: relative;
-  overflow: hidden;
+/* Temporal hack to be able to copy icons to dist folder */
+/* ToDo: move it to codi-editor component */
+codi-editor[language=html]::after {
+	background-image: url('/assets/html5.svg');
 }
 
-.editor::after {
-  content: '';
-  position: absolute;
-  background-repeat: no-repeat;
-  right: 16px;
-  bottom: 16px;
-  z-index: 1;
-  width: 48px;
-  height: 48px;
+codi-editor[language=css]::after {
+	background-image: url('/assets/css3.svg');
 }
 
-#html::after {
-  background-image: url('/assets/html5.svg');
-}
-
-#css::after {
-  background-image: url('/assets/css3.svg');
-}
-
-#js::after {
-  background-image: url('/assets/js.svg');
+codi-editor[language=javascript]::after {
+	background-image: url('/assets/js.svg');
 }
 
 .grid {
@@ -143,15 +129,15 @@ iframe {
     }
   }
 
-  & #html {
+  & #markup {
     grid-area: editor-html;
   }
 
-  & #css {
+  & #style {
     grid-area: editor-css;
   }
 
-  & #js {
+  & #script {
     grid-area: editor-js;
   }
 
@@ -516,6 +502,14 @@ select {
 }
 
 .skypack {
+  & .skypack-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #2d323c;
+    padding-top: 1em;
+  }
+
   & .skypack-type {
     padding-bottom: 8px;
     opacity: .6;
@@ -526,7 +520,7 @@ select {
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 1em;
+    padding: 0 1em 1em;
   }
 
   & .skypack-item strong {
@@ -559,17 +553,24 @@ select {
     color: var(--c-input);
   }
 
+  & .search-results-message {
+    font-weight: 500;
+    font-size: 14px;
+    margin: 4px 0 0;
+    padding-bottom: 8px;
+  }
+
   & .search-results.hidden {
     display: none;
   }
 
-  & .search-results ul {
+  & .search-results .extensions ul {
     list-style: none;
     margin: 0.5em 0;
     padding: 0;
   }
 
-  & .search-results ul li {
+  & .search-results .extensions ul li {
     margin-bottom: 0.5em;
     padding: 0.5em;
     cursor: pointer;
@@ -612,9 +613,9 @@ select {
           }
 
           &.typescript {
-              width: 18px;
-              height: 18px;
-              background: url(/assets/typescript.svg) no-repeat 50% 50%;
+            width: 18px;
+            height: 18px;
+            background: url(/assets/typescript.svg) no-repeat 50% 50%;
           }
         }
       }
@@ -626,24 +627,24 @@ select {
       overflow: hidden;
     }
 
+    & .skypack-updated {
+      font-size: 0.8em;
+      opacity: 0.5;
+    }
+
     & footer {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+    }
 
-      & .skypack-updated {
-        font-size: 0.8em;
-        opacity: 0.5;
-      }
+    & .skypack-open {
+      font-size: 0.7em;
+      opacity: 0;
+      text-decoration: none;
 
-      & .skypack-open {
-        font-size: 0.7em;
-        opacity: 0;
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
@@ -655,7 +656,6 @@ select {
       opacity: 1;
     }
   }
-
 }
 
 .settings {
@@ -774,7 +774,8 @@ select {
   .aside-sections {
     flex-direction: row;
     width: 100%;
-    padding: 0 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
     height: fit-content;
   }
 
@@ -885,5 +886,30 @@ select {
 
   .scroll-button > svg {
     width: 20px;
+  }
+}
+
+
+button {
+  &:disabled, &:hover:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+}
+
+.spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border-left-color: #c5c5c5;
+  margin: auto;
+
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(-360deg);
   }
 }
