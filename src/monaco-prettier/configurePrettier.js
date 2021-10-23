@@ -7,13 +7,17 @@ export const configurePrettierHotkeys = editors => {
     editors.forEach(e => e.layout())
   }
 
-  const alt = (e) => (navigator.userAgent.includes('mac') ? e.metaKey : e.ctrlKey)
+  const alt = e =>
+    navigator.userAgent.toLowerCase().includes('mac')
+      ? e.metaKey
+      : e.ctrlKey
+
   const generateCssFormater = () => cssFormatMonaco(
     monaco,
     // options
     // see full option list at https://github.com/beautify-web/js-beautify#css--html
     {
-      tab_size: 2
+      indent_size: 2 // TODO: use the tab size from the config
     }
   )
 
@@ -21,12 +25,7 @@ export const configurePrettierHotkeys = editors => {
 
   const hotKeys = (e) => {
     editors.forEach(editor => {
-      // ctrl/cmd + shift + f
-      if (alt(e) && e.shiftKey && e.key === 'F') {
-        e.preventDefault()
-        editor.getAction('editor.action.formatDocument').run()
-      }
-      // ctrl/cmd + p
+      // Control/Command + P
       if (alt(e) && e.keyCode === 80) {
         e.preventDefault()
         editor.trigger('anyString', 'editor.action.quickCommand')
