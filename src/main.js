@@ -9,6 +9,7 @@ import { initializeEventsController } from './events-controller.js'
 import { getState, subscribe } from './state.js'
 import WindowPreviewer from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
+import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
 
 import './aside.js'
 import './skypack.js'
@@ -76,6 +77,7 @@ initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
 const initialHtmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', initialHtmlForPreview)
+configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
 
 const initButtonAvailabilityIfContent = () => updateButtonAvailabilityIfContent({ html, js, css })
 initButtonAvailabilityIfContent()
@@ -87,7 +89,7 @@ function update () {
     js: jsEditor.getValue()
   }
 
-  const htmlForPreview = createHtml({ html, js, css })
+  const htmlForPreview = createHtml(values)
   $('iframe').setAttribute('srcdoc', htmlForPreview)
 
   WindowPreviewer.updateWindowContent(htmlForPreview)

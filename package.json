@@ -20,6 +20,7 @@
     "cypress": "8.6.0"
   },
   "dependencies": {
+    "css-format-monaco": "2.0.4",
     "emmet-monaco-es": "4.7.4",
     "escape-html": "1.0.3",
     "hotkeys-js": "3.8.7",
