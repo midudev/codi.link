@@ -4,7 +4,7 @@ import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { createHtml } from './utils/createHtml'
 import { initializeEventsController } from './events-controller.js'
-import { getState, subscribe } from './state.js'
+import { editorsState, getState, subscribe } from './state.js'
 import WindowPreviewer from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
 import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
@@ -13,6 +13,7 @@ import './aside.js'
 import './skypack.js'
 import './settings.js'
 import './scroll.js'
+import './session/main'
 
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
@@ -22,6 +23,10 @@ import './components/codi-editor/codi-editor.js'
 const { layout: currentLayout } = getState()
 
 setGridLayout(currentLayout)
+
+const {
+  setEditors
+} = editorsState.getState()
 
 const editorElements = $$('codi-editor')
 
@@ -72,6 +77,7 @@ const { html, css, javascript: js } = VALUES
 htmlEditor.focus()
 Object.values(EDITORS).forEach(editor => editor.onDidChangeModelContent(debouncedUpdate))
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
+setEditors({ html: htmlEditor, css: cssEditor, js: jsEditor })
 
 const initialHtmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', initialHtmlForPreview)

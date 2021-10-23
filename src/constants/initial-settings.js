@@ -1,5 +1,6 @@
 import { DEFAULT_GRID_TEMPLATE } from './editor-grid-template'
 import { DEFAULT_LAYOUT } from './grid-templates'
+import sillyname from 'sillyname'
 
 export const DEFAULT_INITIAL_SETTINGS = {
   fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'",
@@ -17,5 +18,7 @@ export const DEFAULT_INITIAL_SETTINGS = {
     gutters: DEFAULT_LAYOUT,
     style: DEFAULT_GRID_TEMPLATE,
     type: 'default'
-  }
+  },
+  userName: sillyname(),
+  streamerMode: false
 }

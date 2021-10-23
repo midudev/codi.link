@@ -2,6 +2,8 @@
   --bgc-input: #2f363d;
   --bdc-input: rgb(27, 31, 35);
   --c-input: rgb(225, 228, 232);
+  --bgc-button: rgb(14, 99, 156);
+  --bgc-button-hover: rgb(17, 119, 187);
 }
 
 body {
@@ -166,6 +168,19 @@ codi-editor[language=javascript]::after {
   background: #2d323c;
 }
 
+.monaco-button {
+  padding: .5em;
+  color: #fff;
+  background-color: var(--bgc-button);
+  border: none;
+  cursor: pointer;
+  max-width: 300px;
+}
+
+.monaco-button:hover {
+  background-color: var(--bgc-button-hover);
+}
+
 aside {
   background: #2d323c;
   display: flex;
@@ -183,6 +198,7 @@ aside button .button-title {
   color: #c5c5c5;
   display: none;
   font-size: 1.1em;
+  white-space: nowrap;
   padding: 0.5em .75em;
   position: absolute;
   right: -10px;
@@ -297,6 +313,33 @@ aside button.is-active {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.simple-tooltip {
+  background: #2d323c;
+  border-radius: 3px;
+  border: 1px solid #000;
+  box-shadow: 0 0 15px 2px rgb(0 0 0 / 30%);
+  color: #c5c5c5;
+  display: none;
+  font-size: 1.1em;
+  white-space: nowrap;
+  padding: 0.5em .75em;
+  position: absolute;
+  transform: translate(0, 110%);
+  z-index: 1000;
+}
+
+.simple-tooltip.top {
+  transform: translate(0, -110%);
+}
+
+.simple-tooltip.left {
+  transform: translate(-70%, 0);
+}
+
+.simple-tooltip.right {
+  transform: translate(70%, 0);
 }
 
 [hidden] {
@@ -739,6 +782,169 @@ select {
     color: var(--c-input);
     border: 1px solid var(--bdc-input);
     padding: .3em;
+  }
+
+  & .input-container {
+    display: flex;
+    background-color: var(--bgc-input);
+    border: 1px solid var(--bdc-input);
+    color: var(--c-input);
+    padding: .3em;
+    position: relative;
+    margin-top: 8px;
+  }
+
+  & .input-container button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    margin: 0;
+  }
+
+  & .input-container button:hover {
+    background: rgba(128, 128, 128, 0.14);
+  }
+
+  & .input-container .input-icon {
+    fill: rgba(128, 128, 128, 0.50);
+  }
+  
+  & .input-container input {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: var(--c-input);
+  }
+}
+
+.live-share {
+  & .live-share-content {
+    color: #fff;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+  }
+
+  & .live-share-item {
+    display: flex;
+    flex-direction: column;
+    gap: .7em;
+  }
+
+  & .input {
+    background-color: var(--bgc-input);
+    outline: none;
+    color: var(--c-input);
+    border: 1px solid var(--bdc-input);
+    padding: .5em;
+    width: 100%;
+  }
+
+  & p {
+    margin: 0;
+  }
+
+  & .session-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-transform: uppercase;
+  }
+
+  & .actions-container {
+    list-style: none;
+    display: flex;
+    gap: .3em;
+    margin: 0;
+    padding: 0;
+  }
+
+  & .icon-button {
+    background-color: transparent;
+    border-radius: 6px;
+    border: none;
+    padding: .3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff;
+    position: relative;
+  }
+
+  & .simple-tooltip {
+    right: -20px;
+  }
+
+  & .icon-button:hover {
+    background: rgba(128, 128, 128, 0.14);
+  }
+
+  & .icon-button:hover .simple-tooltip {
+    display: block;
+  }
+
+  & .action-icon {
+    height: 1.2em;
+    aspect-ratio: 1;
+  }
+
+  & .session-details {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: .9em;
+    flex-direction: column;
+    display: flex;
+    gap: .3em;
+  }
+
+  & span[data-for=session-id] {
+    font-size: .8em;
+  }
+
+  & .participants-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 5px;
+  }
+
+  & .participant {
+    padding: .3em 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  & .participant:hover {
+    background: rgba(128, 128, 128, 0.1);
+  }
+
+  & .participant .icon-button {
+    visibility: hidden;
+  }
+
+  & .participant:hover .icon-button {
+    visibility: visible;
+  }
+
+  & .participant div {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+  }
+
+  & .participant-color {
+    width: .7em;
   }
 }
 

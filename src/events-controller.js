@@ -5,6 +5,10 @@ import { getState } from './state'
 
 export const eventBus = mitt()
 
+const {
+  updateSettings
+} = getState()
+
 let jsEditor
 let htmlEditor
 let cssEditor
@@ -21,7 +25,8 @@ export const initializeEventsController = ({
 
 export const EVENTS = {
   ADD_SKYPACK_PACKAGE: 'ADD_SKYPACK_PACKAGE',
-  DOWNLOAD_USER_CODE: 'DOWNLOAD_USER_CODE'
+  DOWNLOAD_USER_CODE: 'DOWNLOAD_USER_CODE',
+  SET_DEFAULT_NAME: 'SET_DEFAULT_NAME'
 }
 
 eventBus.on(EVENTS.ADD_SKYPACK_PACKAGE, ({ skypackPackage, url }) => {
@@ -44,5 +49,12 @@ eventBus.on(EVENTS.DOWNLOAD_USER_CODE, () => {
     htmlContent: htmlEditor.getValue(),
     cssContent: cssEditor.getValue(),
     jsContent: jsEditor.getValue()
+  })
+})
+
+eventBus.on(EVENTS.SET_DEFAULT_NAME, (name) => {
+  updateSettings({
+    key: 'userName',
+    value: name
   })
 })

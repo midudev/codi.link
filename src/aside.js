@@ -4,8 +4,8 @@ import WindowPreviewer from './utils/WindowPreviewer'
 import Notification from './utils/notification.js'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
-const $aside = $('aside')
-const $buttons = $$('button', $aside)
+const $asideSections = $('.aside-sections')
+const $buttons = $$('button', $asideSections)
 const $editorAsideButton = $('#editor-aside-button')
 
 const toggleAsideBar = (isHidden) => {
@@ -43,6 +43,11 @@ const NON_SIMPLE_CLICK_ACTIONS = {
 
   [BUTTON_ACTIONS.showSettingsBar]: () => {
     showAsideBar('#settings')
+    $('.scroll-buttons-container').setAttribute('hidden', '')
+  },
+
+  [BUTTON_ACTIONS.showLiveShareBar]: () => {
+    showAsideBar('#live-share')
     $('.scroll-buttons-container').setAttribute('hidden', '')
   }
 }

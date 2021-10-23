@@ -1,4 +1,5 @@
 import create from 'zustand/vanilla'
+import { toggleSessionID } from './session/dom'
 
 import { DEFAULT_INITIAL_SETTINGS } from './constants/initial-settings'
 
@@ -14,6 +15,7 @@ const appInitialState = {
 const useStore = create((set, get) => ({
   ...appInitialState,
   updateSettings: ({ key, value }) => {
+    if (key === 'streamerMode') toggleSessionID(value)
     set(state => {
       setLocalStorage('appInitialState', {
         ...state,
@@ -24,6 +26,19 @@ const useStore = create((set, get) => ({
     })
   }
 }))
+
+export const editorsState = create((set, get) => ({
+  html: null,
+  css: null,
+  js: null,
+  setEditors: ({ html, css, js }) => {
+    set(state => {
+      return { html, css, js }
+    })
+  }
+}))
+
+toggleSessionID(useStore.getState().streamerMode)
 
 export const {
   getState,

@@ -20,6 +20,8 @@
     "cypress": "8.6.0"
   },
   "dependencies": {
+    "@convergence/color-assigner": "^0.3.0",
+    "@convergencelabs/monaco-collab-ext": "^0.3.2",
     "css-format-monaco": "2.0.4",
     "emmet-monaco-es": "4.7.4",
     "escape-html": "1.0.3",
@@ -29,6 +31,8 @@
     "lit": "2.0.2",
     "mitt": "3.0.0",
     "monaco-editor": "0.29.1",
+    "peerjs": "^1.3.2",
+    "sillyname": "^0.1.0",
     "split-grid": "1.0.11",
     "zustand": "3.5.13"
   },
