@@ -7,6 +7,7 @@ import { initializeEventsController } from './events-controller.js'
 import { editorsState, getState, subscribe } from './state.js'
 import WindowPreviewer from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
+import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
 
 import './aside.js'
 import './skypack.js'
@@ -80,6 +81,7 @@ setEditors({ html: htmlEditor, css: cssEditor, js: jsEditor })
 
 const initialHtmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', initialHtmlForPreview)
+configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
 
 const initButtonAvailabilityIfContent = () => updateButtonAvailabilityIfContent({ html, js, css })
 initButtonAvailabilityIfContent()
