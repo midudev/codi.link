@@ -3,7 +3,7 @@ import { getState } from './state'
 import { $, $$ } from './utils/dom'
 
 const $editor = $('#editor')
-const $$layoutSelector = $$('.layout-preview')
+const $$layoutSelector = $$('layout-preview')
 let splitInstance
 
 const formatGutters = gutter => ({
@@ -42,7 +42,11 @@ const setGridLayout = ({ gutters, style, type = '' }) => {
   $editor.setAttribute('style', initialStyle || style)
 
   $$layoutSelector.forEach(layoutEl => {
-    layoutEl.classList.toggle('active', type === layoutEl.id)
+    if (type === layoutEl.layout) {
+      layoutEl.setAttribute('active', '')
+    } else {
+      layoutEl.removeAttribute('active')
+    }
   })
 
   saveGridTemplate()
