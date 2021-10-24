@@ -1,39 +1,43 @@
 import { $ } from './utils/dom'
 import { eventBus, EVENTS } from './events-controller'
 
-$('#input-file-drop').addEventListener('drop', (e) => {
+const $inputFileDrop = $('#input-file-drop')
+const $overlayDrag = $('.overlay-drag')
+const $dragAndDropZone = $('.zone-drag-drop')
+
+$inputFileDrop.addEventListener('drop', (e) => {
   readFiles(e)
-  $('.overlay-drag').classList.add('hidden')
+  $overlayDrag.classList.add('hidden')
 })
 
-$('#input-file-drop').addEventListener('dragenter', () => {
-  $('.zone-drag-drop').classList.add('focus')
+$inputFileDrop.addEventListener('dragenter', () => {
+  $dragAndDropZone.classList.add('focus')
 })
 
-$('#input-file-drop').addEventListener('dragleave', () => {
-  $('.zone-drag-drop').classList.remove('focus')
+$inputFileDrop.addEventListener('dragleave', () => {
+  $dragAndDropZone.classList.remove('focus')
 })
 
 window.addEventListener('dragenter', (e) => {
   if (e.clientY >= 0 || e.clientX >= 0) {
-    $('.overlay-drag').classList.remove('hidden')
+    $overlayDrag.classList.remove('hidden')
   }
 })
 
-window.addEventListener('dragleave', (e) => {
-  if (e.clientY <= 0 || e.clientX <= 0 ||
-    (e.clientX >= window.innerWidth || e.clientY >= window.innerHeight)) {
-    $('.overlay-drag').classList.add('hidden')
+window.addEventListener('dragleave', ({ clientX, clientY }) => {
+  if (clientY <= 0 || clientX <= 0 ||
+    (clientX >= window.innerWidth || clientY >= window.innerHeight)) {
+    $overlayDrag.classList.add('hidden')
   }
 })
 
 function readFiles (e) {
-  const files = e.dataTransfer.files
+  const { files } = e.dataTransfer
   Object.values(files).forEach(file => {
-    const typeFile = file.type
+    const { type: typeFile } = file
     const reader = new window.FileReader()
-    reader.onload = (e) => {
-      printContent(e.target.result, typeFile)
+    reader.onload = ({ target }) => {
+      printContent(target.result, typeFile)
     }
     reader.readAsBinaryString(file)
   })
