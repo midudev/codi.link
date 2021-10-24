@@ -1,7 +1,6 @@
 name: Continuous integration
 
 on:
-  
   pull_request:
     branches: [main]
     types: [opened, synchronize]
