@@ -12,7 +12,7 @@ body {
   line-height: 1.42857143;
   margin: 0;
   padding: 0;
-
+  position: fixed;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
@@ -87,10 +87,19 @@ codi-editor[language=javascript]::after {
   grid-template-rows: 1fr 5px 1fr;
   height: 100vh;
 
+  &[data-layout="default"] {
+    & .second-gutter {
+      background: transparent;
+    }
+  }
   &[data-layout="layout-2"] {
     grid-template-areas: 'editor-html . editor-css'
     '. . .'
     'editor-js . editor-preview';
+    
+    & .second-gutter {
+      background: transparent;
+    }
   }
   &[data-layout="vertical"] {
     grid-template-areas: 'editor-html . editor-css . editor-js . editor-preview';
@@ -101,10 +110,12 @@ codi-editor[language=javascript]::after {
     & .second-gutter {
       cursor: col-resize;
       grid-area: 1 / 4 / 1 / 4;
+      background-image: url(../assets/vertical.png)
     }
     & .last-gutter {
       cursor: col-resize;
       grid-area: 1 / 6 / 1 / 6;
+      background-image: url(../assets/vertical.png)
     }
   }
   &[data-layout="horizontal"] {
@@ -117,15 +128,37 @@ codi-editor[language=javascript]::after {
                          'editor-preview';
     & .first-gutter {
       grid-area: 2 / 1 / 2 / 1;
-      cursor: row-resize
+      cursor: row-resize;
+      background-image: url(../assets/horizontal.png);
     }
     & .second-gutter {
       grid-area: 4 / 1 / 4 / 1;
-      cursor: row-resize
+      cursor: row-resize;
+      background-image: url(../assets/horizontal.png)
     }
     & .last-gutter {
       grid-area: 6 / 1 / 6 / 1;
       cursor: row-resize
+    }
+  }
+  &[data-layout="bottom"] {
+    grid-template-columns: 1fr 8px 1fr 8px 1fr;
+    grid-template-rows: 1fr 8px 1fr;
+    grid-template-areas: 'editor-preview editor-preview editor-preview editor-preview editor-preview'
+                          '. . . . .'
+                          'editor-html . editor-js . editor-css';
+    & .first-gutter {
+      cursor: col-resize;
+      grid-area: 2 / 2 / 4 / 3;
+    }
+    & .second-gutter {
+      cursor: col-resize;
+      grid-area: 2 / 4 / 4 / 5;
+      background-image: url(../assets/vertical.png)
+    }
+    & .last-gutter {
+      cursor: col-resize;
+      grid-area: 2 / 1 / 2 / 6;
     }
   }
 
@@ -151,6 +184,9 @@ codi-editor[language=javascript]::after {
   cursor: col-resize;
   grid-area: 1 / 2 / 4 / 2;
   background: #2d323c;
+  background-repeat: no-repeat;
+  background-position: 50% center;
+  background-image: url(../assets/vertical.png);
 }
 
 .second-gutter {
@@ -158,12 +194,17 @@ codi-editor[language=javascript]::after {
   z-index: 1;
   grid-area: 2 / 2 / 2 / 2;
   background: #2d323c;
+  background-repeat: no-repeat;
+  background-position: 50% center;
 }
 
 .last-gutter {
   cursor: row-resize;
   grid-area: 2 / 1 / 2 / 4;
   background: #2d323c;
+  background-repeat: no-repeat;
+  background-position: 50% center;
+  background-image: url(../assets/horizontal.png);
 }
 
 aside {
