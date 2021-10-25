@@ -5,11 +5,12 @@ import Notification from './utils/notification.js'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
 const $aside = $('aside')
+const $asideBar = $('.aside-bar')
 const $buttons = $$('button', $aside)
 const $editorAsideButton = $('#editor-aside-button')
 
 const toggleAsideBar = (isHidden) => {
-  $('.aside-bar').toggleAttribute('hidden', isHidden)
+  $asideBar.toggleAttribute('hidden', isHidden)
 }
 
 const SIMPLE_CLICK_ACTIONS = {
@@ -48,7 +49,7 @@ const NON_SIMPLE_CLICK_ACTIONS = {
 }
 
 const showAsideBar = (selector) => {
-  $('.aside-bar').removeAttribute('hidden')
+  $asideBar.removeAttribute('hidden')
   $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
   $(selector).removeAttribute('hidden')
 }
