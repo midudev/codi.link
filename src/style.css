@@ -12,7 +12,7 @@ body {
   line-height: 1.42857143;
   margin: 0;
   padding: 0;
-
+  position: fixed;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
