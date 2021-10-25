@@ -21,7 +21,8 @@ export const initializeEventsController = ({
 
 export const EVENTS = {
   ADD_SKYPACK_PACKAGE: 'ADD_SKYPACK_PACKAGE',
-  DOWNLOAD_USER_CODE: 'DOWNLOAD_USER_CODE'
+  DOWNLOAD_USER_CODE: 'DOWNLOAD_USER_CODE',
+  DRAG_FILE: 'DRAG_FILE'
 }
 
 eventBus.on(EVENTS.ADD_SKYPACK_PACKAGE, ({ skypackPackage, url }) => {
@@ -45,4 +46,15 @@ eventBus.on(EVENTS.DOWNLOAD_USER_CODE, () => {
     cssContent: cssEditor.getValue(),
     jsContent: jsEditor.getValue()
   })
+})
+
+eventBus.on(EVENTS.DRAG_FILE, ({ content, typeFile }) => {
+  const file = typeFile
+
+  switch (file) {
+    case 'text/javascript': jsEditor.setValue(content); break
+    case 'text/css': cssEditor.setValue(content); break
+    case 'text/html': htmlEditor.setValue(content); break
+    default: break
+  }
 })

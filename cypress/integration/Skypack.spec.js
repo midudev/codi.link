@@ -25,7 +25,7 @@ const CheckImportSkypack = () => {
     it('Import @Material-ui and check if the @ is imported', () => {
       cy.get('[data-action="show-skypack-bar"]').click()
       cy.get('#skypack-search-input').type('@material')
-      cy.get(':nth-child(1) > small').click()
+      cy.get('.search-results .extensions ul li:first').click()
       return cy.get('[class="mtk22"]').should('have.text', 'MaterialUiCore')
     })
   })
