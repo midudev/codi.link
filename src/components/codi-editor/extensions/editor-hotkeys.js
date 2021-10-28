@@ -22,4 +22,9 @@ export const initEditorHotKeys = (editor) => {
       copyToClipboard(window.location.href)
     }
   )
+  editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Space,
+    function () {
+      editor.trigger('', 'editor.action.triggerSuggest', {})
+    }
+  )
 }
