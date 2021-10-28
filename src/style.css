@@ -96,7 +96,7 @@ codi-editor[language=javascript]::after {
     grid-template-areas: 'editor-html . editor-css'
     '. . .'
     'editor-js . editor-preview';
-    
+
     & .second-gutter {
       background: transparent;
     }
@@ -157,7 +157,7 @@ codi-editor[language=javascript]::after {
       background-image: url(../assets/vertical.png)
     }
     & .last-gutter {
-      cursor: col-resize;
+      cursor: row-resize;
       grid-area: 2 / 1 / 2 / 6;
     }
   }
