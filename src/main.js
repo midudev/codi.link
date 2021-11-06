@@ -1,4 +1,3 @@
-import { encode, decode } from 'js-base64'
 import { $, $$ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
@@ -8,6 +7,7 @@ import { getState, subscribe } from './state.js'
 import WindowPreviewer from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
 import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
+import { getCodesInUrl, buildHashedCode } from './utils/url'
 
 import './aside.js'
 import './skypack.js'
@@ -26,15 +26,7 @@ setGridLayout(currentLayout)
 
 const editorElements = $$('codi-editor')
 
-const { pathname } = window.location
-
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
-
-const VALUES = {
-  html: rawHtml ? decode(rawHtml) : '',
-  css: rawCss ? decode(rawCss) : '',
-  javascript: rawJs ? decode(rawJs) : ''
-}
+const VALUES = getCodesInUrl()
 
 const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
   const { language } = domElement
@@ -59,6 +51,7 @@ subscribe(state => {
       ...newOptions
     })
   })
+
   setGridLayout(state.layout)
 })
 
@@ -97,7 +90,7 @@ function update () {
 }
 
 function updateHashedCode ({ html, css, js }) {
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  const hashedCode = buildHashedCode(html, css, js)
   window.history.replaceState(null, null, `/${hashedCode}`)
 }
 
