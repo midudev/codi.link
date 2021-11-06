@@ -102,23 +102,7 @@ export async function createEditors (configs) {
 
     const editors = {}
 
-    const closingPairsConfig = {
-      surroundingPairs: [
-        { open: '{', close: '}' },
-        { open: '[', close: ']' },
-        { open: '(', close: ')' },
-        { open: '<', close: '>' },
-        { open: "'", close: "'" },
-        { open: '"', close: '"' }
-      ],
-      autoClosingPairs: [
-        { open: '{', close: '}' },
-        { open: '[', close: ']' },
-        { open: '(', close: ')' },
-        { open: "'", close: "'", notIn: ['string', 'comment'] },
-        { open: '"', close: '"', notIn: ['string', 'comment'] }
-      ]
-    }
+    const languageConfigurations = await import('./languages/configurations')
 
     await Promise.all(configs.map(async ({ language, value, domElement }) => {
       const editor = domElement.createEditor({
@@ -127,7 +111,7 @@ export async function createEditors (configs) {
         ...COMMON_EDITOR_OPTIONS
       })
       editors[language] = editor
-      monaco.languages.setLanguageConfiguration(language, closingPairsConfig)
+      monaco.languages.setLanguageConfiguration(language, languageConfigurations[language])
       return await wireTmGrammars(monaco, registry, grammars, editor)
     }))
 
