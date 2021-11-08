@@ -966,19 +966,21 @@ select {
     border: none;
     border-radius: 50%;
 
-    opacity: 0.2;
     background: #158BF3;
     cursor: pointer;
-    transition: opacity 0.2s;
     -webkit-tap-highlight-color: transparent;
-  }
-
-  .scroll-button:focus {
-    opacity: 1;
   }
 
   .scroll-button > svg {
     width: 20px;
+  }
+
+  .previewer-active {
+    height: calc(100vh - 78px);
+    display: block;
+  }
+  .previewer-hide {
+    display: none;
   }
 }
 
