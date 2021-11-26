@@ -12,6 +12,12 @@
 
 </div>
 
+<div align="center">
+
+![Alt](https://repobeats.axiom.co/api/embed/909ddb19f56a1b9243b52b5994db4b0b8021b616.svg "Repobeats analytics image")
+
+</div>
+
 <!-- TABLE OF CONTENTS -->
 
 <details>
