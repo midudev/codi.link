@@ -12,12 +12,6 @@
 
 </div>
 
-<div align="center">
-
-![Alt](https://repobeats.axiom.co/api/embed/909ddb19f56a1b9243b52b5994db4b0b8021b616.svg "Repobeats analytics image")
-
-</div>
-
 <!-- TABLE OF CONTENTS -->
 
 <details>
@@ -66,12 +60,19 @@ $ yarn dev
 ### Built With
 
 - JavaScript
+- [Lit](https://lit.dev)
 - [Vite](https://vitejs.dev)
 - [Zustand](https://zustand.surge.sh)
 
 <p align="right"><a href="#top">Back to top 🔼</a></p>
 
 ## Contributing
+
+<div align="center">
+
+![Alt](https://repobeats.axiom.co/api/embed/909ddb19f56a1b9243b52b5994db4b0b8021b616.svg "Repobeats analytics image")
+
+</div>
 
 Contributions are what make the Open Source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
