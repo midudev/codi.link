@@ -26,38 +26,15 @@ setGridLayout(currentLayout)
 
 const editorElements = $$('codi-editor')
 
-const { pathname } = window.location
-
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
-
-const VALUES = {
-  html: rawHtml ? decode(rawHtml) : '',
-  css: rawCss ? decode(rawCss) : '',
-  javascript: rawJs ? decode(rawJs) : ''
-}
-
-const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
-  const { language } = domElement
-  domElement.value = VALUES[language]
-  acc[language] = createEditor(domElement)
-  return acc
-}, {})
+const EDITORS = createEditors()
 
 subscribe(state => {
   Object.values(EDITORS).forEach(editor => {
     const { minimap, ...restOfOptions } = state
 
-    const newOptions = {
-      ...restOfOptions,
-      minimap: {
-        enabled: minimap
-      }
-    }
+    const newOptions = { ...restOfOptions, minimap: { enabled: minimap } }
 
-    editor.updateOptions({
-      ...editor.getRawOptions(),
-      ...newOptions
-    })
+    editor.updateOptions({ ...editor.getRawOptions(), ...newOptions })
   })
   setGridLayout(state.layout)
 })
@@ -65,21 +42,17 @@ subscribe(state => {
 const MS_UPDATE_DEBOUNCED_TIME = 200
 const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
-const debouncedUpdateHash = debounce(updateHashedCode, MS_UPDATE_HASH_DEBOUNCED_TIME)
+const debouncedUpdateHash = debounce(updateSearchParams, MS_UPDATE_HASH_DEBOUNCED_TIME)
 
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
-const { html, css, javascript: js } = VALUES
 
 htmlEditor.focus()
 Object.values(EDITORS).forEach(editor => editor.onDidChangeModelContent(debouncedUpdate))
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
-const initialHtmlForPreview = createHtml({ html, js, css })
-$('iframe').setAttribute('srcdoc', initialHtmlForPreview)
 configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
 
-const initButtonAvailabilityIfContent = () => updateButtonAvailabilityIfContent({ html, js, css })
-initButtonAvailabilityIfContent()
+update()
 
 function update () {
   const values = {
@@ -96,16 +69,47 @@ function update () {
   updateButtonAvailabilityIfContent(values)
 }
 
-function updateHashedCode ({ html, css, js }) {
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
-  window.history.replaceState(null, null, `/${hashedCode}`)
+function updateSearchParams ({ html, css, js }) {
+  const encoded = { html: encode(html), css: encode(css), javascript: encode(js) }
+  const searchParams = new URLSearchParams(encoded)
+  window.history.replaceState(null, null, `?${searchParams}`)
 }
 
 function updateButtonAvailabilityIfContent ({ html, css, js }) {
-  const buttonActions = [BUTTON_ACTIONS.downloadUserCode, BUTTON_ACTIONS.openIframeTab, BUTTON_ACTIONS.copyToClipboard]
+  const buttonActions = [
+    BUTTON_ACTIONS.downloadUserCode,
+    BUTTON_ACTIONS.openIframeTab,
+    BUTTON_ACTIONS.copyToClipboard
+  ]
   const hasContent = html || css || js
   buttonActions.forEach(action => {
     const button = $(`button[data-action='${action}']`)
     button.disabled = !hasContent
   })
+}
+
+function createEditors () {
+  const initialValues = getValuesFromUrl()
+
+  const editors = {}
+
+  editorElements.forEach((domElement) => {
+    const { language } = domElement
+    domElement.value = initialValues[language]
+    editors[language] = createEditor(domElement)
+  })
+
+  return editors
+}
+
+function getValuesFromUrl () {
+  const searchParams = new URLSearchParams(window.location.search)
+
+  const { html: rawHtml, css: rawCss, javascript: rawJs } = Object.fromEntries(searchParams)
+
+  return {
+    html: rawHtml ? decode(rawHtml) : '',
+    css: rawCss ? decode(rawCss) : '',
+    javascript: rawJs ? decode(rawJs) : ''
+  }
 }
