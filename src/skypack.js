@@ -118,9 +118,18 @@ function displayResults ({ results, searchTerm }) {
     $li.innerHTML = getResultHTML({ result, searchTerm })
     $li.tabIndex = 0
 
+    const url = `${CDN_URL}/${result.name}`
+
     $li.addEventListener('click', (e) => {
-      if (e.target.className === 'skypack-open') return
-      handlePackageSelected(result.name)
+      if (e.target.className === 'skypack-open') {
+        if (e.target.hasAttribute('data-copy')) {
+          e.preventDefault()
+          navigator.clipboard.writeText(url)
+        }
+        return
+      }
+
+      handlePackageSelected(result.name, url)
     })
     $li.addEventListener('keydown', (e) => {
       if (e.keyCode === 13) handlePackageSelected(result.name)
@@ -141,7 +150,10 @@ function getResultHTML ({ result, searchTerm }) {
     <section class="skypack-description">${escapeHTML(result.description)}</section>
     <footer>
       <div class="skypack-updated" >Updated: ${updatedAt}</div>
-      <a tabindex="-1" class="skypack-open" target="_blank" href="${PACKAGE_VIEW_URL}/${result.name}">details</a>
+      <div>
+        <a tabindex="-1" class="skypack-open" data-copy target="_blank" href="${CDN_URL}/${result.name}">copy</a>
+        <a tabindex="-1" class="skypack-open" target="_blank" href="${PACKAGE_VIEW_URL}/${result.name}">details</a>
+      </div>
     </footer>`
 }
 
@@ -160,10 +172,10 @@ function getResultBadgesHTML ({ result, searchTerm }) {
     </div>`
 }
 
-function handlePackageSelected (packageName) {
+function handlePackageSelected (packageName, packageUrl) {
   let parsedName = packageName.split('/').join('-')
   if (parsedName.startsWith('@')) parsedName = parsedName.substr(1)
-  eventBus.emit(EVENTS.ADD_SKYPACK_PACKAGE, { skypackPackage: parsedName, url: `${CDN_URL}/${packageName}` })
+  eventBus.emit(EVENTS.ADD_SKYPACK_PACKAGE, { skypackPackage: parsedName, url: packageUrl })
 }
 
 function createLoadMoreResultsSentinelObserver ($sentinelEl) {
