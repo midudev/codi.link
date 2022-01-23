@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor' // to be changed
+import * as monaco from '../monaco'
 
 import cssFormatMonaco from 'css-format-monaco'
 

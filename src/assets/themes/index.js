@@ -1,0 +1,7 @@
+export * as Light from './light.json'
+export * as Dark from './dark.json'
+export * as Dracula from './dracula.json'
+export * as GHDark from './github-dark.json'
+export * as Atom from './atom.json'
+export * as OneDark from './one-dark.json'
+export * as WinterComming from './winter-comming.json'

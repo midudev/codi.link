@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor'
+import { monaco } from '../../../monaco/index.js'
 import { $ } from '../../../utils/dom.js'
 import { copyToClipboard } from '../../../utils/string'
 

@@ -344,14 +344,21 @@ aside button.is-active {
   display: none !important;
 }
 
-select {
+select, textarea {
   background-color: var(--bgc-input);
   color: var(--c-input);
   border: 1px solid var(--bdc-input);
-  height: 26px;
   margin-top: 8px;
   padding: 2px 8px;
   width: 100%;
+}
+
+textarea {
+  resize: none;
+}
+
+select {
+  height: 26px;
 }
 
 @keyframes bounceInDown {
