@@ -18,16 +18,15 @@ const CheckImportSkypack = () => {
       cy.get('[data-action="show-skypack-bar"]').click()
       cy.get('#skypack-search-input').type('@')
       cy.get('.skypack-item').click({ force: true })
-      return cy.get('.search-results-message').should(
-        'have.text',
-        '0 results for "@"'
-      )
+      return cy
+        .get('.search-results-message')
+        .should('have.text', '0 results for "@"')
     })
     it('Import @angular/material and check if the @ is imported', () => {
       cy.get('[data-action="show-skypack-bar"]').click()
-      cy.get('#skypack-search-input').type('angular material')
+      cy.get('#skypack-search-input').type('@material')
       cy.get('.search-results .extensions ul li:first').click({ force: true })
-      return cy.get('[class="mtk22"]').should('have.text', 'AngularMaterial')
+      return cy.get('[class="mtk22"]').should('have.text', 'MuiMaterial')
     })
   })
 }

@@ -25,6 +25,7 @@ const { layout: currentLayout, sidebar } = getState()
 setGridLayout(currentLayout)
 setSidebar(sidebar)
 
+/** @type {HTMLIFrameElement} */
 const iframe = $('iframe')
 
 const editorElements = $$('codi-editor')
@@ -56,9 +57,8 @@ const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
 
 htmlEditor.focus()
 Object.values(EDITORS).forEach((editor) => {
-  editor.onDidChangeModelContent(() =>
-    debouncedUpdate({ notReload: editor === cssEditor })
-  )
+  const needReload = editor !== cssEditor
+  editor.onDidChangeModelContent(() => debouncedUpdate({ needReload }))
 })
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
@@ -66,7 +66,7 @@ configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
 
 update()
 
-function update ({ notReload } = {}) {
+function update ({ needReload = true } = {}) {
   const values = {
     html: htmlEditor.getValue(),
     css: cssEditor.getValue(),
@@ -75,8 +75,8 @@ function update ({ notReload } = {}) {
 
   Preview.updatePreview(values)
 
-  if (!notReload) {
-    iframe.setAttribute('src', Preview.getPreviewUrl())
+  if (needReload) {
+    iframe.setAttribute('srcdoc', htmlForPreview)
   }
 
   updateCss()
@@ -86,10 +86,9 @@ function update ({ notReload } = {}) {
 }
 
 function updateCss () {
-  const iframeStyleEl = iframe.contentDocument.querySelector('#preview-style')
-
-  if (iframeStyleEl) {
-    iframeStyleEl.textContent = cssEditor.getValue()
+  const previewStyle = iframe.contentDocument.querySelector('#preview-style')
+  if (previewStyle) {
+    previewStyle.textContent = cssEditor.getValue()
   }
 }
 
