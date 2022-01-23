@@ -54,8 +54,6 @@ Object.values(EDITORS).forEach(editor => {
 })
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
-const initialHtmlForPreview = createHtml({ html, js, css })
-iframe.setAttribute('srcdoc', initialHtmlForPreview)
 configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
 
 update()
