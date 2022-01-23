@@ -24,14 +24,15 @@ const { layout: currentLayout } = getState()
 
 setGridLayout(currentLayout)
 
+/** @type {HTMLIFrameElement} */
 const iframe = $('iframe')
 
 const editorElements = $$('codi-editor')
 
 const EDITORS = createEditors()
 
-subscribe(state => {
-  Object.values(EDITORS).forEach(editor => {
+subscribe((state) => {
+  Object.values(EDITORS).forEach((editor) => {
     const { minimap, ...restOfOptions } = state
 
     const newOptions = { ...restOfOptions, minimap: { enabled: minimap } }
@@ -44,13 +45,17 @@ subscribe(state => {
 const MS_UPDATE_DEBOUNCED_TIME = 200
 const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
-const debouncedUpdateHash = debounce(updateSearchParams, MS_UPDATE_HASH_DEBOUNCED_TIME)
+const debouncedUpdateHash = debounce(
+  updateSearchParams,
+  MS_UPDATE_HASH_DEBOUNCED_TIME
+)
 
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
 
 htmlEditor.focus()
-Object.values(EDITORS).forEach(editor => {
-  editor.onDidChangeModelContent(() => debouncedUpdate({ notReload: editor === cssEditor }))
+Object.values(EDITORS).forEach((editor) => {
+  const needReload = editor !== cssEditor
+  editor.onDidChangeModelContent(() => debouncedUpdate({ needReload }))
 })
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
@@ -58,7 +63,7 @@ configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
 
 update()
 
-function update ({ notReload }) {
+function update ({ needReload = true } = {}) {
   const values = {
     html: htmlEditor.getValue(),
     css: cssEditor.getValue(),
@@ -67,7 +72,7 @@ function update ({ notReload }) {
 
   const htmlForPreview = createHtml(values)
 
-  if (!notReload) {
+  if (needReload) {
     iframe.setAttribute('srcdoc', htmlForPreview)
   }
 
@@ -79,12 +84,18 @@ function update ({ notReload }) {
 }
 
 function updateCss () {
-  iframe.contentDocument
-    .querySelector('#preview-style').textContent = cssEditor.getValue()
+  const previewStyle = iframe.contentDocument.querySelector('#preview-style')
+  if (previewStyle) {
+    previewStyle.textContent = cssEditor.getValue()
+  }
 }
 
 function updateSearchParams ({ html, css, js }) {
-  const encoded = { html: encode(html), css: encode(css), javascript: encode(js) }
+  const encoded = {
+    html: encode(html),
+    css: encode(css),
+    javascript: encode(js)
+  }
   const searchParams = new URLSearchParams(encoded)
   window.history.replaceState(null, null, `?${searchParams}`)
 }
@@ -96,7 +107,7 @@ function updateButtonAvailabilityIfContent ({ html, css, js }) {
     BUTTON_ACTIONS.copyToClipboard
   ]
   const hasContent = html || css || js
-  buttonActions.forEach(action => {
+  buttonActions.forEach((action) => {
     const button = $(`button[data-action='${action}']`)
     button.disabled = !hasContent
   })
@@ -119,7 +130,11 @@ function createEditors () {
 function getValuesFromUrl () {
   const searchParams = new URLSearchParams(window.location.search)
 
-  const { html: rawHtml, css: rawCss, javascript: rawJs } = Object.fromEntries(searchParams)
+  const {
+    html: rawHtml,
+    css: rawCss,
+    javascript: rawJs
+  } = Object.fromEntries(searchParams)
 
   return {
     html: rawHtml ? decode(rawHtml) : '',
