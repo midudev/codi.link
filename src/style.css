@@ -64,6 +64,12 @@ iframe {
   width: 100%;
 }
 
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
 /* Temporal hack to be able to copy icons to dist folder */
 /* ToDo: move it to codi-editor component */
 codi-editor[language=html]::after {
@@ -722,6 +728,21 @@ select {
       display: flex;
       justify-content: space-between;
       padding: 10px 0;
+
+      & label {
+        position: relative;
+
+        & input[type="radio"] {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          margin: 0;
+          padding: 0;
+          opacity: 0;
+        }
+      }
     }
 
   }

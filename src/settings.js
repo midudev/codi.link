@@ -1,74 +1,74 @@
 import { DEFAULT_GRID_TEMPLATE, EDITOR_GRID_TEMPLATE } from './constants/editor-grid-template.js'
 import { DEFAULT_LAYOUT, HORIZONTAL_LAYOUT, VERTICAL_LAYOUT, BOTTOM_LAYOUT } from './constants/grid-templates.js'
 import { getState } from './state.js'
-import { $$, setFormControlValue } from './utils/dom.js'
+import { $, setFormControlValue } from './utils/dom.js'
 
 const ELEMENT_TYPES = {
   INPUT: 'input',
   SELECT: 'select',
-  CHECKBOX: 'checkbox'
+  CHECKBOX: 'checkbox',
+  RADIO: 'radio'
 }
 
-const $settings = $$('#settings [data-for]')
-const $$layoutSelector = $$('layout-preview')
+/**
+ * @type {HTMLFormElement}
+ */
+const $settingsForm = $('#settings')
 
 const {
   updateSettings,
   ...settings
 } = getState()
 
-$settings.forEach(el => {
-  const settingKey = el.getAttribute('data-for')
-  const actualSettingValue = settings[settingKey]
+$settingsForm.addEventListener('submit', e => {
+  e.preventDefault()
+})
+
+$settingsForm.addEventListener('input', updateSettingValue)
+
+$settingsForm.addEventListener('change', updateSettingValue)
+
+Array.from($settingsForm.elements).forEach((el) => {
+  const { name: settingKey, value } = el
+
+  if (!settingKey) return
+
+  let actualSettingValue = settings[settingKey]
+
+  if (settingKey === 'layout') {
+    if (value === actualSettingValue.type) {
+      actualSettingValue = true
+    } else { return }
+  }
 
   // Reflect the initial configuration in the settings section.
   setFormControlValue(el, actualSettingValue)
+})
 
-  const elementTagName = el.tagName.toLowerCase()
+function updateSettingValue ({ target }) {
+  const { value, checked, name: settingKey } = target
 
-  if (elementTagName === ELEMENT_TYPES.INPUT) {
-    // Add event lister to input elements
-    el.addEventListener('input', ({ target }) => {
-      const { value, checked } = target
-      const isCheckbox = target.type === ELEMENT_TYPES.CHECKBOX
+  const isCheckbox = target.type === ELEMENT_TYPES.CHECKBOX
+  const isRadio = target.type === ELEMENT_TYPES.RADIO
 
-      const settingValue = isCheckbox ? checked : value
+  let settingValue = isCheckbox ? checked : value
 
-      updateSettings({
-        key: settingKey,
-        value: settingValue
-      })
-    })
-  } else {
-    // Add event listener to default elements
-    el.addEventListener('change', ({ target }) => {
-      const { value } = target
-
-      updateSettings({
-        key: settingKey,
-        value: value
-      })
-    })
+  if (isRadio) {
+    if (!checked) { return }
+    settingValue = getLayoutValue(value)
   }
-})
 
-$$layoutSelector.forEach(layoutEl => {
-  layoutEl.addEventListener('click', ({ target }) => {
-    const { layout } = target
+  updateSettings({ key: settingKey, value: settingValue })
+}
 
-    const style = EDITOR_GRID_TEMPLATE[layout] || DEFAULT_GRID_TEMPLATE
-    let gutters
+function getLayoutValue (layout) {
+  const style = EDITOR_GRID_TEMPLATE[layout] || DEFAULT_GRID_TEMPLATE
 
-    switch (layout) {
-      case 'vertical': gutters = VERTICAL_LAYOUT; break
-      case 'horizontal': gutters = HORIZONTAL_LAYOUT; break
-      case 'bottom': gutters = BOTTOM_LAYOUT; break
-      default: gutters = DEFAULT_LAYOUT
-    }
+  const gutters = {
+    vertical: VERTICAL_LAYOUT,
+    horizontal: HORIZONTAL_LAYOUT,
+    bottom: BOTTOM_LAYOUT
+  } ?? DEFAULT_LAYOUT
 
-    updateSettings({
-      key: 'layout',
-      value: { gutters, style, type: layout }
-    })
-  })
-})
+  return { gutters, style, type: layout }
+}

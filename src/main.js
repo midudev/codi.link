@@ -24,6 +24,8 @@ const { layout: currentLayout } = getState()
 
 setGridLayout(currentLayout)
 
+const iframe = $('iframe')
+
 const editorElements = $$('codi-editor')
 
 const EDITORS = createEditors()
@@ -47,14 +49,18 @@ const debouncedUpdateHash = debounce(updateSearchParams, MS_UPDATE_HASH_DEBOUNCE
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
 
 htmlEditor.focus()
-Object.values(EDITORS).forEach(editor => editor.onDidChangeModelContent(debouncedUpdate))
+Object.values(EDITORS).forEach(editor => {
+  editor.onDidChangeModelContent(() => debouncedUpdate({ notReload: editor === cssEditor }))
+})
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
+const initialHtmlForPreview = createHtml({ html, js, css })
+iframe.setAttribute('srcdoc', initialHtmlForPreview)
 configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
 
 update()
 
-function update () {
+function update ({ notReload }) {
   const values = {
     html: htmlEditor.getValue(),
     css: cssEditor.getValue(),
@@ -62,11 +68,21 @@ function update () {
   }
 
   const htmlForPreview = createHtml(values)
-  $('iframe').setAttribute('srcdoc', htmlForPreview)
+
+  if (!notReload) {
+    iframe.setAttribute('srcdoc', htmlForPreview)
+  }
+
+  updateCss()
 
   WindowPreviewer.updateWindowContent(htmlForPreview)
   debouncedUpdateHash(values)
   updateButtonAvailabilityIfContent(values)
+}
+
+function updateCss () {
+  iframe.contentDocument
+    .querySelector('#preview-style').textContent = cssEditor.getValue()
 }
 
 function updateSearchParams ({ html, css, js }) {

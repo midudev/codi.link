@@ -12,7 +12,7 @@ export const createHtml = ({ css, html, js }) => {
   return `<!DOCTYPE html>
 <html lang="en">
   <head>
-    <style>
+    <style id="preview-style">
       ${css}
     </style>
   </head>

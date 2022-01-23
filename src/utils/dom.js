@@ -1,3 +1,7 @@
+/**
+ * @param {string} selector
+ * @param {ParentNode} context
+ */
 export const $ = (selector, context = document) =>
   context.querySelector(selector)
 
@@ -6,6 +10,7 @@ export const $$ = (selector, context = document) =>
 
 export const isNodeSelect = el => el.nodeName === 'SELECT'
 export const isNodeCheckbox = el => el.nodeName === 'INPUT' && el.type === 'checkbox'
+export const isNodeRadio = el => el.nodeName === 'INPUT' && el.type === 'radio'
 
 const updateSelectValue = (el, value) => {
   const optionToSelect = el.querySelector(`option[value="${value}"]`)
@@ -16,8 +21,9 @@ const updateSelectValue = (el, value) => {
 export const setFormControlValue = (el, value) => {
   const isSelect = isNodeSelect(el)
   const isCheckbox = isNodeCheckbox(el)
+  const isRadio = isNodeRadio(el)
 
   if (isSelect) updateSelectValue(el, value)
-  else if (isCheckbox) el.checked = value
+  else if (isCheckbox || isRadio) el.checked = value
   else el.value = value
 }
