@@ -28,12 +28,33 @@ const editorElements = $$('codi-editor')
 
 const { pathname } = window.location
 
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+const pathnameString = pathname.slice(1)
+
+const [rawHtml, rawCss, rawJs] = pathnameString.split('&')
+
+/* eslint-disable */
+const regexBase64 =
+  /^(?:[A-Za-z\d+/]{4})*(?:[A-Za-z\d+/]{3}=|[A-Za-z\d+/]{2}==)?\&(?:[A-Za-z\d+/]{4})*(?:[A-Za-z\d+/]{3}=|[A-Za-z\d+/]{2}==)?\&(?:[A-Za-z\d+/]{4})*(?:[A-Za-z\d+/]{3}=|[A-Za-z\d+/]{2}==)?$/;
+/* eslint-enable */
+
+let isValidUrl = true
+
+if (pathnameString !== '') {
+  if (regexBase64.test(pathnameString)) {
+    isValidUrl = true
+  } else {
+    window.history.replaceState(null, null, '/')
+    isValidUrl = false
+  }
+} else {
+  window.history.replaceState(null, null, '/')
+  isValidUrl = false
+}
 
 const VALUES = {
-  html: rawHtml ? decode(rawHtml) : '',
-  css: rawCss ? decode(rawCss) : '',
-  javascript: rawJs ? decode(rawJs) : ''
+  html: isValidUrl ? decode(rawHtml) : '',
+  css: isValidUrl ? decode(rawCss) : '',
+  javascript: isValidUrl ? decode(rawJs) : ''
 }
 
 const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
@@ -43,8 +64,8 @@ const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
   return acc
 }, {})
 
-subscribe(state => {
-  Object.values(EDITORS).forEach(editor => {
+subscribe((state) => {
+  Object.values(EDITORS).forEach((editor) => {
     const { minimap, ...restOfOptions } = state
 
     const newOptions = {
@@ -65,20 +86,26 @@ subscribe(state => {
 const MS_UPDATE_DEBOUNCED_TIME = 200
 const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
-const debouncedUpdateHash = debounce(updateHashedCode, MS_UPDATE_HASH_DEBOUNCED_TIME)
+const debouncedUpdateHash = debounce(
+  updateHashedCode,
+  MS_UPDATE_HASH_DEBOUNCED_TIME
+)
 
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
 const { html, css, javascript: js } = VALUES
 
 htmlEditor.focus()
-Object.values(EDITORS).forEach(editor => editor.onDidChangeModelContent(debouncedUpdate))
+Object.values(EDITORS).forEach((editor) =>
+  editor.onDidChangeModelContent(debouncedUpdate)
+)
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
 const initialHtmlForPreview = createHtml({ html, js, css })
 $('iframe').setAttribute('srcdoc', initialHtmlForPreview)
 configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
 
-const initButtonAvailabilityIfContent = () => updateButtonAvailabilityIfContent({ html, js, css })
+const initButtonAvailabilityIfContent = () =>
+  updateButtonAvailabilityIfContent({ html, js, css })
 initButtonAvailabilityIfContent()
 
 function update () {
@@ -97,14 +124,18 @@ function update () {
 }
 
 function updateHashedCode ({ html, css, js }) {
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  const hashedCode = `${encode(html)}&${encode(css)}&${encode(js)}`
   window.history.replaceState(null, null, `/${hashedCode}`)
 }
 
 function updateButtonAvailabilityIfContent ({ html, css, js }) {
-  const buttonActions = [BUTTON_ACTIONS.downloadUserCode, BUTTON_ACTIONS.openIframeTab, BUTTON_ACTIONS.copyToClipboard]
+  const buttonActions = [
+    BUTTON_ACTIONS.downloadUserCode,
+    BUTTON_ACTIONS.openIframeTab,
+    BUTTON_ACTIONS.copyToClipboard
+  ]
   const hasContent = html || css || js
-  buttonActions.forEach(action => {
+  buttonActions.forEach((action) => {
     const button = $(`button[data-action='${action}']`)
     button.disabled = !hasContent
   })
