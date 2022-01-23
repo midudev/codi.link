@@ -44,16 +44,9 @@ const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
 }, {})
 
 subscribe(state => {
+  const newOptions = { ...state, minimap: { enabled: state.minimap } }
+
   Object.values(EDITORS).forEach(editor => {
-    const { minimap, ...restOfOptions } = state
-
-    const newOptions = {
-      ...restOfOptions,
-      minimap: {
-        enabled: minimap
-      }
-    }
-
     editor.updateOptions({
       ...editor.getRawOptions(),
       ...newOptions
