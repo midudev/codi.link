@@ -22,6 +22,9 @@ export class CodiEditor extends LitElement {
       },
       value: {
         type: String
+      },
+      class: {
+        type: String
       }
     }
   }

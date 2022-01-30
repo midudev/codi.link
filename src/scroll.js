@@ -1,25 +1,38 @@
 import { $ } from './utils/dom.js'
 
-const $editor = $('#editor')
 const $buttonUp = $('.button-up')
 const $buttonDown = $('.button-down')
-const editorHeight = window.innerHeight - 75
 
-$buttonUp.addEventListener('click', () => {
-  $editor.scrollTop -= editorHeight
+const previewersId = ['editor-preview', 'markup', 'script', 'style']
+let curretPreviewer = 0
+
+const updateButtonsStatus = (curretPreviewer) => {
+  $buttonUp.disabled = curretPreviewer === 0
+  $buttonDown.disabled = curretPreviewer === previewersId.length - 1
+}
+
+const updatePreviewer = (curretPreviewer) => {
+  previewersId.forEach((previewer, index) => {
+    const element = $(`#${previewer}`)
+
+    if (curretPreviewer === index) {
+      element.classList.remove('previewer-hide')
+      element.classList.add('previewer-active')
+    } else {
+      element.classList.add('previewer-hide')
+      element.classList.remove('previewer-active')
+    }
+  })
+}
+
+$buttonUp.addEventListener('click', (ev) => {
+  curretPreviewer -= 1
+  updateButtonsStatus(curretPreviewer)
+  updatePreviewer(curretPreviewer)
 })
 
 $buttonDown.addEventListener('click', () => {
-  $editor.scrollTop += editorHeight
-})
-
-$editor.addEventListener('scroll', () => {
-  const $aside = $('aside')
-  if ($editor.scrollTop >= (editorHeight) * 3) {
-    $aside.style.top = '-80px'
-    $editor.style.margin = '0'
-  } else {
-    $aside.style.top = '0'
-    $editor.style.margin = '75px 0 0'
-  }
+  curretPreviewer += 1
+  updateButtonsStatus(curretPreviewer)
+  updatePreviewer(curretPreviewer)
 })
