@@ -346,6 +346,15 @@ aside button.is-active {
   justify-content: center;
 }
 
+.aside-sections--compact {
+  width: 52px;
+}
+
+.aside-sections--compact svg {
+  width: 25px;
+  height: 25px;
+}
+
 [hidden] {
   display: none !important;
 }

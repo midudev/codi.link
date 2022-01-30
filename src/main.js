@@ -7,6 +7,7 @@ import { initializeEventsController } from './events-controller.js'
 import { getState, subscribe } from './state.js'
 import WindowPreviewer from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
+import setSidebar from './sidebar.js'
 import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
 
 import './aside.js'
@@ -20,9 +21,10 @@ import { BUTTON_ACTIONS } from './constants/button-actions.js'
 import './components/layout-preview/layout-preview.js'
 import './components/codi-editor/codi-editor.js'
 
-const { layout: currentLayout } = getState()
+const { layout: currentLayout, sidebar } = getState()
 
 setGridLayout(currentLayout)
+setSidebar(sidebar)
 
 const iframe = $('iframe')
 
@@ -55,6 +57,7 @@ subscribe(state => {
     })
   })
   setGridLayout(state.layout)
+  setSidebar(state.sidebar)
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
