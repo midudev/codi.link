@@ -9,6 +9,12 @@ import { registerAutoCompleteHTMLTag } from './extensions/autocomplete-html-tag.
 import { initEditorHotKeys } from './extensions/editor-hotkeys.js'
 import { CodiEditorStyles } from './CodiEditor.styles.js'
 
+const iconUrls = {
+  css: new URL('../../../assets/css3.svg', import.meta.url),
+  html: new URL('../../../assets/html5.svg', import.meta.url),
+  javascript: new URL('../../../assets/js.svg', import.meta.url)
+}
+
 export class CodiEditor extends LitElement {
   static get styles () {
     return CodiEditorStyles
@@ -30,7 +36,8 @@ export class CodiEditor extends LitElement {
   }
 
   render () {
-    return html`<slot></slot>`
+    const iconUrl = iconUrls[this.language]
+    return html`<slot></slot><img src=${iconUrl} alt=${this.language} />`
   }
 
   constructor () {
