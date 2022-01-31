@@ -10,7 +10,7 @@ const CheckImportSkypack = () => {
       cy.get('#skypack-search-input').type('react')
       cy.get(
         '[title="React is a JavaScript library for building user interfaces."]'
-      ).click()
+      ).click({ force: true })
       return cy.get('[class="mtk22"]').should('have.text', 'React')
     })
     it('Type @ and get 0 results', () => {
@@ -25,8 +25,8 @@ const CheckImportSkypack = () => {
     it('Import @Material-ui and check if the @ is imported', () => {
       cy.get('[data-action="show-skypack-bar"]').click()
       cy.get('#skypack-search-input').type('@material')
-      cy.get('.search-results .extensions ul li:first').click()
-      return cy.get('[class="mtk22"]').should('have.text', 'MaterialUiCore')
+      cy.get('.search-results .extensions ul li:first').click({ force: true })
+      return cy.get('[class="mtk22"]').should('have.text', 'MuiMaterial')
     })
   })
 }
