@@ -1,6 +1,6 @@
 import { capitalize, searchByLine } from './utils/string.js'
 import { downloadUserCode } from './download.js'
-import { getState } from './state'
+import { getState } from './state.js'
 
 class EventBus extends window.EventTarget {
   on (type, listener) {

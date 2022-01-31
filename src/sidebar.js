@@ -1,15 +1,13 @@
 import { $ } from './utils/dom.js'
 
+const sideBar = $('.aside-sections')
+
+/**
+ * Change the sidebar style to compact or default
+ * @param {'compact' | 'default'} sideBarStyle
+ */
 const setSideBar = (sideBarStyle) => {
-  const sideBar = $('.aside-sections')
-
-  if (sideBarStyle === 'compact') {
-    sideBar.classList.add('aside-sections--compact')
-  }
-
-  if (sideBarStyle === 'default') {
-    sideBar.classList.remove('aside-sections--compact')
-  }
+  sideBar.classList.toggle('aside-sections--compact', sideBarStyle === 'compact')
 }
 
 export default setSideBar

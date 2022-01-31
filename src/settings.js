@@ -20,12 +20,8 @@ const {
   ...settings
 } = getState()
 
-$settingsForm.addEventListener('submit', e => {
-  e.preventDefault()
-})
-
+$settingsForm.addEventListener('submit', e => e.preventDefault())
 $settingsForm.addEventListener('input', updateSettingValue)
-
 $settingsForm.addEventListener('change', updateSettingValue)
 
 Array.from($settingsForm.elements).forEach((el) => {

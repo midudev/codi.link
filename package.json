@@ -15,22 +15,22 @@
   },
   "devDependencies": {
     "@s-ui/mono": "2",
-    "cypress": "8.6.0",
-    "postcss-nesting": "8.0.1",
+    "cypress": "9.3.1",
+    "postcss-nesting": "10.1.2",
     "standard": "16.0.4",
-    "vite": "2.6.7"
+    "vite": "2.7.13"
   },
   "dependencies": {
     "css-format-monaco": "2.0.4",
-    "emmet-monaco-es": "4.7.4",
+    "emmet-monaco-es": "5.0.2",
     "escape-html": "1.0.3",
     "hotkeys-js": "3.8.7",
     "js-base64": "3.7.2",
     "jszip": "3.7.1",
-    "lit": "2.0.2",
-    "monaco-editor": "0.29.1",
+    "lit": "2.1.2",
+    "monaco-editor": "0.31.1",
     "split-grid": "1.0.11",
-    "zustand": "3.5.13"
+    "zustand": "3.6.9"
   },
   "eslintConfig": {
     "extends": [
