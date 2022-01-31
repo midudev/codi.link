@@ -16,24 +16,33 @@
     width: 100%;
     max-width: 500px;
     padding: 1em;
+
     & .layout-preview-container {
       display: flex;
       justify-content: space-between;
       padding: 10px 0;
 
       & label {
+        border-radius: 5px;
         position: relative;
+        transition: .3s ease opacity, .3s ease background-color;
+      }
 
-        & input[type="radio"] {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          margin: 0;
-          padding: 0;
-          opacity: 0;
-        }
+      & label:hover {
+        background-color: #000;
+        opacity: .9;
+      }
+
+      & input[type="radio"] {
+        cursor: pointer;
+        height: 100%;
+        left: 0;
+        margin: 0;
+        opacity: 0;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
       }
     }
   }
