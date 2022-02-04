@@ -1,4 +1,6 @@
 import Split from 'split-grid'
+import { DEFAULT_GRID_TEMPLATE, EDITOR_GRID_TEMPLATE } from './constants/editor-grid-template'
+import { BOTTOM_LAYOUT, DEFAULT_LAYOUT, HORIZONTAL_LAYOUT, VERTICAL_LAYOUT } from './constants/grid-templates'
 import { getState } from './state'
 import { $, $$ } from './utils/dom'
 
@@ -35,7 +37,15 @@ const getInitialGridStyle = () => {
   return gridTemplate && `grid-template-columns: ${gridTemplate['grid-template-columns']}; grid-template-rows: ${gridTemplate['grid-template-rows']}`
 }
 
-const setGridLayout = ({ gutters, style, type = '' }) => {
+const setGridLayout = (type = '') => {
+  const style = EDITOR_GRID_TEMPLATE[type] || DEFAULT_GRID_TEMPLATE
+
+  const gutters = {
+    vertical: VERTICAL_LAYOUT,
+    horizontal: HORIZONTAL_LAYOUT,
+    bottom: BOTTOM_LAYOUT
+  }[type] ?? DEFAULT_LAYOUT
+
   const initialStyle = !splitInstance && getInitialGridStyle()
 
   $editor.setAttribute('data-layout', type)
