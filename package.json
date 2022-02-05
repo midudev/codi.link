@@ -5,7 +5,7 @@
   "scripts": {
     "build": "vite build",
     "co": "sui-mono commit",
-    "cypress": "cypress open",
+    "cypress": "npx cypress open",
     "dev": "vite",
     "lint": "standard",
     "phoenix": "rm -rf ./node_modules && npm install",
@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "@s-ui/mono": "2",
-    "cypress": "9.3.1",
     "postcss-nesting": "10.1.2",
     "standard": "16.0.4",
     "vite": "2.7.13"
