@@ -1,0 +1,157 @@
+.skypack {
+  & .skypack-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #2d323c;
+    padding-top: 1em;
+  }
+
+  & .skypack-type {
+    padding-bottom: 8px;
+    opacity: 0.6;
+  }
+
+  & .skypack-item {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 1em 1em;
+  }
+
+  & .skypack-item strong {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  & .input {
+    display: flex;
+    background-color: var(--bgc-input);
+    border: 1px solid var(--bdc-input);
+    color: var(--c-input);
+    padding: 0.5em;
+    margin-top: 16px;
+    font-size: 1rem;
+  }
+
+  & .input .input-icon {
+    fill: rgba(128, 128, 128, 0.5);
+  }
+
+  & .input input {
+    width: 100%;
+    padding: 0.05em;
+    padding-left: 8px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: var(--c-input);
+  }
+
+  & .search-results-message {
+    font-weight: 500;
+    font-size: 14px;
+    margin: 4px 0 0;
+    padding-bottom: 8px;
+  }
+
+  & .search-results.hidden {
+    display: none;
+  }
+
+  & .search-results .extensions ul {
+    list-style: none;
+    margin: 0.5em 0;
+    padding: 0;
+  }
+
+  & .search-results .extensions ul li {
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+
+    & header {
+      display: flex;
+      align-items: center;
+
+      & .skypack-result-badges {
+        display: flex;
+        align-items: center;
+        padding-left: 0.25rem;
+
+        & .skypack-badge {
+          margin-left: 0.25rem;
+          margin-right: 0.25rem;
+          border: 0px;
+          border-radius: 0.3em;
+          font-size: 0.7em;
+          padding: 0.125em 0.375em 0.12em;
+
+          &.popular {
+            background-color: #80b918;
+            color: #000;
+          }
+
+          &.deprecated {
+            background-color: #c81d25;
+            color: #fff;
+          }
+
+          &.exact-match {
+            background-color: #ffc300;
+            color: #000;
+          }
+
+          &.typescript {
+            width: 18px;
+            height: 18px;
+            background: url(/assets/typescript.svg) no-repeat 50% 50%;
+          }
+        }
+      }
+    }
+
+    & .skypack-description {
+      font-size: 0.9em;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    & .skypack-updated {
+      font-size: 0.8em;
+      opacity: 0.5;
+    }
+
+    & footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    & .skypack-open {
+      font-size: 0.7em;
+      opacity: 0;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  & .search-results ul li:focus,
+  & .search-results ul li:hover {
+    background-color: rgba(128, 128, 128, 0.14);
+
+    & .skypack-open {
+      opacity: 1;
+    }
+  }
+}

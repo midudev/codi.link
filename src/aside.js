@@ -28,8 +28,6 @@ const SIMPLE_CLICK_ACTIONS = {
   }
 }
 
-console.log(SIMPLE_CLICK_ACTIONS)
-
 const NON_SIMPLE_CLICK_ACTIONS = {
   [BUTTON_ACTIONS.closeAsideBar]: () => {
     toggleAsideBar(true)

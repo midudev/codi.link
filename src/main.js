@@ -6,6 +6,7 @@ import { initializeEventsController } from './events-controller.js'
 import { getState, subscribe } from './state.js'
 import WindowPreviewer from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
+import setSidebar from './sidebar.js'
 import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
 import { getCodesInUrl, buildHashedCode } from './utils/url'
 
@@ -20,9 +21,12 @@ import { BUTTON_ACTIONS } from './constants/button-actions.js'
 import './components/layout-preview/layout-preview.js'
 import './components/codi-editor/codi-editor.js'
 
-const { layout: currentLayout } = getState()
+const { layout: currentLayout, sidebar } = getState()
 
 setGridLayout(currentLayout)
+setSidebar(sidebar)
+
+const iframe = $('iframe')
 
 const editorElements = $$('codi-editor')
 
@@ -36,16 +40,9 @@ const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
 }, {})
 
 subscribe(state => {
+  const newOptions = { ...state, minimap: { enabled: state.minimap } }
+
   Object.values(EDITORS).forEach(editor => {
-    const { minimap, ...restOfOptions } = state
-
-    const newOptions = {
-      ...restOfOptions,
-      minimap: {
-        enabled: minimap
-      }
-    }
-
     editor.updateOptions({
       ...editor.getRawOptions(),
       ...newOptions
@@ -53,6 +50,7 @@ subscribe(state => {
   })
 
   setGridLayout(state.layout)
+  setSidebar(state.sidebar)
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
@@ -64,17 +62,19 @@ const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
 const { html, css, javascript: js } = VALUES
 
 htmlEditor.focus()
-Object.values(EDITORS).forEach(editor => editor.onDidChangeModelContent(debouncedUpdate))
+Object.values(EDITORS).forEach(editor => {
+  editor.onDidChangeModelContent(() => debouncedUpdate({ notReload: editor === cssEditor }))
+})
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
 const initialHtmlForPreview = createHtml({ html, js, css })
-$('iframe').setAttribute('srcdoc', initialHtmlForPreview)
+iframe.setAttribute('srcdoc', initialHtmlForPreview)
 configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
 
 const initButtonAvailabilityIfContent = () => updateButtonAvailabilityIfContent({ html, js, css })
 initButtonAvailabilityIfContent()
 
-function update () {
+function update ({ notReload }) {
   const values = {
     html: htmlEditor.getValue(),
     css: cssEditor.getValue(),
@@ -82,11 +82,21 @@ function update () {
   }
 
   const htmlForPreview = createHtml(values)
-  $('iframe').setAttribute('srcdoc', htmlForPreview)
+
+  if (!notReload) {
+    iframe.setAttribute('srcdoc', htmlForPreview)
+  }
+
+  updateCss()
 
   WindowPreviewer.updateWindowContent(htmlForPreview)
   debouncedUpdateHash(values)
   updateButtonAvailabilityIfContent(values)
+}
+
+function updateCss () {
+  iframe.contentDocument
+    .querySelector('#preview-style').textContent = cssEditor.getValue()
 }
 
 function updateHashedCode ({ html, css, js }) {

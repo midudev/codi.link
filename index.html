@@ -87,7 +87,7 @@
             </div>
           </div>
 
-          <div id="settings" hidden class="bar-content settings">
+          <form id="settings" hidden class="bar-content settings">
             <div class="settings-content">
               <div class="settings-item">
                 <strong>
@@ -96,7 +96,7 @@
                 </strong>
                 Controls the display of line numbers.
                 <div class="select">
-                  <select data-for="lineNumbers">
+                  <select name="lineNumbers">
                     <option value="on">on</option>
                     <option value="off">off</option>
                     <option value="relative">relative</option>
@@ -112,7 +112,7 @@
                 </strong>
                 Controls how lines should wrap.
                 <div class="select">
-                  <select data-for="wordWrap">
+                  <select name="wordWrap">
                     <option value="on">on</option>
                     <option value="off">off</option>
                     <option value="wordWrapColumn">wordWrapColumn</option>
@@ -128,10 +128,24 @@
                 </strong>
                 Specifies the color theme used in the workbench.
                 <div class="select">
-                  <select data-for="theme">
+                  <select name="theme">
                     <option value="vs-dark">Dark</option>
                     <option value="vs">Light</option>
                     <option value="hc-black">High Contrast Dark</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="settings-item">
+                <strong>
+                  <span class="settings-type">Workbench:</span>
+                  Sidebar Style
+                </strong>
+                Specifies the size of the Sidebar.
+                <div class="select">
+                  <select name="sidebar">
+                    <option value="default">Default</option>
+                    <option value="compact">Compact</option>
                   </select>
                 </div>
               </div>
@@ -142,7 +156,7 @@
                   Font Size
                 </strong>
                 Controls the font size in pixels.
-                <input data-for="fontSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false" type="number" wrap="off" value="16" min="1" max="100" step="1">
+                <input name="fontSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false" type="number" wrap="off" value="16" min="1" max="100" step="1">
               </div>
 
               <div class="settings-item">
@@ -151,7 +165,7 @@
                   Tab Size
                 </strong>
                 Controls the tab size.
-                <input data-for="tabSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false" type="number" wrap="off" value="2" min="1" max="100" step="1">
+                <input name="tabSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false" type="number" wrap="off" value="2" min="1" max="100" step="1">
               </div>
 
               <div class="settings-item">
@@ -161,7 +175,7 @@
                 </strong>
                 <div>
                   <label class="checkbox">
-                    <input data-for="minimap" type="checkbox" />
+                    <input name="minimap" type="checkbox" />
                     <span>Controls whether the minimap is shown.</span>
                   </label>
                 </div>
@@ -174,7 +188,7 @@
                 </strong>
                 <div>
                   <label class="checkbox">
-                    <input data-for="fontLigatures" type="checkbox" />
+                    <input name="fontLigatures" type="checkbox" />
                     <span>Controls whether the ligatures is enabled.</span>
                   </label>
                 </div>
@@ -187,13 +201,28 @@
                 </strong>
                 <div>
                   <span>Change view layout</span>
-                  <div class="layout-preview-container">
-										<layout-preview layout="default"></layout-preview>
-										<layout-preview layout="layout-2"></layout-preview>
-										<layout-preview layout="vertical"></layout-preview>
-										<layout-preview layout="horizontal"></layout-preview>
-										<layout-preview layout="bottom"></layout-preview>
-                  </div>
+                  <fieldset class="layout-preview-container">
+                    <label for="default-layout-radio">
+                      <input type="radio" name="layout" value="default">
+                      <layout-preview layout="default"></layout-preview>
+                    </label>
+                    <label for="layout-2-layout-radio">
+                      <input type="radio" name="layout" value="layout-2">
+                      <layout-preview layout="layout-2"></layout-preview>
+                    </label>
+                    <label for="vertical-layout-radio">
+                      <input type="radio" name="layout" value="vertical">
+                      <layout-preview layout="vertical"></layout-preview>
+                    </label>
+                    <label for="horizontal-layout-radio">
+                      <input type="radio" name="layout" value="horizontal">
+                      <layout-preview layout="horizontal"></layout-preview>
+                    </label>
+                    <label for="bottom-layout-radio">
+                      <input type="radio" name="layout" value="bottom">
+                      <layout-preview layout="bottom"></layout-preview>
+                    </label>
+                  </fieldset>
                 </div>
               </div>
               <div class="settings-item">
@@ -203,7 +232,7 @@
                 </strong>
                 <div>
                   <label class='checkbox'>
-                    <input data-for="preserveGrid" type='checkbox' />
+                    <input name="preserveGrid" type='checkbox' />
                     <span>Controls whether the grid template is preserved.</span>
                   </label>
                 </div>
@@ -215,7 +244,7 @@
                   File name
                 </strong>
                 Set the zip file name.
-                <input data-for="zipFileName" class="input" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" wrap="off" value="codi.link" required>
+                <input name="zipFileName" class="input" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" wrap="off" value="codi.link" required>
               </div>
 
               <div class="settings-item">
@@ -225,14 +254,14 @@
                 </strong>
                 <div>
                   <label class='checkbox'>
-                    <input data-for="zipInSingleFile" type='checkbox' />
+                    <input name="zipInSingleFile" type='checkbox' />
                     <span>Controls whether export one single zipped HTML file.</span>
                   </label>
                 </div>
               </div>
 
             </div>
-          </div>
+          </form>
         </div>
       </aside>
 
@@ -250,7 +279,7 @@
         <div class="last-gutter"></div>
 
         <div class="scroll-buttons-container">
-          <button class="scroll-button button-up">
+          <button class="scroll-button button-up" disabled>
             <svg width="52" height="29" viewBox="0 0 52 29" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9946 5.57505L4.579 26.9906L1.53809 23.9497L24.4741 1.01367L27.515 1.01367L50.4511 23.9497L47.4102 26.9906L25.9946 5.57505Z" fill="#FFF" stroke="#FFF" stroke-width="1.5"/>
              </svg>
@@ -268,5 +297,13 @@
     </div>
 
     <script type="module" src="/src/main.js"></script>
+
+    <script>
+      var HW_config = {
+        selector: ".aside-sections footer button:last-child",
+        account:  "x8YRn7"
+      }
+    </script>
+    <script async src="https://cdn.headwayapp.co/widget.js"></script>
   </body>
 </html>
