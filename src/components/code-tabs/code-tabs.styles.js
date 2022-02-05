@@ -4,6 +4,15 @@ export const codeTabsStyles = css`
   .nav {
     cursor: pointer;
     width: calc(100vw - 75px);
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  @media (max-width: 650px) {
+    .nav {
+      width: 100vw;
+    }
   }
 
   .codeTabs {
@@ -11,9 +20,6 @@ export const codeTabsStyles = css`
     list-style: none;
     margin: 0;
     padding: 0;
-    overflow-x: auto;
-    overflow-y: hidden;
-    min-width: 100vw;
   }
 
   .codeTabs__tab {
