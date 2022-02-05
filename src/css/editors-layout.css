@@ -6,7 +6,7 @@
     "editor-css . editor-preview";
   grid-template-columns: 1fr 5px 1fr;
   grid-template-rows: 1fr 5px 1fr;
-  height: 100vh;
+  height: calc(100vh - 46px);
 
   &[data-layout="default"] {
     & .second-gutter {

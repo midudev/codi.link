@@ -27,7 +27,6 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    position: absolute;
     top: 0;
     z-index: 10;
     transition: top 0.2s;
@@ -75,7 +74,6 @@
 
     display: flex;
     flex-direction: column;
-    margin: 75px 0 0;
   }
 
   .editor{
@@ -150,7 +148,7 @@
   }
 
   .previewer-active {
-    height: calc(100vh - 78px);
+    height: calc(100vh - 120px);
     display: block;
   }
   .previewer-hide {

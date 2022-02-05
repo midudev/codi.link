@@ -265,30 +265,34 @@
         </div>
       </aside>
 
-      <div id="editor" class="grid">
-        <codi-editor id="markup" language="html"></codi-editor>
-        <codi-editor id="script" language="javascript"></codi-editor>
-        <codi-editor id="style" language="css"></codi-editor>
+      <div>
+        <code-tabs></code-tabs>
 
-        <div id="editor-preview" class='iframe-container'>
-          <iframe srcdoc="" title="CodiLink Preview"></iframe>
-        </div>
+        <div id="editor" class="grid">
+          <codi-editor id="markup" language="html"></codi-editor>
+          <codi-editor id="script" language="javascript"></codi-editor>
+          <codi-editor id="style" language="css"></codi-editor>
 
-        <div class="first-gutter"></div>
-        <div class="second-gutter"></div>
-        <div class="last-gutter"></div>
+          <div id="editor-preview" class='iframe-container'>
+            <iframe srcdoc="" title="CodiLink Preview"></iframe>
+          </div>
 
-        <div class="scroll-buttons-container">
-          <button class="scroll-button button-up" disabled>
-            <svg width="52" height="29" viewBox="0 0 52 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9946 5.57505L4.579 26.9906L1.53809 23.9497L24.4741 1.01367L27.515 1.01367L50.4511 23.9497L47.4102 26.9906L25.9946 5.57505Z" fill="#FFF" stroke="#FFF" stroke-width="1.5"/>
-             </svg>
-          </button>
-          <button class="scroll-button button-down">
-            <svg width="52" height="29" viewBox="0 0 52 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9946 23.0004L4.579 1.58484L1.53809 4.62576L24.4741 27.5618L27.515 27.5618L50.4511 4.62576L47.4102 1.58484L25.9946 23.0004Z" fill="#FFF" stroke="#FFF" stroke-width="1.5"/>
-            </svg>
-          </button>
+          <div class="first-gutter"></div>
+          <div class="second-gutter"></div>
+          <div class="last-gutter"></div>
+
+          <div class="scroll-buttons-container">
+            <button class="scroll-button button-up" disabled>
+              <svg width="52" height="29" viewBox="0 0 52 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9946 5.57505L4.579 26.9906L1.53809 23.9497L24.4741 1.01367L27.515 1.01367L50.4511 23.9497L47.4102 26.9906L25.9946 5.57505Z" fill="#FFF" stroke="#FFF" stroke-width="1.5"/>
+              </svg>
+            </button>
+            <button class="scroll-button button-down">
+              <svg width="52" height="29" viewBox="0 0 52 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9946 23.0004L4.579 1.58484L1.53809 4.62576L24.4741 27.5618L27.515 27.5618L50.4511 4.62576L47.4102 1.58484L25.9946 23.0004Z" fill="#FFF" stroke="#FFF" stroke-width="1.5"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
