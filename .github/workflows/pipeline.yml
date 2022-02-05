@@ -29,14 +29,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-      
+
       - name: Cache dependencies
         id: cache-dependencies
         uses: actions/cache@v2
         with:
           path: ./node_modules
           key: modules-${{ hashFiles('package-lock.json') }}
-      
+
       - name: Install dependencies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: npm i --ignore-scripts
@@ -65,7 +65,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
-        run: npm i --ignore-scripts 
+        run: npm i --ignore-scripts
 
       - name: Build
         run: npm run build
@@ -84,24 +84,14 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      
-      - name: Set up node 
+
+      - name: Set up node
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-      
-      - name: Cache Cypress binary
-        id: cache-cypress-dependency
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/Cypress
-          key: cypress-${{ runner.os }}-${{ hashFiles('package.json') }}
-          restore-keys: |
-            cypress-${{ runner.os }}-${{ hashFiles('package.json') }}
-      
+
       - name: Cypress install
-        if: steps.cache-cypress-dependency.outputs.cache-hit != 'true'
-        run: npx cypress install
+        run: npm install cypress
 
   e2e:
       needs: [build, install_cypress]
@@ -113,7 +103,7 @@ jobs:
           with:
             fetch-depth: 0
 
-        - name: Set up node 
+        - name: Set up node
           uses: actions/setup-node@v2
           with:
             node-version: '14'
@@ -130,27 +120,17 @@ jobs:
           with:
             path: ./node_modules
             key: modules-${{ hashFiles('package-lock.json') }}
-        
+
         - name: Install dependencies
           if: steps.cache-dependencies.outputs.cache-hit != 'true'
           run: npm i --ignore-scripts
-        
+
         - name: Start server
           run: npm run dev &
-        
-        - name: Cache Cypress binary
-          id: cache-cypress-dependency
-          uses: actions/cache@v2
-          with:
-            path: ~/.cache/Cypress
-            key: cypress-${{ runner.os }}-${{ hashFiles('package.json') }}
-            restore-keys: |
-              cypress-${{ runner.os }}-${{ hashFiles('package.json') }}
-      
+
         - name: Cypress install
-          if: steps.cache-cypress-dependency.outputs.cache-hit != 'true'
-          run: npx cypress install
-        
+          run: npm install cypress
+
         - name: E2E tests
           uses: cypress-io/github-action@v2
           with:
