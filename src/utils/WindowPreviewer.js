@@ -1,44 +1,40 @@
-import { $ } from './dom'
+import { createHtml } from './createHtml'
 
-class WindowPreviewer {
-  constructor () {
-    this.previewerWindow = null
-    this.iframeStyles = {
-      background: '#fff',
-      border: '0',
-      height: '100%',
-      width: '100%'
-    }
+let previewUrl = null
+let previewWindowRef = null
+
+export function getPreviewUrl () {
+  return previewUrl
+}
+
+export function updatePreview ({ html, css, js }) {
+  if (previewUrl) {
+    URL.revokeObjectURL(previewUrl)
   }
 
-  setupWindowIframe () {
-    const title = `${document.title} | Preview`
-    this.previewerWindow.document.title = title
-    this.previewerWindow.document.body.style.margin = 0
-    this.iframe = this.previewerWindow.document.createElement('iframe')
-    Object.entries(this.iframeStyles).forEach(
-      ([attr, val]) => (this.iframe.style[attr] = val)
-    )
-    this.previewerWindow.document.body.appendChild(this.iframe)
-  }
+  const htmlForPreview = createHtml({ html, css, js })
 
-  updateWindowContent (html) {
-    if (this.previewerWindow) {
-      this.iframe.setAttribute(
-        'srcdoc',
-        html || $('iframe').getAttribute('srcdoc')
-      )
-    }
-  }
+  const blob = new window.Blob([htmlForPreview], { type: 'text/html' })
 
-  openWindow () {
-    this.previewerWindow = window.open()
-    this.previewerWindow.addEventListener('beforeunload', () => (this.previewerWindow = null))
-    this.setupWindowIframe()
-    this.updateWindowContent()
+  previewUrl = URL.createObjectURL(blob)
+
+  if (previewWindowRef?.deref()) {
+    previewWindowRef.deref().location = previewUrl
   }
 }
 
-const previewer = new WindowPreviewer()
+export function clearPreview () {
+  URL.revokeObjectURL(previewUrl)
+  previewUrl = null
+}
 
-export default previewer
+export function showPreviewerWindow () {
+  const previewWindow = window.open(previewUrl, '_blank')
+
+  // Use a WeafRef so when the user closes the window it could be garbage collected.
+  // We need to hold a reference so we can update the location of the window when
+  // the pewview changes.
+  previewWindowRef = new window.WeakRef(previewWindow)
+  const title = `${document.title} | Preview`
+  previewWindow.document.title = title
+}
