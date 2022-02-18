@@ -1,5 +1,6 @@
-import { beforeEachTest, afterEachTest } from './helper'
 /* eslint-disable no-undef */
+
+import { beforeEachTest, afterEachTest } from './helper'
 
 const CheckImportSkypack = () => {
   beforeEachTest()
@@ -10,23 +11,23 @@ const CheckImportSkypack = () => {
       cy.get('#skypack-search-input').type('react')
       cy.get(
         '[title="React is a JavaScript library for building user interfaces."]'
-      ).click()
+      ).click({ force: true })
       return cy.get('[class="mtk22"]').should('have.text', 'React')
     })
     it('Type @ and get 0 results', () => {
       cy.get('[data-action="show-skypack-bar"]').click()
       cy.get('#skypack-search-input').type('@')
-      cy.get('.skypack-item').click()
+      cy.get('.skypack-item').click({ force: true })
       return cy.get('.search-results-message').should(
         'have.text',
         '0 results for "@"'
       )
     })
-    it('Import @Material-ui and check if the @ is imported', () => {
+    it('Import @angular/material and check if the @ is imported', () => {
       cy.get('[data-action="show-skypack-bar"]').click()
-      cy.get('#skypack-search-input').type('@material')
-      cy.get(':nth-child(1) > small').click()
-      return cy.get('[class="mtk22"]').should('have.text', 'MaterialUiCore')
+      cy.get('#skypack-search-input').type('angular material')
+      cy.get('.search-results .extensions ul li:first').click({ force: true })
+      return cy.get('[class="mtk22"]').should('have.text', 'AngularMaterial')
     })
   })
 }

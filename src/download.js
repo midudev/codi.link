@@ -37,16 +37,16 @@ async function createZipWithMultipleFiles ({ htmlContent, cssContent, jsContent 
   const indexHtml = `<!DOCTYPE html>
 <html lang="en">
   <head>
-    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="style.css"/>
   </head>
   <body>
     ${htmlContent}
-    <script type="module" src="js/script.js"></script>
+    <script type="module" src="script.js"></script>
   </body>
 </html>`
 
-  zip.file('css/style.css', cssContent)
-  zip.file('js/script.js', jsContent)
+  zip.file('style.css', cssContent)
+  zip.file('script.js', jsContent)
   zip.file('index.html', indexHtml)
 
   return zip

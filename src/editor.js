@@ -1,9 +1,3 @@
-import * as monaco from 'monaco-editor'
-import { emmetHTML } from 'emmet-monaco-es'
-import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
-import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
-import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import { getState } from './state.js'
 import { registerAutoCompleteHTMLTag } from './editor-extensions/autocomplete-html-tag.js'
 import { registerCSSIntelligence } from './editor-extensions/css-intelligence.js'
@@ -15,12 +9,14 @@ const {
   theme,
   wordWrap,
   fontLigatures,
-  fontFamily
+  fontFamily,
+  tabSize
 } = getState()
 
 const COMMON_EDITOR_OPTIONS = {
   fontSize,
   lineNumbers,
+  tabSize,
   minimap: {
     enabled: minimap
   },
@@ -37,6 +33,7 @@ const COMMON_EDITOR_OPTIONS = {
     top: 16
   }
 }
+
 
 emmetHTML(monaco)
 
