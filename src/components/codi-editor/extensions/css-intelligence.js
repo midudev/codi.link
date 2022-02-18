@@ -33,7 +33,7 @@ const getMatchingAttr = ({ model, position: { lineNumber, column } }) => {
 
 const buildCompletionList = ({ className, position: { lineNumber, column } }, monaco) => {
   const models = monaco.editor.getModels()
-  const cssModels = models.find(model => model.getModeId() === 'css')
+  const cssModels = models.find((model) => model._languageId === 'css')
   const cssValue = cssModels?.getValue()
 
   // Get all classes from the css file
