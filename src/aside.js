@@ -1,6 +1,6 @@
 import { eventBus, EVENTS } from './events-controller.js'
 import { $, $$ } from './utils/dom.js'
-import WindowPreviewer from './utils/WindowPreviewer'
+import * as Preview from './utils/WindowPreviewer'
 import Notification from './utils/notification.js'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
@@ -19,7 +19,7 @@ const SIMPLE_CLICK_ACTIONS = {
   },
 
   [BUTTON_ACTIONS.openIframeTab]: () => {
-    WindowPreviewer.openWindow()
+    Preview.showPreviewerWindow()
   },
 
   [BUTTON_ACTIONS.copyToClipboard]: async () => {
