@@ -1,10 +1,9 @@
 import { $, $$ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
-import { createHtml } from './utils/createHtml'
 import { initializeEventsController } from './events-controller.js'
 import { getState, subscribe } from './state.js'
-import WindowPreviewer from './utils/WindowPreviewer.js'
+import * as Preview from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
 import setSidebar from './sidebar.js'
 import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
@@ -59,7 +58,6 @@ const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
 const debouncedUpdateHash = debounce(updateHashedCode, MS_UPDATE_HASH_DEBOUNCED_TIME)
 
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
-const { html, css, javascript: js } = VALUES
 
 htmlEditor.focus()
 Object.values(EDITORS).forEach(editor => {
@@ -67,36 +65,36 @@ Object.values(EDITORS).forEach(editor => {
 })
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
-const initialHtmlForPreview = createHtml({ html, js, css })
-iframe.setAttribute('srcdoc', initialHtmlForPreview)
 configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
 
-const initButtonAvailabilityIfContent = () => updateButtonAvailabilityIfContent({ html, js, css })
-initButtonAvailabilityIfContent()
+update()
 
-function update ({ notReload }) {
+function update ({ notReload } = {}) {
   const values = {
     html: htmlEditor.getValue(),
     css: cssEditor.getValue(),
     js: jsEditor.getValue()
   }
 
-  const htmlForPreview = createHtml(values)
+  Preview.updatePreview(values)
 
   if (!notReload) {
-    iframe.setAttribute('srcdoc', htmlForPreview)
+    iframe.setAttribute('src', Preview.getPreviewUrl())
   }
 
   updateCss()
 
-  WindowPreviewer.updateWindowContent(htmlForPreview)
   debouncedUpdateHash(values)
   updateButtonAvailabilityIfContent(values)
 }
 
 function updateCss () {
-  iframe.contentDocument
-    .querySelector('#preview-style').textContent = cssEditor.getValue()
+  const iframeStyleEl = iframe.contentDocument
+    .querySelector('#preview-style')
+
+  if (iframeStyleEl) {
+    iframeStyleEl.textContent = cssEditor.getValue()
+  }
 }
 
 function updateHashedCode ({ html, css, js }) {
