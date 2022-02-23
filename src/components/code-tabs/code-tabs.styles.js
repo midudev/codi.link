@@ -62,10 +62,6 @@ export const codeTabsStyles = css`
     font-size: 1rem;
   }
 
-  .codeTabs__tab:focus-within {
-    width:200px
-  }
-
   .codeTabs__addNewtab {
     display: block;
   }

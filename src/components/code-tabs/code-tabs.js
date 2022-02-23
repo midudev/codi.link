@@ -71,7 +71,9 @@ export class CodeTabs extends LitElement {
     this.handleChageTab(tab, ev)
   }
 
-  enableChangeTabName (tab) {
+  enableChangeTabName (tab, ev) {
+    ev.stopPropagation()
+
     const tabIndex = this.tabs.findIndex(({ id }) => id === tab.id)
 
     this.tabs[tabIndex] = {
@@ -83,7 +85,7 @@ export class CodeTabs extends LitElement {
   }
 
   handleChageTab (tab, ev) {
-    ev.preventDefault()
+    ev.stopPropagation()
 
     this.updateTab(this.currentTab.id, window.location.pathname)
 
@@ -92,13 +94,12 @@ export class CodeTabs extends LitElement {
     this.currentTab = tab
     this.updateEditors(tab.pathname)
     this.updateStorage()
-    ev.stopPropagation()
 
     this.requestUpdate()
   }
 
   handleDeleteTab (id, ev) {
-    ev.preventDefault()
+    ev.stopPropagation()
 
     const index = this.tabs.findIndex(t => t.id === id)
     const tab = this.tabs[index - 1]
@@ -110,7 +111,6 @@ export class CodeTabs extends LitElement {
     this.updateStorage()
     this.updateEditors()
 
-    ev.stopPropagation()
     this.requestUpdate()
   }
 
@@ -163,7 +163,7 @@ export class CodeTabs extends LitElement {
               <li
                 @click="${this.handleChageTab.bind(this, tab)}"
                 @dblclick="${this.enableChangeTabName.bind(this, tab)}"
-                class="codeTabs__tab ${this.currentTab.id === tab.id && 'codeTabs__tab-active'}"
+                class="codeTabs__tab ${this.currentTab.id === tab.id ? 'codeTabs__tab-active' : ''}"
               >
                 ${
                   !tab.edit
