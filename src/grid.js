@@ -32,7 +32,7 @@ const getInitialGridStyle = () => {
   const { preserveGrid } = getState()
   if (!preserveGrid) return window.localStorage.removeItem('gridTemplate')
 
-  const gridTemplate = JSON.parse(window.localStorage.getItem('gridTemplate'))
+  const gridTemplate = customJSONParse(window.localStorage.getItem('gridTemplate'))
 
   return gridTemplate && `grid-template-columns: ${gridTemplate['grid-template-columns']}; grid-template-rows: ${gridTemplate['grid-template-rows']}`
 }

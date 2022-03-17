@@ -117,3 +117,11 @@ function updateButtonAvailabilityIfContent ({ html, css, js }) {
     button.disabled = !hasContent
   })
 }
+
+function customJSONParse(jsonString){
+  try{
+    return JSON.parse(jsonString);
+  }catch(e){
+    return null;
+  }
+}
