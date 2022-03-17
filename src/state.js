@@ -2,7 +2,7 @@ import create from 'zustand/vanilla'
 
 import { DEFAULT_INITIAL_SETTINGS } from './constants/initial-settings'
 
-const getLocalStorage = (key) => JSON.parse(window.localStorage.getItem(key))
+const getLocalStorage = (key) => customJSONParse(window.localStorage.getItem(key))
 const setLocalStorage = (key, value) =>
   window.localStorage.setItem(key, JSON.stringify(value))
 
