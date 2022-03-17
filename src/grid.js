@@ -3,6 +3,7 @@ import { DEFAULT_GRID_TEMPLATE, EDITOR_GRID_TEMPLATE } from './constants/editor-
 import { BOTTOM_LAYOUT, DEFAULT_LAYOUT, HORIZONTAL_LAYOUT, VERTICAL_LAYOUT } from './constants/grid-templates'
 import { getState } from './state'
 import { $, $$ } from './utils/dom'
+import { JSONparse } from './utils/json'
 
 const $editor = $('#editor')
 const $$layoutSelector = $$('layout-preview')
@@ -32,7 +33,7 @@ const getInitialGridStyle = () => {
   const { preserveGrid } = getState()
   if (!preserveGrid) return window.localStorage.removeItem('gridTemplate')
 
-  const gridTemplate = JSON.parse(window.localStorage.getItem('gridTemplate'))
+  const gridTemplate = JSONparse(window.localStorage.getItem('gridTemplate'))
 
   return gridTemplate && `grid-template-columns: ${gridTemplate['grid-template-columns']}; grid-template-rows: ${gridTemplate['grid-template-rows']}`
 }
