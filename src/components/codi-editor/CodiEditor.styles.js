@@ -18,6 +18,15 @@ export const CodiEditorStyles = css`
     pointer-events: none;
   }
 
+  slot:hover + img {
+   opacity: 0.2;
+  }
+  
+   slot:focus-within + img {
+    opacity: 0.1;
+  }
+  
+
   @media (max-width: 650px) {
     :host::after {
       left: 16px;
