@@ -31,7 +31,7 @@ const editorElements = $$('codi-editor')
 
 const { pathname } = window.location
 
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+const [rawHtml, rawCss, rawJs] = pathname.slice(1).split(/%7C|\|/)
 
 const VALUES = {
   html: rawHtml ? decode(rawHtml) : '',
