@@ -8,7 +8,12 @@ const setLocalStorage = (key, value) =>
 
 const appInitialState = {
   ...DEFAULT_INITIAL_SETTINGS,
-  ...getLocalStorage('appInitialState')
+  ...getLocalStorage('appInitialState'),
+  editors: {
+    html: null,
+    css: null,
+    javascript: null
+  }
 }
 
 const useStore = create((set, get) => ({

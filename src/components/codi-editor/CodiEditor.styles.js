@@ -23,5 +23,10 @@ export const CodiEditorStyles = css`
       left: 16px;
       right: unset;
     }
+
+    img {
+      left: 16px;
+      bottom: 16px;
+    }
   }
 `

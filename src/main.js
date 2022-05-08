@@ -3,7 +3,7 @@ import { $, $$ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { initializeEventsController } from './events-controller.js'
-import { getState, subscribe } from './state.js'
+import { getState, setState, subscribe } from './state.js'
 import * as Preview from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
 import setSidebar from './sidebar.js'
@@ -19,6 +19,7 @@ import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
 import './components/layout-preview/layout-preview.js'
 import './components/codi-editor/codi-editor.js'
+import './components/code-tabs'
 
 const { layout: currentLayout, sidebar } = getState()
 
@@ -45,6 +46,8 @@ const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
   acc[language] = createEditor(domElement)
   return acc
 }, {})
+
+setState({ editors: EDITORS })
 
 subscribe(state => {
   const newOptions = { ...state, minimap: { enabled: state.minimap } }
