@@ -1,4 +1,6 @@
-import { encode, decode } from 'js-base64'
+import './style.css'
+
+import { decodeURL, encodeURL } from './utils/url'
 import { $, $$ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
@@ -29,14 +31,14 @@ const iframe = $('iframe')
 
 const editorElements = $$('codi-editor')
 
-const { pathname } = window.location
+const urlParams = decodeURL()
 
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+const [rawHtml, rawCss, rawJs] = urlParams.split('|')
 
 const VALUES = {
-  html: rawHtml ? decode(rawHtml) : '',
-  css: rawCss ? decode(rawCss) : '',
-  javascript: rawJs ? decode(rawJs) : ''
+  html: rawHtml || '',
+  css: rawCss || '',
+  javascript: rawJs || ''
 }
 
 const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
@@ -105,7 +107,7 @@ function updateCss () {
 }
 
 function updateHashedCode ({ html, css, js }) {
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  const hashedCode = encodeURL({ html, css, js })
   window.history.replaceState(null, null, `/${hashedCode}`)
 }
 

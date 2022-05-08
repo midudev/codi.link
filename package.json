@@ -24,7 +24,7 @@
     "emmet-monaco-es": "5.0.2",
     "escape-html": "1.0.3",
     "hotkeys-js": "3.8.7",
-    "js-base64": "3.7.2",
+    "lz-string": "1.4.4",
     "jszip": "3.7.1",
     "lit": "2.1.2",
     "monaco-editor": "0.31.1",
