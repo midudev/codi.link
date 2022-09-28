@@ -2,7 +2,7 @@
 
   ### <img src="https://raw.githubusercontent.com/midudev/codi.link/main/assets/favicon.ico" height="30px"/> [Codi.link](https://codi.link)
   
-  ***Your HTML5/CSS3/JS/JavaScript Playground Editor***
+  ***Your HTML5/CSS3/JavaScript Playground Editor***
 </div>
 
 <div align="center">
