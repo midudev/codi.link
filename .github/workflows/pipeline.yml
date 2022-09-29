@@ -125,15 +125,13 @@ jobs:
           if: steps.cache-dependencies.outputs.cache-hit != 'true'
           run: npm i --ignore-scripts
 
-        - name: Start server
-          run: npm run dev &
-
         - name: Cypress install
           run: npm install cypress
 
         - name: E2E tests
-          uses: cypress-io/github-action@v2
+          uses: cypress-io/github-action@v4
           with:
             install: false
+            start: npm run dev
             command: npm run test:e2e
             wait-on: http://localhost:3000

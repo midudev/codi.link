@@ -1,20 +1,22 @@
 {
   "name": "codi.link",
+  "type": "module",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "build": "vite build",
     "co": "sui-mono commit",
-    "cypress": "npx cypress open",
+    "cypress": "cypress open",
     "dev": "vite",
     "lint": "standard",
     "phoenix": "rm -rf ./node_modules && npm install",
     "postinstall": "git config core.hooksPath ./git-hooks",
     "serve": "vite preview",
-    "test:e2e": "npx cypress run"
+    "test:e2e": "cypress run"
   },
   "devDependencies": {
     "@s-ui/mono": "2",
+    "cypress": "10.9.0",
     "postcss-nesting": "10.1.2",
     "standard": "16.0.4",
     "vite": "2.7.13"
