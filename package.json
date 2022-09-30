@@ -20,13 +20,12 @@
     "vite": "3.1.4"
   },
   "dependencies": {
-    "css-format-monaco": "2.0.4",
-    "emmet-monaco-es": "5.0.2",
+    "emmet-monaco-es": "5.1.2",
     "escape-html": "1.0.3",
     "js-base64": "3.7.2",
     "jszip": "3.10.1",
     "lit": "2.3.1",
-    "monaco-editor": "0.31.1",
+    "monaco-editor": "0.34.0",
     "split-grid": "1.0.11",
     "zustand": "3.6.9"
   },
