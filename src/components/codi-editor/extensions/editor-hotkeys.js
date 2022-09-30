@@ -6,7 +6,7 @@ export const initEditorHotKeys = (editor) => {
   editor.addAction({
     id: 'toggle-settings',
     label: 'Toggle Settings',
-    keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.US_COMMA],
+    keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Comma],
     contextMenuGroupId: 'navigation',
     contextMenuOrder: 1.5,
     // Method that will be executed when the action is triggered.
@@ -17,7 +17,7 @@ export const initEditorHotKeys = (editor) => {
     }
   })
   editor.addCommand(
-    monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_C,
+    monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyC,
     function () {
       copyToClipboard(window.location.href)
     }
