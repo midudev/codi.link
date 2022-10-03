@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-import { beforeEachTest, afterEachTest } from './helper'
+import { beforeEachTest, afterEachTest } from './helper.cy'
 
 const CheckImportSkypack = () => {
   beforeEachTest()
