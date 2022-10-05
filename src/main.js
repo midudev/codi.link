@@ -1,5 +1,5 @@
-import { encode, decode } from 'js-base64'
 import { $, $$ } from './utils/dom.js'
+import { compress, decompress } from 'wasm-brotli'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { initializeEventsController } from './events-controller.js'
@@ -33,10 +33,22 @@ const { pathname } = window.location
 
 const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
 
+const BrotliDecompressor = (input) => {
+  input = input.split(',')
+  const ArrayBufferFromInput = Uint8Array.from(input)
+  const DecompressedInput = decompress(ArrayBufferFromInput)
+  const DecodedResult = new TextDecoder('utf-8').decode(DecompressedInput)
+
+  return DecodedResult
+}
+const BrotliCompressor = (ArrayBufferFromInput) => {
+  ArrayBufferFromInput = new TextEncoder('utf-8').encode(ArrayBufferFromInput)
+  return compress(ArrayBufferFromInput)
+}
 const VALUES = {
-  html: rawHtml ? decode(rawHtml) : '',
-  css: rawCss ? decode(rawCss) : '',
-  javascript: rawJs ? decode(rawJs) : ''
+  html: rawHtml ? BrotliDecompressor(rawHtml) : '',
+  css: rawCss ? BrotliDecompressor(rawCss) : '',
+  javascript: rawJs ? BrotliDecompressor(rawJs) : ''
 }
 
 const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
@@ -46,10 +58,10 @@ const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
   return acc
 }, {})
 
-subscribe(state => {
+subscribe((state) => {
   const newOptions = { ...state, minimap: { enabled: state.minimap } }
 
-  Object.values(EDITORS).forEach(editor => {
+  Object.values(EDITORS).forEach((editor) => {
     editor.updateOptions({
       ...editor.getRawOptions(),
       ...newOptions
@@ -62,13 +74,18 @@ subscribe(state => {
 const MS_UPDATE_DEBOUNCED_TIME = 200
 const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
-const debouncedUpdateHash = debounce(updateHashedCode, MS_UPDATE_HASH_DEBOUNCED_TIME)
+const debouncedUpdateHash = debounce(
+  updateHashedCode,
+  MS_UPDATE_HASH_DEBOUNCED_TIME
+)
 
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
 
 htmlEditor.focus()
-Object.values(EDITORS).forEach(editor => {
-  editor.onDidChangeModelContent(() => debouncedUpdate({ notReload: editor === cssEditor }))
+Object.values(EDITORS).forEach((editor) => {
+  editor.onDidChangeModelContent(() =>
+    debouncedUpdate({ notReload: editor === cssEditor })
+  )
 })
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
@@ -96,8 +113,7 @@ function update ({ notReload } = {}) {
 }
 
 function updateCss () {
-  const iframeStyleEl = iframe.contentDocument
-    .querySelector('#preview-style')
+  const iframeStyleEl = iframe.contentDocument.querySelector('#preview-style')
 
   if (iframeStyleEl) {
     iframeStyleEl.textContent = cssEditor.getValue()
@@ -105,14 +121,18 @@ function updateCss () {
 }
 
 function updateHashedCode ({ html, css, js }) {
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  const hashedCode = `${BrotliCompressor(html)}|${BrotliCompressor(css)}|${BrotliCompressor(js)}`
   window.history.replaceState(null, null, `/${hashedCode}`)
 }
 
 function updateButtonAvailabilityIfContent ({ html, css, js }) {
-  const buttonActions = [BUTTON_ACTIONS.downloadUserCode, BUTTON_ACTIONS.openIframeTab, BUTTON_ACTIONS.copyToClipboard]
+  const buttonActions = [
+    BUTTON_ACTIONS.downloadUserCode,
+    BUTTON_ACTIONS.openIframeTab,
+    BUTTON_ACTIONS.copyToClipboard
+  ]
   const hasContent = html || css || js
-  buttonActions.forEach(action => {
+  buttonActions.forEach((action) => {
     const button = $(`button[data-action='${action}']`)
     button.disabled = !hasContent
   })
