@@ -29,6 +29,7 @@
     "lit": "2.3.1",
     "monaco-editor": "0.34.0",
     "split-grid": "1.0.11",
+    "vite-plugin-top-level-await": "^1.1.1",
     "vite-plugin-wasm": "^3.0.0",
     "wasm-brotli": "^2.0.2",
     "zustand": "4.1.1"
