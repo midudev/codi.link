@@ -1,5 +1,5 @@
 import { $, $$ } from './utils/dom.js'
-import { compress, decompress } from 'wasm-brotli'
+import { BrotliDecompressor, BrotliCompressor } from './utils/Brotli.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { initializeEventsController } from './events-controller.js'
@@ -33,22 +33,10 @@ const { pathname } = window.location
 
 const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
 
-const BrotliDecompressor = (input) => {
-  input = input.split(',')
-  const ArrayBufferFromInput = Uint8Array.from(input)
-  const DecompressedInput = decompress(ArrayBufferFromInput)
-  const DecodedResult = new TextDecoder('utf-8').decode(DecompressedInput)
-
-  return DecodedResult
-}
-const BrotliCompressor = (ArrayBufferFromInput) => {
-  ArrayBufferFromInput = new TextEncoder('utf-8').encode(ArrayBufferFromInput)
-  return compress(ArrayBufferFromInput)
-}
 const VALUES = {
-  html: rawHtml ? BrotliDecompressor(rawHtml) : '',
-  css: rawCss ? BrotliDecompressor(rawCss) : '',
-  javascript: rawJs ? BrotliDecompressor(rawJs) : ''
+  html: rawHtml ? await BrotliDecompressor(rawHtml) : '',
+  css: rawCss ? await BrotliDecompressor(rawCss) : '',
+  javascript: rawJs ? await BrotliDecompressor(rawJs) : ''
 }
 
 const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
@@ -120,9 +108,13 @@ function updateCss () {
   }
 }
 
-function updateHashedCode ({ html, css, js }) {
-  const hashedCode = `${BrotliCompressor(html)}|${BrotliCompressor(css)}|${BrotliCompressor(js)}`
-  window.history.replaceState(null, null, `/${hashedCode}`)
+async function updateHashedCode ({ html, css, js }) {
+  try {
+    const hashedCode = `${await BrotliCompressor(html)}|${await BrotliCompressor(css)}|${await BrotliCompressor(js)}`
+    window.history.replaceState(null, null, `/${hashedCode}`)
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 function updateButtonAvailabilityIfContent ({ html, css, js }) {
