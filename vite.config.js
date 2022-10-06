@@ -6,5 +6,8 @@ export default defineConfig({
   plugins: [
     wasm(),
     topLevelAwait()
-  ]
+  ],
+  optimizeDeps: {
+    exclude: ['brotli-wasm']
+  }
 })
