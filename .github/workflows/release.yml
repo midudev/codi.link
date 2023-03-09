@@ -1,8 +1,8 @@
-name: 'publish'
+name: 'Publish new executables'
+
 on:
   push:
-    branches:
-      - master
+    branches: [main]
 
 jobs:
   publish-tauri:
