@@ -14,24 +14,32 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
-      - name: setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        id: pnpm-install
-        with:
-          version: 7
+
       - name: install Rust stable
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      - name: Sync node version and setup cache
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          cache: 'yarn' # Set this to npm, yarn or pnpm.
+
       - name: install webkit2gtk (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
         run: |
           sudo apt-get update
           sudo apt-get install -y webkit2gtk-4.0
+
+      - name: Install app dependencies and build web
+        run: yarn
+
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
