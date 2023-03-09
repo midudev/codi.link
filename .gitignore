@@ -11,3 +11,6 @@ cypress/plugins/
 cypress/support/
 cypress/screenshots/
 cypress/videos/
+
+# tauri
+src-tauri/target/
