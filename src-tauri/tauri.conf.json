@@ -58,7 +58,9 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "codi.link",
+        "minHeight": 700,
+        "minWidth": 800,
+        "title": "CodiLink - Playground Code Editor for Developers",
         "width": 800
       }
     ]
