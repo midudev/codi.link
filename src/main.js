@@ -110,7 +110,12 @@ function updateHashedCode ({ html, css, js }) {
 }
 
 function updateButtonAvailabilityIfContent ({ html, css, js }) {
-  const buttonActions = [BUTTON_ACTIONS.downloadUserCode, BUTTON_ACTIONS.openIframeTab, BUTTON_ACTIONS.copyToClipboard]
+  const buttonActions = [
+    BUTTON_ACTIONS.downloadUserCode,
+    BUTTON_ACTIONS.openIframeTab,
+    BUTTON_ACTIONS.copyToClipboard
+  ]
+
   const hasContent = html || css || js
   buttonActions.forEach(action => {
     const button = $(`button[data-action='${action}']`)
