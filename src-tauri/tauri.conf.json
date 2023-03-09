@@ -4,7 +4,7 @@
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "npm run dev",
     "devPath": "http://localhost:5173",
-    "distDir": "dist"
+    "distDir": "../dist"
   },
   "package": {
     "productName": "codiLink",
