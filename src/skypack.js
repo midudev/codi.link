@@ -3,7 +3,6 @@ import debounce from './utils/debounce.js'
 import { $ } from './utils/dom.js'
 import escapeHTML from 'escape-html'
 
-const API_URL = 'https://api.skypack.dev/v1'
 const CDN_URL = 'https://cdn.skypack.dev'
 const PACKAGE_VIEW_URL = 'https://www.skypack.dev/view'
 
@@ -71,12 +70,13 @@ async function fetchPackagesAndDisplayResults ({ page = 1 }) {
   // the last aborted fetch enters here
   if (error) return
 
-  const { results, meta } = fetchResult
-  currentPage = meta.page
-  totalPages = meta.totalPages
+  console.log(fetchResult)
+  const { page: resultPage, hits: results, nbPages, nbHits: totalCount } = fetchResult
+  currentPage = resultPage + 1
+  totalPages = nbPages
 
   // microbenchmark: only displays total count at first time
-  currentPage === 1 && displayTotalCount(meta.totalCount)
+  currentPage === 1 && displayTotalCount(totalCount)
 
   if (results.length === 0) return finishSearch()
 
@@ -100,10 +100,26 @@ async function fetchNextPagePackagesAndDisplayResults () {
 }
 
 async function fetchPackages ({ abortController, packageName, page = 1 }) {
-  const fetchUrl = `${API_URL}/search?q=${packageName}&p=${page}`
-  const fetchOptions = { signal: abortController.signal }
   try {
-    const resultFetch = await window.fetch(fetchUrl, fetchOptions)
+    const resultFetch = await window.fetch('https://ofcncog2cu-dsn.algolia.net/1/indexes/npm-search/query?x-algolia-agent=Algolia%20for%20JavaScript%20(3.35.1)%3B%20Browser%20(lite)&x-algolia-application-id=OFCNCOG2CU&x-algolia-api-key=f54e21fa3a2a0160595bb058179bfb1e', {
+      headers: {
+        accept: 'application/json',
+        'accept-language': 'es-ES,es;q=0.6',
+        'content-type': 'application/x-www-form-urlencoded',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'cross-site',
+        'sec-gpc': '1'
+      },
+      referrer: 'https://www.jsdelivr.com/',
+      referrerPolicy: 'strict-origin-when-cross-origin',
+      body: `{"params": "query=${packageName}&page=0&hitsPerPage=10&attributesToRetrieve=%5B%22deprecated%22%2C%22description%22%2C%22githubRepo%22%2C%22homepage%22%2C%22keywords%22%2C%22license%22%2C%22name%22%2C%22owner%22%2C%22version%22%2C%22popular%22%2C%22moduleTypes%22%2C%22styleTypes%22%2C%22jsDelivrHits%22%5D&analyticsTags=%5B%22jsdelivr%22%5D&facetFilters=moduleTypes%3Aesm"}`,
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'omit',
+      signal: abortController.signal
+    })
+
     const resultFetchJson = await resultFetch.json()
     return [null, resultFetchJson]
   } catch (error) {
@@ -113,14 +129,15 @@ async function fetchPackages ({ abortController, packageName, page = 1 }) {
 
 function displayResults ({ results, searchTerm }) {
   results.forEach(result => {
+    console.log(result)
     const $li = document.createElement('li')
     $li.title = result.description
     $li.innerHTML = getResultHTML({ result, searchTerm })
     $li.tabIndex = 0
 
-    const url = `${CDN_URL}/${result.name}`
+    $li.addEventListener('click', async (e) => {
+      const url = `https://cdn.jsdelivr.net/npm/${result.name}@${result.version}/+esm`
 
-    $li.addEventListener('click', (e) => {
       if (e.target.className === 'skypack-open') {
         if (e.target.hasAttribute('data-copy')) {
           e.preventDefault()
@@ -131,6 +148,7 @@ function displayResults ({ results, searchTerm }) {
 
       handlePackageSelected(result.name, url)
     })
+
     $li.addEventListener('keydown', (e) => {
       if (e.keyCode === 13) handlePackageSelected(result.name)
     })
@@ -141,7 +159,7 @@ function displayResults ({ results, searchTerm }) {
 
 function getResultHTML ({ result, searchTerm }) {
   const resultBadgesHTML = getResultBadgesHTML({ result, searchTerm })
-  const updatedAt = Intl.DateTimeFormat('en', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(result.updatedAt))
+
   return `
     <header>
       <strong>${escapeHTML(result.name)}</strong>
@@ -149,7 +167,7 @@ function getResultHTML ({ result, searchTerm }) {
     </header>
     <section class="skypack-description">${escapeHTML(result.description)}</section>
     <footer>
-      <div class="skypack-updated" >Updated: ${updatedAt}</div>
+      <div class="skypack-updated" >version: ${result.version}</div>
       <div>
         <a tabindex="-1" class="skypack-open" data-copy target="_blank" href="${CDN_URL}/${result.name}">copy</a>
         <a tabindex="-1" class="skypack-open" target="_blank" href="${PACKAGE_VIEW_URL}/${result.name}">details</a>
