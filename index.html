@@ -99,6 +99,38 @@
               <div class="settings-item">
                 <strong>
                   <span class="settings-type">Editor:</span>
+                  Layout
+                </strong>
+                <div>
+                  <span>Change view layout</span>
+                  <fieldset class="layout-preview-container">
+                    <label for="default-layout-radio">
+                      <input type="radio" name="layout" value="default">
+                      <layout-preview layout="default"></layout-preview>
+                    </label>
+                    <label for="layout-2-layout-radio">
+                      <input type="radio" name="layout" value="layout-2">
+                      <layout-preview layout="layout-2"></layout-preview>
+                    </label>
+                    <label for="vertical-layout-radio">
+                      <input type="radio" name="layout" value="vertical">
+                      <layout-preview layout="vertical"></layout-preview>
+                    </label>
+                    <label for="horizontal-layout-radio">
+                      <input type="radio" name="layout" value="horizontal">
+                      <layout-preview layout="horizontal"></layout-preview>
+                    </label>
+                    <label for="bottom-layout-radio">
+                      <input type="radio" name="layout" value="bottom">
+                      <layout-preview layout="bottom"></layout-preview>
+                    </label>
+                  </fieldset>
+                </div>
+              </div>
+              
+              <div class="settings-item">
+                <strong>
+                  <span class="settings-type">Editor:</span>
                   Line Numbers
                 </strong>
                 Controls the display of line numbers.
@@ -201,37 +233,6 @@
                 </div>
               </div>
 
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor:</span>
-                  Layout
-                </strong>
-                <div>
-                  <span>Change view layout</span>
-                  <fieldset class="layout-preview-container">
-                    <label for="default-layout-radio">
-                      <input type="radio" name="layout" value="default">
-                      <layout-preview layout="default"></layout-preview>
-                    </label>
-                    <label for="layout-2-layout-radio">
-                      <input type="radio" name="layout" value="layout-2">
-                      <layout-preview layout="layout-2"></layout-preview>
-                    </label>
-                    <label for="vertical-layout-radio">
-                      <input type="radio" name="layout" value="vertical">
-                      <layout-preview layout="vertical"></layout-preview>
-                    </label>
-                    <label for="horizontal-layout-radio">
-                      <input type="radio" name="layout" value="horizontal">
-                      <layout-preview layout="horizontal"></layout-preview>
-                    </label>
-                    <label for="bottom-layout-radio">
-                      <input type="radio" name="layout" value="bottom">
-                      <layout-preview layout="bottom"></layout-preview>
-                    </label>
-                  </fieldset>
-                </div>
-              </div>
               <div class="settings-item">
                 <strong>
                   <span class="settings-type">Workbench:</span>

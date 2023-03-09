@@ -7,7 +7,7 @@
     "distDir": "dist"
   },
   "package": {
-    "productName": "codi.link",
+    "productName": "codiLink",
     "version": "0.1.0"
   },
   "tauri": {
@@ -29,8 +29,8 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
-      "longDescription": "",
+      "identifier": "com.midu.dev",
+      "longDescription": "codiLink is a Playground Code Editor for HTML, CSS and JavaScript",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
