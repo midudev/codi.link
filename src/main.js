@@ -29,6 +29,9 @@ const iframe = $('iframe')
 
 const editorElements = $$('codi-editor')
 
+const hashedCode = window.localStorage.getItem('hashedCode') ?? ''
+window.history.replaceState(null, null, `/${hashedCode}`)
+
 const { pathname } = window.location
 
 const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
@@ -92,6 +95,7 @@ function update ({ notReload } = {}) {
   updateCss()
 
   debouncedUpdateHash(values)
+  saveCode(values)
   updateButtonAvailabilityIfContent(values)
 }
 
@@ -107,6 +111,11 @@ function updateCss () {
 function updateHashedCode ({ html, css, js }) {
   const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
   window.history.replaceState(null, null, `/${hashedCode}`)
+}
+
+function saveCode ({ html, css, js }) {
+  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  window.localStorage.setItem('hashedCode', hashedCode)
 }
 
 function updateButtonAvailabilityIfContent ({ html, css, js }) {
