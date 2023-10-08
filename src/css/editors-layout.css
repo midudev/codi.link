@@ -1,30 +1,30 @@
 .grid {
   display: grid;
   grid-template-areas:
-    "editor-html . editor-js"
-    ". . ."
-    "editor-css . editor-preview";
-  grid-template-columns: 1fr 5px 1fr;
-  grid-template-rows: 1fr 5px 1fr;
+    'editor-html . editor-js'
+    '. . .'
+    'editor-css . editor-preview';
+  grid-template-columns: 1fr 8px 1fr;
+  grid-template-rows: 1fr 8px 1fr;
   height: 100vh;
 
-  &[data-layout="default"] {
+  &[data-layout='default'] {
     & .second-gutter {
       background: transparent;
     }
   }
-  &[data-layout="layout-2"] {
+  &[data-layout='layout-2'] {
     grid-template-areas:
-      "editor-html . editor-css"
-      ". . ."
-      "editor-js . editor-preview";
+      'editor-html . editor-css'
+      '. . .'
+      'editor-js . editor-preview';
 
     & .second-gutter {
       background: transparent;
     }
   }
-  &[data-layout="vertical"] {
-    grid-template-areas: "editor-html . editor-css . editor-js . editor-preview";
+  &[data-layout='vertical'] {
+    grid-template-areas: 'editor-html . editor-css . editor-js . editor-preview';
     & .first-gutter {
       cursor: col-resize;
       grid-area: 1 / 2 / 1 / 2;
@@ -40,15 +40,15 @@
       background-image: url(/assets/vertical.png);
     }
   }
-  &[data-layout="horizontal"] {
+  &[data-layout='horizontal'] {
     grid-template-areas:
-      "editor-html"
-      "."
-      "editor-css"
-      "."
-      "editor-js"
-      "."
-      "editor-preview";
+      'editor-html'
+      '.'
+      'editor-css'
+      '.'
+      'editor-js'
+      '.'
+      'editor-preview';
     & .first-gutter {
       grid-area: 2 / 1 / 2 / 1;
       cursor: row-resize;
@@ -64,13 +64,13 @@
       cursor: row-resize;
     }
   }
-  &[data-layout="bottom"] {
+  &[data-layout='bottom'] {
     grid-template-columns: 1fr 8px 1fr 8px 1fr;
     grid-template-rows: 1fr 8px 1fr;
     grid-template-areas:
-      "editor-preview editor-preview editor-preview editor-preview editor-preview"
-      ". . . . ."
-      "editor-html . editor-js . editor-css";
+      'editor-preview editor-preview editor-preview editor-preview editor-preview'
+      '. . . . .'
+      'editor-html . editor-js . editor-css';
     & .first-gutter {
       cursor: col-resize;
       grid-area: 2 / 2 / 4 / 3;
@@ -106,7 +106,7 @@
 .first-gutter {
   cursor: col-resize;
   grid-area: 1 / 2 / 4 / 2;
-  background: #2d323c;
+  background: var(--grid-background);
   background-repeat: no-repeat;
   background-position: 50% center;
   background-image: url(/assets/vertical.png);
@@ -116,7 +116,7 @@
   cursor: all-scroll;
   z-index: 1;
   grid-area: 2 / 2 / 2 / 2;
-  background: #2d323c;
+  background: var(--grid-background);
   background-repeat: no-repeat;
   background-position: 50% center;
 }
@@ -124,7 +124,7 @@
 .last-gutter {
   cursor: row-resize;
   grid-area: 2 / 1 / 2 / 4;
-  background: #2d323c;
+  background: var(--grid-background);
   background-repeat: no-repeat;
   background-position: 50% center;
   background-image: url(/assets/horizontal.png);

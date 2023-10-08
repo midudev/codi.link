@@ -10,7 +10,6 @@
   }
 
   & .settings-item {
-    color: #fff;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -25,15 +24,15 @@
       & label {
         border-radius: 5px;
         position: relative;
-        transition: .3s ease opacity, .3s ease background-color;
+        transition: 0.3s ease opacity, 0.3s ease background-color;
       }
 
       & label:hover {
         background-color: #000;
-        opacity: .9;
+        opacity: 0.9;
       }
 
-      & input[type="radio"] {
+      & input[type='radio'] {
         cursor: pointer;
         height: 100%;
         left: 0;
@@ -45,10 +44,6 @@
         width: 100%;
       }
     }
-  }
-
-  & .settings-item:hover {
-    background: rgba(128, 128, 128, 0.14);
   }
 
   & .checkbox {
@@ -74,21 +69,21 @@
   }
 
   & .checkbox input:focus + span::before {
-    content: "";
+    content: '';
     outline: 1px solid #fff;
   }
 
   & .checkbox input:checked + span::before {
-    content: "✓";
+    content: '✓';
   }
 
   & .checkbox span::before {
     align-items: center;
-    background: #444d56;
+    background: var(--input-background);
     border-radius: 3px;
-    border: 1px solid #1b1f23;
-    color: #e1e4e8;
-    content: "";
+    border: 1px solid var(--input-border);
+    color: var(--input-foreground);
+    content: '';
     display: flex;
     height: 18px;
     justify-content: center;
@@ -98,9 +93,9 @@
   }
 
   & .input {
-    background-color: var(--bgc-input);
-    color: var(--c-input);
-    border: 1px solid var(--bdc-input);
+    background-color: var(--input-background);
+    color: var(--input-foreground);
+    border: 1px solid var(--input-border);
     padding: 0.3em;
   }
 }

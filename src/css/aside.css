@@ -1,5 +1,4 @@
 aside {
-  background: #2d323c;
   display: flex;
 }
 
@@ -8,11 +7,10 @@ aside button {
 }
 
 aside button .button-title {
-  background: #2d323c;
+  background: var(--button-title-background);
   border-radius: 3px;
-  border: 1px solid #000;
-  box-shadow: 0 0 15px 2px rgb(0 0 0 / 30%);
-  color: #c5c5c5;
+  border: 1px solid var(--button-title-border);
+  color: var(--button-title-foreground);
   display: none;
   font-size: 1.1em;
   padding: 0.5em 0.75em;
@@ -22,7 +20,7 @@ aside button .button-title {
   z-index: 1000;
 
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     transform: translate(-100%, -50%);
     top: 50%;
@@ -32,11 +30,11 @@ aside button .button-title {
     height: 0px;
     border-top: 0.5em solid transparent;
     border-bottom: 0.5em solid transparent;
-    border-right: 0.5em solid #2d323c;
+    border-right: 0.5em solid var(--button-title-background);
   }
 
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     transform: translate(-100%, -50%);
     top: 50%;
@@ -46,13 +44,13 @@ aside button .button-title {
     height: 0px;
     border-top: 0.5em solid transparent;
     border-bottom: 0.5em solid transparent;
-    border-right: 0.5em solid #000;
+    border-right: 0.5em solid var(--button-title-border);
   }
 }
 
 aside button.is-active {
   opacity: 1;
-  border-left: 3px solid #c5c5c5;
+  border-left: 3px solid red;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -65,6 +63,9 @@ aside button.is-active {
 }
 
 .aside-bar {
+  background: var(--aside-bar-background);
+  color: var(--aside-bar-foreground);
+  border-right: 1px solid var(--aside-bar-border);
   width: 310px;
   height: 100vh;
   overflow-y: auto;
@@ -92,10 +93,12 @@ aside button.is-active {
 }
 
 .aside-sections {
+  background: var(--aside-sections-background);
+  border-right: 1px solid var(--aside-sections-border);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 100%;
+  justify-content: space-between;
   width: 72px;
 }
 
@@ -105,18 +108,18 @@ aside button.is-active {
   border-left: 3px solid transparent;
   cursor: pointer;
   width: 100%;
-  opacity: 0.5;
+  color: var(--button-foreground);
   transition: opacity 0.1s ease;
   padding: 16px 0;
 }
 
 .aside-sections button.is-active {
-  opacity: 1;
-  border-left: 3px solid #c5c5c5;
+  color: var(--button-foreground-active);
+  border-left: 3px solid var(--button-foreground-active);
 }
 
 .aside-sections button:hover {
-  opacity: 1;
+  color: var(--button-foreground-active);
 }
 
 .aside-sections svg {
@@ -133,6 +136,10 @@ aside button.is-active {
 
 .aside-sections--compact {
   width: 52px;
+}
+
+.aside-sections--compact button {
+  padding: 10px 0;
 }
 
 .aside-sections--compact svg {
