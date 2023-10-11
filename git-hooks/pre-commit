@@ -8,7 +8,7 @@ echo "Executing pre-commit"
 
 linter_exit_code=1
 staged_js_files=$(git diff --cached --diff-filter=d --name-only | grep -E '\.(js|jsx)$')
-./node_modules/.bin/standard $staged_js_files --quiet --fix
+bunx standard $staged_js_files --quiet --fix
 linter_exit_code=$?
 git add -f $staged_js_files
 
