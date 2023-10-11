@@ -7,7 +7,7 @@
     "build": "vite build",
     "cypress": "cypress open",
     "dev": "vite",
-    "lint": "standard",
+    "lint": "bunx standard",
     "tauri": "tauri",
     "phoenix": "rm -rf ./node_modules && bun install",
     "postinstall": "git config core.hooksPath ./git-hooks",

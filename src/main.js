@@ -31,10 +31,13 @@ const iframe = $('iframe')
 
 const editorElements = $$('codi-editor')
 
-const hashedCode = window.localStorage.getItem('hashedCode') ?? ''
-window.history.replaceState(null, null, `/${hashedCode}`)
+let { pathname } = window.location
 
-const { pathname } = window.location
+if (pathname === '/') {
+  const hashedCode = window.localStorage.getItem('hashedCode') ?? ''
+  window.history.replaceState(null, null, `/${hashedCode}`)
+  pathname = window.location.pathname
+}
 
 const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
 
