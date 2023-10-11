@@ -7,6 +7,7 @@ import { getState, subscribe } from './state.js'
 import * as Preview from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
 import setSidebar from './sidebar.js'
+import setTheme from './theme.js'
 import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
 
 import './aside.js'
@@ -20,10 +21,11 @@ import { BUTTON_ACTIONS } from './constants/button-actions.js'
 import './components/layout-preview/layout-preview.js'
 import './components/codi-editor/codi-editor.js'
 
-const { layout: currentLayout, sidebar } = getState()
+const { layout: currentLayout, sidebar, theme } = getState()
 
 setGridLayout(currentLayout)
 setSidebar(sidebar)
+setTheme(theme)
 
 const iframe = $('iframe')
 
@@ -60,18 +62,24 @@ subscribe(state => {
   })
   setGridLayout(state.layout)
   setSidebar(state.sidebar)
+  setTheme(state.theme)
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
 const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
-const debouncedUpdateHash = debounce(updateHashedCode, MS_UPDATE_HASH_DEBOUNCED_TIME)
+const debouncedUpdateHash = debounce(
+  updateHashedCode,
+  MS_UPDATE_HASH_DEBOUNCED_TIME
+)
 
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
 
 htmlEditor.focus()
 Object.values(EDITORS).forEach(editor => {
-  editor.onDidChangeModelContent(() => debouncedUpdate({ notReload: editor === cssEditor }))
+  editor.onDidChangeModelContent(() =>
+    debouncedUpdate({ notReload: editor === cssEditor })
+  )
 })
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
@@ -100,8 +108,7 @@ function update ({ notReload } = {}) {
 }
 
 function updateCss () {
-  const iframeStyleEl = iframe.contentDocument
-    .querySelector('#preview-style')
+  const iframeStyleEl = iframe.contentDocument.querySelector('#preview-style')
 
   if (iframeStyleEl) {
     iframeStyleEl.textContent = cssEditor.getValue()
