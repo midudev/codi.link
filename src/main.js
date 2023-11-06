@@ -21,7 +21,7 @@ import { BUTTON_ACTIONS } from './constants/button-actions.js'
 import './components/layout-preview/layout-preview.js'
 import './components/codi-editor/codi-editor.js'
 
-const { layout: currentLayout, sidebar, theme } = getState()
+const { layout: currentLayout, sidebar, theme, saveLocalstorage } = getState()
 
 setGridLayout(currentLayout)
 setSidebar(sidebar)
@@ -33,7 +33,7 @@ const editorElements = $$('codi-editor')
 
 let { pathname } = window.location
 
-if (pathname === '/') {
+if (pathname === '/' && saveLocalstorage === true) {
   const hashedCode = window.localStorage.getItem('hashedCode') ?? ''
   window.history.replaceState(null, null, `/${hashedCode}`)
   pathname = window.location.pathname
@@ -106,7 +106,9 @@ function update ({ notReload } = {}) {
   updateCss()
 
   debouncedUpdateHash(values)
-  saveCode(values)
+  if (saveLocalstorage) {
+    saveCode(values)
+  }
   updateButtonAvailabilityIfContent(values)
 }
 

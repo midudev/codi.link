@@ -14,6 +14,7 @@ export const DEFAULT_INITIAL_SETTINGS = {
   wordWrap: 'on',
   zipFileName: 'codi.link',
   zipInSingleFile: false,
+  saveLocalstorage: true,
   layout: {
     gutters: DEFAULT_LAYOUT,
     style: DEFAULT_GRID_TEMPLATE,
