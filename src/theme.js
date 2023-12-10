@@ -4,7 +4,7 @@
  */
 
 const setTheme = theme => {
-  document.documentElement.setAttribute('theme', theme)
+  document.documentElement.setAttribute('data-theme', theme)
 }
 
 export default setTheme

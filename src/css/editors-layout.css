@@ -8,12 +8,12 @@
   grid-template-rows: 1fr 8px 1fr;
   height: 100vh;
 
-  &[data-layout='default'] {
+  [data-layout='default'] & {
     & .second-gutter {
       background: transparent;
     }
   }
-  &[data-layout='layout-2'] {
+  [data-layout='layout-2'] & {
     grid-template-areas:
       'editor-html . editor-css'
       '. . .'
@@ -23,7 +23,7 @@
       background: transparent;
     }
   }
-  &[data-layout='vertical'] {
+  [data-layout='vertical'] & {
     grid-template-areas: 'editor-html . editor-css . editor-js . editor-preview';
     & .first-gutter {
       cursor: col-resize;
@@ -40,7 +40,7 @@
       background-image: url(/assets/vertical.png);
     }
   }
-  &[data-layout='horizontal'] {
+  [data-layout='horizontal'] & {
     grid-template-areas:
       'editor-html'
       '.'
@@ -64,7 +64,7 @@
       cursor: row-resize;
     }
   }
-  &[data-layout='bottom'] {
+  [data-layout='bottom'] & {
     grid-template-columns: 1fr 8px 1fr 8px 1fr;
     grid-template-rows: 1fr 8px 1fr;
     grid-template-areas:

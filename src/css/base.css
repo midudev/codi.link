@@ -23,7 +23,7 @@
   --input-border: rgb(51, 51, 51);
 }
 
-[theme='vs'] {
+[data-theme='vs'] {
   --app-background: rgb(255, 255, 254);
   --app-foreground: rgb(0, 0, 0);
 
@@ -41,7 +41,7 @@
   --input-border: rgb(97, 97, 97);
 }
 
-[theme='hc-black'] {
+[data-theme='hc-black'] {
   --app-background: rgb(0, 0, 0);
   --app-foreground: rgb(255, 255, 255);
 
@@ -65,7 +65,7 @@
   --input-border: rgb(255, 255, 255);
 }
 
-[theme='hc-light'] {
+[data-theme='hc-light'] {
   --app-background: rgb(255, 255, 255);
   --app-foreground: rgb(0, 0, 0);
 

@@ -27,6 +27,17 @@
       href="/assets/fonts/CascadiaCodePLItalic.woff2"
     />
     <link rel="stylesheet" href="./src/style.css" />
+    <script>
+      ;(function () {
+        const rootElement = document.documentElement
+        const {
+          state: { theme, sidebar, layout }
+        } = JSON.parse(window.localStorage.getItem('appInitialState'))
+        rootElement.setAttribute('data-theme', theme)
+        rootElement.classList.toggle('sections-compact', sidebar === 'compact')
+        rootElement.setAttribute('data-layout', layout)
+      })()
+    </script>
   </head>
   <body>
     <div class="overlay-drag hidden">
