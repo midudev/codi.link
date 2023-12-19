@@ -57,6 +57,13 @@ $ npm run dev
 $ yarn dev
 ```
 
+Run using Docker (by the Community):
+
+```sh
+docker run -d --rm -p 5173:5173 --name codilink ferning98/codi.link
+```
+You can get more details and examples on how to run this on Docker [here](https://hub.docker.com/r/ferning98/codi.link)
+
 ### Built With
 
 - JavaScript
