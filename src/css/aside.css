@@ -20,7 +20,7 @@ aside button .button-title {
   z-index: 1000;
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     transform: translate(-100%, -50%);
     top: 50%;
@@ -34,7 +34,7 @@ aside button .button-title {
   }
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     transform: translate(-100%, -50%);
     top: 50%;
@@ -118,7 +118,7 @@ aside button.is-active {
   border-left: 3px solid var(--button-foreground-active);
 }
 
-.aside-sections button:hover {
+.aside-sections button:not(:disabled):hover {
   color: var(--button-foreground-active);
 }
 
