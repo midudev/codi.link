@@ -1,501 +1,398 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>codi.link | HTML, CSS, JavaScript Live Editor Playground</title>
-    <meta
-      name="description"
-      content="codi.link is a live editor for HTML, CSS and JS. It allows you to edit your code in real-time, and see the result instantly"
-    />
-    <meta charset="UTF-8" />
-    <link rel="icon" type=image/x-icon href="/assets/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script
-      src="https://waterboa.midu.dev/script.js"
-      data-site="LPFWYLUB"
-      defer
-    ></script>
-    <link
-      as="font"
-      rel="preload"
-      crossorigin="anonymous"
-      href="/assets/fonts/CascadiaCodePL.woff2"
-    />
-    <link
-      as="font"
-      rel="preload"
-      crossorigin="anonymous"
-      href="/assets/fonts/CascadiaCodePLItalic.woff2"
-    />
-    <link rel="stylesheet" href="./src/style.css" />
-    <script>
-      ;(function () {
+
+<head>
+  <title>codi.link | HTML, CSS, JavaScript Live Editor Playground</title>
+  <meta name="description"
+    content="codi.link is a live editor for HTML, CSS and JS. It allows you to edit your code in real-time, and see the result instantly" />
+  <meta charset="UTF-8" />
+  <link rel="icon" type=image/x-icon href="/assets/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://waterboa.midu.dev/script.js" data-site="LPFWYLUB" defer></script>
+  <link as="font" rel="preload" crossorigin="anonymous" href="/assets/fonts/CascadiaCodePL.woff2" />
+  <link as="font" rel="preload" crossorigin="anonymous" href="/assets/fonts/CascadiaCodePLItalic.woff2" />
+  <link rel="stylesheet" href="./src/style.css" />
+  <script>
+    ; (function () {
+      try {
+        if (typeof window.localStorage === 'undefined') return
+
+        // Obtener y validar el estado inicial de la aplicación
+        const storedData = window.localStorage.getItem('appInitialState')
+        if (!storedData) return
+
+        const { state } = JSON.parse(storedData) ?? {}
+        if (!state) return
+
+        const { theme, sidebar, layout } = state
+
+        // Configurar atributos y clases del elemento raíz
         const rootElement = document.documentElement
-        const {
-          state: { theme, sidebar, layout }
-        } = JSON.parse(window.localStorage.getItem('appInitialState'))
-        rootElement.setAttribute('data-theme', theme)
-        rootElement.classList.toggle('sections-compact', sidebar === 'compact')
-        rootElement.setAttribute('data-layout', layout)
-      })()
-    </script>
-  </head>
-  <body>
-    <div class="overlay-drag hidden">
-      <div id="drag-file" class="open-file-dragging">
-        <div class="zone-drag-drop">
-          <strong>Drop File to Open</strong>
-          <svg
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16 10.4v.6h-3.5a.5.5 0 0 0-.5.498V11.511l-.004.06a2.57 2.57 0 0 1-.256.955 1.694 1.694 0 0 1-.572.667c-.26.174-.63.307-1.168.307-.538 0-.907-.133-1.168-.307a1.694 1.694 0 0 1-.572-.667A2.572 2.572 0 0 1 8 11.511V11.5A.5.5 0 0 0 7.5 11H4V7a2 2 0 0 1 2-2h2.022a5.48 5.48 0 0 1 .185-1H6a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V9.743a5.507 5.507 0 0 1-1 .657Zm-2.5-.4a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm-2.354-4.146a.5.5 0 0 1 .708-.708L13 6.293V3.5a.5.5 0 0 1 1 0v2.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.499.499 0 0 1-.351.146h-.006a.498.498 0 0 1-.348-.144l-.003-.003-2-2Z"
-              fill="currentColor"
-            />
-          </svg>
-          <input
-            multiple
-            type="file"
-            id="input-file-drop"
-            accept="text/css, text/javascript, text/html"
-          />
-        </div>
+        if (theme) rootElement.setAttribute('data-theme', theme)
+        if (layout) rootElement.setAttribute('data-layout', layout)
+
+        if (typeof sidebar === 'string') {
+          rootElement.classList.toggle('sections-compact', sidebar === 'compact')
+        }
+      } catch (error) {
+        console.error('Error al configurar el estado inicial:', error);
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <div class="overlay-drag hidden">
+    <div id="drag-file" class="open-file-dragging">
+      <div class="zone-drag-drop">
+        <strong>Drop File to Open</strong>
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M16 10.4v.6h-3.5a.5.5 0 0 0-.5.498V11.511l-.004.06a2.57 2.57 0 0 1-.256.955 1.694 1.694 0 0 1-.572.667c-.26.174-.63.307-1.168.307-.538 0-.907-.133-1.168-.307a1.694 1.694 0 0 1-.572-.667A2.572 2.572 0 0 1 8 11.511V11.5A.5.5 0 0 0 7.5 11H4V7a2 2 0 0 1 2-2h2.022a5.48 5.48 0 0 1 .185-1H6a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V9.743a5.507 5.507 0 0 1-1 .657Zm-2.5-.4a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm-2.354-4.146a.5.5 0 0 1 .708-.708L13 6.293V3.5a.5.5 0 0 1 1 0v2.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.499.499 0 0 1-.351.146h-.006a.498.498 0 0 1-.348-.144l-.003-.003-2-2Z"
+            fill="currentColor" />
+        </svg>
+        <input multiple type="file" id="input-file-drop" accept="text/css, text/javascript, text/html" />
       </div>
     </div>
-    <div id="app">
-      <aside>
-        <div class="aside-sections">
-          <header>
-            <button
-              id="editor-aside-button"
-              class="is-active bar-button"
-              aria-label="Close aside bar"
-              data-action="close-aside-bar"
-            >
-              <span role="tooltip" class="button-title">Editor</span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.503 4.627 5.5 6.75v10.504a3.25 3.25 0 0 0 3.25 3.25h8.616a2.251 2.251 0 0 1-2.122 1.5H8.75A4.75 4.75 0 0 1 4 17.254V6.75c0-.98.627-1.815 1.503-2.123ZM13.128 2c.597 0 1.17.237 1.592.66l4.618 4.62c.422.422.659.995.659 1.591v8.383a2.25 2.25 0 0 1-2.25 2.25H8.752a2.25 2.25 0 0 1-2.25-2.25V4.25A2.25 2.25 0 0 1 8.752 2h4.376ZM13 3.5H8.752a.75.75 0 0 0-.75.75v13.004c0 .414.336.75.75.75h8.995a.75.75 0 0 0 .75-.75V9.003H15.25a2.25 2.25 0 0 1-2.245-2.095L13 6.754V3.5Zm1.5 1.061.001 2.193c0 .38.282.693.648.743l.102.007 2.19-.001-2.94-2.942Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
+  </div>
+  <div id="app">
+    <aside>
+      <div class="aside-sections">
+        <header>
+          <button id="editor-aside-button" class="is-active bar-button" aria-label="Close aside bar"
+            data-action="close-aside-bar">
+            <span role="tooltip" class="button-title">Editor</span>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M5.503 4.627 5.5 6.75v10.504a3.25 3.25 0 0 0 3.25 3.25h8.616a2.251 2.251 0 0 1-2.122 1.5H8.75A4.75 4.75 0 0 1 4 17.254V6.75c0-.98.627-1.815 1.503-2.123ZM13.128 2c.597 0 1.17.237 1.592.66l4.618 4.62c.422.422.659.995.659 1.591v8.383a2.25 2.25 0 0 1-2.25 2.25H8.752a2.25 2.25 0 0 1-2.25-2.25V4.25A2.25 2.25 0 0 1 8.752 2h4.376ZM13 3.5H8.752a.75.75 0 0 0-.75.75v13.004c0 .414.336.75.75.75h8.995a.75.75 0 0 0 .75-.75V9.003H15.25a2.25 2.25 0 0 1-2.245-2.095L13 6.754V3.5Zm1.5 1.061.001 2.193c0 .38.282.693.648.743l.102.007 2.19-.001-2.94-2.942Z"
+                fill="currentColor" />
+            </svg>
+          </button>
 
-            <button
-              class="bar-button"
-              aria-label="Show dependencies bar"
-              data-action="show-skypack-bar"
-            >
-              <span role="tooltip" class="button-title">Dependencies</span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M10.841 2.513a3.75 3.75 0 0 1 2.818 0l7.498 3.04a1.75 1.75 0 0 1 1.093 1.622v9.653a1.75 1.75 0 0 1-1.093 1.621l-7.498 3.04a3.75 3.75 0 0 1-2.818 0l-7.498-3.04a1.75 1.75 0 0 1-1.093-1.622V7.176a1.75 1.75 0 0 1 1.093-1.622l7.498-3.04Zm2.254 1.39a2.25 2.25 0 0 0-1.69 0L9.49 4.68l7.527 2.927 2.669-1.03-6.592-2.673Zm1.846 4.505L7.465 5.5 4.84 6.564l7.411 2.882 2.69-1.038ZM3.75 16.828a.25.25 0 0 0 .156.231l7.499 3.04c.031.013.063.025.095.036v-9.371L3.75 7.75v9.078Zm9.345 3.271 7.499-3.04a.25.25 0 0 0 .156-.232V7.774L13 10.765v9.37a2.18 2.18 0 0 0 .095-.036Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
+          <button class="bar-button" aria-label="Show dependencies bar" data-action="show-skypack-bar">
+            <span role="tooltip" class="button-title">Dependencies</span>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M10.841 2.513a3.75 3.75 0 0 1 2.818 0l7.498 3.04a1.75 1.75 0 0 1 1.093 1.622v9.653a1.75 1.75 0 0 1-1.093 1.621l-7.498 3.04a3.75 3.75 0 0 1-2.818 0l-7.498-3.04a1.75 1.75 0 0 1-1.093-1.622V7.176a1.75 1.75 0 0 1 1.093-1.622l7.498-3.04Zm2.254 1.39a2.25 2.25 0 0 0-1.69 0L9.49 4.68l7.527 2.927 2.669-1.03-6.592-2.673Zm1.846 4.505L7.465 5.5 4.84 6.564l7.411 2.882 2.69-1.038ZM3.75 16.828a.25.25 0 0 0 .156.231l7.499 3.04c.031.013.063.025.095.036v-9.371L3.75 7.75v9.078Zm9.345 3.271 7.499-3.04a.25.25 0 0 0 .156-.232V7.774L13 10.765v9.37a2.18 2.18 0 0 0 .095-.036Z"
+                fill="currentColor" />
+            </svg>
+          </button>
 
-            <button
-              class="bar-button"
-              aria-label="Download user code"
-              data-action="download-user-code"
-              data-is-simple-click-action="true"
-            >
-              <span role="tooltip" class="button-title">Download</span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M18.5 20.499a.75.75 0 1 1 0 1.5l-13 .004a.75.75 0 1 1 0-1.5l13-.004ZM11.898 2.011 12 2.004a.75.75 0 0 1 .743.648l.007.102-.001 13.685 3.722-3.72a.75.75 0 0 1 .976-.073l.085.073a.75.75 0 0 1 .072.976l-.073.084-4.997 4.997a.75.75 0 0 1-.976.073l-.085-.073L6.47 13.78a.75.75 0 0 1 .976-1.134l.084.072 3.719 3.714.001-13.678a.75.75 0 0 1 .648-.743Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
-          </header>
+          <button class="bar-button" aria-label="Download user code" data-action="download-user-code"
+            data-is-simple-click-action="true">
+            <span role="tooltip" class="button-title">Download</span>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M18.5 20.499a.75.75 0 1 1 0 1.5l-13 .004a.75.75 0 1 1 0-1.5l13-.004ZM11.898 2.011 12 2.004a.75.75 0 0 1 .743.648l.007.102-.001 13.685 3.722-3.72a.75.75 0 0 1 .976-.073l.085.073a.75.75 0 0 1 .072.976l-.073.084-4.997 4.997a.75.75 0 0 1-.976.073l-.085-.073L6.47 13.78a.75.75 0 0 1 .976-1.134l.084.072 3.719 3.714.001-13.678a.75.75 0 0 1 .648-.743Z"
+                fill="currentColor" />
+            </svg>
+          </button>
+        </header>
 
-          <footer>
-            <button
-              aria-label="Open iframe tab"
-              data-action="open-iframe-tab"
-              data-is-simple-click-action="true"
-            >
-              <span role="tooltip" class="button-title">Preview</span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M6.25 4.5A1.75 1.75 0 0 0 4.5 6.25v11.5c0 .966.783 1.75 1.75 1.75h11.5a1.75 1.75 0 0 0 1.75-1.75v-4a.75.75 0 0 1 1.5 0v4A3.25 3.25 0 0 1 17.75 21H6.25A3.25 3.25 0 0 1 3 17.75V6.25A3.25 3.25 0 0 1 6.25 3h4a.75.75 0 0 1 0 1.5h-4ZM13 3.75a.75.75 0 0 1 .75-.75h6.5a.75.75 0 0 1 .75.75v6.5a.75.75 0 0 1-1.5 0V5.56l-5.22 5.22a.75.75 0 0 1-1.06-1.06l5.22-5.22h-4.69a.75.75 0 0 1-.75-.75Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
+        <footer>
+          <button aria-label="Open iframe tab" data-action="open-iframe-tab" data-is-simple-click-action="true">
+            <span role="tooltip" class="button-title">Preview</span>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M6.25 4.5A1.75 1.75 0 0 0 4.5 6.25v11.5c0 .966.783 1.75 1.75 1.75h11.5a1.75 1.75 0 0 0 1.75-1.75v-4a.75.75 0 0 1 1.5 0v4A3.25 3.25 0 0 1 17.75 21H6.25A3.25 3.25 0 0 1 3 17.75V6.25A3.25 3.25 0 0 1 6.25 3h4a.75.75 0 0 1 0 1.5h-4ZM13 3.75a.75.75 0 0 1 .75-.75h6.5a.75.75 0 0 1 .75.75v6.5a.75.75 0 0 1-1.5 0V5.56l-5.22 5.22a.75.75 0 0 1-1.06-1.06l5.22-5.22h-4.69a.75.75 0 0 1-.75-.75Z"
+                fill="currentColor" />
+            </svg>
+          </button>
 
-            <button
-              class="bar-button"
-              aria-label="Copy to clipboard"
-              data-action="copy-to-clipboard"
-              data-is-simple-click-action="true"
-            >
-              <span role="tooltip" class="button-title">Copy to clipboard</span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M6.746 4.001h3.464a.75.75 0 0 1 .102 1.494l-.102.006H6.746a2.25 2.25 0 0 0-2.245 2.096l-.005.154v9.5a2.25 2.25 0 0 0 2.096 2.245l.154.006h9.5a2.25 2.25 0 0 0 2.246-2.096l.005-.154v-.498a.75.75 0 0 1 1.493-.102l.007.102v.497a3.75 3.75 0 0 1-3.551 3.745l-.2.006h-9.5a3.75 3.75 0 0 1-3.745-3.551l-.005-.2v-9.5a3.75 3.75 0 0 1 3.55-3.744l.2-.006Zm7.754 2.52v-2.77a.75.75 0 0 1 1.187-.61l.082.07 5.995 5.75c.28.268.305.699.076.997l-.076.085-5.995 5.752a.75.75 0 0 1-1.262-.435l-.007-.107v-2.725l-.343.03c-2.4.25-4.7 1.331-6.915 3.26-.52.453-1.322.026-1.237-.658.665-5.32 3.447-8.251 8.196-8.619l.3-.02Zm1.5-1.01v1.74a.75.75 0 0 1-.75.75c-3.873 0-6.274 1.677-7.311 5.158l-.08.278.353-.237c2.236-1.461 4.586-2.198 7.038-2.198a.75.75 0 0 1 .743.648l.007.101v1.743l4.161-3.992-4.16-3.992Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
-            <button
-              class="bar-button"
-              aria-label="Show settings bar"
-              data-action="show-settings-bar"
-            >
-              <span role="tooltip" class="button-title">Settings</span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12.013 2.25c.734.008 1.465.093 2.182.253a.75.75 0 0 1 .582.649l.17 1.527a1.384 1.384 0 0 0 1.927 1.116l1.4-.615a.75.75 0 0 1 .85.174 9.793 9.793 0 0 1 2.205 3.792.75.75 0 0 1-.272.825l-1.241.916a1.38 1.38 0 0 0 0 2.226l1.243.915a.75.75 0 0 1 .272.826 9.798 9.798 0 0 1-2.204 3.792.75.75 0 0 1-.848.175l-1.407-.617a1.38 1.38 0 0 0-1.926 1.114l-.17 1.526a.75.75 0 0 1-.571.647 9.518 9.518 0 0 1-4.406 0 .75.75 0 0 1-.572-.647l-.169-1.524a1.382 1.382 0 0 0-1.925-1.11l-1.406.616a.75.75 0 0 1-.85-.175 9.798 9.798 0 0 1-2.203-3.796.75.75 0 0 1 .272-.826l1.243-.916a1.38 1.38 0 0 0 0-2.226l-1.243-.914a.75.75 0 0 1-.272-.826A9.793 9.793 0 0 1 4.88 5.355a.75.75 0 0 1 .85-.174l1.4.615a1.387 1.387 0 0 0 1.93-1.118l.17-1.526a.75.75 0 0 1 .583-.65c.717-.159 1.449-.243 2.201-.252Zm0 1.5a9.135 9.135 0 0 0-1.354.117l-.11.977A2.886 2.886 0 0 1 6.527 7.17l-.899-.394A8.293 8.293 0 0 0 4.28 9.092l.798.587a2.881 2.881 0 0 1 .001 4.643l-.799.588c.32.842.776 1.626 1.348 2.322l.905-.397a2.882 2.882 0 0 1 4.017 2.318l.109.984c.89.15 1.798.15 2.688 0l.109-.984a2.88 2.88 0 0 1 4.019-2.322l.904.396a8.299 8.299 0 0 0 1.348-2.318l-.798-.588a2.88 2.88 0 0 1-.001-4.643l.797-.587a8.293 8.293 0 0 0-1.348-2.317l-.897.393a2.884 2.884 0 0 1-4.023-2.324l-.109-.976a8.991 8.991 0 0 0-1.334-.117Zm-.012 4.5a3.75 3.75 0 1 1 0 7.5 3.75 3.75 0 0 1 0-7.5Zm0 1.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
-          </footer>
-        </div>
+          <button class="bar-button" aria-label="Copy to clipboard" data-action="copy-to-clipboard"
+            data-is-simple-click-action="true">
+            <span role="tooltip" class="button-title">Copy to clipboard</span>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M6.746 4.001h3.464a.75.75 0 0 1 .102 1.494l-.102.006H6.746a2.25 2.25 0 0 0-2.245 2.096l-.005.154v9.5a2.25 2.25 0 0 0 2.096 2.245l.154.006h9.5a2.25 2.25 0 0 0 2.246-2.096l.005-.154v-.498a.75.75 0 0 1 1.493-.102l.007.102v.497a3.75 3.75 0 0 1-3.551 3.745l-.2.006h-9.5a3.75 3.75 0 0 1-3.745-3.551l-.005-.2v-9.5a3.75 3.75 0 0 1 3.55-3.744l.2-.006Zm7.754 2.52v-2.77a.75.75 0 0 1 1.187-.61l.082.07 5.995 5.75c.28.268.305.699.076.997l-.076.085-5.995 5.752a.75.75 0 0 1-1.262-.435l-.007-.107v-2.725l-.343.03c-2.4.25-4.7 1.331-6.915 3.26-.52.453-1.322.026-1.237-.658.665-5.32 3.447-8.251 8.196-8.619l.3-.02Zm1.5-1.01v1.74a.75.75 0 0 1-.75.75c-3.873 0-6.274 1.677-7.311 5.158l-.08.278.353-.237c2.236-1.461 4.586-2.198 7.038-2.198a.75.75 0 0 1 .743.648l.007.101v1.743l4.161-3.992-4.16-3.992Z"
+                fill="currentColor" />
+            </svg>
+          </button>
+          <button class="bar-button" aria-label="Show settings bar" data-action="show-settings-bar">
+            <span role="tooltip" class="button-title">Settings</span>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12.013 2.25c.734.008 1.465.093 2.182.253a.75.75 0 0 1 .582.649l.17 1.527a1.384 1.384 0 0 0 1.927 1.116l1.4-.615a.75.75 0 0 1 .85.174 9.793 9.793 0 0 1 2.205 3.792.75.75 0 0 1-.272.825l-1.241.916a1.38 1.38 0 0 0 0 2.226l1.243.915a.75.75 0 0 1 .272.826 9.798 9.798 0 0 1-2.204 3.792.75.75 0 0 1-.848.175l-1.407-.617a1.38 1.38 0 0 0-1.926 1.114l-.17 1.526a.75.75 0 0 1-.571.647 9.518 9.518 0 0 1-4.406 0 .75.75 0 0 1-.572-.647l-.169-1.524a1.382 1.382 0 0 0-1.925-1.11l-1.406.616a.75.75 0 0 1-.85-.175 9.798 9.798 0 0 1-2.203-3.796.75.75 0 0 1 .272-.826l1.243-.916a1.38 1.38 0 0 0 0-2.226l-1.243-.914a.75.75 0 0 1-.272-.826A9.793 9.793 0 0 1 4.88 5.355a.75.75 0 0 1 .85-.174l1.4.615a1.387 1.387 0 0 0 1.93-1.118l.17-1.526a.75.75 0 0 1 .583-.65c.717-.159 1.449-.243 2.201-.252Zm0 1.5a9.135 9.135 0 0 0-1.354.117l-.11.977A2.886 2.886 0 0 1 6.527 7.17l-.899-.394A8.293 8.293 0 0 0 4.28 9.092l.798.587a2.881 2.881 0 0 1 .001 4.643l-.799.588c.32.842.776 1.626 1.348 2.322l.905-.397a2.882 2.882 0 0 1 4.017 2.318l.109.984c.89.15 1.798.15 2.688 0l.109-.984a2.88 2.88 0 0 1 4.019-2.322l.904.396a8.299 8.299 0 0 0 1.348-2.318l-.798-.588a2.88 2.88 0 0 1-.001-4.643l.797-.587a8.293 8.293 0 0 0-1.348-2.317l-.897.393a2.884 2.884 0 0 1-4.023-2.324l-.109-.976a8.991 8.991 0 0 0-1.334-.117Zm-.012 4.5a3.75 3.75 0 1 1 0 7.5 3.75 3.75 0 0 1 0-7.5Zm0 1.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z"
+                fill="currentColor" />
+            </svg>
+          </button>
+        </footer>
+      </div>
 
-        <div class="aside-bar" hidden>
-          <div id="skypack" hidden class="bar-content skypack">
-            <div class="skypack-content">
-              <div class="skypack-item">
-                <header class="skypack-header">
-                  <strong>
-                    <span class="skypack-type">JavaScript:</span>
-                    Add dependency
-                  </strong>
-                  An import statement will be added to the top of the JavaScript
-                  editor for the package.
+      <div class="aside-bar" hidden>
+        <div id="skypack" hidden class="bar-content skypack">
+          <div class="skypack-content">
+            <div class="skypack-item">
+              <header class="skypack-header">
+                <strong>
+                  <span class="skypack-type">JavaScript:</span>
+                  Add dependency
+                </strong>
+                An import statement will be added to the top of the JavaScript
+                editor for the package.
 
-                  <div class="input">
-                    <svg
-                      viewBox="0 0 56.7 56.7"
-                      class="input-icon"
-                      width="18"
-                      height="18"
-                    >
-                      <path
-                        d="M42.8,7.3C33-2.4,17.1-2.4,7.3,7.3c-9.8,9.8-9.8,25.7,0,35.5c8.7,8.7,22.2,9.7,32,2.9l9.6,9.6c1.8,1.8,4.7,1.8,6.4,0 c1.8-1.8,1.8-4.7,0-6.4l-9.6-9.6C52.5,29.5,51.5,16,42.8,7.3z M36.6,36.6c-6.4,6.4-16.7,6.4-23.1,0s-6.4-16.7,0-23.1 c6.4-6.4,16.7-6.4,23.1,0C43,19.9,43,30.3,36.6,36.6z"
-                      ></path>
-                    </svg>
-                    <input
-                      id="skypack-search-input"
-                      type="search"
-                      placeholder="Search npm and add a package..."
-                      autocomplete="off"
-                    />
-                  </div>
+                <div class="input">
+                  <svg viewBox="0 0 56.7 56.7" class="input-icon" width="18" height="18">
+                    <path
+                      d="M42.8,7.3C33-2.4,17.1-2.4,7.3,7.3c-9.8,9.8-9.8,25.7,0,35.5c8.7,8.7,22.2,9.7,32,2.9l9.6,9.6c1.8,1.8,4.7,1.8,6.4,0 c1.8-1.8,1.8-4.7,0-6.4l-9.6-9.6C52.5,29.5,51.5,16,42.8,7.3z M36.6,36.6c-6.4,6.4-16.7,6.4-23.1,0s-6.4-16.7,0-23.1 c6.4-6.4,16.7-6.4,23.1,0C43,19.9,43,30.3,36.6,36.6z">
+                    </path>
+                  </svg>
+                  <input id="skypack-search-input" type="search" placeholder="Search npm and add a package..."
+                    autocomplete="off" />
+                </div>
 
-                  <p class="search-results-message"></p>
-                </header>
+                <p class="search-results-message"></p>
+              </header>
 
-                <div class="search-results">
-                  <div class="extensions">
-                    <ul></ul>
-                    <div class="spinner" hidden></div>
-                  </div>
+              <div class="search-results">
+                <div class="extensions">
+                  <ul></ul>
+                  <div class="spinner" hidden></div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <form id="settings" hidden class="bar-content settings">
-            <div class="settings-content">
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor:</span>
-                  Layout
-                </strong>
-                <div>
-                  <span>Change view layout</span>
-                  <fieldset class="layout-preview-container">
-                    <label for="default-layout-radio">
-                      <input type="radio" name="layout" value="default" />
-                      <layout-preview layout="default"></layout-preview>
-                    </label>
-                    <label for="layout-2-layout-radio">
-                      <input type="radio" name="layout" value="layout-2" />
-                      <layout-preview layout="layout-2"></layout-preview>
-                    </label>
-                    <label for="vertical-layout-radio">
-                      <input type="radio" name="layout" value="vertical" />
-                      <layout-preview layout="vertical"></layout-preview>
-                    </label>
-                    <label for="horizontal-layout-radio">
-                      <input type="radio" name="layout" value="horizontal" />
-                      <layout-preview layout="horizontal"></layout-preview>
-                    </label>
-                    <label for="bottom-layout-radio">
-                      <input type="radio" name="layout" value="bottom" />
-                      <layout-preview layout="bottom"></layout-preview>
-                    </label>
-                  </fieldset>
-                </div>
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor:</span>
-                  Line Numbers
-                </strong>
-                Controls the display of line numbers.
-                <div class="select">
-                  <select name="lineNumbers">
-                    <option value="on">on</option>
-                    <option value="off">off</option>
-                    <option value="relative">relative</option>
-                    <option value="interval">interval</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor:</span>
-                  Word Wrap
-                </strong>
-                Controls how lines should wrap.
-                <div class="select">
-                  <select name="wordWrap">
-                    <option value="on">on</option>
-                    <option value="off">off</option>
-                    <option value="wordWrapColumn">wordWrapColumn</option>
-                    <option value="bounded">bounded</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Workbench:</span>
-                  Color theme
-                </strong>
-                Specifies the color theme used in the workbench.
-                <div class="select">
-                  <select name="theme">
-                    <option value="vs-dark">Dark</option>
-                    <option value="vs">Light</option>
-                    <option value="hc-black">High Contrast Dark</option>
-                    <option value="hc-light">High Contrast Light</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Workbench:</span>
-                  Sidebar Style
-                </strong>
-                Specifies the size of the Sidebar.
-                <div class="select">
-                  <select name="sidebar">
-                    <option value="default">Default</option>
-                    <option value="compact">Compact</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor:</span>
-                  Font Size
-                </strong>
-                Controls the font size in pixels.
-                <input
-                  name="fontSize"
-                  class="input"
-                  autocorrect="off"
-                  autocapitalize="off"
-                  spellcheck="false"
-                  type="number"
-                  wrap="off"
-                  value="16"
-                  min="1"
-                  max="100"
-                  step="1"
-                />
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor:</span>
-                  Tab Size
-                </strong>
-                Controls the tab size.
-                <input
-                  name="tabSize"
-                  class="input"
-                  autocorrect="off"
-                  autocapitalize="off"
-                  spellcheck="false"
-                  type="number"
-                  wrap="off"
-                  value="2"
-                  min="1"
-                  max="100"
-                  step="1"
-                />
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor › Minimap:</span>
-                  Enabled
-                </strong>
-                <div>
-                  <label class="checkbox">
-                    <input name="minimap" type="checkbox" />
-                    <span>Controls whether the minimap is shown.</span>
+        <form id="settings" hidden class="bar-content settings">
+          <div class="settings-content">
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor:</span>
+                Layout
+              </strong>
+              <div>
+                <span>Change view layout</span>
+                <fieldset class="layout-preview-container">
+                  <label for="default-layout-radio">
+                    <input type="radio" name="layout" value="default" />
+                    <layout-preview layout="default"></layout-preview>
                   </label>
-                </div>
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Editor:</span>
-                  Font Ligatures
-                </strong>
-                <div>
-                  <label class="checkbox">
-                    <input name="fontLigatures" type="checkbox" />
-                    <span>Controls whether the ligatures is enabled.</span>
+                  <label for="layout-2-layout-radio">
+                    <input type="radio" name="layout" value="layout-2" />
+                    <layout-preview layout="layout-2"></layout-preview>
                   </label>
-                </div>
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Workbench:</span>
-                  Preserve Grid
-                </strong>
-                <div>
-                  <label class="checkbox">
-                    <input name="preserveGrid" type="checkbox" />
-                    <span
-                      >Controls whether the grid template is preserved.</span
-                    >
+                  <label for="vertical-layout-radio">
+                    <input type="radio" name="layout" value="vertical" />
+                    <layout-preview layout="vertical"></layout-preview>
                   </label>
-                </div>
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Features › Download:</span>
-                  File name
-                </strong>
-                Set the zip file name.
-                <input
-                  name="zipFileName"
-                  class="input"
-                  autocorrect="off"
-                  autocapitalize="off"
-                  spellcheck="false"
-                  type="text"
-                  wrap="off"
-                  value="codi.link"
-                  required
-                />
-              </div>
-
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Features › Download:</span>
-                  Content
-                </strong>
-                <div>
-                  <label class="checkbox">
-                    <input name="zipInSingleFile" type="checkbox" />
-                    <span
-                      >Controls whether export one single zipped HTML
-                      file.</span
-                    >
+                  <label for="horizontal-layout-radio">
+                    <input type="radio" name="layout" value="horizontal" />
+                    <layout-preview layout="horizontal"></layout-preview>
                   </label>
-                </div>
-              </div>
-              <div class="settings-item">
-                <strong>
-                  <span class="settings-type">Features › Auto save:</span>
-                  Local storage
-                </strong>
-                <div>
-                  <label class="checkbox">
-                    <input name="saveLocalstorage" type="checkbox" />
-                    <span
-                      >Automatically save URL to local storage for fast content
-                      loading</span
-                    >
+                  <label for="bottom-layout-radio">
+                    <input type="radio" name="layout" value="bottom" />
+                    <layout-preview layout="bottom"></layout-preview>
                   </label>
-                </div>
+                </fieldset>
               </div>
             </div>
-          </form>
-        </div>
-      </aside>
 
-      <div id="editor" class="grid">
-        <codi-editor id="markup" language="html"></codi-editor>
-        <codi-editor id="script" language="javascript"></codi-editor>
-        <codi-editor id="style" language="css"></codi-editor>
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor:</span>
+                Line Numbers
+              </strong>
+              Controls the display of line numbers.
+              <div class="select">
+                <select name="lineNumbers">
+                  <option value="on">on</option>
+                  <option value="off">off</option>
+                  <option value="relative">relative</option>
+                  <option value="interval">interval</option>
+                </select>
+              </div>
+            </div>
 
-        <div id="editor-preview" class="iframe-container">
-          <iframe title="CodiLink Preview"></iframe>
-        </div>
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor:</span>
+                Word Wrap
+              </strong>
+              Controls how lines should wrap.
+              <div class="select">
+                <select name="wordWrap">
+                  <option value="on">on</option>
+                  <option value="off">off</option>
+                  <option value="wordWrapColumn">wordWrapColumn</option>
+                  <option value="bounded">bounded</option>
+                </select>
+              </div>
+            </div>
 
-        <div class="first-gutter"></div>
-        <div class="second-gutter"></div>
-        <div class="last-gutter"></div>
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Workbench:</span>
+                Color theme
+              </strong>
+              Specifies the color theme used in the workbench.
+              <div class="select">
+                <select name="theme">
+                  <option value="vs-dark">Dark</option>
+                  <option value="vs">Light</option>
+                  <option value="hc-black">High Contrast Dark</option>
+                  <option value="hc-light">High Contrast Light</option>
+                </select>
+              </div>
+            </div>
 
-        <div class="scroll-buttons-container">
-          <button class="scroll-button button-up" disabled>
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4.293 15.707a1 1 0 0 0 1.414 0L12 9.414l6.293 6.293a1 1 0 0 0 1.414-1.414l-7-7a1 1 0 0 0-1.414 0l-7 7a1 1 0 0 0 0 1.414Z" fill="currentColor"/>
-            </svg>
-          </button>
-          <button class="scroll-button button-down">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4.293 8.293a1 1 0 0 1 1.414 0L12 14.586l6.293-6.293a1 1 0 1 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414Z" fill="currentColor"/>
-            </svg>
-          </button>
-        </div>
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Workbench:</span>
+                Sidebar Style
+              </strong>
+              Specifies the size of the Sidebar.
+              <div class="select">
+                <select name="sidebar">
+                  <option value="default">Default</option>
+                  <option value="compact">Compact</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor:</span>
+                Font Size
+              </strong>
+              Controls the font size in pixels.
+              <input name="fontSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
+                type="number" wrap="off" value="16" min="1" max="100" step="1" />
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor:</span>
+                Tab Size
+              </strong>
+              Controls the tab size.
+              <input name="tabSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
+                type="number" wrap="off" value="2" min="1" max="100" step="1" />
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor › Minimap:</span>
+                Enabled
+              </strong>
+              <div>
+                <label class="checkbox">
+                  <input name="minimap" type="checkbox" />
+                  <span>Controls whether the minimap is shown.</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor:</span>
+                Font Ligatures
+              </strong>
+              <div>
+                <label class="checkbox">
+                  <input name="fontLigatures" type="checkbox" />
+                  <span>Controls whether the ligatures is enabled.</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Workbench:</span>
+                Preserve Grid
+              </strong>
+              <div>
+                <label class="checkbox">
+                  <input name="preserveGrid" type="checkbox" />
+                  <span>Controls whether the grid template is preserved.</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Features › Download:</span>
+                File name
+              </strong>
+              Set the zip file name.
+              <input name="zipFileName" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
+                type="text" wrap="off" value="codi.link" required />
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Features › Download:</span>
+                Content
+              </strong>
+              <div>
+                <label class="checkbox">
+                  <input name="zipInSingleFile" type="checkbox" />
+                  <span>Controls whether export one single zipped HTML
+                    file.</span>
+                </label>
+              </div>
+            </div>
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Features › Auto save:</span>
+                Local storage
+              </strong>
+              <div>
+                <label class="checkbox">
+                  <input name="saveLocalstorage" type="checkbox" />
+                  <span>Automatically save URL to local storage for fast content
+                    loading</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </aside>
+
+    <div id="editor" class="grid">
+      <codi-editor id="markup" language="html"></codi-editor>
+      <codi-editor id="script" language="javascript"></codi-editor>
+      <codi-editor id="style" language="css"></codi-editor>
+
+      <div id="editor-preview" class="iframe-container">
+        <iframe title="CodiLink Preview"></iframe>
       </div>
 
-      <div id="notifications"></div>
+      <div class="first-gutter"></div>
+      <div class="second-gutter"></div>
+      <div class="last-gutter"></div>
+
+      <div class="scroll-buttons-container">
+        <button class="scroll-button button-up" disabled>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M4.293 15.707a1 1 0 0 0 1.414 0L12 9.414l6.293 6.293a1 1 0 0 0 1.414-1.414l-7-7a1 1 0 0 0-1.414 0l-7 7a1 1 0 0 0 0 1.414Z"
+              fill="currentColor" />
+          </svg>
+        </button>
+        <button class="scroll-button button-down">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M4.293 8.293a1 1 0 0 1 1.414 0L12 14.586l6.293-6.293a1 1 0 1 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414Z"
+              fill="currentColor" />
+          </svg>
+        </button>
+      </div>
     </div>
 
-    <script type="module" src="/src/main.js"></script>
+    <div id="notifications"></div>
+  </div>
 
-    <script>
-      var HW_config = {
-        selector: ".aside-sections footer button:last-child",
-        account: "x8YRn7",
-      };
-    </script>
-    <script async src="https://cdn.headwayapp.co/widget.js"></script>
-  </body>
+  <script type="module" src="/src/main.js"></script>
+
+  <script>
+    var HW_config = {
+      selector: ".aside-sections footer button:last-child",
+      account: "x8YRn7",
+    };
+  </script>
+  <script async src="https://cdn.headwayapp.co/widget.js"></script>
+</body>
+
 </html>
