@@ -1,28 +1,28 @@
 import { getState } from './state.js'
 
 const {
+  fontFamily,
+  fontLigatures,
   fontSize,
   lineNumbers,
   minimap,
+  tabSize,
   theme,
-  wordWrap,
-  fontLigatures,
-  fontFamily,
-  tabSize
+  wordWrap
 } = getState()
 
 const COMMON_EDITOR_OPTIONS = {
+  fontFamily,
+  fontLigatures,
   fontSize,
   lineNumbers,
   tabSize,
   minimap: {
     enabled: minimap
   },
-  wordWrap,
   theme,
-  fontLigatures,
-  fontFamily,
-
+  wordWrap,
+  // fixed values
   automaticLayout: true,
   fixedOverflowWidgets: true,
   scrollBeyondLastLine: false,
@@ -32,4 +32,6 @@ const COMMON_EDITOR_OPTIONS = {
   }
 }
 
-export const createEditor = (domElement) => domElement.createEditor({ ...COMMON_EDITOR_OPTIONS })
+export const createEditor = (domElement) => {
+  return domElement.createEditor({ ...COMMON_EDITOR_OPTIONS })
+}
