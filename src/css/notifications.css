@@ -106,7 +106,7 @@
 
 .HW_badge_cont {
   position: absolute !important;
-  top: 0 !important;
+  top: 4px !important;
   right: 0 !important;
   width: 20px !important;
   height: 20px !important;

@@ -139,14 +139,23 @@
     aspect-ratio: 1;
     border: none;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s background-color ease;
 
     background: #158BF3;
+    color: #fff;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
   }
 
+  .scroll-button:hover {
+    background: #3ba1fa;
+  }
+
   .scroll-button > svg {
-    width: 20px;
+    width: 24px;
   }
 
   .previewer-active {
