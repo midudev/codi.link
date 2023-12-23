@@ -134,15 +134,15 @@ aside button.is-active {
   justify-content: center;
 }
 
-.aside-sections--compact {
+.sections-compact .aside-sections {
   width: 52px;
 }
 
-.aside-sections--compact button {
+.sections-compact .aside-section button {
   padding: 10px 0;
 }
 
-.aside-sections--compact svg {
+.sections-compact .aside-sections svg {
   width: 25px;
   height: 25px;
 }
