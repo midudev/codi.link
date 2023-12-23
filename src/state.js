@@ -1,9 +1,9 @@
 import { persist } from 'zustand/middleware'
-import create from 'zustand/vanilla'
+import { createStore } from 'zustand/vanilla'
 
 import { DEFAULT_INITIAL_SETTINGS } from './constants/initial-settings'
 
-const useStore = create(
+const useStore = createStore(
   persist(
     (set, get) => ({
       ...DEFAULT_INITIAL_SETTINGS,
