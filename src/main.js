@@ -1,15 +1,18 @@
 import { encode, decode } from 'js-base64'
+import * as monaco from 'monaco-editor'
+
 import { $, $$ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import { initializeEventsController } from './events-controller.js'
 import { getState, subscribe } from './state.js'
 import * as Preview from './utils/WindowPreviewer.js'
-import setGridLayout from './grid.js'
-import setSidebar from './sidebar.js'
-import setTheme from './theme.js'
+import { setGridLayout } from './grid.js'
+import { setSidebar } from './sidebar.js'
+import { setTheme } from './theme.js'
 import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
 
+import './init-app.jsx'
 import './aside.js'
 import './skypack.js'
 import './settings.js'
@@ -20,6 +23,7 @@ import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
 import './components/layout-preview/layout-preview.js'
 import './components/codi-editor/codi-editor.js'
+import { DEFAULT_THEMES } from './components/settings-themes/SettingsThemes.jsx'
 
 const { layout: currentLayout, sidebar, theme, saveLocalstorage } = getState()
 
@@ -54,8 +58,55 @@ const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
   return acc
 }, {})
 
-subscribe(state => {
-  const newOptions = { ...state, minimap: { enabled: state.minimap } }
+subscribe((state, prevState) => {
+  // check theme has changed
+  if (state.theme !== prevState.theme) {
+    const isDefault = DEFAULT_THEMES[state.theme] != null
+
+    if (!isDefault) {
+      fetch(`/assets/themes/${state.theme}.json`)
+        .then(res => res.json())
+        .then(theme => {
+          monaco.editor.defineTheme('selected-theme', theme)
+          monaco.editor.setTheme('selected-theme')
+
+          const tmp = document.createElement('div')
+          tmp.style.display = 'none'
+
+          const $editor = $('.monaco-editor')
+          const styles = window.getComputedStyle($editor)
+
+          const { backgroundColor } = styles
+          const foregroundColor = styles.getPropertyValue('--vscode-editor-foreground')
+
+          const el = document.documentElement
+          el.style.setProperty(
+            '--aside-bar-background',
+            backgroundColor
+          )
+
+          el.style.setProperty(
+            '--aside-sections-background',
+            backgroundColor
+          )
+
+          el.style.setProperty(
+            '--aside-bar-foreground',
+            foregroundColor
+          )
+
+          el.style.setProperty(
+            '--button-foreground',
+            foregroundColor
+          )
+        })
+    }
+  }
+
+  const newOptions = {
+    ...state,
+    minimap: { enabled: state.minimap }
+  }
 
   Object.values(EDITORS).forEach(editor => {
     editor.updateOptions({
@@ -63,6 +114,7 @@ subscribe(state => {
       ...newOptions
     })
   })
+
   setGridLayout(state.layout)
   setSidebar(state.sidebar)
   setTheme(state.theme)
