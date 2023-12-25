@@ -59,12 +59,10 @@ export class CodiEditor extends LitElement {
     if (!this.editorInitialized) {
       window.MonacoEnvironment = {
         getWorker (_, label) {
-          switch (label) {
-            case 'html': return new HtmlWorker()
-            case 'javascript': return new JsWorker()
-            case 'css': return new CssWorker()
-            default: return new EditorWorker()
-          }
+          if (label === 'html') return new HtmlWorker()
+          if (label === 'javascript') return new JsWorker()
+          if (label === 'css') return new CssWorker()
+          return new EditorWorker()
         }
       }
 
