@@ -2,12 +2,12 @@
   --app-background: rgb(30, 30, 30);
   --app-foreground: rgb(51, 51, 51);
 
-  --aside-sections-background: rgb(51, 51, 51);
-  --aside-sections-border: transparent;
+  --aside-sections-background:  rgb(51, 51, 51);
+  --aside-sections-border: rgba(0, 0, 0, .3);
 
   --aside-bar-background: rgb(37, 37, 38);
   --aside-bar-foreground: rgb(204, 204, 204);
-  --aside-bar-border: transparent;
+  --aside-bar-border: rgba(0, 0, 0, .3);
 
   --grid-background: rgb(37, 37, 38);
 
@@ -18,78 +18,9 @@
   --button-title-foreground: rgb(225, 228, 232);
   --button-title-border: rgb(51, 51, 51);
 
-  --input-background: rgb(51, 51, 51);
+  --input-background: rgba(0, 0, 0, .5);
   --input-foreground: rgb(225, 228, 232);
-  --input-border: rgb(51, 51, 51);
-}
-
-[data-theme='vs'] {
-  --app-background: rgb(255, 255, 254);
-  --app-foreground: rgb(0, 0, 0);
-
-  --aside-sections-background: rgb(44, 44, 44);
-
-  --aside-bar-background: rgb(243, 243, 243);
-  --aside-bar-foreground: rgb(97, 97, 97);
-
-  --grid-background: rgb(243, 243, 243);
-
-  --gutter-background: rgb(243, 243, 243);
-
-  --input-background: rgb(243, 243, 243);
-  --input-foreground: rgb(97, 97, 97);
-  --input-border: rgb(97, 97, 97);
-}
-
-[data-theme='hc-black'] {
-  --app-background: rgb(0, 0, 0);
-  --app-foreground: rgb(255, 255, 255);
-
-  --aside-sections-background: rgb(0, 0, 0);
-  --aside-sections-border: rgb(255, 255, 255);
-
-  --aside-bar-background: rgb(0, 0, 0);
-  --aside-bar-foreground: rgb(255, 255, 255);
-  --aside-bar-border: rgb(255, 255, 255);
-
-  --grid-background: rgb(255, 255, 255);
-
-  --button-foreground: rgb(255, 255, 255);
-
-  --button-title-background: rgb(255, 255, 255);
-  --button-title-foreground: rgb(0, 0, 0);
-  --button-title-border: rgb(0, 0, 0);
-
-  --input-background: rgb(0, 0, 0);
-  --input-foreground: rgb(255, 255, 255);
-  --input-border: rgb(255, 255, 255);
-}
-
-[data-theme='hc-light'] {
-  --app-background: rgb(255, 255, 255);
-  --app-foreground: rgb(0, 0, 0);
-
-  --aside-sections-background: rgb(255, 255, 255);
-  --aside-sections-border: rgb(15, 74, 133);
-
-  --aside-bar-background: rgb(255, 255, 255);
-  --aside-bar-foreground: rgb(0, 0, 0);
-  --aside-bar-border: rgb(15, 74, 133);
-
-  --grid-background: rgb(15, 74, 133);
-
-  --gutter-background: rgb(255, 255, 255);
-
-  --button-foreground: rgb(0, 0, 0);
-  --button-foreground-active: rgb(0, 0, 0);
-
-  --button-title-background: rgb(0, 0, 0);
-  --button-title-foreground: rgb(255, 255, 255);
-  --button-title-border: rgb(255, 255, 255);
-
-  --input-background: rgb(255, 255, 255);
-  --input-foreground: rgb(0, 0, 0);
-  --input-border: rgb(0, 0, 0);
+  --input-border: rgba(0, 0, 0, .7);
 }
 
 body {

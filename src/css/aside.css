@@ -72,23 +72,18 @@ aside button.is-active {
   scrollbar-gutter: stable;
 
   &::-webkit-scrollbar {
-    width: 0.85em;
+    width: 8px;
+    border-radius: 16px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: hsla(0, 0%, 50%, 0);
-  }
+    background-color: hsla(0, 0%, 50%, 0.1);
+    border-radius: 50px;
 
+  }
+  
   &:hover::-webkit-scrollbar-thumb {
     background-color: hsla(0, 0%, 50%, 0.4);
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: hsla(0, 0%, 50%, 0.6);
-  }
-
-  &::-webkit-scrollbar-thumb:active {
-    background-color: hsla(0, 0%, 50%, 1);
   }
 }
 
@@ -99,7 +94,7 @@ aside button.is-active {
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
-  width: 72px;
+  width: 64px;
 }
 
 .aside-sections button {
@@ -135,7 +130,7 @@ aside button.is-active {
 }
 
 .sections-compact .aside-sections {
-  width: 52px;
+  width: 36px;
 }
 
 .sections-compact .aside-section button {
