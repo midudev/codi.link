@@ -49,7 +49,7 @@ const getInitialGridStyle = () => {
   )
 }
 
-const setGridLayout = (type = '') => {
+export const setGridLayout = (type = '') => {
   const style = EDITOR_GRID_TEMPLATE[type] || DEFAULT_GRID_TEMPLATE
 
   const gutters =
@@ -91,5 +91,3 @@ const setGridLayout = (type = '') => {
 
   splitInstance = Split(splitConfig)
 }
-
-export default setGridLayout
