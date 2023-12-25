@@ -14,3 +14,6 @@ cypress/videos/
 
 # tauri
 src-tauri/target/
+
+# vscode
+.vscode

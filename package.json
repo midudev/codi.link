@@ -28,6 +28,7 @@
     "jszip": "3.10.1",
     "lit": "3.1.0",
     "monaco-editor": "0.45.0",
+    "prettier": "^3.1.1",
     "split-grid": "1.0.11",
     "zustand": "4.4.7"
   },
