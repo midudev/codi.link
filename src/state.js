@@ -3,7 +3,7 @@ import { createStore } from 'zustand/vanilla'
 
 import { DEFAULT_INITIAL_SETTINGS } from './constants/initial-settings'
 
-const useStore = createStore(
+export const store = createStore(
   persist(
     (set, get) => ({
       ...DEFAULT_INITIAL_SETTINGS,
@@ -11,8 +11,10 @@ const useStore = createStore(
         set({ [key]: value })
       }
     }),
-    { name: 'appInitialState', getStorage: () => window.localStorage }
+    {
+      name: 'appInitialState'
+    }
   )
 )
 
-export const { getState, setState, subscribe, destroy } = useStore
+export const { getState, setState, subscribe } = store
