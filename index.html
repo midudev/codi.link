@@ -16,7 +16,6 @@
       try {
         if (typeof window.localStorage === 'undefined') return
 
-        // Obtener y validar el estado inicial de la aplicación
         const storedData = window.localStorage.getItem('appInitialState')
         if (!storedData) return
 
@@ -25,13 +24,13 @@
 
         const { theme, sidebar, layout } = state
 
-        // Configurar atributos y clases del elemento raíz
         const rootElement = document.documentElement
         if (theme) rootElement.setAttribute('data-theme', theme)
         if (layout) rootElement.setAttribute('data-layout', layout)
 
         if (typeof sidebar === 'string') {
-          rootElement.classList.toggle('sections-compact', sidebar === 'compact')
+          const isCompact = sidebar === 'compact'
+          rootElement.classList.toggle('sections-compact', isCompact)
         }
       } catch (error) {
         console.error('Error al configurar el estado inicial:', error);
@@ -157,11 +156,9 @@
           <div class="settings-content">
             <div class="settings-item">
               <strong>
-                <span class="settings-type">Editor:</span>
                 Layout
               </strong>
               <div>
-                <span>Change view layout</span>
                 <fieldset class="layout-preview-container">
                   <label for="default-layout-radio">
                     <input type="radio" name="layout" value="default" />
@@ -189,10 +186,44 @@
 
             <div class="settings-item">
               <strong>
-                <span class="settings-type">Editor:</span>
-                Line Numbers
+                <span class="settings-type">Workbench ›</span>
+                Color theme
               </strong>
-              Controls the display of line numbers.
+              <div id="settings-themes-insert" class="select">
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Workbench ›</span>
+                Sidebar Size
+              </strong>
+              <div class="select">
+                <select name="sidebar">
+                  <option value="default">Default</option>
+                  <option value="compact">Compact</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Workbench ›</span>
+
+              </strong>
+              <div>
+                <label class="checkbox">
+                  <input name="preserveGrid" type="checkbox" />
+                  <span>Preserve Grid between loads</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor ›</span>
+                Show Line Numbers
+              </strong>
               <div class="select">
                 <select name="lineNumbers">
                   <option value="on">on</option>
@@ -205,10 +236,9 @@
 
             <div class="settings-item">
               <strong>
-                <span class="settings-type">Editor:</span>
+                <span class="settings-type">Editor ›</span>
                 Word Wrap
               </strong>
-              Controls how lines should wrap.
               <div class="select">
                 <select name="wordWrap">
                   <option value="on">on</option>
@@ -221,89 +251,36 @@
 
             <div class="settings-item">
               <strong>
-                <span class="settings-type">Workbench:</span>
-                Color theme
+                <span class="settings-type">Editor ›</span>
+                Font Size (px)
               </strong>
-              Specifies the color theme used in the workbench.
-              <div class="select">
-                <select name="theme">
-                  <option value="vs-dark">Dark</option>
-                  <option value="vs">Light</option>
-                  <option value="hc-black">High Contrast Dark</option>
-                  <option value="hc-light">High Contrast Light</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type">Workbench:</span>
-                Sidebar Style
-              </strong>
-              Specifies the size of the Sidebar.
-              <div class="select">
-                <select name="sidebar">
-                  <option value="default">Default</option>
-                  <option value="compact">Compact</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type">Editor:</span>
-                Font Size
-              </strong>
-              Controls the font size in pixels.
               <input name="fontSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
                 type="number" wrap="off" value="16" min="1" max="100" step="1" />
             </div>
 
             <div class="settings-item">
               <strong>
-                <span class="settings-type">Editor:</span>
+                <span class="settings-type">Editor ›</span>
                 Tab Size
               </strong>
-              Controls the tab size.
               <input name="tabSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
                 type="number" wrap="off" value="2" min="1" max="100" step="1" />
             </div>
 
             <div class="settings-item">
               <strong>
-                <span class="settings-type">Editor › Minimap:</span>
-                Enabled
+                <span class="settings-type">Editor ›</span> Other options
               </strong>
               <div>
                 <label class="checkbox">
                   <input name="minimap" type="checkbox" />
-                  <span>Controls whether the minimap is shown.</span>
+                  <span>Show minimap</span>
                 </label>
               </div>
-            </div>
-
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type">Editor:</span>
-                Font Ligatures
-              </strong>
               <div>
                 <label class="checkbox">
                   <input name="fontLigatures" type="checkbox" />
-                  <span>Controls whether the ligatures is enabled.</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type">Workbench:</span>
-                Preserve Grid
-              </strong>
-              <div>
-                <label class="checkbox">
-                  <input name="preserveGrid" type="checkbox" />
-                  <span>Controls whether the grid template is preserved.</span>
+                  <span>Show font ligatures</span>
                 </label>
               </div>
             </div>
@@ -313,7 +290,6 @@
                 <span class="settings-type">Features › Download:</span>
                 File name
               </strong>
-              Set the zip file name.
               <input name="zipFileName" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
                 type="text" wrap="off" value="codi.link" required />
             </div>
@@ -333,8 +309,7 @@
             </div>
             <div class="settings-item">
               <strong>
-                <span class="settings-type">Features › Auto save:</span>
-                Local storage
+                <span class="settings-type">Features ›</span> Auto save
               </strong>
               <div>
                 <label class="checkbox">
@@ -384,14 +359,6 @@
   </div>
 
   <script type="module" src="/src/main.js"></script>
-
-  <script>
-    var HW_config = {
-      selector: ".aside-sections footer button:last-child",
-      account: "x8YRn7",
-    };
-  </script>
-  <script async src="https://cdn.headwayapp.co/widget.js"></script>
 </body>
 
 </html>
