@@ -128,7 +128,11 @@ const debouncedUpdateHash = debounce(
   MS_UPDATE_HASH_DEBOUNCED_TIME
 )
 
-const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
+const {
+  html: htmlEditor,
+  css: cssEditor,
+  javascript: jsEditor
+} = EDITORS
 
 htmlEditor.focus()
 Object.values(EDITORS).forEach(editor => {
