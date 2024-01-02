@@ -10,9 +10,9 @@ import { initEditorHotKeys } from './extensions/editor-hotkeys.js'
 import { CodiEditorStyles } from './CodiEditor.styles.js'
 
 const iconUrls = {
-  css: new URL('../../../assets/css3.svg', import.meta.url),
-  html: new URL('../../../assets/html5.svg', import.meta.url),
-  javascript: new URL('../../../assets/js.svg', import.meta.url)
+  css: '/assets/css3.svg',
+  html: '/assets/html5.svg',
+  javascript: '/assets/js.svg'
 }
 
 export class CodiEditor extends LitElement {
