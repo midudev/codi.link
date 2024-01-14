@@ -15,6 +15,7 @@ import './skypack.js'
 import './settings.js'
 import './scroll.js'
 import './drag-file.js'
+import './console.js'
 
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
 

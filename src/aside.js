@@ -44,6 +44,10 @@ const NON_SIMPLE_CLICK_ACTIONS = {
   [BUTTON_ACTIONS.showSettingsBar]: () => {
     showAsideBar('#settings')
     $('.scroll-buttons-container').setAttribute('hidden', '')
+  },
+  [BUTTON_ACTIONS.showConsoleBar]: () => {
+    showAsideBar('#console')
+    $('.scroll-buttons-container').setAttribute('hidden', '')
   }
 }
 

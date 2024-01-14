@@ -8,6 +8,7 @@
 @import url('./css/skypack.css');
 @import url('./css/settings.css');
 @import url('./css/drag-drop-area.css');
+@import url('./css/console.css');
 
 .scroll-buttons-container {
   display: none;
