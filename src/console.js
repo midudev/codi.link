@@ -26,8 +26,8 @@ const createListItem = (content, type) => {
 }
 
 const handlers = {
-  log: (payload) => {
-    if (payload === 'Console connected') {
+  system: (payload) => {
+    if (payload === 'clear') {
       clearConsole()
     }
   },
