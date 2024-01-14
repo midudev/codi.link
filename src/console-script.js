@@ -10,7 +10,7 @@ export const generateConsoleScript = () => {
         }, "*")
       }
 
-      pushToConsole("Console connected", "clear")
+      pushToConsole("clear", "system")
 
       w.onerror = (message, url, line, column) => {
         pushToConsole({line, column, message}, "error")
