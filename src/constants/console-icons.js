@@ -71,5 +71,6 @@ export const CONSOLE_ICONS = {
       style="fill-opacity:1;stroke:none;stroke-width:3.70014;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
       d="M 3.1965895,17.679952 2.4341197,21.570486 5.9483739,20.463801"
       id="path3" />
-  </svg>`
+  </svg>`,
+  error: null
 }
