@@ -1,0 +1,67 @@
+.console {
+  & .console-header {
+    background: var(--aside-bar-background);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding-top: 1em;
+  }
+
+  & .console-type {
+    padding-bottom: 8px;
+    opacity: 0.6;
+  }
+
+  & .console-item {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 1em 1em;
+  }
+
+  & .console-item strong {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  & .console-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.5em;
+
+    & li {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      word-break: break-all;
+      padding: 0 0.5em;
+    }
+
+    & .error {
+      background: rgb(235, 189, 189);
+      border: 2px solid rgb(204, 0, 0);
+      color: black;
+    }
+    & .error::before {
+      content: '❗';
+      margin-right: 4px;
+      width: 1em;
+    }
+
+    & .log-log {
+      color: rgb(205, 238, 181);
+    }
+    & .log-info {
+      color: rgb(181, 181, 238);
+    }
+    & .log-error {
+      color: rgb(227, 189, 189);
+    }
+    & .log-warn {
+      color: rgb(247, 231, 161);
+    }
+  }
+}

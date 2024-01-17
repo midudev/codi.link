@@ -12,7 +12,7 @@ export function updatePreview ({ html, css, js }) {
     URL.revokeObjectURL(previewUrl)
   }
 
-  const htmlForPreview = createHtml({ html, css, js })
+  const htmlForPreview = createHtml({ html, css, js }, true)
 
   const blob = new window.Blob([htmlForPreview], { type: 'text/html' })
 

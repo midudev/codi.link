@@ -76,6 +76,18 @@
             </svg>
           </button>
 
+          <button class="console-button" aria-label="Show console" data-action="show-console-bar">
+            <span role="tooltip" class="button-title">Console</span>
+            <svg viewBox="0 0 24 24" fill="none" >
+              <path
+                style="stroke:currentColor;stroke-width:1.4652;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+                d="m 11.932537,19.933734 9.0385,0.01374" />
+              <path
+                style="stroke:currentColor;stroke-width:1.703;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+                d="M 3.5593127,3.9843517 12.442341,11.762526 3.8244778,19.938449" />
+            </svg>
+          </button>
+
           <button class="bar-button" aria-label="Download user code" data-action="download-user-code"
             data-is-simple-click-action="true">
             <span role="tooltip" class="button-title">Download</span>
@@ -148,6 +160,22 @@
                   <div class="spinner" hidden></div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="console" hidden class="bar-content console">
+          <div class="console-content">
+            <div class="console-item">
+              <header class="console-header">
+                <strong>
+                  <span class="console-type">JavaScript:</span>
+                  Console
+                </strong>
+                Shows the result of the code execution. Supports log, warn, info and error methods.
+              </header>
+
+              <ul class="console-list"></ul>
             </div>
           </div>
         </div>
