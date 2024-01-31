@@ -1,6 +1,8 @@
+import { decode } from 'js-base64'
 import { capitalize, searchByLine } from './utils/string.js'
 import { downloadUserCode } from './download.js'
 import { getState } from './state.js'
+import { getHistoryState } from './history.js'
 
 class EventBus extends window.EventTarget {
   on (type, listener) {
@@ -37,7 +39,10 @@ export const initializeEventsController = ({
 export const EVENTS = {
   ADD_SKYPACK_PACKAGE: 'ADD_SKYPACK_PACKAGE',
   DOWNLOAD_USER_CODE: 'DOWNLOAD_USER_CODE',
-  DRAG_FILE: 'DRAG_FILE'
+  DRAG_FILE: 'DRAG_FILE',
+  OPEN_EXISTING_INSTANCE: 'OPEN_EXISTING_INSTANCE',
+  OPEN_NEW_INSTANCE: 'OPEN_NEW_INSTANCE',
+  CLEAR_HISTORY: 'CLEAR_HISTORY'
 }
 
 eventBus.on(EVENTS.ADD_SKYPACK_PACKAGE, ({ detail: { skypackPackage, url } }) => {
@@ -72,4 +77,41 @@ eventBus.on(EVENTS.DRAG_FILE, ({ detail: { content, typeFile } }) => {
     case 'text/html': htmlEditor.setValue(content); break
     default: break
   }
+})
+
+eventBus.on(EVENTS.OPEN_NEW_INSTANCE, () => {
+  const htmlContent = htmlEditor.getValue()
+  const cssContent = cssEditor.getValue()
+  const jsContent = jsEditor.getValue()
+
+  const isEmpty = !htmlContent && !cssContent && !jsContent
+  if (isEmpty) return
+
+  const { updateHistory } = getHistoryState()
+  updateHistory({ key: 'current', value: null })
+})
+
+eventBus.on(EVENTS.OPEN_EXISTING_INSTANCE, ({ detail: { id, value } }) => {
+  const { updateHistory } = getHistoryState()
+  let { pathname } = window.location
+  window.history.replaceState(null, null, `/${value}`)
+  pathname = window.location.pathname
+
+  const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+
+  const VALUES = {
+    html: rawHtml ? decode(rawHtml) : '',
+    css: rawCss ? decode(rawCss) : '',
+    javascript: rawJs ? decode(rawJs) : ''
+  }
+
+  htmlEditor.setValue(VALUES.html)
+  cssEditor.setValue(VALUES.css)
+  jsEditor.setValue(VALUES.javascript)
+  updateHistory({ key: 'current', value: id })
+})
+
+eventBus.on(EVENTS.CLEAR_HISTORY, () => {
+  const { clearHistory } = getHistoryState()
+  clearHistory()
 })

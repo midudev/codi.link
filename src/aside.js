@@ -26,6 +26,14 @@ const SIMPLE_CLICK_ACTIONS = {
     const url = new URL(window.location.href)
     const urlToCopy = `https://codi.link/${url.pathname}`
     copyToClipboard(urlToCopy)
+  },
+
+  [BUTTON_ACTIONS.clearHistory]: () => {
+    eventBus.emit(EVENTS.CLEAR_HISTORY)
+  },
+
+  [BUTTON_ACTIONS.openNewInstance]: () => {
+    eventBus.emit(EVENTS.OPEN_NEW_INSTANCE)
   }
 }
 
@@ -47,6 +55,11 @@ const NON_SIMPLE_CLICK_ACTIONS = {
   },
   [BUTTON_ACTIONS.showConsoleBar]: () => {
     showAsideBar('#console')
+    $('.scroll-buttons-container').setAttribute('hidden', '')
+  },
+
+  [BUTTON_ACTIONS.showHistoryBar]: () => {
+    showAsideBar('#history')
     $('.scroll-buttons-container').setAttribute('hidden', '')
   }
 }

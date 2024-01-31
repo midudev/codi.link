@@ -9,6 +9,8 @@
 @import url('./css/settings.css');
 @import url('./css/drag-drop-area.css');
 @import url('./css/console.css');
+@import url('./css/history.css');
+
 
 .scroll-buttons-container {
   display: none;

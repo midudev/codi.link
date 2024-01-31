@@ -5,5 +5,8 @@ export const BUTTON_ACTIONS = {
   closeAsideBar: 'close-aside-bar',
   showSkypackBar: 'show-skypack-bar',
   showSettingsBar: 'show-settings-bar',
-  showConsoleBar: 'show-console-bar'
+  showConsoleBar: 'show-console-bar',
+  showHistoryBar: 'show-history-bar',
+  clearHistory: 'clear-history',
+  openNewInstance: 'open-new-instance'
 }
