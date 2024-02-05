@@ -40,7 +40,7 @@ if (pathname === '/' && saveLocalstorage === true) {
   pathname = window.location.pathname
 }
 
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+const [rawHtml, rawCss, rawJs] = pathname.slice(1).split(pathname.includes('%7C') ? '%7C' : '|')
 
 const VALUES = {
   html: rawHtml ? decode(rawHtml) : '',
