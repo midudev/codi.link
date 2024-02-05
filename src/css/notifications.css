@@ -103,16 +103,3 @@
 .notification--danger .notification__icon {
   color: #a34535;
 }
-
-.HW_badge_cont {
-  position: absolute !important;
-  top: 4px !important;
-  right: 0 !important;
-  width: 20px !important;
-  height: 20px !important;
-}
-
-.HW_badge {
-  top: 2px !important;
-  left: 2px !important;
-}
