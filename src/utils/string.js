@@ -21,6 +21,6 @@ export const searchByLine = (str, input, lines = 10) => {
 }
 
 export const copyToClipboard = (str) => {
-  Notification.show({ type: 'info', message: 'Sharable URL has been copied to clipboard.' })
+  Notification.show({ type: 'info', message: 'Shareable URL has been copied to clipboard.' })
   return navigator.clipboard.writeText(str)
 }
