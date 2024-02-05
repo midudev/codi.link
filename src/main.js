@@ -9,6 +9,7 @@ import setGridLayout from './grid.js'
 import setSidebar from './sidebar.js'
 import setTheme from './theme.js'
 import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
+import { getHistoryState, subscribeHistory, setHistory } from './history.js'
 
 import './aside.js'
 import './skypack.js'
@@ -23,6 +24,7 @@ import './components/layout-preview/layout-preview.js'
 import './components/codi-editor/codi-editor.js'
 
 const { layout: currentLayout, sidebar, theme, saveLocalstorage } = getState()
+const { history, updateHistoryItem } = getHistoryState()
 
 setGridLayout(currentLayout)
 setSidebar(sidebar)
@@ -34,8 +36,8 @@ const editorElements = $$('codi-editor')
 
 let { pathname } = window.location
 
-if (pathname === '/' && saveLocalstorage === true) {
-  const hashedCode = window.localStorage.getItem('hashedCode') ?? ''
+if (pathname === '/' && saveLocalstorage === true && history.current) {
+  const hashedCode = history.items.find(item => item.id === history.current).value
   window.history.replaceState(null, null, `/${hashedCode}`)
   pathname = window.location.pathname
 }
@@ -79,6 +81,19 @@ const debouncedUpdateHash = debounce(
 
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
 
+if (saveLocalstorage) {
+  setHistory(history)
+
+  subscribeHistory(store => {
+    if (!store.history.current) {
+      jsEditor.setValue('')
+      cssEditor.setValue('')
+      htmlEditor.setValue('')
+    }
+    setHistory(store.history)
+  })
+}
+
 htmlEditor.focus()
 Object.values(EDITORS).forEach(editor => {
   editor.onDidChangeModelContent(() =>
@@ -108,7 +123,7 @@ function update ({ notReload } = {}) {
 
   debouncedUpdateHash(values)
   if (saveLocalstorage) {
-    saveCode(values)
+    updateHistory(values)
   }
   updateButtonAvailabilityIfContent(values)
 }
@@ -126,9 +141,16 @@ function updateHashedCode ({ html, css, js }) {
   window.history.replaceState(null, null, `/${hashedCode}`)
 }
 
-function saveCode ({ html, css, js }) {
+function updateHistory ({ html, css, js }) {
+  const { history } = getHistoryState()
   const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
-  window.localStorage.setItem('hashedCode', hashedCode)
+  const isEmpty = !html.replace(/\n/g, '').trim() && !css.replace(/\n/g, '').trim() && !js.replace(/\n/g, '').trim()
+
+  if (isEmpty && !history.current) {
+    return
+  }
+
+  updateHistoryItem({ value: hashedCode })
 }
 
 function updateButtonAvailabilityIfContent ({ html, css, js }) {
