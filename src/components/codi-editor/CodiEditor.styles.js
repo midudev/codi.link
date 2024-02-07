@@ -10,7 +10,7 @@ export const CodiEditorStyles = css`
     position: absolute;
     right: 16px;
     bottom: 16px;
-    z-index: 1;
+    z-index: 10;
     width: 48px;
     height: 48px;
     object-fit: contain;
@@ -29,6 +29,11 @@ export const CodiEditorStyles = css`
 
   @media (max-width: 650px) {
     :host::after {
+      left: 16px;
+      right: unset;
+    }
+
+    img {
       left: 16px;
       right: unset;
     }

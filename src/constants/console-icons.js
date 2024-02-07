@@ -1,76 +1,15 @@
 export const CONSOLE_ICONS = {
-  'log:info': `<svg
-    viewBox="0 0 24 24"
-    width="16px"
-    height="16px"
-    fill="currentColor"
-  >
-    <path
-      style="stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-      d="M 12.557556,20.215488 12.567844,8.0868482" />
-    <circle
-      style="fill-opacity:1;stroke:none;stroke-width:1.469;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
-      cx="12.44614"
-      cy="3"
-      r="1.3" />
-    </svg>`,
-  'log:error': `<svg
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    width="16px"
-    height="16px"
-    stroke="currentColor"
-   >
-    <path
-      style="stroke-width:2.92477;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-      d="M 3.5414066,20.488601 20.616638,3.4133672" />
-    <path
-      style="stroke-width:2.92477;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-      d="M 3.5414077,3.4133702 20.616637,20.488598" />
-  </svg>`,
-  'log:warn': `<svg
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    stroke="currentColor"
-    width="16px"
-    height="16px"
-  >
-    <path
-      style="fill:none;stroke-width:2.14945;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-      d="M 1.7951514,22.204492 11.807144,1.6087039 22.032806,22.391161 Z" />
-    <g
-      transform="translate(0,0.10168155)">
-      <path
-        style="stroke-width:2.00514;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-        d="M 11.968757,7.7809794 11.859197,16.92329" />
-      <circle
-        style="fill-opacity:1;stroke:none;stroke-width:13.8929;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-        cy="19.387251"
-        cx="11.913978"
-        r="1.0575" />
-    </g>
-  </svg>`,
-  'log:log': `<svg
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    stroke="currentColor"
-    width="16px"
-    height="16px"
-  >
-    <defs
-      id="defs1" />
-    <path
-      style="fill:none;stroke-width:3.90829;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-      d="M 19.665382,4.7766397 6.7456885,17.063774"
-      id="path2" />
-    <path
-      style="fill:none;stroke-width:3.90801;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-      d="m 8.3397549,15.536597 -2.3679433,2.22659"
-      id="path2-1" />
-    <path
-      style="fill-opacity:1;stroke:none;stroke-width:3.70014;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-      d="M 3.1965895,17.679952 2.4341197,21.570486 5.9483739,20.463801"
-      id="path3" />
-  </svg>`,
+  'log:info': `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12.002 2c5.523 0 10.001 4.478 10.001 10.002 0 5.523-4.478 10.001-10.001 10.001C6.478 22.003 2 17.525 2 12.002 2 6.478 6.478 2 12.002 2Zm0 1.5a8.502 8.502 0 1 0 0 17.003 8.502 8.502 0 0 0 0-17.003Zm-.004 7a.75.75 0 0 1 .744.648l.006.102.004 5.502a.75.75 0 0 1-1.493.102l-.007-.101-.004-5.502a.75.75 0 0 1 .75-.75Zm.004-3.497a.999.999 0 1 1 0 1.997.999.999 0 0 1 0-1.997Z" fill="currentColor"/>
+</svg>`,
+  'log:error': `<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M12 2c5.523 0 10 4.478 10 10s-4.477 10-10 10S2 17.522 2 12 6.477 2 12 2Zm0 1.667c-4.595 0-8.333 3.738-8.333 8.333 0 4.595 3.738 8.333 8.333 8.333 4.595 0 8.333-3.738 8.333-8.333 0-4.595-3.738-8.333-8.333-8.333Zm-.001 10.835a.999.999 0 1 1 0 1.998.999.999 0 0 1 0-1.998ZM11.994 7a.75.75 0 0 1 .744.648l.007.101.004 4.502a.75.75 0 0 1-1.493.103l-.007-.102-.004-4.501a.75.75 0 0 1 .75-.751Z" fill="currentColor"/>
+</svg>`,
+  'log:warn': `<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M12.997 17.002a.999.999 0 1 0-1.997 0 .999.999 0 0 0 1.997 0Zm-.259-7.853a.75.75 0 0 0-1.493.103l.004 4.501.007.102a.75.75 0 0 0 1.493-.103l-.004-4.502-.007-.101Zm1.23-5.488c-.857-1.548-3.082-1.548-3.938 0L2.284 17.662c-.83 1.5.255 3.34 1.97 3.34h15.49c1.714 0 2.799-1.84 1.97-3.34L13.966 3.661Zm-2.626.726a.75.75 0 0 1 1.313 0L20.4 18.388a.75.75 0 0 1-.657 1.113H4.254a.75.75 0 0 1-.657-1.113l7.745-14.001Z" fill="currentColor"/>
+</svg>`,
+  'log:log': `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20.952 3.048a3.578 3.578 0 0 0-5.06 0L3.94 15a3.106 3.106 0 0 0-.825 1.476L2.02 21.078a.75.75 0 0 0 .904.903l4.601-1.096a3.106 3.106 0 0 0 1.477-.825L20.952 8.11a3.578 3.578 0 0 0 0-5.06Zm-4 1.06a2.078 2.078 0 1 1 2.94 2.94L19 7.939 16.06 5l.892-.891ZM15 6.062 17.94 9 7.94 19c-.21.21-.474.357-.763.426l-3.416.814.813-3.416c.069-.29.217-.554.427-.764L15 6.06Z" fill="currentColor"/>
+</svg>`,
   error: null
 }
