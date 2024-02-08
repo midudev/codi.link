@@ -21,6 +21,10 @@
   position: relative;
 }
 
+.iframe-container{
+  min-height: 0;
+}
+
 @media (max-width: 650px) {
   #app {
     grid-template-columns: 1fr;
@@ -88,7 +92,7 @@
 
   .iframe-container {
     scroll-snap-align: start;
-    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   iframe body {
@@ -127,8 +131,8 @@
   .scroll-buttons-container {
     display: block;
     position: absolute;
-    bottom: 2em;
-    right: 2em;
+    bottom: 16px;
+    right: 16px;
 
     display: flex;
     justify-content: center;
@@ -162,7 +166,7 @@
   }
 
   .previewer-active {
-    height: calc(100vh - 78px);
+    height: calc(100dvh - 75px);
     display: block;
   }
   .previewer-hide {
