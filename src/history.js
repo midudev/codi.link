@@ -1,7 +1,8 @@
 import { persist } from 'zustand/middleware'
 import { createStore } from 'zustand/vanilla'
-import { $ } from './utils/dom.js'
+import { $, $$ } from './utils/dom.js'
 import { EVENTS, eventBus } from './events-controller.js'
+import { getState } from './state.js'
 
 const genId = () => {
   return Date.now()
@@ -104,7 +105,8 @@ export const {
   subscribe: subscribeHistory
 } = useHistoryStore
 
-const $historyList = $('#history .history-list')
+const $history = $('#history')
+const $historyList = $('.history-list', $history)
 
 const HISTORY_ICONS = {
   remove: `<svg width="24" height="24" fill='none' viewBox='0 0 24 24'>
@@ -112,10 +114,54 @@ const HISTORY_ICONS = {
     </svg>`,
   edit: `<svg width="24" height="24" fill="none" viewBox="0 0 24 24">
     <path d="M21.03 2.97a3.578 3.578 0 0 1 0 5.06L9.062 20a2.25 2.25 0 0 1-.999.58l-5.116 1.395a.75.75 0 0 1-.92-.921l1.395-5.116a2.25 2.25 0 0 1 .58-.999L15.97 2.97a3.578 3.578 0 0 1 5.06 0ZM15 6.06 5.062 16a.75.75 0 0 0-.193.333l-1.05 3.85 3.85-1.05A.75.75 0 0 0 8 18.938L17.94 9 15 6.06Zm2.03-2.03-.97.97L19 7.94l.97-.97a2.079 2.079 0 0 0-2.94-2.94Z" fill="currentColor"/>
+    </svg>`,
+  accept: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z" fill="currentColor"/>
+    </svg>`,
+  cancel: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="m4.397 4.554.073-.084a.75.75 0 0 1 .976-.073l.084.073L12 10.939l6.47-6.47a.75.75 0 1 1 1.06 1.061L13.061 12l6.47 6.47a.75.75 0 0 1 .072.976l-.073.084a.75.75 0 0 1-.976.073l-.084-.073L12 13.061l-6.47 6.47a.75.75 0 0 1-1.06-1.061L10.939 12l-6.47-6.47a.75.75 0 0 1-.072-.976l.073-.084-.073.084Z" fill="currentColor"/>
     </svg>`
 }
 
 const { updateHistoryItemName, removeHistoryItem } = getHistoryState()
+
+const setUpActionsButtons = (parent, ...newElements) => {
+  const $instancesActions = $$('button', parent)
+
+  $instancesActions.forEach(($button) => {
+    $button.classList.add('hidden')
+    $button.setAttribute('tabindex', '-1')
+  })
+
+  for (const ele of newElements) {
+    parent.append(ele)
+  }
+
+  const undo = () => {
+    for (const ele of newElements) {
+      parent.removeChild(ele)
+    }
+
+    $instancesActions.forEach(($button) => {
+      $button.classList.remove('hidden')
+      $button.setAttribute('tabindex', '0')
+    })
+  }
+
+  return { undo }
+}
+
+const resetInstancesActions = () => {
+  $historyList.querySelectorAll('#accept-button, #cancel-button').forEach(el => el.remove())
+  $historyList.querySelectorAll('.actions button').forEach(el => el.classList.remove('hidden'))
+}
+
+function createConfirmationButton (iconKey, buttonId) {
+  const $button = document.createElement('button')
+  $button.innerHTML = HISTORY_ICONS[iconKey]
+  $button.id = buttonId
+  return $button
+}
 
 const removeButton = ({ id, name, isActive }) => {
   const $removeButton = document.createElement('button')
@@ -124,11 +170,24 @@ const removeButton = ({ id, name, isActive }) => {
 
   $removeButton.addEventListener('click', (e) => {
     e.preventDefault()
+    resetInstancesActions()
 
-    removeHistoryItem({ id })
-    if (isActive) {
-      eventBus.emit(EVENTS.OPEN_NEW_INSTANCE)
-    }
+    const $acceptButton = createConfirmationButton('accept', 'accept-button')
+    const $cancelButton = createConfirmationButton('cancel', 'cancel-button')
+
+    const $actions = $removeButton.parentNode
+    const { undo } = setUpActionsButtons($actions, $acceptButton, $cancelButton)
+
+    $acceptButton.addEventListener('click', () => {
+      removeHistoryItem({ id })
+      if (isActive) {
+        eventBus.emit(EVENTS.OPEN_NEW_INSTANCE)
+      }
+    })
+
+    $cancelButton.addEventListener('click', () => {
+      undo()
+    })
   })
 
   return $removeButton
@@ -141,6 +200,11 @@ const editButton = ({ id, name }) => {
 
   $editButton.addEventListener('click', (e) => {
     e.preventDefault()
+    resetInstancesActions()
+
+    const $actions = $editButton.closest('.actions')
+    const { undo } = setUpActionsButtons($actions)
+    $actions.classList.add('hidden')
 
     const $button = $historyList.querySelector(`#history-item-${id} button`)
     const $input = document.createElement('input')
@@ -161,19 +225,26 @@ const editButton = ({ id, name }) => {
         $input.blur()
       }
     })
-    $input.addEventListener('blur', () => updateName())
+    $input.addEventListener('blur', () => {
+      updateName()
+      undo()
+      $actions.classList.remove('hidden')
+    })
   })
 
   return $editButton
 }
 
-const openItemButton = ({ id, name, value }) => {
+const openItemButton = ({ id, name, value, isActive }) => {
   const $button = document.createElement('button')
   $button.textContent = name
   $button.ariaLabel = `Open ${name}`
 
+  if (isActive) return $button
+
   $button.addEventListener('click', (e) => {
     e.preventDefault()
+
     eventBus.emit(EVENTS.OPEN_EXISTING_INSTANCE, { value, id })
   })
 
@@ -188,7 +259,7 @@ const createListItem = ({ id, name, value, isActive }) => {
     $li.classList.add('is-active')
   }
 
-  const $openButton = openItemButton({ id, name, value })
+  const $openButton = openItemButton({ id, name, value, isActive })
   const $removeButton = removeButton({ id, name, isActive })
   const $editButton = editButton({ id, name })
   const $actions = document.createElement('div')
@@ -217,9 +288,41 @@ const compareTimestamps = (timestamp) => {
 }
 
 export const setHistory = (history) => {
+  const { saveLocalstorage } = getState()
   $historyList.innerHTML = ''
+  const $actions = $$('.history-actions button', $history)
+
+  if (!saveLocalstorage) {
+    const $message = document.createElement('p')
+    $message.classList.add('message')
+
+    const textNodeBeforeCode = document.createTextNode('You must activate ')
+    const $code = document.createElement('code')
+    $code.textContent = 'Features › Auto save: Local storage'
+    const textNodeAfterCode = document.createTextNode(' , in settings to have access to history.')
+
+    $message.appendChild(textNodeBeforeCode)
+    $message.appendChild($code)
+    $message.appendChild(textNodeAfterCode)
+
+    $historyList.appendChild($message)
+
+    return
+  }
+
+  const $message = $('.message', $historyList)
+  if ($message) $message.remove()
+
   const sortedItems = history.items.sort((a, b) => b.timestamp - a.timestamp)
   const groupedItems = {}
+
+  $actions.forEach((item) => {
+    const action = item.getAttribute('data-action')
+    if (action === 'clear-history') {
+      const method = (!history || !history.items.length > 0) ? 'add' : 'remove'
+      item.classList[method]('hidden')
+    }
+  })
 
   for (let i = 0; i < sortedItems.length; i++) {
     const itemTimestamp = sortedItems[i].timestamp

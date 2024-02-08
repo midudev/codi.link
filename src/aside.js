@@ -28,8 +28,15 @@ const SIMPLE_CLICK_ACTIONS = {
     copyToClipboard(urlToCopy)
   },
 
-  [BUTTON_ACTIONS.clearHistory]: () => {
-    eventBus.emit(EVENTS.CLEAR_HISTORY)
+  [BUTTON_ACTIONS.clearHistory]: async () => {
+    const $dialog = $('#history modal-dialog', $aside)
+    if ($dialog) {
+      $dialog.openModal()
+
+      $dialog.addEventListener('confirm', () => {
+        eventBus.emit(EVENTS.CLEAR_HISTORY)
+      })
+    }
   },
 
   [BUTTON_ACTIONS.openNewInstance]: () => {

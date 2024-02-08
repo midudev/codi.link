@@ -27,7 +27,6 @@
     align-items: center;
     justify-content: flex-end;
     gap: 6px;
-    margin-top: 1em;
 
     & button {
       background: rgba(255, 255, 255, 0.05);
@@ -40,6 +39,7 @@
       padding: 6px 8px 6px 6px;
       transition: 0.2s ease background-color, 0.2s ease scale;
       border-radius: 4px;
+      margin-top: 1em;
 
       &:hover {
         background-color: rgba(255, 255, 255, 0.1);
@@ -54,6 +54,12 @@
         width: 16px;
         height: 16px;
       }
+
+      &.hidden {
+        display: none;
+        pointer-events: none;
+        margin-top: 0;
+      }
     }
   }
 
@@ -61,9 +67,11 @@
     list-style: none;
     padding: 0;
     display: grid;
-
+    
     & .group {
       margin-bottom: 8px;
+      max-width: 100%;
+      overflow: hidden;
     }
 
     & .group h4 {
@@ -80,14 +88,16 @@
       display: flex;
       align-items: center;
       width: 100%;
-      gap: 6px;
-      cursor: pointer;
       border-radius: 4px;
+      overflow: hidden;
+      gap: 1rem;
 
       &:hover {
         background-color: rgba(255, 255, 255, 0.05);
 
-        & .actions {
+        & .actions:not([class*="hidden"]) {
+          padding-right: 0.5em;
+          width: 64px;
           opacity: 1;
         }
       }
@@ -100,6 +110,10 @@
         color: #fff;
         border: none;
         background: none;
+        cursor: pointer;
+      }
+
+      & > button {
         text-decoration: none;
         word-break: break-all;
         flex-grow: 1;
@@ -108,7 +122,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
         text-align: start;
-        cursor: pointer;
       }
 
       & input {
@@ -116,27 +129,25 @@
         border: none;
         color: #fff;
         flex-grow: 1;
-        padding: 0.8em 0 0.8em 0.5em;
+        padding: 0.8em 0.5em;
         outline: none;
       }
 
       & .actions {
-        transition: 0.1s ease opacity;
-        display: inline-flex;
+        transition: 0.1s ease opacity, 0.2s ease width;
+        display: flex;
         align-items: center;
-        flex-shrink: 0;
-        padding-right: 0.5em;
-        opacity: 0;
+        opacity: 0.1;
+        width: 0;
         gap: 6px;
 
         & button {
-          transition: 0.2s ease opacity, 0.2s ease scale;
-          border: none;
-          background: none;
-          color: #fff;
-          cursor: pointer;
+          transition: 0.2s ease opacity, 0.2s ease transform;
           line-height: 0;
           padding: 3px;
+          flex-shrink: 0;
+          opacity: 1;
+          animation: zoomIn 0.1s ease-out;
 
           &:hover {
             opacity: 0.7;
@@ -155,5 +166,25 @@
       }
     }
 
+    & .hidden {
+      display: none;
+      pointer-events: none;
+      width: 0;
+    }
   }
+
+  & .message {
+    padding-left: 0.5rem;
+    line-height: 1.8rem;
+    margin: 0;
+
+    & code {
+      font-family: monospace;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.9rem;
+    }
+  }
+
 }
