@@ -11,8 +11,8 @@ const useStore = createStore(
         set({ [key]: value })
       }
     }),
-    { name: 'appInitialState', getStorage: () => window.localStorage }
+    { name: 'appInitialState' }
   )
 )
 
-export const { getState, setState, subscribe, destroy } = useStore
+export const { getState, setState, subscribe } = useStore

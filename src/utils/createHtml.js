@@ -20,12 +20,12 @@ export const createHtml = ({ css, html, js }, isEditor = false) => {
     <style id="preview-style">
       ${css}
     </style>
-    ${isEditor ? generateConsoleScript() : ''}
+    ${isEditor ? generateConsoleScript({ html, css }) : ''}
   </head>
   <body>
     ${html}
     <script type="module">
-    ${js}
+${js}
     </script>
   </body>
 </html>`

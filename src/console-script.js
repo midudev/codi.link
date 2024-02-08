@@ -1,4 +1,4 @@
-export const generateConsoleScript = () => {
+export const generateConsoleScript = ({ html, css }) => {
   return `<script>
     const customConsole = (w) => {
       const pushToConsole = (payload, type) => {
@@ -13,7 +13,11 @@ export const generateConsoleScript = () => {
       pushToConsole("clear", "system")
 
       w.onerror = (message, url, line, column) => {
-        pushToConsole({line, column, message}, "error")
+        const DEFAULT_LINE_HEIGHT = 53
+        const htmlLines = ${html.split('\n').length}
+        const cssLines = ${css.split('\n').length}
+        const fixedLine = line - DEFAULT_LINE_HEIGHT - htmlLines - cssLines
+        pushToConsole({line:fixedLine, column, message}, "error")
       }
 
       const console = {
