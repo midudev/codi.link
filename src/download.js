@@ -1,7 +1,7 @@
 import { createHtml } from './utils/createHtml.js'
 
 const getZip = () =>
-  import('jszip').then(({ default: JSZip }) => new JSZip())
+  import('client-zip').then(({ downloadZip }) => downloadZip)
 
 const DEFAULT_ZIP_FILE_NAME = 'codi.link'
 
@@ -18,17 +18,14 @@ export async function downloadUserCode ({
     ? createZipWithSingleFile
     : createZipWithMultipleFiles
 
-  const zip = await createZip({ htmlContent, cssContent, jsContent })
-  return generateZip({ zip, zipFileName })
+  const zipBlob = await createZip({ htmlContent, cssContent, jsContent })
+  return generateZip({ zipBlob, zipFileName })
 }
 
 async function createZipWithSingleFile ({ htmlContent, cssContent, jsContent }) {
   const zip = await getZip()
   const indexHTML = createHtml({ css: cssContent, html: htmlContent, js: jsContent })
-
-  zip.file('index.html', indexHTML)
-
-  return zip
+  return await zip({ name: 'index.html', input: indexHTML }).blob()
 }
 
 async function createZipWithMultipleFiles ({ htmlContent, cssContent, jsContent }) {
@@ -45,20 +42,18 @@ async function createZipWithMultipleFiles ({ htmlContent, cssContent, jsContent 
   </body>
 </html>`
 
-  zip.file('style.css', cssContent)
-  zip.file('script.js', jsContent)
-  zip.file('index.html', indexHtml)
-
-  return zip
+  return await zip([
+    { name: 'style.css', input: cssContent },
+    { name: 'script.js', input: jsContent },
+    { name: 'index.html', input: indexHtml }
+  ]).blob()
 }
 
-function generateZip ({ zip, zipFileName }) {
-  return zip.generateAsync({ type: 'blob' }).then((blobData) => {
-    const zipBlob = new window.Blob([blobData])
-    const element = window.document.createElement('a')
-
-    element.href = window.URL.createObjectURL(zipBlob)
-    element.download = `${zipFileName}.zip`
-    element.click()
-  })
+function generateZip ({ zipBlob, zipFileName }) {
+  console.log({ zipBlob, zipFileName })
+  const element = window.document.createElement('a')
+  element.href = window.URL.createObjectURL(zipBlob)
+  element.download = `${zipFileName}.zip`
+  element.click()
+  element.remove()
 }
