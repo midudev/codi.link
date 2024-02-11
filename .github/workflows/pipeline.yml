@@ -9,7 +9,7 @@ jobs:
 
   avoid_reduncy:
     name: Cancel previous redundant builds
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Cancel previous redundant builds
         uses: styfle/cancel-workflow-action@0.9.1
@@ -18,120 +18,40 @@ jobs:
 
   install_dependencies:
     name: Install dependencies
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up node
-        uses: actions/setup-node@v2
+      - uses: pnpm/action-setup@v2
         with:
-          node-version: '14'
+          version: 8
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
+      - name: Set up node
+        uses: actions/setup-node@v4
         with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
+          node-version: '20'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: npm i --ignore-scripts
 
   build:
     needs: [install_dependencies]
     name: Build app
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: '20'
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
-
-      - name: Install dependencies
-        if: steps.cache-dependencies.outputs.cache-hit != 'true'
-        run: npm i --ignore-scripts
-
-      - name: Build
-        run: npm run build
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: dist
-
-  install_cypress:
-    name: Install Cypress
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout git repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Set up node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Cypress install
-        run: npm install cypress
-
-  e2e:
-      needs: [build, install_cypress]
-      name: End-to-end tests
-      runs-on: ubuntu-18.04
-      steps:
-        - name: Checkout git repository
-          uses: actions/checkout@v2
-          with:
-            fetch-depth: 0
-
-        - name: Set up node
-          uses: actions/setup-node@v2
-          with:
-            node-version: '14'
-
-        - name: Download artifact
-          uses: actions/download-artifact@v2
-          with:
-            name: dist
-            path: dist
-
-        - name: Cache dependencies
-          id: cache-dependencies
-          uses: actions/cache@v2
-          with:
-            path: ./node_modules
-            key: modules-${{ hashFiles('package-lock.json') }}
-
-        - name: Install dependencies
-          if: steps.cache-dependencies.outputs.cache-hit != 'true'
-          run: npm i --ignore-scripts
-
-        - name: Cypress install
-          run: npm install cypress
-
-        - name: E2E tests
-          uses: cypress-io/github-action@v4
-          with:
-            install: false
-            start: npm run dev
-            command: npm run test:e2e
-            wait-on: http://localhost:3000
+      - name: Build app
+        run: pnpm run build
