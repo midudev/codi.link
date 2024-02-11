@@ -10,7 +10,7 @@ dependencies:
     version: 2.4.4
   emmet-monaco-es:
     specifier: 5.3.0
-    version: 5.3.0(monaco-editor@0.45.0)
+    version: 5.3.0(monaco-editor@0.46.0)
   escape-html:
     specifier: 1.0.3
     version: 1.0.3
@@ -21,10 +21,10 @@ dependencies:
     specifier: 3.1.2
     version: 3.1.2
   monaco-editor:
-    specifier: 0.45.0
-    version: 0.45.0
+    specifier: 0.46.0
+    version: 0.46.0
   preact:
-    specifier: ^10.19.4
+    specifier: 10.19.4
     version: 10.19.4
   split-grid:
     specifier: 1.0.11
@@ -35,16 +35,16 @@ dependencies:
 
 devDependencies:
   '@preact/preset-vite':
-    specifier: ^2.8.1
-    version: 2.8.1(@babel/core@7.23.9)(preact@10.19.4)(vite@5.0.12)
+    specifier: 2.8.1
+    version: 2.8.1(@babel/core@7.23.9)(preact@10.19.4)(vite@5.1.1)
   '@tauri-apps/cli':
     specifier: 1.5.9
     version: 1.5.9
   autoprefixer:
-    specifier: ^10.4.17
+    specifier: 10.4.17
     version: 10.4.17(postcss@8.4.35)
   postcss:
-    specifier: ^8.4.35
+    specifier: 8.4.35
     version: 8.4.35
   postcss-nesting:
     specifier: 12.0.2
@@ -53,11 +53,11 @@ devDependencies:
     specifier: 17.1.0
     version: 17.1.0
   tailwindcss:
-    specifier: ^3.4.1
+    specifier: 3.4.1
     version: 3.4.1
   vite:
-    specifier: 5.0.12
-    version: 5.0.12
+    specifier: 5.1.1
+    version: 5.1.1
 
 packages:
 
@@ -685,7 +685,7 @@ packages:
     dev: true
     optional: true
 
-  /@preact/preset-vite@2.8.1(@babel/core@7.23.9)(preact@10.19.4)(vite@5.0.12):
+  /@preact/preset-vite@2.8.1(@babel/core@7.23.9)(preact@10.19.4)(vite@5.1.1):
     resolution: {integrity: sha512-a9KV4opdj17X2gOFuGup0aE+sXYABX/tJi/QDptOrleX4FlnoZgDWvz45tHOdVfrZX+3uvVsIYPHxRsTerkDNA==}
     peerDependencies:
       '@babel/core': 7.x
@@ -694,7 +694,7 @@ packages:
       '@babel/core': 7.23.9
       '@babel/plugin-transform-react-jsx': 7.23.4(@babel/core@7.23.9)
       '@babel/plugin-transform-react-jsx-development': 7.22.5(@babel/core@7.23.9)
-      '@prefresh/vite': 2.4.5(preact@10.19.4)(vite@5.0.12)
+      '@prefresh/vite': 2.4.5(preact@10.19.4)(vite@5.1.1)
       '@rollup/pluginutils': 4.2.1
       babel-plugin-transform-hook-names: 1.0.2(@babel/core@7.23.9)
       debug: 4.3.4
@@ -702,7 +702,7 @@ packages:
       magic-string: 0.30.5
       node-html-parser: 6.1.12
       resolve: 1.22.8
-      vite: 5.0.12
+      vite: 5.1.1
     transitivePeerDependencies:
       - preact
       - supports-color
@@ -724,7 +724,7 @@ packages:
     resolution: {integrity: sha512-KtC/fZw+oqtwOLUFM9UtiitB0JsVX0zLKNyRTA332sqREqSALIIQQxdUCS1P3xR/jT1e2e8/5rwH6gdcMLEmsQ==}
     dev: true
 
-  /@prefresh/vite@2.4.5(preact@10.19.4)(vite@5.0.12):
+  /@prefresh/vite@2.4.5(preact@10.19.4)(vite@5.1.1):
     resolution: {integrity: sha512-iForDVJ2M8gQYnm5pHumvTEJjGGc7YNYC0GVKnHFL+GvFfKHfH9Rpq67nUAzNbjuLEpqEOUuQVQajMazWu2ZNQ==}
     peerDependencies:
       preact: ^10.4.0
@@ -736,7 +736,7 @@ packages:
       '@prefresh/utils': 1.2.0
       '@rollup/pluginutils': 4.2.1
       preact: 10.19.4
-      vite: 5.0.12
+      vite: 5.1.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1442,13 +1442,13 @@ packages:
     resolution: {integrity: sha512-AFg4wDHSOk5F+zA8aR+SVIOabu7m0e7BiJnigCvPXzIGy731XENw/lmNxTySpVFtkFEy+eyt4oHhh5FF3NjQNw==}
     dev: true
 
-  /emmet-monaco-es@5.3.0(monaco-editor@0.45.0):
+  /emmet-monaco-es@5.3.0(monaco-editor@0.46.0):
     resolution: {integrity: sha512-+Somf9sB9Smzfl2FV9E19/DA5osHq488dv8KaGavozkv2fo69Y2rY0EoL4vWQk5FpMBc0YfdtiRsuw48Sdxs5g==}
     peerDependencies:
       monaco-editor: '>=0.22.0'
     dependencies:
       emmet: 2.4.6
-      monaco-editor: 0.45.0
+      monaco-editor: 0.46.0
     dev: false
 
   /emmet@2.4.6:
@@ -2623,8 +2623,8 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     dev: true
 
-  /monaco-editor@0.45.0:
-    resolution: {integrity: sha512-mjv1G1ZzfEE3k9HZN0dQ2olMdwIfaeAAjFiwNprLfYNRSz7ctv9XuCT7gPtBGrMUeV1/iZzYKj17Khu1hxoHOA==}
+  /monaco-editor@0.46.0:
+    resolution: {integrity: sha512-ADwtLIIww+9FKybWscd7OCfm9odsFYHImBRI1v9AviGce55QY8raT+9ihH8jX/E/e6QVSGM+pKj4jSUSRmALNQ==}
     dev: false
 
   /ms@2.1.2:
@@ -3506,8 +3506,8 @@ packages:
     engines: {node: '>=0.10.48'}
     dev: true
 
-  /vite@5.0.12:
-    resolution: {integrity: sha512-4hsnEkG3q0N4Tzf1+t6NdN9dg/L3BM+q8SWgbSPnJvrgH2kgdyzfVJwbR1ic69/4uMJJ/3dqDZZE5/WwqW8U1w==}
+  /vite@5.1.1:
+    resolution: {integrity: sha512-wclpAgY3F1tR7t9LL5CcHC41YPkQIpKUGeIuT8MdNwNZr6OqOTLs7JX5vIHAtzqLWXts0T+GDrh9pN2arneKqg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:

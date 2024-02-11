@@ -20,7 +20,7 @@
     "postcss-nesting": "12.0.2",
     "standard": "17.1.0",
     "tailwindcss": "3.4.1",
-    "vite": "5.0.12"
+    "vite": "5.1.1"
   },
   "dependencies": {
     "client-zip": "2.4.4",
@@ -28,7 +28,7 @@
     "escape-html": "1.0.3",
     "js-base64": "3.7.6",
     "lit": "3.1.2",
-    "monaco-editor": "0.45.0",
+    "monaco-editor": "0.46.0",
     "preact": "10.19.4",
     "split-grid": "1.0.11",
     "zustand": "4.5.0"
