@@ -254,21 +254,6 @@
 
             <div class="settings-item">
               <strong>
-                <span class="settings-type">Workbench:</span>
-                Color theme
-              </strong>
-              <div class="select">
-                <select name="theme">
-                  <option value="vs-dark">Dark</option>
-                  <option value="vs">Light</option>
-                  <option value="hc-black">High Contrast Dark</option>
-                  <option value="hc-light">High Contrast Light</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="settings-item">
-              <strong>
                 <span class="settings-type">Editor:</span>
                 Line Numbers
               </strong>
@@ -293,19 +278,6 @@
                   <option value="off">off</option>
                   <option value="wordWrapColumn">wordWrapColumn</option>
                   <option value="bounded">bounded</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type">Workbench:</span>
-                Sidebar Style
-              </strong>
-              <div class="select">
-                <select name="sidebar">
-                  <option value="default">Default</option>
-                  <option value="compact">Compact</option>
                 </select>
               </div>
             </div>
@@ -350,6 +322,46 @@
                   <input name="fontLigatures" type="checkbox" />
                   <span>Enable Font Ligatures</span>
                 </label>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Editor:</span>
+                Max. execution time
+              </strong>
+                <input name="maxExecutionTime" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
+                  type="number" wrap="off" value="200" min="100" max="5000" step="100" />
+                <p class="setting-description">
+                  The maximum execution time in milliseconds to prevent the editor from freezing. 
+                </p>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Workbench:</span>
+                Color theme
+              </strong>
+              <div class="select">
+                <select name="theme">
+                  <option value="vs-dark">Dark</option>
+                  <option value="vs">Light</option>
+                  <option value="hc-black">High Contrast Dark</option>
+                  <option value="hc-light">High Contrast Light</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
+                <span class="settings-type">Workbench:</span>
+                Sidebar Style
+              </strong>
+              <div class="select">
+                <select name="sidebar">
+                  <option value="default">Default</option>
+                  <option value="compact">Compact</option>
+                </select>
               </div>
             </div>
 

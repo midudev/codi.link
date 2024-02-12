@@ -117,7 +117,8 @@ function update ({ notReload } = {}) {
   Preview.updatePreview(values)
 
   if (!notReload) {
-    runJs(values.js)
+    const { maxExecutionTime } = getState()
+    runJs(values.js, parseInt(maxExecutionTime))
       .then(() => {
         iframe.setAttribute('src', Preview.getPreviewUrl())
       })
