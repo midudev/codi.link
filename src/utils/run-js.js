@@ -2,7 +2,7 @@ export default function runJs (code, timeout = 200) {
   const startTime = Date.now()
 
   return new Promise((resolve, reject) => {
-    const worker = new window.Worker('./src/utils/js-execution-worker.js')
+    const worker = new window.Worker(new URL('./js-execution-worker.js', import.meta.url))
 
     const logError = (message) => {
       window.parent.postMessage({
