@@ -29,7 +29,7 @@ export default function runJs (code, timeout = 200) {
 
       if (data.error) {
         logError(data.error)
-        reject(data.error)
+        // reject(data.error)
       }
 
       resolve(data.result)
