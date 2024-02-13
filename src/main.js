@@ -2,6 +2,7 @@ import { encode, decode } from 'js-base64'
 import { $, $$ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
+import runJs from './utils/run-js.js'
 import { initializeEventsController } from './events-controller.js'
 import { getState, subscribe } from './state.js'
 import * as Preview from './utils/WindowPreviewer.js'
@@ -116,7 +117,14 @@ function update ({ notReload } = {}) {
   Preview.updatePreview(values)
 
   if (!notReload) {
-    iframe.setAttribute('src', Preview.getPreviewUrl())
+    const { maxExecutionTime } = getState()
+    runJs(values.js, parseInt(maxExecutionTime))
+      .then(() => {
+        iframe.setAttribute('src', Preview.getPreviewUrl())
+      })
+      .catch(error => {
+        console.error('Execution error:', error)
+      })
   }
 
   updateCss()
