@@ -12,6 +12,7 @@ import setTheme from './theme.js'
 import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
 import { getHistoryState, subscribeHistory, setHistory } from './history.js'
 
+import './overridekbd.js'
 import './aside.js'
 import './skypack.js'
 import './settings.js'

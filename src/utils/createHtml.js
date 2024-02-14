@@ -25,8 +25,13 @@ export const createHtml = ({ css, html, js }, isEditor = false) => {
   <body>
     ${html}
     <script type="module">
-${js}
-    </script>
+    window.addEventListener('keydown', (event) => {
+      if (event.ctrlKey && event.key === 's') {
+        event.preventDefault()
+      }
+    });
+  ${js}
+  </script>
   </body>
 </html>`
 }
