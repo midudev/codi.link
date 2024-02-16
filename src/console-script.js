@@ -4,7 +4,7 @@ export const generateConsoleScript = ({ html, css }) => {
       const pushToConsole = (payload, type) => {
         w.parent.postMessage({
           console: {
-            payload: JSON.stringify(payload),
+            payload: payload,
             type:    type
           }
         }, "*")
