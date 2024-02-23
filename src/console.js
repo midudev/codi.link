@@ -38,7 +38,10 @@ const handlers = {
     $consoleList.appendChild(errorItem)
   },
   default: (payload, type) => {
-    const content = payload.find(isPrimitive) ? payload.join(' ') : payload.map(item => JSON.stringify(item)).join(' ')
+    const content = Number.isNaN(payload.find(isPrimitive)) || payload.find(isPrimitive)
+      ? payload.join(' ')
+      : payload.map(item => JSON.stringify(item)).join(' ')
+
     const listItem = createListItem(content, type)
     $consoleList.appendChild(listItem)
   },
@@ -54,7 +57,7 @@ const handlers = {
 window.addEventListener('message', (ev) => {
   const { console: consoleData } = ev.data
 
-  const payload = consoleData ? JSON.parse(consoleData.payload) : null
+  const payload = consoleData?.payload
   const type = consoleData?.type
 
   if (ev.source === $iframe.contentWindow) {

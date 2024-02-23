@@ -8,7 +8,7 @@ export default function runJs (code, timeout = 200) {
       window.parent.postMessage({
         console: {
           type: 'loop',
-          payload: JSON.stringify({ message })
+          payload: { message }
         }
       }, document.location.origin)
     }
