@@ -7,6 +7,7 @@ export const DEFAULT_INITIAL_SETTINGS = {
   fontSize: 18,
   lineNumbers: 'off',
   tabSize: 2,
+  maxExecutionTime: 200,
   minimap: false,
   preserveGrid: true,
   theme: 'vs-dark',

@@ -38,17 +38,32 @@ const handlers = {
     $consoleList.appendChild(errorItem)
   },
   default: (payload, type) => {
-    const content = payload.find(isPrimitive) ? payload.join(' ') : payload.map(item => JSON.stringify(item)).join(' ')
+    const content = Number.isNaN(payload.find(isPrimitive)) || payload.find(isPrimitive)
+      ? payload.join(' ')
+      : payload.map(item => JSON.stringify(item)).join(' ')
+
     const listItem = createListItem(content, type)
     $consoleList.appendChild(listItem)
+  },
+  loop: (payload) => {
+    clearConsole()
+    const { message } = payload
+    const errorItem = createListItem(`${message}`, 'error')
+    errorItem.classList.add('error')
+    $consoleList.appendChild(errorItem)
   }
 }
 
 window.addEventListener('message', (ev) => {
-  if (ev.source !== $iframe.contentWindow) return
-  const { type, payload: rawPayload } = ev.data.console
-  const payload = JSON.parse(rawPayload)
+  const { console: consoleData } = ev.data
 
-  const handler = handlers[type] || handlers.default
-  handler(payload, type)
+  const payload = consoleData?.payload
+  const type = consoleData?.type
+
+  if (ev.source === $iframe.contentWindow) {
+    const handler = handlers[type] || handlers.default
+    handler(payload, type)
+  } else if (type === 'loop') {
+    handlers.loop(payload)
+  }
 })

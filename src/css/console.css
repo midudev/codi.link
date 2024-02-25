@@ -36,7 +36,6 @@
       display: flex;
       align-items: start;
       gap: 1em;
-      word-break: break-all;
       padding: 0 0 0.5em 0.5em;
 
       &:not(:last-child) {
@@ -55,6 +54,7 @@
       background: rgb(235, 189, 189);
       border: 2px solid rgb(204, 0, 0);
       color: black;
+      padding-top: 0.5em
     }
     & .error::before {
       content: '❗';

@@ -13,7 +13,7 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: install Rust stable
         uses: actions-rs/toolchain@v1
@@ -26,7 +26,7 @@ jobs:
           workspaces: './src-tauri -> target'
 
       - name: Sync node version and setup cache
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
 
