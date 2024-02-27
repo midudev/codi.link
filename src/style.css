@@ -11,6 +11,9 @@
 @import url('./css/console.css');
 @import url('./css/history.css');
 
+html:has(dialog[open][modal-mode="mega"]) {
+  overflow: hidden;
+}
 
 .scroll-buttons-container {
   display: none;
