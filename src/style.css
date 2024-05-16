@@ -24,6 +24,9 @@
 .iframe-container{
   min-height: 0;
 }
+body{
+  height: 100dvh;
+}
 
 @media (max-width: 650px) {
   #app {
