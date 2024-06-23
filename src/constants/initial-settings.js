@@ -11,6 +11,7 @@ export const DEFAULT_INITIAL_SETTINGS = {
   minimap: false,
   preserveGrid: true,
   theme: 'vs-dark',
+  language: 'es',
   sidebar: 'default',
   wordWrap: 'on',
   zipFileName: 'codi.link',
