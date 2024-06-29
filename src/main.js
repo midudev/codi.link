@@ -23,6 +23,7 @@ import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
 import './components/layout-preview/layout-preview.js'
 import './components/codi-editor/codi-editor.js'
+import './components/dialog/dialog.js'
 
 const { layout: currentLayout, sidebar, theme, saveLocalstorage } = getState()
 const { history, updateHistoryItem } = getHistoryState()
@@ -30,6 +31,7 @@ const { history, updateHistoryItem } = getHistoryState()
 setGridLayout(currentLayout)
 setSidebar(sidebar)
 setTheme(theme)
+setHistory(history)
 
 const iframe = $('iframe')
 
@@ -70,6 +72,7 @@ subscribe(state => {
   setGridLayout(state.layout)
   setSidebar(state.sidebar)
   setTheme(state.theme)
+  setHistory(history)
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
@@ -83,8 +86,6 @@ const debouncedUpdateHash = debounce(
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
 
 if (saveLocalstorage) {
-  setHistory(history)
-
   subscribeHistory(store => {
     if (!store.history.current) {
       jsEditor.setValue('')
