@@ -24,7 +24,7 @@ const SIMPLE_CLICK_ACTIONS = {
 
   [BUTTON_ACTIONS.copyToClipboard]: async () => {
     const url = new URL(window.location.href)
-    const urlToCopy = `https://codi.link/${url.pathname}`
+    const urlToCopy = `https://codi.link${url.pathname}`
     copyToClipboard(urlToCopy)
   },
 

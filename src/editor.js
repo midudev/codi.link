@@ -8,7 +8,9 @@ const {
   wordWrap,
   fontLigatures,
   fontFamily,
-  tabSize
+  tabSize,
+  cursorBlinking,
+  cursorSmoothCaretAnimation
 } = getState()
 
 const COMMON_EDITOR_OPTIONS = {
@@ -22,6 +24,8 @@ const COMMON_EDITOR_OPTIONS = {
   theme,
   fontLigatures,
   fontFamily,
+  cursorBlinking,
+  cursorSmoothCaretAnimation,
 
   automaticLayout: true,
   fixedOverflowWidgets: true,
