@@ -18,9 +18,11 @@ const createListItem = (content, type) => {
 
   $li.innerHTML = CONSOLE_ICONS[type]
 
-  const $span = document.createElement('span')
-  $span.textContent = content
-  $li.appendChild($span)
+  const $pre = document.createElement('pre')
+  $pre.style.whiteSpace = 'pre-wrap'
+  $pre.style.margin = '0'
+  $pre.textContent = content
+  $li.appendChild($pre)
 
   return $li
 }
