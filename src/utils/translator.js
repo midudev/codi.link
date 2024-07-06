@@ -1,9 +1,11 @@
 import en from '../language/en'
 import es from '../language/es'
+import pt from '../language/pt'
 
 const translations = {
   en,
-  es
+  es,
+  pt
 }
 
 function makeTranslation (key, language) {
