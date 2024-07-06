@@ -59,7 +59,8 @@ const en = {
   exportOneZip: 'Export one single zipped file',
   featuresAutosave: 'Features › Autosave',
   localStorage: 'Local storage',
-  automaticallySaveUrl: 'Automatically save URL to local storage for fast content loading'
+  automaticallySaveUrl: 'Automatically save URL to local storage for fast content loading',
+  searchDependency: 'Search npm and add a package...'
 }
 
 export default en

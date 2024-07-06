@@ -59,7 +59,8 @@ const es = {
   exportOneZip: 'Exportar un solo archivo comprimido',
   featuresAutosave: 'Características › Guardado automático',
   localStorage: 'Almacenamiento local',
-  automaticallySaveUrl: 'Guardar automáticamente la URL en el almacenamiento local para una carga rápida del contenido'
+  automaticallySaveUrl: 'Guardar automáticamente la URL en el almacenamiento local para una carga rápida del contenido',
+  searchDependency: 'Buscar npm y agregar un paquete...'
 }
 
 export default es

@@ -20,8 +20,17 @@ function updateContent (language = 'en') {
   })
 }
 
+function updatePlaceholders (language = 'en') {
+  const elements = document.querySelectorAll('[data-translate-placeholder]')
+  elements.forEach(element => {
+    const key = element.getAttribute('data-translate-placeholder')
+    element.placeholder = makeTranslation(key, language)
+  })
+}
+
 function translate (language) {
   updateContent(language)
+  updatePlaceholders(language)
 }
 
 export { translate }
