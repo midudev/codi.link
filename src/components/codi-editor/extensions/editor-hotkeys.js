@@ -23,7 +23,7 @@ export const initEditorHotKeys = (editor) => {
     monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyC,
     () => {
       const url = new URL(window.location.href)
-      const urlToCopy = `https://codi.link/${url.pathname}`
+      const urlToCopy = `https://codi.link${url.pathname}`
       copyToClipboard(urlToCopy)
     }
   )
