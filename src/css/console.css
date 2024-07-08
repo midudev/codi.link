@@ -1,6 +1,7 @@
 .console {
   & .console-header {
     background: var(--aside-bar-background);
+    color: var(--app-foreground);
     position: sticky;
     top: 0;
     z-index: 1;
@@ -56,6 +57,7 @@
       color: black;
       padding-top: 0.5em
     }
+
     & .error::before {
       content: '❗';
       margin-right: 4px;
@@ -63,16 +65,19 @@
     }
 
     & .log-log {
-      color: rgb(205, 238, 181);
+      color: var(--log-log)
     }
+
     & .log-info {
-      color: rgb(181, 181, 238);
+      color: var(--log-info)
     }
+
     & .log-error {
-      color: rgb(227, 189, 189);
+      color: var(--log-error)
     }
+
     & .log-warn {
-      color: rgb(247, 231, 161);
+      color: var(--log-warn)
     }
   }
 }
