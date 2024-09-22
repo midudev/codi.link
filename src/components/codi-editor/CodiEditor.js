@@ -8,6 +8,7 @@ import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import { registerAutoCompleteHTMLTag } from './extensions/autocomplete-html-tag.js'
 import { initEditorHotKeys } from './extensions/editor-hotkeys.js'
 import { CodiEditorStyles } from './CodiEditor.styles.js'
+import { mosquetaDarkTheme } from '../themes/mosqueta-dark-theme,js'
 
 const iconUrls = {
   css: new URL('../../../assets/css3.svg', import.meta.url),
@@ -67,7 +68,7 @@ export class CodiEditor extends LitElement {
           }
         }
       }
-
+      monaco.editor.defineTheme('mosqueta-dark', mosquetaDarkTheme)
       emmetHTML(monaco)
       registerAutoCompleteHTMLTag(monaco)
       this.editorInitialized = true

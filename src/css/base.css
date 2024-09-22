@@ -92,6 +92,31 @@
   --input-border: rgb(0, 0, 0);
 }
 
+[data-theme='mosqueta-dark'] {
+  --app-background: #171a25;
+  --app-foreground: rgb(51, 51, 51);
+
+  --aside-sections-background: #171a25;
+  --aside-sections-border: transparent;
+
+  --aside-bar-background: #1e2530;
+  --aside-bar-foreground: rgb(204, 204, 204);
+  --aside-bar-border: transparent;
+
+  --grid-background: #171a25;
+
+  --button-foreground: rgba(255, 255, 255, 0.4);
+  --button-foreground-active: rgb(255, 255, 255);
+
+  --button-title-background: #171a25;
+  --button-title-foreground: rgb(225, 228, 232);
+  --button-title-border: rgb(51, 51, 51);
+  
+  --input-background: #171a25;
+  --input-foreground: #ff89ef;
+  --input-border: #171a25;
+}
+
 body {
   background-color: var(--app-background);
   color: var(--app-foreground);
