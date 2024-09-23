@@ -106,7 +106,9 @@
   --grid-background: #171a25;
 
   --button-foreground: rgba(255, 255, 255, 0.4);
-  --button-foreground-active: rgb(255, 255, 255);
+  --button-foreground-active: #ff89ef;
+  --button-border-active: ##40142c;
+  --button-background-active: #40142c;
 
   --button-title-background: #171a25;
   --button-title-foreground: rgb(225, 228, 232);

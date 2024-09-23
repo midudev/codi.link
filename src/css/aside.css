@@ -115,7 +115,7 @@ aside button.is-active {
 .aside-sections button {
   background: transparent;
   border: 0;
-  border-left: 3px solid transparent;
+  border-left: 0px solid transparent;
   cursor: pointer;
   width: 100%;
   color: var(--button-foreground);
@@ -125,7 +125,8 @@ aside button.is-active {
 
 .aside-sections button.is-active {
   color: var(--button-foreground-active);
-  border-left: 3px solid var(--button-foreground-active);
+  border-left: 3px solid var(--button-border-active);
+  background-color: var(--button-background-active);
 }
 
 .aside-sections button:not(:disabled):hover {
