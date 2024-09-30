@@ -1,6 +1,6 @@
 :root {
   --app-background: rgb(30, 30, 30);
-  --app-foreground: rgb(51, 51, 51);
+  --app-foreground: rgb(204, 204, 204);
 
   --aside-sections-background: rgb(51, 51, 51);
   --aside-sections-border: transparent;
@@ -21,6 +21,11 @@
   --input-background: rgb(51, 51, 51);
   --input-foreground: rgb(225, 228, 232);
   --input-border: rgb(51, 51, 51);
+
+  --log-log: rgb(205, 238, 181);
+  --log-info: rgb(181, 181, 238);
+  --log-error: rgb(227, 189, 189);
+  --log-warn: rgb(247, 231, 161);
 }
 
 [data-theme='vs'] {
@@ -39,6 +44,11 @@
   --input-background: rgb(243, 243, 243);
   --input-foreground: rgb(97, 97, 97);
   --input-border: rgb(97, 97, 97);
+
+  --log-log: rgb(14, 197, 8);
+  --log-info: rgb(31, 76, 226);
+  --log-error: rgb(219, 14, 14);
+  --log-warn: rgb(203, 168, 8);
 }
 
 [data-theme='hc-black'] {
@@ -90,6 +100,11 @@
   --input-background: rgb(255, 255, 255);
   --input-foreground: rgb(0, 0, 0);
   --input-border: rgb(0, 0, 0);
+
+  --log-log: rgb(7, 154, 2);
+  --log-info: rgb(6, 53, 210);
+  --log-error: rgb(223, 0, 0);
+  --log-warn: rgb(178, 145, 0);
 }
 
 body {
