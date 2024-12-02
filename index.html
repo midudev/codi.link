@@ -248,6 +248,10 @@
                     <input type="radio" name="layout" value="bottom" />
                     <layout-preview layout="bottom"></layout-preview>
                   </label>
+                  <label for="tabs-layout-radio">
+                    <input type="radio" name="layout" value="tabs" />
+                    <layout-preview layout="tabs"></layout-preview>
+                  </label>
                 </fieldset>
               </div>
             </div>
@@ -460,9 +464,14 @@
     </aside>
 
     <div id="editor" class="grid">
-      <codi-editor id="markup" language="html"></codi-editor>
-      <codi-editor id="script" language="javascript"></codi-editor>
-      <codi-editor id="style" language="css"></codi-editor>
+      <div id="tabs" hidden>
+        <label for="markup">HTML</label>
+        <label for="script">JavaScript</label>
+        <label for="style">CSS</label>
+      </div>
+      <codi-editor data-grid-area="editor-html" id="markup" language="html"></codi-editor>
+      <codi-editor data-grid-area="editor-js" id="script" language="javascript"></codi-editor>
+      <codi-editor data-grid-area="editor-css" id="style" language="css"></codi-editor>
 
       <div id="editor-preview" class="iframe-container">
         <iframe title="CodiLink Preview"></iframe>

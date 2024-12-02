@@ -7,6 +7,7 @@ import {
   BOTTOM_LAYOUT,
   DEFAULT_LAYOUT,
   HORIZONTAL_LAYOUT,
+  TABS_LAYOUT,
   VERTICAL_LAYOUT
 } from './constants/grid-templates'
 import { getState } from './state'
@@ -15,7 +16,22 @@ import { $, $$ } from './utils/dom'
 const $editor = $('#editor')
 const rootElement = document.documentElement
 const $$layoutSelector = $$('layout-preview')
+const $$editors = $$('#editor codi-editor')
+const $tabsContainer = $('#tabs')
+const $$tabs = $$('#tabs label')
 let splitInstance
+
+const selectTab = (event) => {
+  $$editors.forEach($editor => ($editor.style.display = 'none'))
+  const $targetEditor = $(`#${event.target.getAttribute('for')}`)
+  $targetEditor.style.display = 'block'
+  $$tabs.forEach($t => $t.classList.remove('active'))
+  event.target.classList.add('active')
+}
+
+$$tabs.forEach($tab => {
+  $tab.addEventListener('click', selectTab)
+})
 
 const formatGutters = gutter => ({
   ...gutter,
@@ -49,6 +65,33 @@ const getInitialGridStyle = () => {
   )
 }
 
+const configLayoutTabsElements = (type) => {
+  if (type === 'tabs') {
+    $tabsContainer.removeAttribute('hidden')
+    $tabsContainer.style.display = 'grid'
+    $tabsContainer.querySelector('label').classList.add('active')
+    $('.second-gutter').style.display = 'none'
+    $('.last-gutter').style.display = 'none'
+    $$editors.forEach(($editor, index) => {
+      $editor.style.display = 'none'
+      $editor.style.gridArea = 'editors'
+
+      if (index === 0) {
+        $editor.style.display = 'block'
+      }
+    })
+  } else {
+    $tabsContainer.setAttribute('hidden', 'hidde')
+    $tabsContainer.style.display = 'none'
+    $('.second-gutter').style.display = 'block'
+    $('.last-gutter').style.display = 'block'
+    $$editors.forEach(($editor, i) => {
+      $editor.style.display = 'block'
+      $editor.style.gridArea = $editor.getAttribute('data-grid-area')
+    })
+  }
+}
+
 const setGridLayout = (type = '') => {
   const style = EDITOR_GRID_TEMPLATE[type] || DEFAULT_GRID_TEMPLATE
 
@@ -56,8 +99,11 @@ const setGridLayout = (type = '') => {
     {
       vertical: VERTICAL_LAYOUT,
       horizontal: HORIZONTAL_LAYOUT,
-      bottom: BOTTOM_LAYOUT
+      bottom: BOTTOM_LAYOUT,
+      tabs: TABS_LAYOUT
     }[type] ?? DEFAULT_LAYOUT
+
+  configLayoutTabsElements(type)
 
   const initialStyle = !splitInstance && getInitialGridStyle()
 

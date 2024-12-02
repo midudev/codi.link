@@ -54,3 +54,10 @@ export const BOTTOM_LAYOUT = {
     element: '.last-gutter'
   }]
 }
+
+export const TABS_LAYOUT = {
+  columnGutters: [{
+    track: 1,
+    element: '.first-gutter'
+  }]
+}
