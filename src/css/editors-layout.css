@@ -9,8 +9,18 @@
   height: 100vh;
 
   [data-layout='default'] & {
+    & .first-gutter {
+      position: relative;
+      box-shadow: -1px 0 0 0 var(--grid-background),
+        1px 0 0 0 var(--grid-background);
+    }
     & .second-gutter {
       background: transparent;
+    }
+    & .last-gutter {
+      position: relative;
+      box-shadow: 0 -1px 0 0 var(--grid-background),
+        0 1px 0 0 var(--grid-background);
     }
   }
   [data-layout='layout-2'] & {
@@ -19,8 +29,18 @@
       '. . .'
       'editor-js . editor-preview';
 
+    & .first-gutter {
+      position: relative;
+      box-shadow: -1px 0 0 0 var(--grid-background),
+        1px 0 0 0 var(--grid-background);
+    }
     & .second-gutter {
       background: transparent;
+    }
+    & .last-gutter {
+      position: relative;
+      box-shadow: 0 -1px 0 0 var(--grid-background),
+        0 1px 0 0 var(--grid-background);
     }
   }
   [data-layout='vertical'] & {
@@ -28,16 +48,25 @@
     & .first-gutter {
       cursor: col-resize;
       grid-area: 1 / 2 / 1 / 2;
+      position: relative;
+      box-shadow: -1px 0 0 0 var(--grid-background),
+        1px 0 0 0 var(--grid-background);
     }
     & .second-gutter {
       cursor: col-resize;
       grid-area: 1 / 4 / 1 / 4;
       background-image: url(/assets/vertical.png);
+      position: relative;
+      box-shadow: -1px 0 0 0 var(--grid-background),
+        1px 0 0 0 var(--grid-background);
     }
     & .last-gutter {
       cursor: col-resize;
       grid-area: 1 / 6 / 1 / 6;
       background-image: url(/assets/vertical.png);
+      position: relative;
+      box-shadow: -1px 0 0 0 var(--grid-background),
+        1px 0 0 0 var(--grid-background);
     }
   }
   [data-layout='horizontal'] & {
@@ -53,15 +82,24 @@
       grid-area: 2 / 1 / 2 / 1;
       cursor: row-resize;
       background-image: url(/assets/horizontal.png);
+      position: relative;
+      box-shadow: 0 -1px 0 0 var(--grid-background),
+        0 1px 0 0 var(--grid-background);
     }
     & .second-gutter {
       grid-area: 4 / 1 / 4 / 1;
       cursor: row-resize;
       background-image: url(/assets/horizontal.png);
+      position: relative;
+      box-shadow: 0 -1px 0 0 var(--grid-background),
+        0 1px 0 0 var(--grid-background);
     }
     & .last-gutter {
       grid-area: 6 / 1 / 6 / 1;
       cursor: row-resize;
+      position: relative;
+      box-shadow: 0 -1px 0 0 var(--grid-background),
+        0 1px 0 0 var(--grid-background);
     }
   }
   [data-layout='bottom'] & {
@@ -74,15 +112,24 @@
     & .first-gutter {
       cursor: col-resize;
       grid-area: 2 / 2 / 4 / 3;
+      position: relative;
+      box-shadow: -1px 0 0 0 var(--grid-background),
+        1px 0 0 0 var(--grid-background);
     }
     & .second-gutter {
       cursor: col-resize;
       grid-area: 2 / 4 / 4 / 5;
       background-image: url(/assets/vertical.png);
+      position: relative;
+      box-shadow: -1px 0 0 0 var(--grid-background),
+        1px 0 0 0 var(--grid-background);
     }
     & .last-gutter {
       cursor: row-resize;
       grid-area: 2 / 1 / 2 / 6;
+      position: relative;
+      box-shadow: 0 -1px 0 0 var(--grid-background),
+        0 1px 0 0 var(--grid-background);
     }
   }
   [data-layout='tabs'] & {
