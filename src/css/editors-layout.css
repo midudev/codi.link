@@ -145,6 +145,9 @@
       cursor: col-resize;
       background-image: url(/assets/vertical.png);
       grid-area: 1 / 2 / 3 / 2;
+      position: relative;
+      box-shadow: -1px 0 0 0 var(--grid-background),
+        1px 0 0 0 var(--grid-background);
     }
     & .second-gutter,
     & .last-gutter {
