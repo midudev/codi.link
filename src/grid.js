@@ -128,6 +128,7 @@ const setGridLayout = (type = '') => {
     ...(gutters.rowGutters && {
       rowGutters: gutters.rowGutters.map(formatGutters)
     }),
+    ...(type === 'tabs' && { columnMinSizes: { 0: 300 } }),
     minSize: 1,
     onDragEnd: saveGridTemplate
   }
