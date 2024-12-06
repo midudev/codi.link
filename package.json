@@ -13,25 +13,25 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "@preact/preset-vite": "2.8.1",
-    "@tauri-apps/cli": "1.5.9",
-    "autoprefixer": "10.4.17",
-    "postcss": "8.4.35",
-    "postcss-nesting": "12.0.2",
-    "standard": "17.1.0",
-    "tailwindcss": "3.4.1",
-    "vite": "5.1.1"
+    "@preact/preset-vite": "2.9.2",
+    "@tauri-apps/cli": "2.1.0",
+    "autoprefixer": "10.4.20",
+    "postcss": "8.4.49",
+    "postcss-nesting": "13.0.1",
+    "standard": "17.1.2",
+    "tailwindcss": "3.4.16",
+    "vite": "6.0.3"
   },
   "dependencies": {
-    "client-zip": "2.4.4",
-    "emmet-monaco-es": "5.3.0",
+    "client-zip": "2.4.6",
+    "emmet-monaco-es": "5.5.0",
     "escape-html": "1.0.3",
-    "js-base64": "3.7.6",
-    "lit": "3.1.2",
-    "monaco-editor": "0.46.0",
-    "preact": "10.19.4",
+    "js-base64": "3.7.7",
+    "lit": "3.2.1",
+    "monaco-editor": "0.52.0",
+    "preact": "10.25.1",
     "split-grid": "1.0.11",
-    "zustand": "4.5.0"
+    "zustand": "5.0.2"
   },
   "eslintConfig": {
     "extends": [
