@@ -175,18 +175,18 @@
 #tabs {
   grid-area: tabs;
   grid-template-columns: repeat(3, 1fr);
-  border-bottom: 1px solid rgb(49, 49, 49);
 
   & label {
     display: flex !important;
     align-items: center;
     padding-left: 8px;
-    border-bottom: 1px solid rgb(41, 41, 41);
+    border-bottom: 2px solid rgb(72, 72, 72);
     opacity: .2;
+    transition: opacity 0.2s ease;
     
     &.active {
       border-bottom: 2px solid;
-      opacity: 1;
+      opacity: 1 !important;
 
       &[for="markup"] {
         border-bottom-color: #e34f26;
@@ -197,6 +197,11 @@
       &[for="script"] {
         border-bottom-color: rgb(255, 193, 7);
       }
+    }
+
+    &:hover {
+      cursor: pointer;
+      opacity: .7;
     }
 
     & + label {
