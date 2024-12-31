@@ -23,16 +23,12 @@
         const { state } = JSON.parse(storedData) ?? {}
         if (!state) return
 
-        const { theme, sidebar, layout } = state
+        const { theme, layout } = state
 
         // Configurar atributos y clases del elemento raíz
         const rootElement = document.documentElement
         if (theme) rootElement.setAttribute('data-theme', theme)
         if (layout) rootElement.setAttribute('data-layout', layout)
-
-        if (typeof sidebar === 'string') {
-          rootElement.classList.toggle('sections-compact', sidebar === 'compact')
-        }
       } catch (error) {
         console.error('Error al configurar el estado inicial:', error);
       }
@@ -146,16 +142,17 @@
                   <span class="skypack-type">JavaScript:</span>
                   <span data-translate="addDependency">Add dependency</span>
                 </strong>
-                <span data-translate="addDependencyDescription">An import statement will be added to the top of the JavaScript editor for the package.</span>
-                
+                <span data-translate="addDependencyDescription">An import statement will be added to the top of the
+                  JavaScript editor for the package.</span>
+
                 <div class="input">
                   <svg viewBox="0 0 56.7 56.7" class="input-icon" width="18" height="18">
                     <path
                       d="M42.8,7.3C33-2.4,17.1-2.4,7.3,7.3c-9.8,9.8-9.8,25.7,0,35.5c8.7,8.7,22.2,9.7,32,2.9l9.6,9.6c1.8,1.8,4.7,1.8,6.4,0 c1.8-1.8,1.8-4.7,0-6.4l-9.6-9.6C52.5,29.5,51.5,16,42.8,7.3z M36.6,36.6c-6.4,6.4-16.7,6.4-23.1,0s-6.4-16.7,0-23.1 c6.4-6.4,16.7-6.4,23.1,0C43,19.9,43,30.3,36.6,36.6z">
                     </path>
                   </svg>
-                  <input data-translate-placeholder="searchDependency" id="skypack-search-input" type="search" placeholder="Search npm and add a package..."
-                    autocomplete="off" />
+                  <input data-translate-placeholder="searchDependency" id="skypack-search-input" type="search"
+                    placeholder="Search npm and add a package..." autocomplete="off" />
                 </div>
 
                 <p class="search-results-message"></p>
@@ -179,7 +176,8 @@
                   <span class="console-type">JavaScript:</span>
                   <span data-translate="console">Console</span>
                 </strong>
-                <span data-translate="consoleDescription">Shows the result of the code execution. Supports log, warn, info and error methods.</span>
+                <span data-translate="consoleDescription">Shows the result of the code execution. Supports log, warn,
+                  info and error methods.</span>
               </header>
 
               <ul class="console-list"></ul>
@@ -347,11 +345,11 @@
                 <span class="settings-type" data-translate="editor">Editor:</span>
                 <span data-translate="maxExecutionTime">Max. execution time</span>
               </strong>
-                <input name="maxExecutionTime" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
-                  type="number" wrap="off" value="200" min="100" max="5000" step="100" />
-                <p class="setting-description" data-translate="maxExecutionTimeDesc">
-                  The maximum execution time in milliseconds to prevent the editor from freezing. 
-                </p>
+              <input name="maxExecutionTime" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
+                type="number" wrap="off" value="200" min="100" max="5000" step="100" />
+              <p class="setting-description" data-translate="maxExecutionTimeDesc">
+                The maximum execution time in milliseconds to prevent the editor from freezing.
+              </p>
             </div>
 
             <div class="settings-item">
@@ -402,19 +400,6 @@
             <div class="settings-item">
               <strong>
                 <span data-translate="workbench" class="settings-type">Workbench:</span>
-                <span data-translate="sidebarStyle">Sidebar Style</span>
-              </strong>
-              <div class="select">
-                <select name="sidebar">
-                  <option data-translate="default" value="default">Default</option>
-                  <option data-translate="compact" value="compact">Compact</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="settings-item">
-              <strong>
-                <span data-translate="workbench" class="settings-type">Workbench:</span>
                 <span data-translate="preserveGrid">Preserve Grid</span>
               </strong>
               <div>
@@ -454,7 +439,8 @@
               <div>
                 <label class="checkbox">
                   <input name="saveLocalstorage" type="checkbox" />
-                  <span data-translate="automaticallySaveUrl">Automatically save URL to local storage for fast content loading</span>
+                  <span data-translate="automaticallySaveUrl">Automatically save URL to local storage for fast content
+                    loading</span>
                 </label>
               </div>
             </div>

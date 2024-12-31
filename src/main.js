@@ -7,7 +7,6 @@ import { initializeEventsController } from './events-controller.js'
 import { getState, subscribe } from './state.js'
 import * as Preview from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
-import setSidebar from './sidebar.js'
 import setTheme from './theme.js'
 import setLanguage from './language.js'
 import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
@@ -25,11 +24,10 @@ import { BUTTON_ACTIONS } from './constants/button-actions.js'
 import './components/layout-preview/layout-preview.js'
 import './components/codi-editor/codi-editor.js'
 
-const { layout: currentLayout, sidebar, theme, language, saveLocalstorage } = getState()
+const { layout: currentLayout, theme, language, saveLocalstorage } = getState()
 const { history, updateHistoryItem } = getHistoryState()
 
 setGridLayout(currentLayout)
-setSidebar(sidebar)
 setTheme(theme)
 setLanguage(language)
 
@@ -70,7 +68,6 @@ subscribe(state => {
     })
   })
   setGridLayout(state.layout)
-  setSidebar(state.sidebar)
   setTheme(state.theme)
   setLanguage(state.language)
 })
