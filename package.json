@@ -13,14 +13,14 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "@preact/preset-vite": "2.9.2",
+    "@preact/preset-vite": "2.9.3",
     "@tauri-apps/cli": "2.1.0",
     "autoprefixer": "10.4.20",
     "postcss": "8.4.49",
     "postcss-nesting": "13.0.1",
     "standard": "17.1.2",
-    "tailwindcss": "3.4.16",
-    "vite": "6.0.3"
+    "tailwindcss": "3.4.17",
+    "vite": "6.0.6"
   },
   "dependencies": {
     "client-zip": "2.4.6",
@@ -28,8 +28,8 @@
     "escape-html": "1.0.3",
     "js-base64": "3.7.7",
     "lit": "3.2.1",
-    "monaco-editor": "0.52.0",
-    "preact": "10.25.1",
+    "monaco-editor": "0.52.2",
+    "preact": "10.25.4",
     "split-grid": "1.0.11",
     "zustand": "5.0.2"
   },
