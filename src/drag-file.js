@@ -31,6 +31,12 @@ window.addEventListener('dragleave', ({ clientX, clientY }) => {
   }
 })
 
+window.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    $overlayDrag.classList.add('hidden')
+  }
+})
+
 function readFiles (e) {
   const { files } = e.dataTransfer
   Object.values(files).forEach(file => {
