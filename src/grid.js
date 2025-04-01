@@ -111,8 +111,8 @@ const setGridLayout = (type = '') => {
   $editor.setAttribute('style', initialStyle || style)
 
   $$layoutSelector.forEach(layoutEl => {
-    if (type === layoutEl.layout) {
-      layoutEl.setAttribute('active', '')
+    if (type === layoutEl.getAttribute('layout')) {
+      layoutEl.setAttribute('active', 'true')
     } else {
       layoutEl.removeAttribute('active')
     }
