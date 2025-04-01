@@ -109,6 +109,8 @@ async function fetchNextPagePackagesAndDisplayResults () {
 
 async function fetchPackages ({ abortController, packageName, page = 1 }) {
   try {
+    // Restamos 1 porque la API de Algolia usa índice 0 para la primera página
+    const pageIndex = page - 1
     const resultFetch = await window.fetch(
       'https://ofcncog2cu-dsn.algolia.net/1/indexes/npm-search/query?x-algolia-agent=Algolia%20for%20JavaScript%20(3.35.1)%3B%20Browser%20(lite)&x-algolia-application-id=OFCNCOG2CU&x-algolia-api-key=f54e21fa3a2a0160595bb058179bfb1e',
       {
@@ -123,7 +125,7 @@ async function fetchPackages ({ abortController, packageName, page = 1 }) {
         },
         referrer: 'https://www.jsdelivr.com/',
         referrerPolicy: 'strict-origin-when-cross-origin',
-        body: `{"params": "query=${packageName}&page=0&hitsPerPage=10&attributesToRetrieve=%5B%22deprecated%22%2C%22description%22%2C%22githubRepo%22%2C%22homepage%22%2C%22keywords%22%2C%22license%22%2C%22name%22%2C%22owner%22%2C%22version%22%2C%22popular%22%2C%22moduleTypes%22%2C%22styleTypes%22%2C%22jsDelivrHits%22%5D&analyticsTags=%5B%22jsdelivr%22%5D&facetFilters=moduleTypes%3Aesm"}`,
+        body: `{"params": "query=${packageName}&page=${pageIndex}&hitsPerPage=10&attributesToRetrieve=%5B%22deprecated%22%2C%22description%22%2C%22githubRepo%22%2C%22homepage%22%2C%22keywords%22%2C%22license%22%2C%22name%22%2C%22owner%22%2C%22version%22%2C%22popular%22%2C%22moduleTypes%22%2C%22styleTypes%22%2C%22jsDelivrHits%22%5D&analyticsTags=%5B%22jsdelivr%22%5D&facetFilters=moduleTypes%3Aesm"}`,
         method: 'POST',
         mode: 'cors',
         credentials: 'omit',
