@@ -55,29 +55,29 @@
       background: rgb(235, 189, 189);
       border: 2px solid rgb(204, 0, 0);
       color: black;
-      padding-top: 0.5em;
+      padding-top: 0.5em
     }
 
     & .error::before {
-      content: "❗";
+      content: '❗';
       margin-right: 4px;
       width: 1em;
     }
 
     & .log-log {
-      color: var(--log-log);
+      color: var(--log-log)
     }
 
     & .log-info {
-      color: var(--log-info);
+      color: var(--log-info)
     }
 
     & .log-error {
-      color: var(--log-error);
+      color: var(--log-error)
     }
 
     & .log-warn {
-      color: var(--log-warn);
+      color: var(--log-warn)
     }
   }
 
