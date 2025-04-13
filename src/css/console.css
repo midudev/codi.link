@@ -55,29 +55,54 @@
       background: rgb(235, 189, 189);
       border: 2px solid rgb(204, 0, 0);
       color: black;
-      padding-top: 0.5em
+      padding-top: 0.5em;
     }
 
     & .error::before {
-      content: '❗';
+      content: "❗";
       margin-right: 4px;
       width: 1em;
     }
 
     & .log-log {
-      color: var(--log-log)
+      color: var(--log-log);
     }
 
     & .log-info {
-      color: var(--log-info)
+      color: var(--log-info);
     }
 
     & .log-error {
-      color: var(--log-error)
+      color: var(--log-error);
     }
 
     & .log-warn {
-      color: var(--log-warn)
+      color: var(--log-warn);
     }
+  }
+
+  /* aca tocaria ajustar los colores dependiendo del tema que este puesto pero por defecto es el mismo que el resto de la pagina */
+  .console-string {
+    color: #ce9178;
+  }
+
+  .console-number {
+    color: #b5cea8;
+  }
+
+  .console-boolean {
+    color: #569cd6;
+  }
+
+  .console-null {
+    color: #d16969;
+  }
+
+  .console-undefined {
+    color: #d16969;
+  }
+
+  .console-key {
+    color: #9cdcfe;
   }
 }
