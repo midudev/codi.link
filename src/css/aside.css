@@ -73,7 +73,7 @@ aside button.is-active {
   color: var(--aside-bar-foreground);
   border-right: 1px solid var(--aside-bar-border);
   width: 310px;
-  height: 100vh;
+  height: 100dvh;
   overflow-y: auto;
   scrollbar-gutter: stable;
 
