@@ -21,7 +21,7 @@ import './console.js'
 
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
-import './components/layout-preview/layout-preview.js'
+import './components/layout-preview/layout-preview.jsx'
 import './components/codi-editor/codi-editor.js'
 
 const { layout: currentLayout, theme, language, saveLocalstorage } = getState()

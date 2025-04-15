@@ -10,7 +10,7 @@ export const CodiEditorStyles = css`
     position: absolute;
     right: 16px;
     bottom: 16px;
-    z-index: 10;
+    z-index: 9;
     width: 48px;
     height: 48px;
     object-fit: contain;
