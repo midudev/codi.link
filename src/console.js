@@ -12,6 +12,64 @@ const isPrimitive = (item) => {
   return ['string', 'number', 'boolean', 'symbol', 'bigint'].includes(typeof item) || item === null || item === undefined
 }
 
+// formatear objetos y arrays en la consola con indentación y colores para que ahora si sean legibles jaja
+const formatValue = (value, indentLevel = 0) => {
+  const indent = '  '.repeat(indentLevel)
+
+  if (value === null) {
+    return '<span class="console-null">null</span>'
+  }
+
+  if (value === undefined) {
+    return '<span class="console-undefined">undefined</span>'
+  }
+
+  if (typeof value === 'string') {
+    return `<span class="console-string">"${value.replace(/"/g, '\\"')}"</span>`
+  }
+
+  if (typeof value === 'number') {
+    return `<span class="console-number">${value}</span>`
+  }
+
+  if (typeof value === 'boolean') {
+    return `<span class="console-boolean">${value}</span>`
+  }
+
+  if (Array.isArray(value)) {
+    if (value.length === 0) return '[]'
+
+    let result = '[\n'
+
+    value.forEach((item, index) => {
+      result += `${indent}  ${formatValue(item, indentLevel + 1)}`
+      if (index < value.length - 1) result += ','
+      result += '\n'
+    })
+
+    result += `${indent}]`
+    return result
+  }
+
+  if (typeof value === 'object') {
+    const keys = Object.keys(value)
+    if (keys.length === 0) return '{}'
+
+    let result = '{\n'
+
+    keys.forEach((key, index) => {
+      result += `${indent}  <span class="console-key">${key}</span>: ${formatValue(value[key], indentLevel + 1)}`
+      if (index < keys.length - 1) result += ','
+      result += '\n'
+    })
+
+    result += `${indent}}`
+    return result
+  }
+
+  return String(value)
+}
+
 const createListItem = (content, type) => {
   const $li = document.createElement('li')
   $li.classList.add(`log-${type.split(':')[1]}`)
@@ -21,7 +79,14 @@ const createListItem = (content, type) => {
   const $pre = document.createElement('pre')
   $pre.style.whiteSpace = 'pre-wrap'
   $pre.style.margin = '0'
-  $pre.textContent = content
+
+  // innerHTML en lugar de textContent para que deje formatear
+  if (typeof content === 'string' && (content.includes('<span') || content.includes('\n'))) {
+    $pre.innerHTML = content
+  } else {
+    $pre.textContent = content
+  }
+
   $li.appendChild($pre)
 
   return $li
@@ -40,9 +105,22 @@ const handlers = {
     $consoleList.appendChild(errorItem)
   },
   default: (payload, type) => {
-    const content = Number.isNaN(payload.find(isPrimitive)) || payload.find(isPrimitive)
-      ? payload.join(' ')
-      : payload.map(item => JSON.stringify(item)).join(' ')
+    let content
+
+    if (payload.length === 1 && typeof payload[0] === 'object' && payload[0] !== null) {
+      content = formatValue(payload[0])
+    } else if (payload.some(item => typeof item === 'object' && item !== null)) {
+      content = payload.map(item => {
+        if (typeof item === 'object' && item !== null) {
+          return formatValue(item)
+        }
+        return formatValue(item)
+      }).join(' ')
+    } else {
+      content = Number.isNaN(payload.find(isPrimitive)) || payload.find(isPrimitive)
+        ? payload.join(' ')
+        : payload.map(item => JSON.stringify(item)).join(' ')
+    }
 
     const listItem = createListItem(content, type)
     $consoleList.appendChild(listItem)

@@ -80,4 +80,29 @@
       color: var(--log-warn)
     }
   }
+
+  /* aca tocaria ajustar los colores dependiendo del tema que este puesto pero por defecto es el mismo que el resto de la pagina */
+  .console-string {
+    color: #ce9178;
+  }
+
+  .console-number {
+    color: #b5cea8;
+  }
+
+  .console-boolean {
+    color: #569cd6;
+  }
+
+  .console-null {
+    color: #d16969;
+  }
+
+  .console-undefined {
+    color: #d16969;
+  }
+
+  .console-key {
+    color: #9cdcfe;
+  }
 }
