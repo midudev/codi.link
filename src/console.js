@@ -12,7 +12,6 @@ const isPrimitive = (item) => {
   return ['string', 'number', 'boolean', 'symbol', 'bigint'].includes(typeof item) || item === null || item === undefined
 }
 
-// formatear objetos y arrays en la consola con indentación y colores para que ahora si sean legibles jaja
 const formatValue = (value, indentLevel = 0) => {
   const indent = '  '.repeat(indentLevel)
 
@@ -110,12 +109,7 @@ const handlers = {
     if (payload.length === 1 && typeof payload[0] === 'object' && payload[0] !== null) {
       content = formatValue(payload[0])
     } else if (payload.some(item => typeof item === 'object' && item !== null)) {
-      content = payload.map(item => {
-        if (typeof item === 'object' && item !== null) {
-          return formatValue(item)
-        }
-        return formatValue(item)
-      }).join(' ')
+      content = payload.map(item => formatValue(item)).join(' ')
     } else {
       content = Number.isNaN(payload.find(isPrimitive)) || payload.find(isPrimitive)
         ? payload.join(' ')
@@ -135,10 +129,8 @@ const handlers = {
 }
 
 window.addEventListener('message', (ev) => {
-  const { console: consoleData } = ev.data
-
-  const payload = consoleData?.payload
-  const type = consoleData?.type
+  const { console: consoleData = {} } = ev.data
+  const { payload, type } = consoleData
 
   if (ev.source === $iframe.contentWindow) {
     const handler = handlers[type] || handlers.default
