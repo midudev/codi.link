@@ -45,7 +45,7 @@ body{
 
   .aside-bar {
     width: 100%;
-    max-height: calc(100vh - 75px);
+    max-height: calc(100dvh - 49px);
   }
 
   .aside-sections {
