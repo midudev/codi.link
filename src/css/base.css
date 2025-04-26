@@ -111,7 +111,7 @@ body {
   background-color: var(--app-background);
   color: var(--app-foreground);
   font-size: 16px;
-  height: 100vh;
+  height: 100dvh;
   line-height: 1.42857143;
   margin: 0;
   overflow: hidden;
@@ -165,6 +165,11 @@ select {
 #app {
   display: grid;
   grid-template-columns: auto 1fr;
+  height: 100dvh;
+
+  #editor {
+    height: 100dvh;
+  }
 }
 
 iframe {
