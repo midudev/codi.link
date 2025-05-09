@@ -1,5 +1,6 @@
 aside {
   display: flex;
+  height: 100dvh;
 }
 
 aside button {
