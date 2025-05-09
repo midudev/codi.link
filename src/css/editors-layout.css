@@ -223,7 +223,7 @@
       background-image: url(/assets/html5.svg);
     }
     &[for="style"]::before {
-      background-image: url(/assets/css3.svg);
+      background-image: url(/assets/css.svg);
     }
     &[for="script"]::before {
       background-image: url(/assets/js.svg);
