@@ -79,9 +79,18 @@ const createListItem = (content, type) => {
   $pre.style.whiteSpace = 'pre-wrap'
   $pre.style.margin = '0'
 
+  const containsHtmlTags = (str) => {
+    return typeof str === 'string' && /<[a-zA-Z][^>]*>/.test(str)
+  }
   // innerHTML en lugar de textContent para que deje formatear
-  if (typeof content === 'string' && (content.includes('<span') || content.includes('\n'))) {
-    $pre.innerHTML = content
+  if (typeof content === 'string' && (containsHtmlTags(content) || content.includes('\n'))) {
+    if (containsHtmlTags(content)) {
+      const tempDiv = document.createElement('div')
+      tempDiv.textContent = content
+      $pre.textContent = tempDiv.textContent
+    } else {
+      $pre.textContent = content
+    }
   } else {
     $pre.textContent = content
   }
