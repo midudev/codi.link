@@ -18,6 +18,7 @@ import './settings.js'
 import './scroll.js'
 import './drag-file.js'
 import './console.js'
+import './ai-status.js'
 
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
 

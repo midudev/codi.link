@@ -58,7 +58,12 @@ const pt = {
   featuresAutosave: 'Recursos › Autossalvar',
   localStorage: 'Armazenamento local',
   automaticallySaveUrl: 'Salvar automaticamente a URL no armazenamento local para carregamento rápido de conteúdo',
-  searchDependency: 'Pesquisar npm e adicionar um pacote...'
+  searchDependency: 'Pesquisar npm e adicionar um pacote...',
+  aiAutocomplete: 'Autocompletar com IA',
+  enableAiAutocomplete: 'Habilitar sugestões de código com IA',
+  aiAutocompleteDescription: 'Utiliza um modelo de IA local (Qwen2.5) para fornecer sugestões de código em todos os editores',
+  aiModelLoading: 'O modelo de IA está carregando...',
+  aiModelReady: 'Sugestões de código com IA prontas'
 }
 
 export default pt

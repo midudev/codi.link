@@ -58,7 +58,12 @@ const es = {
   featuresAutosave: 'Características › Guardado automático',
   localStorage: 'Almacenamiento local',
   automaticallySaveUrl: 'Guardar automáticamente la URL en el almacenamiento local para una carga rápida del contenido',
-  searchDependency: 'Buscar npm y agregar un paquete...'
+  searchDependency: 'Buscar npm y agregar un paquete...',
+  aiAutocomplete: 'Autocompletado con IA',
+  enableAiAutocomplete: 'Habilitar sugerencias de código con IA',
+  aiAutocompleteDescription: 'Utiliza un modelo de IA local (Qwen2.5) para proporcionar sugerencias de código en todos los editores',
+  aiModelLoading: 'El modelo de IA está cargando...',
+  aiModelReady: 'Sugerencias de código con IA listas'
 }
 
 export default es

@@ -412,6 +412,25 @@
 
             <div class="settings-item">
               <strong>
+                <span class="settings-type" data-translate="editor">Editor:</span>
+                <span data-translate="aiAutocomplete">AI Autocomplete</span>
+              </strong>
+              <div>
+                <label class="checkbox">
+                  <input name="aiAutocomplete" type="checkbox" />
+                  <span data-translate="enableAiAutocomplete">Enable AI code suggestions</span>
+                </label>
+                <p class="setting-description" data-translate="aiAutocompleteDescription">
+                  Use local AI model (Qwen2.5) to provide code suggestions across all editors
+                </p>
+                <div id="ai-model-status" class="ai-model-status">
+                  <span class="ai-model-loading" data-translate="aiModelLoading">AI model is loading...</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <strong>
                 <span class="settings-type" data-translate="featuresDownload">Features › Download:</span>
                 <span data-translate="fileName">File name</span>
               </strong>
