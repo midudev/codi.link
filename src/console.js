@@ -82,12 +82,25 @@ const createListItem = (content, type) => {
   const containsHtmlTags = (str) => {
     return typeof str === 'string' && /<[a-zA-Z][^>]*>/.test(str)
   }
-  // innerHTML en lugar de textContent para que deje formatear
-  if (typeof content === 'string' && (containsHtmlTags(content) || content.includes('\n'))) {
-    if (containsHtmlTags(content)) {
+  
+  // Check if the content is formatted by formatValue function
+  const isFormattedByFormatValue = (str) => {
+    return typeof str === 'string' && str.includes('class="console-')
+  }
+  
+  // innerHTML for formatValue-generated HTML, textContent otherwise
+  if (typeof content === 'string') {
+    if (isFormattedByFormatValue(content)) {
+      // This is a string formatted by formatValue, render HTML tags
+      $pre.innerHTML = content
+    } else if (containsHtmlTags(content)) {
+      // This is user content with HTML tags, escape it
       const tempDiv = document.createElement('div')
       tempDiv.textContent = content
       $pre.textContent = tempDiv.textContent
+    } else if (content.includes('\n')) {
+      // Multiline content
+      $pre.textContent = content
     } else {
       $pre.textContent = content
     }
