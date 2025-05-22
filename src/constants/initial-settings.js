@@ -17,6 +17,7 @@ export const DEFAULT_INITIAL_SETTINGS = {
   zipFileName: 'codi.link',
   zipInSingleFile: false,
   saveLocalstorage: true,
+  aiAutocomplete: true,
   layout: {
     gutters: DEFAULT_LAYOUT,
     style: DEFAULT_GRID_TEMPLATE,

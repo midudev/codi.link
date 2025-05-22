@@ -58,7 +58,12 @@ const en = {
   featuresAutosave: 'Features › Autosave',
   localStorage: 'Local storage',
   automaticallySaveUrl: 'Automatically save URL to local storage for fast content loading',
-  searchDependency: 'Search npm and add a package...'
+  searchDependency: 'Search npm and add a package...',
+  aiAutocomplete: 'AI Autocomplete',
+  enableAiAutocomplete: 'Enable AI code suggestions',
+  aiAutocompleteDescription: 'Use local AI model (Qwen2.5) to provide code suggestions across all editors',
+  aiModelLoading: 'AI model is loading...',
+  aiModelReady: 'AI code suggestions ready'
 }
 
 export default en

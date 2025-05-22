@@ -6,6 +6,7 @@ import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import { registerAutoCompleteHTMLTag } from './extensions/autocomplete-html-tag.js'
+import { registerAIAutoComplete } from './extensions/ai-autocomplete.js'
 import { initEditorHotKeys } from './extensions/editor-hotkeys.js'
 import { CodiEditorStyles } from './CodiEditor.styles.js'
 
@@ -70,6 +71,7 @@ export class CodiEditor extends LitElement {
 
       emmetHTML(monaco)
       registerAutoCompleteHTMLTag(monaco)
+      registerAIAutoComplete(monaco)
       this.editorInitialized = true
     }
   }

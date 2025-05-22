@@ -1,0 +1,58 @@
+.ai-model-status {
+  margin-top: 8px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.ai-model-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+}
+
+.ai-model-loading::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--text-secondary);
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+.ai-model-ready {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--green);
+}
+
+.ai-model-ready::before {
+  content: '✓';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  line-height: 12px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.ai-model-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--red);
+}
+
+.ai-model-error::before {
+  content: '!';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  line-height: 12px;
+  text-align: center;
+  font-weight: bold;
+}
