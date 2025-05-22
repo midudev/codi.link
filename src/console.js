@@ -82,12 +82,12 @@ const createListItem = (content, type) => {
   const containsHtmlTags = (str) => {
     return typeof str === 'string' && /<[a-zA-Z][^>]*>/.test(str)
   }
-  
+
   // Check if the content is formatted by formatValue function
   const isFormattedByFormatValue = (str) => {
     return typeof str === 'string' && str.includes('class="console-')
   }
-  
+
   // innerHTML for formatValue-generated HTML, textContent otherwise
   if (typeof content === 'string') {
     if (isFormattedByFormatValue(content)) {
