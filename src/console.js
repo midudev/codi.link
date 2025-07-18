@@ -8,8 +8,15 @@ const clearConsole = () => {
   $consoleList.innerHTML = ''
 }
 
-const isPrimitive = (item) => {
-  return ['string', 'number', 'boolean', 'symbol', 'bigint'].includes(typeof item) || item === null || item === undefined
+const isValidIdentifier = (key) => /^[a-zA-Z_$][0-9a-zA-Z_$]*$/.test(key)
+
+const escapeHtml = (unsafe) => {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
 }
 
 const formatValue = (value, indentLevel = 0) => {
@@ -24,10 +31,14 @@ const formatValue = (value, indentLevel = 0) => {
   }
 
   if (typeof value === 'string') {
-    return `<span class="console-string">"${value.replace(/"/g, '\\"')}"</span>`
+    return `<span class="console-string">"${escapeHtml(value)}"</span>`
   }
 
   if (typeof value === 'number') {
+    return `<span class="console-number">${value}</span>`
+  }
+
+  if (typeof value === 'bigint') {
     return `<span class="console-number">${value}</span>`
   }
 
@@ -57,7 +68,12 @@ const formatValue = (value, indentLevel = 0) => {
     let result = '{\n'
 
     keys.forEach((key, index) => {
-      result += `${indent}  <span class="console-key">${key}</span>: ${formatValue(value[key], indentLevel + 1)}`
+      const renderedKey = isValidIdentifier(key)
+        ? `<span class="console-key">${escapeHtml(key)}</span>`
+        : `<span class="console-string">"${escapeHtml(key)}"</span>`
+
+      result += `${indent}  ${renderedKey}: ${formatValue(value[key], indentLevel + 1)}`
+
       if (index < keys.length - 1) result += ','
       result += '\n'
     })
@@ -79,21 +95,7 @@ const createListItem = (content, type) => {
   $pre.style.whiteSpace = 'pre-wrap'
   $pre.style.margin = '0'
 
-  const containsHtmlTags = (str) => {
-    return typeof str === 'string' && /<[a-zA-Z][^>]*>/.test(str)
-  }
-  // innerHTML en lugar de textContent para que deje formatear
-  if (typeof content === 'string' && (containsHtmlTags(content) || content.includes('\n'))) {
-    if (containsHtmlTags(content)) {
-      const tempDiv = document.createElement('div')
-      tempDiv.textContent = content
-      $pre.textContent = tempDiv.textContent
-    } else {
-      $pre.textContent = content
-    }
-  } else {
-    $pre.textContent = content
-  }
+  $pre.innerHTML = content
 
   $li.appendChild($pre)
 
@@ -113,18 +115,7 @@ const handlers = {
     $consoleList.appendChild(errorItem)
   },
   default: (payload, type) => {
-    let content
-
-    if (payload.length === 1 && typeof payload[0] === 'object' && payload[0] !== null) {
-      content = formatValue(payload[0])
-    } else if (payload.some(item => typeof item === 'object' && item !== null)) {
-      content = payload.map(item => formatValue(item)).join(' ')
-    } else {
-      content = Number.isNaN(payload.find(isPrimitive)) || payload.find(isPrimitive)
-        ? payload.join(' ')
-        : payload.map(item => JSON.stringify(item)).join(' ')
-    }
-
+    const content = payload.map(item => formatValue(item)).join(' ')
     const listItem = createListItem(content, type)
     $consoleList.appendChild(listItem)
   },
