@@ -9,7 +9,7 @@ const $asideBar = $('.aside-bar')
 const $buttons = $$('button', $aside)
 const $editorAsideButton = $('#editor-aside-button')
 
-const toggleAsideBar = (isHidden) => {
+const toggleAsideBar = isHidden => {
   $asideBar.toggleAttribute('hidden', isHidden)
 }
 
@@ -64,7 +64,7 @@ const NON_SIMPLE_CLICK_ACTIONS = {
   }
 }
 
-const showAsideBar = (selector) => {
+const showAsideBar = selector => {
   $asideBar.removeAttribute('hidden')
   $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
   $(selector).removeAttribute('hidden')
@@ -78,7 +78,8 @@ const ACTIONS = {
 $buttons.forEach(button => {
   button.addEventListener('click', ({ currentTarget }) => {
     let action = button.getAttribute('data-action')
-    const isSimpleClickAction = button.getAttribute('data-is-simple-click-action') === 'true'
+    const isSimpleClickAction =
+      button.getAttribute('data-is-simple-click-action') === 'true'
 
     if (isSimpleClickAction) return ACTIONS[action]()
 
@@ -88,9 +89,7 @@ $buttons.forEach(button => {
     const buttonToActive = alreadyActive ? $editorAsideButton : currentTarget
     buttonToActive.classList.add('is-active')
 
-    action = alreadyActive
-      ? 'close-aside-bar'
-      : action
+    action = alreadyActive ? 'close-aside-bar' : action
 
     ACTIONS[action]()
   })
