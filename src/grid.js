@@ -21,7 +21,7 @@ const $tabsContainer = $('#tabs')
 const $$tabs = $$('#tabs label')
 let splitInstance
 
-const selectTab = (event) => {
+const selectTab = event => {
   $$editors.forEach($editor => ($editor.style.display = 'none'))
   const $targetEditor = $(`#${event.target.getAttribute('for')}`)
   $targetEditor.style.display = 'block'
@@ -65,7 +65,7 @@ const getInitialGridStyle = () => {
   )
 }
 
-const configLayoutTabsElements = (type) => {
+const configLayoutTabsElements = type => {
   if (type === 'tabs') {
     $tabsContainer.removeAttribute('hidden')
     $tabsContainer.style.display = 'grid'
