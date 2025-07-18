@@ -45,19 +45,19 @@ export const EVENTS = {
   CLEAR_HISTORY: 'CLEAR_HISTORY'
 }
 
-eventBus.on(EVENTS.ADD_SKYPACK_PACKAGE, ({ detail: { skypackPackage, url } }) => {
-  const importStatement = `import ${capitalize(skypackPackage).replaceAll('.', '_')} from '${url}';`
-  const existPackage = searchByLine(jsEditor.getValue(), url)
-  if (!existPackage) {
-    jsEditor.setValue(`${importStatement}\n${jsEditor.getValue()}`)
+eventBus.on(
+  EVENTS.ADD_SKYPACK_PACKAGE,
+  ({ detail: { skypackPackage, url } }) => {
+    const importStatement = `import ${capitalize(skypackPackage).replaceAll('.', '_')} from '${url}';`
+    const existPackage = searchByLine(jsEditor.getValue(), url)
+    if (!existPackage) {
+      jsEditor.setValue(`${importStatement}\n${jsEditor.getValue()}`)
+    }
   }
-})
+)
 
 eventBus.on(EVENTS.DOWNLOAD_USER_CODE, () => {
-  const {
-    zipInSingleFile,
-    zipFileName
-  } = getState()
+  const { zipInSingleFile, zipFileName } = getState()
 
   downloadUserCode({
     zipFileName,
@@ -72,10 +72,17 @@ eventBus.on(EVENTS.DRAG_FILE, ({ detail: { content, typeFile } }) => {
   const file = typeFile
 
   switch (file) {
-    case 'text/javascript': jsEditor.setValue(content); break
-    case 'text/css': cssEditor.setValue(content); break
-    case 'text/html': htmlEditor.setValue(content); break
-    default: break
+    case 'text/javascript':
+      jsEditor.setValue(content)
+      break
+    case 'text/css':
+      cssEditor.setValue(content)
+      break
+    case 'text/html':
+      htmlEditor.setValue(content)
+      break
+    default:
+      break
   }
 })
 
