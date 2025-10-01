@@ -1,0 +1,159 @@
+{
+    "one-dark-pro": {
+        "label": "One Dark Pro",
+        "base": "vs-dark",
+        "inherit": true,
+        "semanticHighlighting": true,
+        "rules": [
+            {
+                "token": "comment",
+                "foreground": "#7f8590",
+                "fontStyle": "italic"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#c779dc"
+            },
+            {
+                "token": "number",
+                "foreground": "#d19a66"
+            },
+            {
+                "token": "string",
+                "foreground": "#99c27a"
+            },
+            {
+                "token": "storage",
+                "foreground": "#ffad66"
+            },
+            {
+                "token": "identifier",
+                "foreground": "#62afef"
+            },
+            {
+                "token": "tag",
+                "foreground": "#e06c75"
+            },
+            {
+                "token": "attribute.value",
+                "foreground": "#99c27a"
+            },
+            {
+                "token": "attribute.name",
+                "foreground": "#d19a66"
+            },
+            {
+                "token": "selector.class",
+                "foreground": "#d19a66"
+            }
+        ],
+        "colors": {
+            "editor.background": "#282b34",
+            "editor.lineHighlightBackground": "#2e313d"
+        }
+    },
+    "dracula": {
+        "base": "vs-dark",
+        "inherit": true,
+        "label": "Dracula",
+        "rules": [
+            {
+                "token": "comment",
+                "foreground": "#5b72a4",
+                "fontStyle": "italic"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#fe7bc8"
+            },
+            {
+                "token": "number",
+                "foreground": "#bf95f9"
+            },
+            {
+                "token": "string",
+                "foreground": "#e5fb8e"
+            },
+            {
+                "token": "storage",
+                "foreground": "#ffad66"
+            },
+            {
+                "token": "identifier",
+                "foreground": "#bf95f9"
+            },
+            {
+                "token": "tag",
+                "foreground": "#fe7bc8"
+            },
+            {
+                "token": "attribute.value",
+                "foreground": "#e5fb8e"
+            },
+            {
+                "token": "attribute.name",
+                "foreground": "#50fb7b"
+            },
+            {
+                "token": "selector.class",
+                "foreground": "#d19a66"
+            }
+        ],
+        "colors": {
+            "editor.background": "#2a2c37",
+            "editor.lineHighlightBackground": "#2a2c37"
+        }
+    },
+    "mosqueta-dark": {
+        "base": "vs-dark",
+        "inherit": true,
+        "label": "Mosqueta Dark",
+        "rules": [
+            {
+                "token": "comment",
+                "foreground": "#6272a4",
+                "fontStyle": "italic"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#e67cbe"
+            },
+            {
+                "token": "number",
+                "foreground": "#ffec80"
+            },
+            {
+                "token": "string",
+                "foreground": "#f8ff97"
+            },
+            {
+                "token": "storage",
+                "foreground": "#ffad66"
+            },
+            {
+                "token": "identifier",
+                "foreground": "#deff8a"
+            },
+            {
+                "token": "tag",
+                "foreground": "#ffb3d9"
+            },
+            {
+                "token": "attribute.value",
+                "foreground": "#f9fe95"
+            },
+            {
+                "token": "attribute.name",
+                "foreground": "#fdd686"
+            },
+            {
+                "token": "selector.class",
+                "foreground": "#d19a66"
+            }
+        ],
+        "colors": {
+            "editor.background": "#232935",
+            "editor.lineHighlightBackground": "#1a1d28"
+        }
+    }
+}

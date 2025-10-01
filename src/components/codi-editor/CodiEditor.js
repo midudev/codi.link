@@ -8,6 +8,7 @@ import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import { registerAutoCompleteHTMLTag } from './extensions/autocomplete-html-tag.js'
 import { initEditorHotKeys } from './extensions/editor-hotkeys.js'
 import { CodiEditorStyles } from './CodiEditor.styles.js'
+import { registerThemes } from './extensions/register-themes.js'
 
 const iconUrls = {
   css: new URL('../../../assets/css.svg', import.meta.url),
@@ -68,6 +69,7 @@ export class CodiEditor extends LitElement {
         }
       }
 
+      registerThemes(monaco)
       emmetHTML(monaco)
       registerAutoCompleteHTMLTag(monaco)
       this.editorInitialized = true

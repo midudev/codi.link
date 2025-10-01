@@ -107,6 +107,87 @@
   --log-warn: rgb(178, 145, 0);
 }
 
+[data-theme='mosqueta-dark'] {
+  --app-background: #171a25;
+  --app-foreground: rgb(51, 51, 51);
+
+  --aside-sections-background: #171a25;
+  --aside-sections-border: transparent;
+
+  --aside-bar-background: #1e2530;
+  --aside-bar-foreground: rgb(204, 204, 204);
+  --aside-bar-border: transparent;
+
+  --grid-background: #171a25;
+
+  --button-foreground: rgba(255, 255, 255, 0.4);
+  --button-foreground-active: #ff89ef;
+  --button-border-active: #40142c;
+  --button-background-active: #40142c;
+
+  --button-title-background: #171a25;
+  --button-title-foreground: rgb(225, 228, 232);
+  --button-title-border: rgb(51, 51, 51);
+
+  --input-background: #171a25;
+  --input-foreground: #ff89ef;
+  --input-border: #171a25;
+}
+
+[data-theme='dracula'] {
+  --app-background: #171a25;
+  --app-foreground: rgb(51, 51, 51);
+
+  --aside-sections-background: #353646;
+  --aside-sections-border: transparent;
+
+  --aside-bar-background: #20232c;
+  --aside-bar-foreground: #ffffff;
+  --aside-bar-border: transparent;
+
+  --grid-background: #171a25;
+
+  --button-foreground: #6473a6;
+  --button-foreground-active: #ffffff;
+  --button-border-active: #40142c;
+  --button-background-active: #40142c;
+
+  --button-title-background: #171a25;
+  --button-title-foreground: rgb(225, 228, 232);
+  --button-title-border: rgb(51, 51, 51);
+
+  --input-background: #454659;
+  --input-foreground: #ffffff;
+  --input-border: #171a25;
+}
+
+[data-theme='one-dark-pro'] {
+  --app-background: #171a25;
+  --app-foreground: rgb(51, 51, 51);
+
+  --aside-sections-background: #282b34;
+  --aside-sections-border: transparent;
+
+  --aside-bar-background: #21262c;
+  --aside-bar-foreground: #ffffff;
+  --aside-bar-border: transparent;
+
+  --grid-background: #171a25;
+
+  --button-foreground: #6e7077;
+  --button-foreground-active: #ffffff;
+  --button-border-active: #40142c;
+  --button-background-active: #40142c;
+
+  --button-title-background: #171a25;
+  --button-title-foreground: rgb(225, 228, 232);
+  --button-title-border: rgb(51, 51, 51);
+
+  --input-background: #404554;
+  --input-foreground: #ffffff;
+  --input-border: #171a25;
+}
+
 body {
   background-color: var(--app-background);
   color: var(--app-foreground);
