@@ -2,7 +2,6 @@ import { eventBus, EVENTS } from './events-controller.js'
 import { $, $$ } from './utils/dom.js'
 import * as Preview from './utils/WindowPreviewer'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
-import { copyToClipboard } from './utils/string.js'
 
 const $aside = $('aside')
 const $asideBar = $('.aside-bar')
@@ -22,10 +21,8 @@ const SIMPLE_CLICK_ACTIONS = {
     Preview.showPreviewerWindow()
   },
 
-  [BUTTON_ACTIONS.copyToClipboard]: async () => {
-    const url = new URL(window.location.href)
-    const urlToCopy = `https://codi.link${url.pathname}`
-    copyToClipboard(urlToCopy)
+  [BUTTON_ACTIONS.copyToClipboard]: () => {
+    eventBus.emit(EVENTS.COPY_CURRENT_CODE_URL)
   },
 
   [BUTTON_ACTIONS.clearHistory]: () => {
