@@ -218,169 +218,208 @@
         </div>
 
         <form id="settings" hidden class="bar-content settings">
-          <div class="settings-content">
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="editor">Editor:</span>
-                <span data-translate="layout">Layout</span>
-              </strong>
-              <div>
-                <fieldset class="layout-preview-container">
-                  <label for="default-layout-radio">
-                    <input type="radio" name="layout" value="default" />
-                    <layout-preview layout="default"></layout-preview>
-                  </label>
-                  <label for="layout-2-layout-radio">
-                    <input type="radio" name="layout" value="layout-2" />
-                    <layout-preview layout="layout-2"></layout-preview>
-                  </label>
-                  <label for="vertical-layout-radio">
-                    <input type="radio" name="layout" value="vertical" />
-                    <layout-preview layout="vertical"></layout-preview>
-                  </label>
-                  <label for="horizontal-layout-radio">
-                    <input type="radio" name="layout" value="horizontal" />
-                    <layout-preview layout="horizontal"></layout-preview>
-                  </label>
-                  <label for="bottom-layout-radio">
-                    <input type="radio" name="layout" value="bottom" />
-                    <layout-preview layout="bottom"></layout-preview>
-                  </label>
-                  <label for="tabs-layout-radio">
-                    <input type="radio" name="layout" value="tabs" />
-                    <layout-preview layout="tabs"></layout-preview>
-                  </label>
-                </fieldset>
-              </div>
-            </div>
+  <div class="settings-content">
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="editor">Editor:</span>
+        <span data-translate="layout">Layout</span>
+      </strong>
+      <div>
+        <fieldset class="layout-preview-container">
+          <label for="default-layout-radio">
+            <input type="radio" name="layout" value="default" />
+            <layout-preview layout="default"></layout-preview>
+          </label>
+          <label for="layout-2-layout-radio">
+            <input type="radio" name="layout" value="layout-2" />
+            <layout-preview layout="layout-2"></layout-preview>
+          </label>
+          <label for="vertical-layout-radio">
+            <input type="radio" name="layout" value="vertical" />
+            <layout-preview layout="vertical"></layout-preview>
+          </label>
+          <label for="horizontal-layout-radio">
+            <input type="radio" name="layout" value="horizontal" />
+            <layout-preview layout="horizontal"></layout-preview>
+          </label>
+          <label for="bottom-layout-radio">
+            <input type="radio" name="layout" value="bottom" />
+            <layout-preview layout="bottom"></layout-preview>
+          </label>
+          <label for="tabs-layout-radio">
+            <input type="radio" name="layout" value="tabs" />
+            <layout-preview layout="tabs"></layout-preview>
+          </label>
+        </fieldset>
+      </div>
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="language">Language:</span>
-              </strong>
-              <div class="select">
-                <select name="language">
-                  <option value="en" data-translate="english">English</option>
-                  <option value="es" data-translate="spanish">Spanish</option>
-                  <option value="pt" data-translate="portuguese">Portuguese</option>
-                </select>
-              </div>
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="language">Language:</span>
+      </strong>
+      <div class="select">
+        <select name="language">
+          <option value="en" data-translate="english">English</option>
+          <option value="es" data-translate="spanish">Spanish</option>
+          <option value="pt" data-translate="portuguese">Portuguese</option>
+        </select>
+      </div>
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="editor">Editor:</span>
-                <span data-translate="lineNumbers">Line Numbers</span>
-              </strong>
-              <div class="select">
-                <select name="lineNumbers">
-                  <option data-translate="on" value="on">on</option>
-                  <option data-translate="off" value="off">off</option>
-                  <option data-translate="relative" value="relative">relative</option>
-                  <option data-translate="interval" value="interval">interval</option>
-                </select>
-              </div>
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="editor">Editor:</span>
+        <span data-translate="lineNumbers">Line Numbers</span>
+      </strong>
+      <div class="select">
+        <select name="lineNumbers">
+          <option data-translate="on" value="on">on</option>
+          <option data-translate="off" value="off">off</option>
+          <option data-translate="relative" value="relative">relative</option>
+          <option data-translate="interval" value="interval">interval</option>
+        </select>
+      </div>
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="editor">Editor:</span>
-                <span data-translate="wordWrap">Word Wrap</span>
-              </strong>
-              <div class="select">
-                <select name="wordWrap">
-                  <option data-translate="on" data-translate="" value="on">on</option>
-                  <option data-translate="off" value="off">off</option>
-                  <option data-translate="wordWrapColumn" value="wordWrapColumn">wordWrapColumn</option>
-                  <option data-translate="bounded" value="bounded">bounded</option>
-                </select>
-              </div>
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="editor">Editor:</span>
+        <span data-translate="wordWrap">Word Wrap</span>
+      </strong>
+      <div class="select">
+        <select name="wordWrap">
+          <option data-translate="on" data-translate="" value="on">on</option>
+          <option data-translate="off" value="off">off</option>
+          <option data-translate="wordWrapColumn" value="wordWrapColumn">
+            wordWrapColumn
+          </option>
+          <option data-translate="bounded" value="bounded">bounded</option>
+        </select>
+      </div>
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="editor">Editor:</span>
-                <span data-translate="fontSize">Font Size</span>
-              </strong>
-              <input name="fontSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
-                type="number" wrap="off" value="16" min="1" max="100" step="1" />
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="editor">Editor:</span>
+        <span data-translate="fontSize">Font Size</span>
+      </strong>
+      <input
+        name="fontSize"
+        class="input"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        type="number"
+        wrap="off"
+        value="16"
+        min="1"
+        max="100"
+        step="1"
+      />
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="editor">Editor:</span>
-                <span data-translate="tabSize">Tab Size</span>
-              </strong>
-              <input name="tabSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
-                type="number" wrap="off" value="2" min="1" max="100" step="1" />
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="editor">Editor:</span>
+        <span data-translate="tabSize">Tab Size</span>
+      </strong>
+      <input
+        name="tabSize"
+        class="input"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        type="number"
+        wrap="off"
+        value="2"
+        min="1"
+        max="100"
+        step="1"
+      />
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="editorMinimap">Editor › Minimap:</span>
-              </strong>
-              <div>
-                <label class="checkbox">
-                  <input name="minimap" type="checkbox" />
-                  <span data-translate="showMinimap">Show Minimap</span>
-                </label>
-              </div>
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="editor">Editor:</span>
+        <span data-translate="editorMinimap">Minimap</span>
+      </strong>
+      <label class="checkbox">
+        <input name="minimap" type="checkbox" />
+        <span data-translate="showMinimap">Show Minimap</span>
+      </label>
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="editor">Editor:</span>
-                <span data-translate="fontLigatures">Font Ligatures</span>
-              </strong>
-              <div>
-                <label class="checkbox">
-                  <input name="fontLigatures" type="checkbox" />
-                  <span data-translate="enableFontLigatures">Enable Font Ligatures</span>
-                </label>
-              </div>
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="editor">Editor:</span>
+        <span data-translate="fontLigatures">Font Ligatures</span>
+      </strong>
+      <div>
+        <label class="checkbox">
+          <input name="fontLigatures" type="checkbox" />
+          <span data-translate="enableFontLigatures"
+            >Enable Font Ligatures</span
+          >
+        </label>
+      </div>
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="editor">Editor:</span>
-                <span data-translate="maxExecutionTime">Max. execution time</span>
-              </strong>
-              <input name="maxExecutionTime" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
-                type="number" wrap="off" value="200" min="100" max="5000" step="100" />
-              <p class="setting-description" data-translate="maxExecutionTimeDesc">
-                The maximum execution time in milliseconds to prevent the editor from freezing.
-              </p>
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="editor">Editor:</span>
+        <span data-translate="maxExecutionTime">Max. execution time</span>
+      </strong>
+      <input
+        name="maxExecutionTime"
+        class="input"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        type="number"
+        wrap="off"
+        value="200"
+        min="100"
+        max="5000"
+        step="100"
+      />
+      <p class="setting-description" data-translate="maxExecutionTimeDesc">
+        The maximum execution time in milliseconds to prevent the editor from
+        freezing.
+      </p>
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="editor">Editor:</span>
-                <span data-translate="cursorBlinking">Cursor Blinking</span>
-              </strong>
-              <div class="select">
-                <select name="cursorBlinking">
-                  <option data-translate="blink" value="blink">blink</option>
-                  <option data-translate="smooth" value="smooth">smooth</option>
-                  <option data-translate="phase" value="phase">phase</option>
-                  <option data-translate="expand" value="expand">expand</option>
-                  <option data-translate="solid" value="solid">solid</option>
-                </select>
-              </div>
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="editor">Editor:</span>
+        <span data-translate="cursorBlinking">Cursor Blinking</span>
+      </strong>
+      <div class="select">
+        <select name="cursorBlinking">
+          <option data-translate="blink" value="blink">blink</option>
+          <option data-translate="smooth" value="smooth">smooth</option>
+          <option data-translate="phase" value="phase">phase</option>
+          <option data-translate="expand" value="expand">expand</option>
+          <option data-translate="solid" value="solid">solid</option>
+        </select>
+      </div>
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="editor">Editor:</span>
-                <span data-translate="cursorSmoothCaretAnimation">Cursor Smooth Caret Animation</span>
-              </strong>
-              <div class="select">
-                <select name="cursorSmoothCaretAnimation">
-                  <option data-translate="off" value="off">off</option>
-                  <option data-translate="explicit" value="explicit">explicit</option>
-                  <option data-translate="on" value="on">on</option>
-                </select>
-              </div>
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="editor">Editor:</span>
+        <span data-translate="cursorSmoothCaretAnimation"
+          >Cursor Smooth Caret Animation</span
+        >
+      </strong>
+      <div class="select">
+        <select name="cursorSmoothCaretAnimation">
+          <option data-translate="off" value="off">off</option>
+          <option data-translate="explicit" value="explicit">explicit</option>
+          <option data-translate="on" value="on">on</option>
+        </select>
+      </div>
+    </div>
 
             <div class="settings-item">
               <strong>
@@ -400,71 +439,73 @@
               </div>
             </div>
 
-            <div class="settings-item">
-              <strong>
-                <span data-translate="workbench" class="settings-type">Workbench:</span>
-                <span data-translate="preserveGrid">Preserve Grid</span>
-              </strong>
-              <div>
-                <label class="checkbox">
-                  <input name="preserveGrid" type="checkbox" />
-                  <span data-translate="preserveGridLayout">Preserve grid layout</span>
-                </label>
-              </div>
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span data-translate="workbench" class="settings-type">Workbench:</span>
+        <span data-translate="preserveGrid">Preserve Grid</span>
+      </strong>
+      <div>
+        <label class="checkbox">
+          <input name="preserveGrid" type="checkbox" />
+          <span data-translate="preserveGridLayout">Preserve grid layout</span>
+        </label>
+      </div>
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="featuresDownload">Features › Download:</span>
-                <span data-translate="fileName">File name</span>
-              </strong>
-              <input name="zipFileName" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
-                type="text" wrap="off" value="codi.link" required />
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="downloads">Downloads:</span>
+        <span data-translate="fileName">File name</span>
+      </strong>
+      <input
+        name="zipFileName"
+        class="input"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        type="text"
+        wrap="off"
+        value="codi.link"
+        required
+      />
+      <label class="checkbox">
+        <input name="zipInSingleFile" type="checkbox" />
+        <span data-translate="exportOneZip" style="margin-top: 1em;">Export one single zipped file</span>
+      </label>
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="featuresDownload">Features › Download:</span>
-                <span data-translate="content">Content</span>
-              </strong>
-              <div>
-                <label class="checkbox">
-                  <input name="zipInSingleFile" type="checkbox" />
-                  <span data-translate="exportOneZip">Export one single zipped file</span>
-                </label>
-              </div>
-            </div>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="features">Features:</span>
+        <span data-translate="autosaveFeature">Auto save</span>
+      </strong>
+      <label class="checkbox">
+        <input name="saveLocalstorage" type="checkbox" />
+        <span data-translate="autosave"
+          >Guardado automático</span
+        >
+      </label>
+      <p class="setting-description" data-translate="autosaveDescription">
+        Guarda automáticamente le URL en el elmacenamiento local para una carga rápida del contenido
+      </p>
+    </div>
 
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="featuresAutosave">Features › Auto save:</span>
-                <span data-translate="localStorage">Local storage</span>
-              </strong>
-              <div>
-                <label class="checkbox">
-                  <input name="saveLocalstorage" type="checkbox" />
-                  <span data-translate="automaticallySaveUrl">Automatically save URL to local storage for fast content
-                    loading</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="settings-item">
-              <strong>
-                <span class="settings-type" data-translate="features">Features:</span>
-                <span data-translate="urlSync">URL Sync</span>
-              </strong>
-              <label class="checkbox">
-                <input name="urlSync" type="checkbox" />
-                <span data-translate="urlSyncCheckbox">Automatically update URL</span>
-              </label>
-              <p class="setting-description" data-translate="urlSyncDescription">
-                Keeps the URL in sync with your current code for easy sharing. Disable to
-                prevent flooding your browser history.
-              </p>
-            </div>
-          </div>
-        </form>
+    <div class="settings-item">
+      <strong>
+        <span class="settings-type" data-translate="features">Features:</span>
+        <span data-translate="urlSync">URL Sync</span>
+      </strong>
+      <label class="checkbox">
+        <input name="urlSync" type="checkbox" />
+        <span data-translate="urlSyncCheckbox">Automatically update URL</span>
+      </label>
+      <p class="setting-description" data-translate="urlSyncDescription">
+        Keeps the URL in sync with your current code for easy sharing. Disable
+        to prevent flooding your browser history.
+      </p>
+    </div>
+  </div>
+</form>
       </div>
     </aside>
 
