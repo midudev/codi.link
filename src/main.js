@@ -1,8 +1,9 @@
-import { encode, decode } from 'js-base64'
+import { decode } from 'js-base64'
 import { $, $$ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import runJs from './utils/run-js.js'
+import { getEncodedString } from './utils/url.js'
 import { initializeEventsController } from './events-controller.js'
 import { getState, subscribe } from './state.js'
 import * as Preview from './utils/WindowPreviewer.js'
@@ -11,6 +12,7 @@ import setTheme from './theme.js'
 import setLanguage from './language.js'
 import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
 import { getHistoryState, subscribeHistory, setHistory } from './history.js'
+import { setUrlSync, handleUrlSyncOnType } from './url-sync.js'
 
 import './aside.js'
 import './skypack.js'
@@ -70,15 +72,11 @@ subscribe(state => {
   setGridLayout(state.layout)
   setTheme(state.theme)
   setLanguage(state.language)
+  setUrlSync(state.urlSync, EDITORS)
 })
 
 const MS_UPDATE_DEBOUNCED_TIME = 200
-const MS_UPDATE_HASH_DEBOUNCED_TIME = 1000
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
-const debouncedUpdateHash = debounce(
-  updateHashedCode,
-  MS_UPDATE_HASH_DEBOUNCED_TIME
-)
 
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
 
@@ -116,8 +114,9 @@ function update ({ notReload } = {}) {
 
   Preview.updatePreview(values)
 
+  const { maxExecutionTime, urlSync } = getState()
+
   if (!notReload) {
-    const { maxExecutionTime } = getState()
     runJs(values.js, parseInt(maxExecutionTime))
       .then(() => {
         iframe.setAttribute('src', Preview.getPreviewUrl())
@@ -129,10 +128,17 @@ function update ({ notReload } = {}) {
 
   updateCss()
 
-  debouncedUpdateHash(values)
   if (saveLocalstorage) {
     updateHistory(values)
   }
+
+  if (urlSync) {
+    handleUrlSyncOnType(values)
+  }
+
+  // fixes url bugs when using history
+  setUrlSync(urlSync, EDITORS)
+
   updateButtonAvailabilityIfContent(values)
 }
 
@@ -144,14 +150,9 @@ function updateCss () {
   }
 }
 
-function updateHashedCode ({ html, css, js }) {
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
-  window.history.replaceState(null, null, `/${hashedCode}`)
-}
-
 function updateHistory ({ html, css, js }) {
   const { history } = getHistoryState()
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  const hashedCode = getEncodedString({ html, css, js })
   const isEmpty = !html.replace(/\n/g, '').trim() && !css.replace(/\n/g, '').trim() && !js.replace(/\n/g, '').trim()
 
   if (isEmpty && !history.current) {
