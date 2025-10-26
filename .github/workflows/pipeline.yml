@@ -1,4 +1,4 @@
-name: Continuous integration
+name: Continuous Integration
 
 on:
   pull_request:
@@ -6,40 +6,16 @@ on:
     types: [opened, synchronize]
 
 jobs:
-
-  avoid_reduncy:
+  cancel_previous:
     name: Cancel previous redundant builds
     runs-on: ubuntu-22.04
     steps:
-      - name: Cancel previous redundant builds
-        uses: styfle/cancel-workflow-action@0.9.1
+      - uses: styfle/cancel-workflow-action@0.9.1
         with:
           access_token: ${{ github.token }}
 
-  install_dependencies:
-    name: Install dependencies
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout git repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - name: Set up node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: npm i --ignore-scripts
-
   build:
-    needs: [install_dependencies]
+    needs: cancel_previous
     name: Build app
     runs-on: ubuntu-22.04
     steps:
@@ -48,10 +24,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
 
-      - name: Build app
-        run: pnpm run build
+      - name: Install dependencies and build
+        run: |
+          bun install
+          bun run build
