@@ -40,7 +40,7 @@ jobs:
           bun install
           bun run build
 
- tauri:
+  tauri:
     needs: build
     name: Test Tauri build (compile only)
     runs-on: ubuntu-22.04
@@ -70,9 +70,6 @@ jobs:
 
       - name: Install frontend deps
         run: bun install
-
-      - name: Build frontend
-        run: bun run build
 
       - name: Compile Tauri crate (no bundling)
         run: cargo build --manifest-path src-tauri/Cargo.toml
