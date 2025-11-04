@@ -7,6 +7,10 @@ on:
   push:
     branches: [main]
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   cancel_previous:
     name: Cancel previous redundant builds
@@ -16,9 +20,9 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-  build:
+  build_frontend:
+    name: Build Frontend (Bun)
     needs: cancel_previous
-    name: Build app (Bun)
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
@@ -26,30 +30,47 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Bun
+      - name: Setup Bun
         uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
 
       - name: Cache Bun dependencies
         uses: actions/cache@v4
         with:
-          path: ~/.bun/install/cache
+          path: ~/.bun
           key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
 
-      - name: Install dependencies and build
-        run: |
-          bun install
-          bun run build
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
 
-  tauri:
-    needs: build
+      - name: Build frontend
+        run: bun run build
+
+      - name: Upload build artifacts (dist)
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: dist
+          retention-days: 1
+
+  build_tauri:
     name: Test Tauri build (compile only)
+    needs: build_frontend
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Bun
+      - name: Setup Bun
         uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
 
       - name: Cache Cargo registry and target
         uses: actions/cache@v4
@@ -59,17 +80,25 @@ jobs:
             ~/.cargo/git
             src-tauri/target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
 
-      - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Install system deps (Ubuntu only)
+      - name: Install system deps (Ubuntu)
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf
 
-      - name: Install frontend deps
-        run: bun install
+      - name: Restore frontend build
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: src-tauri/../dist
 
-      - name: Compile Tauri crate (no bundling)
-        run: cargo build --manifest-path src-tauri/Cargo.toml
+      - name: Verify Tauri build (no bundling)
+        run: |
+          cd src-tauri
+          cargo build --locked --release --no-default-features
