@@ -11,8 +11,8 @@ export const CodiEditorStyles = css`
     right: 16px;
     bottom: 16px;
     z-index: 9;
-    width: 48px;
-    height: 48px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
     object-position: center;
     pointer-events: none;
