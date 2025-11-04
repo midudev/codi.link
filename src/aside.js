@@ -3,6 +3,7 @@ import { $, $$ } from './utils/dom.js'
 import * as Preview from './utils/WindowPreviewer'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
 import { copyToClipboard } from './utils/string.js'
+import { resetConsoleBadge } from './console.js'
 
 const $aside = $('aside')
 const $asideBar = $('.aside-bar')
@@ -56,6 +57,7 @@ const NON_SIMPLE_CLICK_ACTIONS = {
   [BUTTON_ACTIONS.showConsoleBar]: () => {
     showAsideBar('#console')
     $('.scroll-buttons-container').setAttribute('hidden', '')
+    resetConsoleBadge()
   },
 
   [BUTTON_ACTIONS.showHistoryBar]: () => {
