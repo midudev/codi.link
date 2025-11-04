@@ -32,6 +32,7 @@
     "js-base64": "3.7.8",
     "lit": "3.3.1",
     "monaco-editor": "0.54.0",
+    "monacopilot": "1.2.7",
     "preact": "10.27.2",
     "preact-custom-element": "4.6.0",
     "split-grid": "1.0.11",
