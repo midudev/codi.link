@@ -7,6 +7,29 @@ aside button {
   position: relative;
 }
 
+.console-badge-count {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #ef5350;
+  color: #fff;
+  border-radius: 50%;
+  min-width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 0 4px;
+  pointer-events: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.console-badge-count[hidden] {
+  display: none;
+}
+
 aside button .button-title {
   background: var(--button-title-background);
   border-radius: 3px;
