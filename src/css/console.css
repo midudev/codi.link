@@ -36,19 +36,11 @@
     & li {
       display: flex;
       align-items: start;
-      gap: 1em;
-      padding: 0 0 0.5em 0.5em;
+      gap: 0.75em;
 
       &:not(:last-child) {
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
-    }
-
-    & svg {
-      margin: 3px 0px;
-      height: 18px;
-      width: 18px;
-      flex-shrink: 0;
     }
 
     & .error {
@@ -79,6 +71,38 @@
     & .log-warn {
       color: var(--log-warn)
     }
+
+    & .log-debug {
+      color: var(--log-debug, #ab47bc)
+    }
+
+    & .log-table {
+      color: var(--log-table, #66bb6a)
+    }
+
+    & .log-count {
+      color: var(--log-count, #26c6da)
+    }
+
+    & .log-trace {
+      color: var(--log-trace, #8d6e63)
+    }
+
+    & .log-dir {
+      color: var(--log-dir, #78909c)
+    }
+
+    & .log-dirxml {
+      color: var(--log-dirxml, #78909c)
+    }
+
+    & .log-time {
+      color: var(--log-time, #ffd54f)
+    }
+
+    & .log-assert {
+      color: var(--log-assert, #ff7043)
+    }
   }
 
   /* aca tocaria ajustar los colores dependiendo del tema que este puesto pero por defecto es el mismo que el resto de la pagina */
@@ -104,5 +128,48 @@
 
   .console-key {
     color: #9cdcfe;
+  }
+
+  .console-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #000;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .console-table {
+    margin-top: 0.5em;
+    overflow-x: auto;
+
+    & table {
+      border-collapse: collapse;
+      font-size: 12px;
+      min-width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    & th {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 6px 12px;
+      text-align: left;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #9cdcfe;
+    }
+
+    & td {
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      vertical-align: top;
+    }
+
+    & tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
   }
 }
