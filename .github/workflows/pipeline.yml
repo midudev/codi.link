@@ -1,48 +1,6 @@
-name: Continuous Integration
-
-on:
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize]
-  push:
-    branches: [main]
-
-jobs:
-  cancel_previous:
-    name: Cancel previous redundant builds
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          access_token: ${{ github.token }}
-
-  build:
-    needs: cancel_previous
-    name: Build app (Bun)
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Install Bun
-        uses: oven-sh/setup-bun@v1
-
-      - name: Cache Bun dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.bun/install/cache
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
-
-      - name: Install dependencies and build
-        run: |
-          bun install
-          bun run build
-
   tauri:
     needs: build
-    name: Test Tauri build (no bundles)
+    name: Test Tauri build (compile only)
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
@@ -63,13 +21,16 @@ jobs:
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install dependencies (Ubuntu only)
+      - name: Install system deps (Ubuntu only)
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
-      - name: Install frontend dependencies
+      - name: Install frontend deps
         run: bun install
 
-      - name: Build Tauri (skip bundles)
-        run: bun run tauri build --debug --bundles none
+      - name: Build frontend
+        run: bun run build
+
+      - name: Compile Tauri crate (no bundling)
+        run: cargo build --manifest-path src-tauri/Cargo.toml
