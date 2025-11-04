@@ -21,13 +21,19 @@ jobs:
     name: Build app (Bun)
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout git repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Install Bun
         uses: oven-sh/setup-bun@v1
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
 
       - name: Install dependencies and build
         run: |
@@ -36,13 +42,23 @@ jobs:
 
   tauri:
     needs: build
-    name: Test Tauri build (debug)
+    name: Test Tauri build (no bundles)
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Install Bun
         uses: oven-sh/setup-bun@v1
+
+      - name: Cache Cargo registry and target
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            src-tauri/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -55,5 +71,5 @@ jobs:
       - name: Install frontend dependencies
         run: bun install
 
-      - name: Build Tauri (debug)
-        run: bun run tauri build --debug
+      - name: Build Tauri (skip bundles)
+        run: bun run tauri build --debug --bundles none
