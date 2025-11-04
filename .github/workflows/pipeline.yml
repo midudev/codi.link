@@ -4,6 +4,8 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
+  push:
+    branches: [main]
 
 jobs:
   cancel_previous:
@@ -16,7 +18,7 @@ jobs:
 
   build:
     needs: cancel_previous
-    name: Build app
+    name: Build app (Bun)
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout git repository
@@ -31,3 +33,27 @@ jobs:
         run: |
           bun install
           bun run build
+
+  tauri:
+    needs: build
+    name: Test Tauri build (debug)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies (Ubuntu only)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Install frontend dependencies
+        run: bun install
+
+      - name: Build Tauri (debug)
+        run: bun run tauri build -- --debug
