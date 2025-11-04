@@ -5,7 +5,8 @@ const es = {
   portuguese: 'Portugués',
   editor: 'Editor',
   addDependency: 'Añadir dependencia',
-  addDependencyDescription: 'Se agregará una declaración de importación en la parte superior del editor de JavaScript para el paquete.',
+  addDependencyDescription:
+    'Se agregará una declaración de importación en la parte superior del editor de JavaScript para el paquete.',
   lineNumbers: 'Números de línea',
   on: 'Activado',
   off: 'Desactivado',
@@ -13,7 +14,7 @@ const es = {
   interval: 'Intervalo',
   layout: 'Diseño',
   console: 'Consola',
-  consoleDescription: 'Muestra el resultado de la ejecución del código. Admite los métodos log, warn, info y error.',
+  consoleDescription: 'Muestra el resultado de la ejecución del código.',
   dependencies: 'Dependencias',
   download: 'Descargar',
   history: 'Historial',
@@ -33,7 +34,8 @@ const es = {
   fontLigatures: 'Ligaduras de fuente',
   enableFontLigatures: 'Habilitar ligaduras de fuente',
   maxExecutionTime: 'Tiempo máx. de ejecución',
-  maxExecutionTimeDesc: 'El tiempo máximo de ejecución en milisegundos para evitar que el editor se congele.',
+  maxExecutionTimeDesc:
+    'El tiempo máximo de ejecución en milisegundos para evitar que el editor se congele.',
   cursorBlinking: 'Parpadeo del cursor',
   blink: 'Parpadeo',
   smooth: 'Suave',
@@ -57,7 +59,8 @@ const es = {
   exportOneZip: 'Exportar un solo archivo comprimido',
   featuresAutosave: 'Características › Guardado automático',
   localStorage: 'Almacenamiento local',
-  automaticallySaveUrl: 'Guardar automáticamente la URL en el almacenamiento local para una carga rápida del contenido',
+  automaticallySaveUrl:
+    'Guardar automáticamente la URL en el almacenamiento local para una carga rápida del contenido',
   searchDependency: 'Buscar npm y agregar un paquete...'
 }
 

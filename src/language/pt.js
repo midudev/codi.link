@@ -5,7 +5,8 @@ const pt = {
   portuguese: 'Português',
   editor: 'Editor',
   addDependency: 'Adicionar dependência',
-  addDependencyDescription: 'Uma declaração de importação será adicionada ao topo do editor JavaScript para o pacote.',
+  addDependencyDescription:
+    'Uma declaração de importação será adicionada ao topo do editor JavaScript para o pacote.',
   lineNumbers: 'Números de linha',
   on: 'Ligado',
   off: 'Desligado',
@@ -13,7 +14,7 @@ const pt = {
   interval: 'Intervalo',
   layout: 'Layout',
   console: 'Console',
-  consoleDescription: 'Mostra o resultado da execução do código. Suporta os métodos log, warn, info e error.',
+  consoleDescription: 'Mostra o resultado da execução do código.',
   dependencies: 'Dependências',
   download: 'Baixar',
   history: 'Histórico',
@@ -33,7 +34,8 @@ const pt = {
   fontLigatures: 'Ligações de fonte',
   enableFontLigatures: 'Habilitar ligações de fonte',
   maxExecutionTime: 'Tempo máximo de execução',
-  maxExecutionTimeDesc: 'O tempo máximo de execução em milissegundos para evitar que o editor trave.',
+  maxExecutionTimeDesc:
+    'O tempo máximo de execução em milissegundos para evitar que o editor trave.',
   cursorBlinking: 'Piscamento do cursor',
   blink: 'Piscada',
   smooth: 'Suave',
@@ -57,7 +59,8 @@ const pt = {
   exportOneZip: 'Exportar um único arquivo zipado',
   featuresAutosave: 'Recursos › Autossalvar',
   localStorage: 'Armazenamento local',
-  automaticallySaveUrl: 'Salvar automaticamente a URL no armazenamento local para carregamento rápido de conteúdo',
+  automaticallySaveUrl:
+    'Salvar automaticamente a URL no armazenamento local para carregamento rápido de conteúdo',
   searchDependency: 'Pesquisar npm e adicionar um pacote...'
 }
 

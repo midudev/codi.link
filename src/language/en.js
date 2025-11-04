@@ -5,7 +5,8 @@ const en = {
   portuguese: 'Portuguese',
   editor: 'Editor',
   addDependency: 'Add dependency',
-  addDependencyDescription: 'An import statement will be added to the top of the JavaScript editor for the package.',
+  addDependencyDescription:
+    'An import statement will be added to the top of the JavaScript editor for the package.',
   lineNumbers: 'Line numbers',
   on: 'On',
   off: 'Off',
@@ -13,7 +14,7 @@ const en = {
   interval: 'Interval',
   layout: 'Layout',
   console: 'Console',
-  consoleDescription: 'Shows the result of the code execution. Supports log, warn, info and error methods.',
+  consoleDescription: 'Shows the result of the code execution.',
   dependencies: 'Dependencies',
   download: 'Download',
   history: 'History',
@@ -33,7 +34,8 @@ const en = {
   fontLigatures: 'Font ligatures',
   enableFontLigatures: 'Enable font ligatures',
   maxExecutionTime: 'Max. execution time',
-  maxExecutionTimeDesc: 'The maximum execution time in milliseconds to prevent the editor from freezing.',
+  maxExecutionTimeDesc:
+    'The maximum execution time in milliseconds to prevent the editor from freezing.',
   cursorBlinking: 'Cursor blinking',
   blink: 'Blink',
   smooth: 'Smooth',
@@ -57,7 +59,8 @@ const en = {
   exportOneZip: 'Export one single zipped file',
   featuresAutosave: 'Features › Autosave',
   localStorage: 'Local storage',
-  automaticallySaveUrl: 'Automatically save URL to local storage for fast content loading',
+  automaticallySaveUrl:
+    'Automatically save URL to local storage for fast content loading',
   searchDependency: 'Search npm and add a package...'
 }
 
