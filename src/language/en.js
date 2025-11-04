@@ -29,7 +29,7 @@ const en = {
   bounded: 'Bounded',
   fontSize: 'Font size',
   tabSize: 'Tab size',
-  editorMinimap: 'Editor › minimap',
+  editorMinimap: 'Editor',
   showMinimap: 'Show minimap',
   fontLigatures: 'Font ligatures',
   enableFontLigatures: 'Enable font ligatures',

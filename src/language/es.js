@@ -29,7 +29,7 @@ const es = {
   bounded: 'Limitado',
   fontSize: 'Tamaño de fuente',
   tabSize: 'Tamaño de tabulación',
-  editorMinimap: 'Editor › minimapa',
+  editorMinimap: 'Editor',
   showMinimap: 'Mostrar minimapa',
   fontLigatures: 'Ligaduras de fuente',
   enableFontLigatures: 'Habilitar ligaduras de fuente',

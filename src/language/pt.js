@@ -29,7 +29,7 @@ const pt = {
   bounded: 'Limitado',
   fontSize: 'Tamanho da fonte',
   tabSize: 'Tamanho da tabulação',
-  editorMinimap: 'Editor › minimapa',
+  editorMinimap: 'Editor',
   showMinimap: 'Mostrar minimapa',
   fontLigatures: 'Ligações de fonte',
   enableFontLigatures: 'Habilitar ligações de fonte',
