@@ -3,7 +3,7 @@ import { $, $$ } from './utils/dom.js'
 import { createEditor } from './editor.js'
 import debounce from './utils/debounce.js'
 import runJs from './utils/run-js.js'
-import { initializeEventsController } from './events-controller.js'
+import { initializeEventsController, eventBus, EVENTS } from './events-controller.js'
 import { getState, subscribe } from './state.js'
 import * as Preview from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
@@ -174,3 +174,19 @@ function updateButtonAvailabilityIfContent ({ html, css, js }) {
     button.disabled = !hasContent
   })
 }
+
+// Keyboard shortcut: Cmd+S (Mac) or Ctrl+S (Windows/Linux) to download
+window.addEventListener('keydown', (event) => {
+  const isSaveShortcut = (event.metaKey || event.ctrlKey) && event.key === 's'
+
+  if (isSaveShortcut) {
+    event.preventDefault()
+
+    const downloadButton = $(`button[data-action='${BUTTON_ACTIONS.downloadUserCode}']`)
+
+    // Only trigger download if button is not disabled (has content)
+    if (!downloadButton.disabled) {
+      eventBus.emit(EVENTS.DOWNLOAD_USER_CODE)
+    }
+  }
+})
