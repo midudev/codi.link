@@ -61,7 +61,7 @@ const es = {
   localStorage: 'Almacenamiento local',
   automaticallySaveUrl:
     'Guardar automáticamente la URL en el almacenamiento local para una carga rápida del contenido',
-  searchDependency: 'Buscar npm y agregar un paquete...'
+  searchDependency: 'Buscar y agregar un paquete...'
 }
 
 export default es

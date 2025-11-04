@@ -61,7 +61,7 @@ const en = {
   localStorage: 'Local storage',
   automaticallySaveUrl:
     'Automatically save URL to local storage for fast content loading',
-  searchDependency: 'Search npm and add a package...'
+  searchDependency: 'Search and add a package...'
 }
 
 export default en
