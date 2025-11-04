@@ -56,4 +56,4 @@ jobs:
         run: bun install
 
       - name: Build Tauri (debug)
-        run: bun run tauri build -- --debug
+        run: bun run tauri build --debug
