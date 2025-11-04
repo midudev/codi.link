@@ -61,6 +61,11 @@ const es = {
   localStorage: 'Almacenamiento local',
   automaticallySaveUrl:
     'Guardar automáticamente la URL en el almacenamiento local para una carga rápida del contenido',
+  features: 'Características',
+  urlSync: 'URL Sync',
+  urlSyncCheckbox: 'Actualizar URL automáticamente',
+  urlSyncDescription:
+    'Actualiza automáticamente la URL con tu código actual. Desactívalo para evitar saturar el historial de navegación.',
   searchDependency: 'Buscar y agregar un paquete...'
 }
 
