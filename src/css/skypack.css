@@ -1,6 +1,5 @@
 .skypack {
   & .skypack-header {
-    background: var(--aside-bar-background);
     position: sticky;
     top: 0;
     z-index: 1;
