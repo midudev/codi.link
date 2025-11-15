@@ -7,7 +7,7 @@ const STATE_ICONS = {
 }
 
 const TRANSITION_DURATION = 400 // ms
-const NOTIFICATION_DURATION = 300000 // ms
+const NOTIFICATION_DURATION = 3000 // ms
 
 export default {
   /**
@@ -48,17 +48,23 @@ export default {
     notification.setAttribute('aria-live', 'assertive')
     notification.setAttribute('aria-atomic', 'true')
 
-    setTimeout(() => {
+    const timerIdOut = setTimeout(() => {
       notification.classList.remove('animation-in')
       notification.classList.add('animation-out')
     }, NOTIFICATION_DURATION - TRANSITION_DURATION / 2)
 
     // Remove notification after NOTIFICATION_DURATION
-    setTimeout(() => {
+    const timerIdRemove = setTimeout(() => {
       notification.remove()
     }, NOTIFICATION_DURATION)
 
+    const clearTimers = () => {
+      clearTimeout(timerIdOut)
+      clearTimeout(timerIdRemove)
+    }
+
     notification.querySelector('.icon-close').addEventListener('click', () => {
+      clearTimers()
       notification.classList.add('bounce-leave')
       setTimeout(() => {
         notification.remove()

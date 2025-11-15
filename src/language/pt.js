@@ -61,6 +61,11 @@ const pt = {
   localStorage: 'Armazenamento local',
   automaticallySaveUrl:
     'Salvar automaticamente a URL no armazenamento local para carregamento rápido de conteúdo',
+  features: 'Recursos',
+  urlSync: 'URL Sync',
+  urlSyncCheckbox: 'Atualizar automaticamente a URL',
+  urlSyncDescription:
+    'Atualiza automaticamente a URL com o código atual. Desative para evitar sobrecarregar o histórico do navegador.',
   searchDependency: 'Pesquisar e adicionar um pacote...'
 }
 
