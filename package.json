@@ -14,18 +14,18 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "2.10.2",
-    "@tauri-apps/cli": "2.9.2",
-    "autoprefixer": "10.4.21",
+    "@tauri-apps/cli": "2.9.4",
+    "autoprefixer": "10.4.22",
     "eslint": "9.39.1",
     "neostandard": "0.12.2",
     "postcss": "8.5.6",
     "postcss-nesting": "13.0.2",
     "prettier": "3.6.2",
-    "tailwindcss": "4.1.16",
-    "vite": "7.1.12"
+    "tailwindcss": "4.1.17",
+    "vite": "7.2.2"
   },
   "dependencies": {
-    "@tailwindcss/vite": "4.1.16",
+    "@tailwindcss/vite": "4.1.17",
     "client-zip": "2.5.0",
     "emmet-monaco-es": "5.6.1",
     "escape-html": "1.0.3",
