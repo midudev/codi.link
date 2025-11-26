@@ -134,15 +134,121 @@ const formatValue = (value, indentLevel = 0) => {
   }
 
   if (typeof value === 'object') {
+    if (value && value.type === 'function') {
+      const fnContent = escapeHtml(value.content)
+      const startOfBody = fnContent.indexOf('{')
+
+      const isAsync = value.async
+      const isGenerator = value.generator
+
+      let className = 'console-fn'
+      if (isAsync) {
+        className += ' console-async-fn'
+      }
+      if (isGenerator) {
+        className += ' console-generator-fn'
+      }
+
+      // Function signature logic
+      let signature
+      if (startOfBody === -1) {
+        signature = fnContent.trim()
+      } else {
+        signature = fnContent.substring(0, startOfBody).trim()
+      }
+
+      signature = signature
+        .replace(/^async\s+/, '')
+        .replace(/^function\s*\*\s*/, '')
+        .replace(/^function\s*/, '')
+        .trim()
+
+      // Function body logic
+      let functionBody
+      if (startOfBody === -1) {
+        functionBody = ''
+      } else {
+        const bodyContent = fnContent.substring(startOfBody + 1, fnContent.lastIndexOf('}'))
+        const compressedBody = bodyContent.trim().length > 0 ? '...' : ''
+        functionBody = ` {${compressedBody}}`
+      }
+
+      return `<span class="${className}">${signature}${functionBody}</span>`
+    }
+
+    if (value && value.type === 'circular') {
+      return '<span>[Circular]</span>'
+    }
+
+    if (value && value.type === 'regexp') {
+      return `<span class="console-regexp">${escapeHtml(value.value)}</span>`
+    }
+
+    if (value && value.type === 'unknown') {
+      return `<span>${escapeHtml(String(value.value))}</span>`
+    }
+
+    if (value && value.type === 'date') {
+      const isoString = value.value
+      const cleanedString = isoString
+        .replace('T', ' ')
+        .replace(/\.\d{3}Z$/, '')
+
+      return `<span class="console-date">${escapeHtml(cleanedString)}</span>`
+    }
+
+    if (value && value.type === 'set') {
+      const short = `Set(${value.size})`
+
+      if (value.size === 0) return `<span>${short} {}</span>`
+
+      let result = `<span>${short} {\n`
+
+      ;(value.values || []).forEach((v, index) => {
+        result += `${indent}  ${formatValue(v, indentLevel + 1)}`
+        if (index < value.values.length - 1) result += ','
+        result += '\n'
+      })
+
+      result += `${indent}}</span>`
+      return result
+    }
+
+    const isSymbolKey = (k) => typeof k === 'string' && k.startsWith('Symbol(') && k.endsWith(')')
+
+    const formatKey = (key) => {
+      return (isValidIdentifier(key) || isSymbolKey(key))
+        ? `<span class="console-key">${escapeHtml(key)}</span>`
+        : `<span class="console-string">"${escapeHtml(key)}"</span>`
+    }
+
+    if (value && value.type === 'map') {
+      const short = `Map(${value.size})`
+      if (value.size === 0) return `<span>${short} {}</span>`
+
+      let result = `<span>${short} {\n`
+
+      ;(value.entries || []).forEach(([k, v], index) => {
+        const keyFormatted = formatKey(k)
+        const valueFormatted = formatValue(v, indentLevel + 1)
+
+        result += `${indent}  ${keyFormatted} => ${valueFormatted}`
+
+        if (index < value.entries.length - 1) result += ','
+        result += '\n'
+      })
+
+      result += `${indent}}</span>`
+      return result
+    }
+
     const keys = Object.keys(value)
     if (keys.length === 0) return '{}'
 
     let result = '{\n'
 
     keys.forEach((key, index) => {
-      const renderedKey = isValidIdentifier(key)
-        ? `<span class="console-key">${escapeHtml(key)}</span>`
-        : `<span class="console-string">"${escapeHtml(key)}"</span>`
+      const renderedKey = formatKey(key)
 
       result += `${indent}  ${renderedKey}: ${formatValue(value[key], indentLevel + 1)}`
 
