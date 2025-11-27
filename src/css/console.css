@@ -128,6 +128,28 @@
     color: #9cdcfe;
   }
 
+  .console-regexp {
+    color: #b46695;
+  }
+
+  .console-date {
+    color: #9cdcfe;
+  }
+
+  .console-fn::before {
+    content: "ƒ ";
+    font-style: italic;
+    color: #ce9178;
+  }
+
+  .console-async-fn::before {
+    content: "async ƒ ";
+  }
+
+  .console-generator-fn::before {
+    content: "ƒ* ";
+  }
+
   .console-badge {
     display: inline-block;
     padding: 2px 6px;
