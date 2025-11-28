@@ -61,6 +61,10 @@ const en = {
   localStorage: 'Local storage',
   automaticallySaveUrl:
     'Automatically save URL to local storage for fast content loading',
+  features: 'Features',
+  urlSync: 'URL Sync',
+  urlSyncCheckbox: 'Automatically update URL',
+  urlSyncDescription: 'Keeps the URL in sync with your current code for easy sharing. Disable to prevent flooding your browser history.',
   searchDependency: 'Search and add a package...'
 }
 
