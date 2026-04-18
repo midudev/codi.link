@@ -7,12 +7,12 @@ export function getPreviewUrl () {
   return previewUrl
 }
 
-export function updatePreview ({ html, css, js }) {
+export function updatePreview ({ html, css, js }, { includeJavascript = true } = {}) {
   if (previewUrl) {
     URL.revokeObjectURL(previewUrl)
   }
 
-  const htmlForPreview = createHtml({ html, css, js }, true)
+  const htmlForPreview = createHtml({ html, css, js: includeJavascript ? js : '' }, true)
 
   const blob = new window.Blob([htmlForPreview], { type: 'text/html' })
 
