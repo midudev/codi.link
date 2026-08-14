@@ -1,9 +1,24 @@
 import { defineConfig } from 'vite'
-import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  plugins: [tailwindcss()],
   worker: {
     format: 'es'
+  },
+  build: {
+    modulePreload: {
+      resolveDependencies: (_filename, deps) =>
+        deps.filter(dep => !dep.includes('monaco-'))
+    },
+    rollupOptions: {
+      output: {
+        codeSplitting: {
+          includeDependenciesRecursively: false,
+          groups: [
+            { name: 'monaco', test: /[\\/]monaco-editor[\\/]/ },
+            { name: 'vendor', test: /[\\/]node_modules[\\/]/ }
+          ]
+        }
+      }
+    }
   }
 })

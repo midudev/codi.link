@@ -14,16 +14,13 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "2.11.4",
-    "autoprefixer": "10.5.4",
     "eslint": "10.8.1",
     "neostandard": "0.13.0",
     "postcss": "8.5.26",
     "postcss-nesting": "14.0.1",
-    "tailwindcss": "4.3.3",
     "vite": "8.2.1"
   },
   "dependencies": {
-    "@tailwindcss/vite": "4.3.3",
     "client-zip": "2.5.0",
     "emmet-monaco-es": "5.7.0",
     "escape-html": "1.0.3",
