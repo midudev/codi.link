@@ -12,33 +12,51 @@ import { generateConsoleScript } from '../console-script'
  * @returns {string}
  */
 export const createHtml = ({ css, html, js }, isEditor = false) => {
-  return `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style id="preview-style">
-      ${css}
-    </style>
-    ${isEditor ? generateConsoleScript({ html, css }) : ''}
-  </head>
-  <body>
-    ${html}
-    ${js
-      ? isEditor
-        ? `<script type="module">
+  const consoleScript = isEditor
+    ? generateConsoleScript({ jsLineOffset: '__JS_LINE_OFFSET__' })
+    : ''
+
+  const jsOpen = !js
+    ? ''
+    : isEditor
+      ? `<script type="module">
 window.parent.postMessage({ preview: 'exec-start' }, '*')
 </script>
-    <script type="module">
-${js}
+    <script type="module">`
+      : '<script type="module">'
+
+  const jsClose = !js
+    ? ''
+    : isEditor
+      ? `
+//# sourceURL=javascript.js
     </script>
     <script type="module">
 window.parent.postMessage({ preview: 'done' }, '*')
 </script>`
-        : `<script type="module">
-${js}
+      : `
     </script>`
-      : ''}
+
+  const beforeUserJs = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html, body { background: transparent; }
+    </style>
+    <style id="preview-style">
+      ${css}
+    </style>
+    ${consoleScript}
+  </head>
+  <body>
+    ${html}
+    ${jsOpen}`
+
+  const jsLineOffset = beforeUserJs.split('\n').length
+
+  return `${beforeUserJs}${js}${jsClose}
   </body>
-</html>`
+</html>`.replaceAll('__JS_LINE_OFFSET__', String(jsLineOffset))
 }

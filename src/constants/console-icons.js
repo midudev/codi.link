@@ -11,11 +11,11 @@ export const CONSOLE_BADGES = {
   'log:dirxml': { label: 'DIRXML', color: '#78909c' },
   'log:time': { label: 'TIME', color: '#ffd54f' },
   'log:assert': { label: 'ASSERT', color: '#ff7043' },
-  error: null
+  error: { label: 'ERR', color: '#ef5350' }
 }
 
 export const createConsoleBadge = (type) => {
   const badge = CONSOLE_BADGES[type]
   if (!badge) return ''
-  return `<span class="console-badge" style="background-color: ${badge.color}">${badge.label}</span>`
+  return `<span class="console-badge">${badge.label}</span>`
 }

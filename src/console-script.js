@@ -1,11 +1,57 @@
-export const generateConsoleScript = ({ html, css }) => {
+export const generateConsoleScript = ({ jsLineOffset = 0 } = {}) => {
   return `<script>
     const customConsole = (w) => {
-      const pushToConsole = (payload, type) => {
+      const JS_LINE_OFFSET = ${jsLineOffset}
+
+      const parseStackLocation = (stack) => {
+        const frames = (stack || '').split('\\n')
+
+        for (const frame of frames) {
+          if (frame.includes('console-script')) continue
+
+          const userMatch = frame.match(/javascript\\.js:(\\d+)(?::(\\d+))?/)
+          if (userMatch) {
+            return { line: Number(userMatch[1]), column: Number(userMatch[2] || 1) }
+          }
+
+          const isDocumentFrame = /about:srcdoc|<anonymous>|blob:/.test(frame)
+          if (!isDocumentFrame) continue
+
+          const docMatch = frame.match(/:(\\d+):(\\d+)\\)?$/)
+          if (docMatch) {
+            const line = Number(docMatch[1]) - JS_LINE_OFFSET + 1
+            if (line > 0) {
+              return { line, column: Number(docMatch[2]) }
+            }
+          }
+        }
+
+        return null
+      }
+
+      const getCallerLocation = () => parseStackLocation(new Error().stack)
+
+      const toUserLocation = (lineno, colno, filename) => {
+        if (!lineno) return null
+        const name = String(filename || '')
+        if (name.includes('console-script')) return null
+        if (name.includes('javascript.js')) {
+          return { line: lineno, column: colno || 1 }
+        }
+        const line = lineno - JS_LINE_OFFSET + 1
+        return line > 0 ? { line, column: colno || 1 } : null
+      }
+
+      const pushToConsole = (payload, type, location) => {
+        const resolvedLocation = location !== undefined
+          ? location
+          : (type.startsWith('log:') ? getCallerLocation() : null)
+
         w.parent.postMessage({
           console: {
             payload: payload,
-            type:    type
+            type: type,
+            location: resolvedLocation
           }
         }, "*")
       }
@@ -19,22 +65,28 @@ export const generateConsoleScript = ({ html, css }) => {
         if (styleEl) styleEl.textContent = event.data.css
       })
 
-      const reportError = (line, column, message) => {
-        const DEFAULT_LINE_HEIGHT = 53
-        const htmlLines = ${html.split('\n').length}
-        const cssLines = ${css.split('\n').length}
-        const fixedLine = line - DEFAULT_LINE_HEIGHT - htmlLines - cssLines
-        pushToConsole({ line: fixedLine, column, message }, 'error')
+      const reportError = (line, column, message, filename) => {
+        const location = toUserLocation(line, column, filename)
+        pushToConsole({
+          line: location?.line ?? line,
+          column: location?.column ?? column,
+          message
+        }, 'error', location)
       }
 
       w.addEventListener('error', (event) => {
-        reportError(event.lineno, event.colno, event.message)
+        reportError(event.lineno, event.colno, event.message, event.filename)
       })
 
       w.addEventListener('unhandledrejection', (event) => {
         const reason = event.reason
         const message = reason?.message || String(reason)
-        reportError(0, 0, message)
+        const location = reason?.stack ? parseStackLocation(reason.stack) : null
+        pushToConsole({
+          line: location?.line ?? 0,
+          column: location?.column ?? 0,
+          message
+        }, 'error', location)
       })
 
       const encodeFunction = (fn) => ({
@@ -176,5 +228,6 @@ export const generateConsoleScript = ({ html, css }) => {
     if (window.parent){
       customConsole(window)
     }
+  //# sourceURL=console-script.js
   </script>`
 }

@@ -1,5 +1,7 @@
 import { createConsoleBadge } from './constants/console-icons'
+import { getState } from './state.js'
 import { $ } from './utils/dom'
+import { resolveLayoutType } from './utils/layout.js'
 import { formatTable, formatValue } from './console/formatters.js'
 
 const MAX_CONSOLE_LOGS = 200
@@ -19,7 +21,7 @@ const updateConsoleBadge = () => {
   }
 }
 
-const clearConsole = () => {
+export const clearConsole = () => {
   $consoleList.innerHTML = ''
   consoleLogCount = 0
   updateConsoleBadge()
@@ -30,7 +32,28 @@ export const resetConsoleBadge = () => {
   updateConsoleBadge()
 }
 
-const createListItem = (content, type) => {
+const revealJsLine = (line, column) => {
+  const $script = $('#script')
+  if (resolveLayoutType(getState().layout) === 'tabs') {
+    document.querySelector('#tabs [for="script"]')?.click()
+  }
+  $script.editorHandle?.revealLine(line, column)
+}
+
+const createLocationButton = (location) => {
+  if (!location?.line) return null
+
+  const $loc = document.createElement('button')
+  $loc.type = 'button'
+  $loc.className = 'console-location'
+  $loc.textContent = String(location.line)
+  $loc.title = `JavaScript:${location.line}`
+  $loc.dataset.line = String(location.line)
+  if (location.column) $loc.dataset.column = String(location.column)
+  return $loc
+}
+
+const createListItem = (content, type, location) => {
   const $li = document.createElement('li')
   $li.classList.add(`log-${type.split(':')[1]}`)
 
@@ -40,18 +63,18 @@ const createListItem = (content, type) => {
   }
 
   const $pre = document.createElement('pre')
-  $pre.style.whiteSpace = 'pre-wrap'
-  $pre.style.margin = '0'
-
   $pre.innerHTML = content
 
   $li.appendChild($pre)
 
+  const $location = createLocationButton(location)
+  if ($location) $li.appendChild($location)
+
   return $li
 }
 
-const appendLogItem = (content, type, extraClass) => {
-  const listItem = createListItem(content, type)
+const appendLogItem = (content, type, extraClass, location) => {
+  const listItem = createListItem(content, type, location)
   if (extraClass) listItem.classList.add(extraClass)
   $consoleList.appendChild(listItem)
   consoleLogCount++
@@ -69,15 +92,15 @@ const handlers = {
       clearConsole()
     }
   },
-  error: (payload) => {
+  error: (payload, _type, location) => {
     const { line, column, message } = payload
-    appendLogItem(`${line}:${column} ${message}`, 'error', 'error')
+    appendLogItem(message, 'error', 'error', location || { line, column })
   },
-  default: (payload, type) => {
+  default: (payload, type, location) => {
     const content = type === 'log:table'
       ? payload.map(item => formatTable(item)).join(' ')
       : payload.map(item => formatValue(item)).join(' ')
-    appendLogItem(content, type)
+    appendLogItem(content, type, undefined, location)
   },
   loop: (payload) => {
     clearConsole()
@@ -85,13 +108,23 @@ const handlers = {
   }
 }
 
+$consoleList.addEventListener('click', (ev) => {
+  const $location = ev.target.closest('.console-location')
+  if (!$location) return
+
+  revealJsLine(
+    Number($location.dataset.line),
+    Number($location.dataset.column || 1)
+  )
+})
+
 window.addEventListener('message', (ev) => {
   const { console: consoleData = {} } = ev.data
-  const { payload, type } = consoleData
+  const { payload, type, location } = consoleData
 
   if (ev.source === $iframe.contentWindow) {
     const handler = handlers[type] || handlers.default
-    handler(payload, type)
+    handler(payload, type, location)
   } else if (type === 'loop') {
     handlers.loop(payload)
   }

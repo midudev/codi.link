@@ -1,59 +1,77 @@
 .console {
-  & .console-header {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    padding-top: 1em;
-    background-color: var(--aside-bar-background);
-    padding-bottom: 8px;
-  }
-
-  & .console-type {
-    padding-bottom: 8px;
-    opacity: 0.6;
-  }
-
   & .console-item {
-    color: #fff;
+    color: var(--aside-bar-foreground);
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 0 0 0 1em;
   }
 
-  & .console-item strong {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  & .console-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-top: 1em;
+
+    & button {
+      background: color-mix(in srgb, var(--aside-bar-foreground) 6%, transparent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid color-mix(in srgb, var(--aside-bar-foreground) 8%, transparent);
+      color: inherit;
+      cursor: pointer;
+      padding: 6px 8px 6px 6px;
+      transition:
+        0.2s ease background-color,
+        0.2s ease scale;
+      border-radius: 8px;
+
+      &:hover {
+        background-color: color-mix(in srgb, var(--aside-bar-foreground) 10%, transparent);
+      }
+
+      &:active {
+        background-color: color-mix(in srgb, var(--aside-bar-foreground) 16%, transparent);
+        scale: 0.95;
+      }
+
+      & .icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
   }
 
   & .console-list {
     list-style: none;
-    padding: 0;
+    margin: 0;
+    padding: 0 0 1em;
     display: grid;
-    gap: 0.5em;
+    font-family: var(--mono-font);
+    font-size: 12px;
+    line-height: 1.45;
 
     & li {
-      display: flex;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
       align-items: start;
-      gap: 0.75em;
+      gap: 8px;
+      padding: 6px var(--panel-padding);
+      border-bottom: 1px solid color-mix(in srgb, var(--aside-bar-foreground) 7%, transparent);
+    }
 
-      &:not(:last-child) {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      }
+    & li > pre {
+      min-width: 0;
+      margin: 0;
+      font: inherit;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
 
     & .error {
-      background: rgb(235, 189, 189);
-      border: 2px solid rgb(204, 0, 0);
-      color: black;
-      padding-top: 0.5em;
-    }
-
-    & .error::before {
-      content: '❗';
-      margin-right: 4px;
-      width: 1em;
+      background: color-mix(in srgb, #ef5350 12%, transparent);
+      color: var(--log-error);
     }
 
     & .log-log {
@@ -88,12 +106,9 @@
       color: var(--log-trace, #8d6e63);
     }
 
-    & .log-dir {
-      color: var(--log-dir, #78909c);
-    }
-
+    & .log-dir,
     & .log-dirxml {
-      color: var(--log-dirxml, #78909c);
+      color: var(--log-dir, #78909c);
     }
 
     & .log-time {
@@ -105,7 +120,6 @@
     }
   }
 
-  /* aca tocaria ajustar los colores dependiendo del tema que este puesto pero por defecto es el mismo que el resto de la pagina */
   .console-string {
     color: #ce9178;
   }
@@ -118,24 +132,18 @@
     color: #569cd6;
   }
 
-  .console-null {
-    color: #d16969;
-  }
-
+  .console-null,
   .console-undefined {
     color: #d16969;
   }
 
-  .console-key {
+  .console-key,
+  .console-date {
     color: #9cdcfe;
   }
 
   .console-regexp {
     color: #b46695;
-  }
-
-  .console-date {
-    color: #9cdcfe;
   }
 
   .console-fn::before {
@@ -152,16 +160,36 @@
     content: 'ƒ* ';
   }
 
+  .console-location {
+    background: none;
+    border: none;
+    color: #9cdcfe;
+    opacity: 0.55;
+    font: inherit;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    padding: 0;
+    line-height: inherit;
+    white-space: nowrap;
+
+    &:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+  }
+
   .console-badge {
     display: inline-block;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 8px;
+    min-width: 3.4em;
+    padding: 0;
+    font: inherit;
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.5px;
-    color: #000;
-    flex-shrink: 0;
-    margin-top: 2px;
+    letter-spacing: 0.04em;
+    color: inherit;
+    opacity: 0.45;
+    line-height: inherit;
   }
 
   .console-table {
@@ -170,7 +198,7 @@
 
     & table {
       border-collapse: collapse;
-      font-size: 12px;
+      font: inherit;
       min-width: 100%;
       background: rgba(255, 255, 255, 0.05);
     }
