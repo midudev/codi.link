@@ -18,6 +18,8 @@ const pt = {
   history: 'Histórico',
   preview: 'Pré-visualização',
   copyClipboard: 'Copiar para a área de transferência',
+  copied: 'Copiado',
+  demoLoadError: 'Não foi possível carregar esta demo. Tente novamente.',
   settings: 'Configurações',
   historyDescription: 'Gerencia o histórico das sandboxes.',
   clear: 'Limpar',

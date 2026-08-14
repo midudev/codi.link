@@ -4,6 +4,8 @@ import { isEmptyCode } from './utils/code.js'
 import { downloadUserCode } from './download.js'
 import { getState } from './state.js'
 import { getHistoryState } from './history-store.js'
+import { $ } from './utils/dom.js'
+import { getTranslation } from './utils/translator.js'
 
 class EventBus extends window.EventTarget {
   on (type, listener) {
@@ -28,9 +30,9 @@ let htmlEditor
 let cssEditor
 
 const getCurrentCode = () => ({
-  html: htmlEditor.getValue(),
-  css: cssEditor.getValue(),
-  js: jsEditor.getValue()
+  html: htmlEditor?.getValue() ?? '',
+  css: cssEditor?.getValue() ?? '',
+  js: jsEditor?.getValue() ?? ''
 })
 
 export const initializeEventsController = ({
@@ -128,9 +130,28 @@ eventBus.on(EVENTS.LOAD_DEMO, ({ detail: { html = '', css = '', js = '' } }) => 
   htmlEditor.focus()
 })
 
+const COPY_FEEDBACK_MS = 2000
+let copyFeedbackTimer
+
+const showCopySuccess = () => {
+  const button = $('[data-action="copy-to-clipboard"]')
+  if (!button) return
+
+  const language = getState().language
+  button.classList.add('is-copied')
+  button.setAttribute('aria-label', getTranslation('copied', language))
+
+  clearTimeout(copyFeedbackTimer)
+  copyFeedbackTimer = setTimeout(() => {
+    button.classList.remove('is-copied')
+    button.setAttribute('aria-label', getTranslation('copyClipboard', language))
+  }, COPY_FEEDBACK_MS)
+}
+
 eventBus.on(EVENTS.COPY_CURRENT_CODE_URL, async () => {
   const encodedPath = getEncodedPath(getCurrentCode())
   const urlToCopy = `${window.location.origin}${encodedPath}`
 
   await copyToClipboard(urlToCopy)
+  showCopySuccess()
 })

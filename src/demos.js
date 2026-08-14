@@ -5,6 +5,7 @@ import { getState } from './state.js'
 import { translate } from './utils/translator.js'
 
 const $demosList = $('#demos .demos-list')
+const $previewError = $('#preview-error')
 
 let loadRequestId = 0
 
@@ -45,9 +46,18 @@ const setCardLoading = (id, isLoading) => {
   card.disabled = isLoading
 }
 
+const showPreviewError = () => {
+  $previewError.removeAttribute('hidden')
+}
+
+const hidePreviewError = () => {
+  $previewError.setAttribute('hidden', '')
+}
+
 const applyDemo = async (id) => {
   const requestId = ++loadRequestId
 
+  hidePreviewError()
   setCardLoading(id, true)
 
   try {
@@ -61,6 +71,7 @@ const applyDemo = async (id) => {
     if (requestId !== loadRequestId) return
 
     console.error(error)
+    showPreviewError()
   } finally {
     setCardLoading(id, false)
   }
@@ -76,6 +87,8 @@ $demosList.addEventListener('click', ({ target }) => {
 
   applyDemo(card.dataset.demoId)
 })
+
+$previewError.querySelector('.preview-error-close').addEventListener('click', hidePreviewError)
 
 renderDemos()
 translate(getState().language)

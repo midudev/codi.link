@@ -9,7 +9,11 @@ const translations = {
 }
 
 function makeTranslation (key, language) {
-  return translations[language][key] || key
+  return translations[language]?.[key] || translations.en?.[key] || key
+}
+
+export function getTranslation (key, language = 'en') {
+  return makeTranslation(key, language)
 }
 
 function updateContent (language = 'en') {

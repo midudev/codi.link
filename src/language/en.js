@@ -18,6 +18,8 @@ const en = {
   history: 'History',
   preview: 'Preview',
   copyClipboard: 'Copy to clipboard',
+  copied: 'Copied',
+  demoLoadError: 'Could not load this demo. Please try again.',
   settings: 'Settings',
   historyDescription: 'Manages the sandboxes history.',
   clear: 'Clear',

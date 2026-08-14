@@ -162,8 +162,22 @@ aside button .button-title {
 
 .aside-sections button.is-active .icon,
 .aside-sections button.is-open .icon,
-.aside-sections button:not(:disabled):hover .icon {
+.aside-sections button:not(:disabled):hover .icon,
+.aside-sections button.is-copied .icon {
   opacity: 1;
+}
+
+.aside-sections button .icon-check {
+  display: none;
+}
+
+.aside-sections button.is-copied .icon-copy {
+  display: none;
+}
+
+.aside-sections button.is-copied .icon-check {
+  display: block;
+  color: #3fb950;
 }
 
 .aside-sections header,

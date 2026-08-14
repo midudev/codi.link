@@ -18,6 +18,8 @@ const es = {
   history: 'Historial',
   preview: 'Vista previa',
   copyClipboard: 'Copiar al portapapeles',
+  copied: 'Copiado',
+  demoLoadError: 'No se ha podido cargar esta demo. Inténtalo de nuevo.',
   settings: 'Ajustes',
   historyDescription: 'Administra el historial de los entornos de pruebas.',
   clear: 'Limpiar',

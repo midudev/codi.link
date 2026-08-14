@@ -161,9 +161,12 @@
           <button class="bar-button" aria-label="Copy to clipboard" data-action="copy-to-clipboard"
             data-is-simple-click-action="true">
             <span role="tooltip" class="button-title" data-translate="copyClipboard">Copy to clipboard</span>
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg class="icon icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
               <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+            </svg>
+            <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12l5 5l10 -10" />
             </svg>
           </button>
 
@@ -644,6 +647,20 @@
       <div class="editor" data-grid-area="editor-css" data-language="css" id="style"></div>
 
       <div id="editor-preview" class="iframe-container">
+        <div id="preview-error" class="preview-error" hidden role="alert">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+            <path d="M12 8v4" />
+            <path d="M12 16h.01" />
+          </svg>
+          <p data-translate="demoLoadError">Could not load this demo. Please try again.</p>
+          <button type="button" class="preview-error-close" aria-label="Close">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
         <iframe srcdoc="" title="CodiLink Preview"
           allow="language-model; summarizer; translator; language-detector; writer; rewriter; proofreader; clipboard-read; clipboard-write"
           sandbox="allow-scripts allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-pointer-lock"></iframe>
