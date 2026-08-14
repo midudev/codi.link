@@ -5,6 +5,8 @@
     z-index: 1;
     padding-top: 1em;
     padding-left: 0.5em;
+    background-color: var(--aside-bar-background);
+    padding-bottom: 8px;
   }
 
   & .history-item {
@@ -37,7 +39,9 @@
       color: #fff;
       cursor: pointer;
       padding: 6px 8px 6px 6px;
-      transition: 0.2s ease background-color, 0.2s ease scale;
+      transition:
+        0.2s ease background-color,
+        0.2s ease scale;
       border-radius: 4px;
 
       &:hover {
@@ -129,7 +133,9 @@
         gap: 6px;
 
         & button {
-          transition: 0.2s ease opacity, 0.2s ease scale;
+          transition:
+            0.2s ease opacity,
+            0.2s ease scale;
           border: none;
           background: none;
           color: #fff;
@@ -149,10 +155,8 @@
             width: 18px;
             height: 18px;
           }
-
         }
       }
     }
-
   }
 }

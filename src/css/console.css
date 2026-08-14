@@ -4,6 +4,8 @@
     top: 0;
     z-index: 1;
     padding-top: 1em;
+    background-color: var(--aside-bar-background);
+    padding-bottom: 8px;
   }
 
   & .console-type {
@@ -45,7 +47,7 @@
       background: rgb(235, 189, 189);
       border: 2px solid rgb(204, 0, 0);
       color: black;
-      padding-top: 0.5em
+      padding-top: 0.5em;
     }
 
     & .error::before {
@@ -55,51 +57,51 @@
     }
 
     & .log-log {
-      color: var(--log-log)
+      color: var(--log-log);
     }
 
     & .log-info {
-      color: var(--log-info)
+      color: var(--log-info);
     }
 
     & .log-error {
-      color: var(--log-error)
+      color: var(--log-error);
     }
 
     & .log-warn {
-      color: var(--log-warn)
+      color: var(--log-warn);
     }
 
     & .log-debug {
-      color: var(--log-debug, #ab47bc)
+      color: var(--log-debug, #ab47bc);
     }
 
     & .log-table {
-      color: var(--log-table, #66bb6a)
+      color: var(--log-table, #66bb6a);
     }
 
     & .log-count {
-      color: var(--log-count, #26c6da)
+      color: var(--log-count, #26c6da);
     }
 
     & .log-trace {
-      color: var(--log-trace, #8d6e63)
+      color: var(--log-trace, #8d6e63);
     }
 
     & .log-dir {
-      color: var(--log-dir, #78909c)
+      color: var(--log-dir, #78909c);
     }
 
     & .log-dirxml {
-      color: var(--log-dirxml, #78909c)
+      color: var(--log-dirxml, #78909c);
     }
 
     & .log-time {
-      color: var(--log-time, #ffd54f)
+      color: var(--log-time, #ffd54f);
     }
 
     & .log-assert {
-      color: var(--log-assert, #ff7043)
+      color: var(--log-assert, #ff7043);
     }
   }
 
@@ -137,17 +139,17 @@
   }
 
   .console-fn::before {
-    content: "ƒ ";
+    content: 'ƒ ';
     font-style: italic;
     color: #ce9178;
   }
 
   .console-async-fn::before {
-    content: "async ƒ ";
+    content: 'async ƒ ';
   }
 
   .console-generator-fn::before {
-    content: "ƒ* ";
+    content: 'ƒ* ';
   }
 
   .console-badge {
