@@ -1,6 +1,6 @@
 import * as monaco from 'monaco-editor'
 import { $ } from '../../../utils/dom.js'
-import { copyToClipboard } from '../../../utils/string'
+import { eventBus, EVENTS } from '../../../events-controller.js'
 
 export const initEditorHotKeys = (editor) => {
   // Shortcut: Open/Close Settings
@@ -22,9 +22,7 @@ export const initEditorHotKeys = (editor) => {
   editor.addCommand(
     monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyC,
     () => {
-      const url = new URL(window.location.href)
-      const urlToCopy = `https://codi.link${url.pathname}`
-      copyToClipboard(urlToCopy)
+      eventBus.emit(EVENTS.COPY_CURRENT_CODE_URL)
     }
   )
 }

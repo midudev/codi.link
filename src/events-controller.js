@@ -1,5 +1,6 @@
 import { decode } from 'js-base64'
-import { capitalize, searchByLine } from './utils/string.js'
+import { capitalize, copyToClipboard, searchByLine } from './utils/string.js'
+import { getEncodedPath } from './utils/url.js'
 import { downloadUserCode } from './download.js'
 import { getState } from './state.js'
 import { getHistoryState } from './history.js'
@@ -42,6 +43,7 @@ export const EVENTS = {
   DRAG_FILE: 'DRAG_FILE',
   OPEN_EXISTING_INSTANCE: 'OPEN_EXISTING_INSTANCE',
   OPEN_NEW_INSTANCE: 'OPEN_NEW_INSTANCE',
+  COPY_CURRENT_CODE_URL: 'COPY-CURRENT-CODE-URL',
   CLEAR_HISTORY: 'CLEAR_HISTORY'
 }
 
@@ -121,4 +123,16 @@ eventBus.on(EVENTS.OPEN_EXISTING_INSTANCE, ({ detail: { id, value } }) => {
 eventBus.on(EVENTS.CLEAR_HISTORY, () => {
   const { clearHistory } = getHistoryState()
   clearHistory()
+})
+
+eventBus.on(EVENTS.COPY_CURRENT_CODE_URL, async () => {
+  const html = htmlEditor.getValue()
+  const css = cssEditor.getValue()
+  const js = jsEditor.getValue()
+
+  const encodedPath = getEncodedPath({ html, css, js })
+
+  const urlToCopy = `${window.location.origin}${encodedPath}`
+
+  await copyToClipboard(urlToCopy)
 })
