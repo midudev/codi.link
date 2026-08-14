@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor'
+import { monaco } from '../monaco.js'
 import { $ } from '../../../utils/dom.js'
 import { eventBus, EVENTS } from '../../../events-controller.js'
 
