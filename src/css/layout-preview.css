@@ -1,4 +1,4 @@
-layout-preview {
+.layout-preview {
   display: grid;
   height: var(--layout-preview-size, 40px);
   width: var(--layout-preview-size, 40px);
@@ -10,41 +10,41 @@ layout-preview {
   gap: var(--layout-preview-gap, 2px);
 }
 
-layout-preview[active] {
+.layout-preview[active] {
   background-color: var(--layout-preview-background-color, #797b80);
   border-radius: var(--layout-preview-border-radius, 5px);
 }
 
-layout-preview[layout=layout-2] {
+.layout-preview[data-layout=layout-2] {
   grid-template-areas: 'html css' 'js result';
 }
 
-layout-preview[layout=vertical] {
+.layout-preview[data-layout=vertical] {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 1fr;
   grid-template-areas: 'html css js result';
 }
 
-layout-preview[layout=horizontal] {
+.layout-preview[data-layout=horizontal] {
   grid-template-rows: repeat(4, 1fr);
   grid-template-columns: 1fr;
   grid-template-areas: 'html' 'css' 'js' 'result';
 }
 
-layout-preview[layout=bottom] {
+.layout-preview[data-layout=bottom] {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
   grid-template-areas: 'result result result' 'html js css';
 }
 
-layout-preview[layout=tabs]{
+.layout-preview[data-layout=tabs] {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
   grid-template-areas: 'html html result' 'html html result';
 }
 
-layout-preview[layout=tabs] .css,
-layout-preview[layout=tabs] .js {
+.layout-preview[data-layout=tabs] .css,
+.layout-preview[data-layout=tabs] .js {
   position: absolute;
   width: 5px;
   height: 5px;
@@ -53,30 +53,30 @@ layout-preview[layout=tabs] .js {
   border-bottom: 1px solid black;
 }
 
-layout-preview[layout=tabs] .css {
+.layout-preview[data-layout=tabs] .css {
   left: calc(33.33% - 3px);
 }
 
-layout-preview[layout=tabs] .js {
+.layout-preview[data-layout=tabs] .js {
   left: calc(33.33% + 4px);
 }
 
-layout-preview .html {
+.layout-preview .html {
   grid-area: html;
   background-color: var(--layout-preview-background-color-html, #e34f26);
 }
 
-layout-preview .css {
+.layout-preview .css {
   grid-area: css;
   background-color: var(--layout-preview-background-color-css, #30a9dc);
 }
 
-layout-preview .js {
+.layout-preview .js {
   grid-area: js;
   background-color: var(--layout-preview-background-color-js, #f7df1e);
 }
 
-layout-preview .result {
+.layout-preview .result {
   grid-area: result;
   background-color: var(--layout-preview-background-color-result, #ffffff);
 }

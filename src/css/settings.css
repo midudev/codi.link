@@ -106,3 +106,9 @@
     font-size: 0.9em;
   }
 }
+
+@media (max-width: 650px) {
+  .settings .settings-item:has(.layout-preview-container) {
+    display: none;
+  }
+}

@@ -1,51 +1,32 @@
 .grid {
   display: grid;
-  grid-template-areas:
-    'editor-html . editor-js'
-    '. . .'
-    'editor-css . editor-preview';
-  grid-template-columns: 1fr 8px 1fr;
-  grid-template-rows: 1fr 8px 1fr;
   height: 100vh;
+  background-color: var(--aside-sections-background);
 
-  [data-layout='default'] & {
-    & .first-gutter {
-      position: relative;
-      box-shadow: -1px 0 0 0 var(--grid-background),
-        1px 0 0 0 var(--grid-background);
-    }
-    & .second-gutter {
-      background: transparent;
-    }
-    & .last-gutter {
-      position: relative;
-      box-shadow: 0 -1px 0 0 var(--grid-background),
-        0 1px 0 0 var(--grid-background);
-    }
-  }
+  [data-layout='default'] &,
   [data-layout='layout-2'] & {
-    grid-template-areas:
-      'editor-html . editor-css'
-      '. . .'
-      'editor-js . editor-preview';
+    display: block;
+    position: relative;
+    overflow: hidden;
 
-    & .first-gutter {
-      position: relative;
-      box-shadow: -1px 0 0 0 var(--grid-background),
-        1px 0 0 0 var(--grid-background);
-    }
-    & .second-gutter {
-      background: transparent;
-    }
-    & .last-gutter {
-      position: relative;
-      box-shadow: 0 -1px 0 0 var(--grid-background),
-        0 1px 0 0 var(--grid-background);
+    & #markup,
+    & #script,
+    & #style,
+    & #editor-preview {
+      overflow: hidden;
     }
   }
+
   [data-layout='vertical'] & {
     grid-template-areas: 'editor-html . editor-css . editor-js . editor-preview';
+
+    & .gutter-col,
+    & .gutter-row {
+      display: none;
+    }
+
     & .first-gutter {
+      display: block;
       cursor: col-resize;
       grid-area: 1 / 2 / 1 / 2;
       position: relative;
@@ -53,22 +34,39 @@
         1px 0 0 0 var(--grid-background);
     }
     & .second-gutter {
+      display: block;
       cursor: col-resize;
       grid-area: 1 / 4 / 1 / 4;
-      background-image: url(/assets/vertical.png);
       position: relative;
       box-shadow: -1px 0 0 0 var(--grid-background),
         1px 0 0 0 var(--grid-background);
     }
     & .last-gutter {
+      display: block;
       cursor: col-resize;
       grid-area: 1 / 6 / 1 / 6;
-      background-image: url(/assets/vertical.png);
       position: relative;
       box-shadow: -1px 0 0 0 var(--grid-background),
         1px 0 0 0 var(--grid-background);
     }
+
+    & #markup {
+      grid-area: editor-html;
+    }
+
+    & #style {
+      grid-area: editor-css;
+    }
+
+    & #script {
+      grid-area: editor-js;
+    }
+
+    & #editor-preview {
+      grid-area: editor-preview;
+    }
   }
+
   [data-layout='horizontal'] & {
     grid-template-areas:
       'editor-html'
@@ -78,30 +76,54 @@
       'editor-js'
       '.'
       'editor-preview';
+
+    & .gutter-col,
+    & .gutter-row {
+      display: none;
+    }
+
     & .first-gutter {
+      display: block;
       grid-area: 2 / 1 / 2 / 1;
       cursor: row-resize;
-      background-image: url(/assets/horizontal.png);
       position: relative;
       box-shadow: 0 -1px 0 0 var(--grid-background),
         0 1px 0 0 var(--grid-background);
     }
     & .second-gutter {
+      display: block;
       grid-area: 4 / 1 / 4 / 1;
       cursor: row-resize;
-      background-image: url(/assets/horizontal.png);
       position: relative;
       box-shadow: 0 -1px 0 0 var(--grid-background),
         0 1px 0 0 var(--grid-background);
     }
     & .last-gutter {
+      display: block;
       grid-area: 6 / 1 / 6 / 1;
       cursor: row-resize;
       position: relative;
       box-shadow: 0 -1px 0 0 var(--grid-background),
         0 1px 0 0 var(--grid-background);
     }
+
+    & #markup {
+      grid-area: editor-html;
+    }
+
+    & #style {
+      grid-area: editor-css;
+    }
+
+    & #script {
+      grid-area: editor-js;
+    }
+
+    & #editor-preview {
+      grid-area: editor-preview;
+    }
   }
+
   [data-layout='bottom'] & {
     grid-template-columns: 1fr 8px 1fr 8px 1fr;
     grid-template-rows: 1fr 8px 1fr;
@@ -109,7 +131,14 @@
       'editor-preview editor-preview editor-preview editor-preview editor-preview'
       '. . . . .'
       'editor-html . editor-js . editor-css';
+
+    & .gutter-col,
+    & .gutter-row {
+      display: none;
+    }
+
     & .first-gutter {
+      display: block;
       cursor: col-resize;
       grid-area: 2 / 2 / 4 / 3;
       position: relative;
@@ -117,33 +146,56 @@
         1px 0 0 0 var(--grid-background);
     }
     & .second-gutter {
+      display: block;
       cursor: col-resize;
       grid-area: 2 / 4 / 4 / 5;
-      background-image: url(/assets/vertical.png);
       position: relative;
       box-shadow: -1px 0 0 0 var(--grid-background),
         1px 0 0 0 var(--grid-background);
     }
     & .last-gutter {
+      display: block;
       cursor: row-resize;
       grid-area: 2 / 1 / 2 / 6;
       position: relative;
       box-shadow: 0 -1px 0 0 var(--grid-background),
         0 1px 0 0 var(--grid-background);
     }
+
+    & #markup {
+      grid-area: editor-html;
+    }
+
+    & #style {
+      grid-area: editor-css;
+    }
+
+    & #script {
+      grid-area: editor-js;
+    }
+
+    & #editor-preview {
+      grid-area: editor-preview;
+    }
   }
+
   [data-layout='tabs'] & {
     grid-template-columns: 5fr 8px 3fr;
     grid-template-rows: 40px 1fr;
     grid-template-areas: 'tabs . editor-preview' 'editors . editor-preview';
-    
+
+    & .gutter-col,
+    & .gutter-row {
+      display: none;
+    }
+
     & #tabs {
       display: grid;
     }
 
     & .first-gutter {
+      display: block;
       cursor: col-resize;
-      background-image: url(/assets/vertical.png);
       grid-area: 1 / 2 / 3 / 2;
       position: relative;
       box-shadow: -1px 0 0 0 var(--grid-background),
@@ -153,36 +205,127 @@
     & .last-gutter {
       display: none;
     }
+
+    & #editor-preview {
+      grid-area: editor-preview;
+    }
+  }
+}
+
+.gutter-col,
+.gutter-row,
+.first-gutter,
+.second-gutter,
+.last-gutter {
+  --gutter-handle-size: 28px;
+  position: relative;
+  background-color: var(--aside-sections-background);
+  background-image: none;
+  transition: background-color 0.15s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 999px;
+    background: var(--button-foreground);
+    transform: translate(-50%, -50%);
+    transition: background-color 0.15s ease, width 0.15s ease, height 0.15s ease;
+    pointer-events: none;
   }
 
-  & #markup {
-    grid-area: editor-html;
-  }
+  &:hover,
+  &:active {
+    --gutter-handle-size: 72px;
+    background-color: color-mix(in srgb, var(--button-foreground-active) 12%, var(--aside-sections-background));
 
-  & #style {
-    grid-area: editor-css;
+    &::after {
+      background: var(--button-foreground-active);
+    }
   }
+}
 
-  & #script {
-    grid-area: editor-js;
+.gutter-col,
+.gutter-row {
+  z-index: 2;
+  touch-action: none;
+}
+
+.gutter-col,
+.first-gutter,
+.second-gutter {
+  cursor: col-resize;
+  box-shadow: -1px 0 0 0 var(--grid-background),
+    1px 0 0 0 var(--grid-background);
+
+  &::after {
+    width: 3px;
+    height: var(--gutter-handle-size);
   }
+}
 
-  & #editor-preview {
-    grid-area: editor-preview;
+.gutter-row,
+.last-gutter {
+  cursor: row-resize;
+  box-shadow: 0 -1px 0 0 var(--grid-background),
+    0 1px 0 0 var(--grid-background);
+
+  &::after {
+    width: var(--gutter-handle-size);
+    height: 3px;
+  }
+}
+
+[data-layout='horizontal'] {
+  & .first-gutter,
+  & .second-gutter,
+  & .last-gutter {
+    cursor: row-resize;
+    box-shadow: 0 -1px 0 0 var(--grid-background),
+      0 1px 0 0 var(--grid-background);
+
+    &::after {
+      width: var(--gutter-handle-size);
+      height: 3px;
+    }
+  }
+}
+
+[data-layout='vertical'],
+[data-layout='tabs'] {
+  & .last-gutter {
+    cursor: col-resize;
+    box-shadow: -1px 0 0 0 var(--grid-background),
+      1px 0 0 0 var(--grid-background);
+
+    &::after {
+      width: 3px;
+      height: var(--gutter-handle-size);
+    }
   }
 }
 
 #tabs {
   grid-area: tabs;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  background-color: var(--aside-sections-background);
 
   & label {
-    display: flex !important;
+    display: flex;
     align-items: center;
     padding-left: 8px;
     border-bottom: 2px solid rgb(72, 72, 72);
     opacity: .2;
+    overflow: hidden;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
     transition: opacity 0.2s ease;
+
+    &[hidden] {
+      display: none;
+    }
     
     &.active {
       border-bottom: 2px solid;
@@ -228,32 +371,106 @@
     &[for="script"]::before {
       background-image: url(/assets/js.svg);
     }
+    &[for="editor-preview"]::before {
+      border: 2px solid currentColor;
+      border-radius: 2px;
+      background: #fff;
+      box-sizing: border-box;
+    }
+    &[for="editor-preview"].active {
+      border-bottom-color: #fff;
+    }
   }
 }
 
 .first-gutter {
-  cursor: col-resize;
+  display: none;
   grid-area: 1 / 2 / 4 / 2;
-  background: var(--grid-background);
-  background-repeat: no-repeat;
-  background-position: 50% center;
-  background-image: url(/assets/vertical.png);
 }
 
 .second-gutter {
-  cursor: all-scroll;
+  display: none;
   z-index: 1;
   grid-area: 2 / 2 / 2 / 2;
-  background: var(--grid-background);
-  background-repeat: no-repeat;
-  background-position: 50% center;
 }
 
 .last-gutter {
-  cursor: row-resize;
+  display: none;
   grid-area: 2 / 1 / 2 / 4;
-  background: var(--grid-background);
+}
+
+.editor {
+  position: relative;
+  overflow: hidden;
+}
+
+.editor::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
   background-repeat: no-repeat;
-  background-position: 50% center;
-  background-image: url(/assets/horizontal.png);
+  background-position: center;
+  background-size: contain;
+}
+
+.editor[data-language='html']::after {
+  background-image: url(/assets/html5.svg);
+}
+
+.editor[data-language='css']::after {
+  background-image: url(/assets/css.svg);
+}
+
+.editor[data-language='javascript']::after {
+  background-image: url(/assets/js.svg);
+}
+
+.editor:hover::after {
+  opacity: 0.2;
+}
+
+.editor:focus-within::after {
+  opacity: 0.1;
+}
+
+@media (max-width: 650px) {
+  .editor::after {
+    left: 16px;
+    right: unset;
+  }
+
+  [data-layout='tabs'] .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 40px minmax(0, 1fr);
+    grid-template-areas:
+      'tabs'
+      'editors';
+
+    & .gutter-col,
+    & .gutter-row,
+    & .first-gutter,
+    & .second-gutter,
+    & .last-gutter {
+      display: none;
+    }
+
+    & #markup,
+    & #script,
+    & #style,
+    & #editor-preview {
+      grid-area: editors;
+      min-height: 0;
+    }
+  }
+
+  #tabs label {
+    justify-content: center;
+    padding-inline: 4px;
+    font-size: 13px;
+  }
 }

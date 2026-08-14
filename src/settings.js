@@ -1,5 +1,6 @@
 import { getState } from './state.js'
 import { $, setFormControlValue } from './utils/dom.js'
+import { getLayoutType, isMobileLayout } from './utils/layout.js'
 
 const ELEMENT_TYPES = {
   INPUT: 'input',
@@ -30,7 +31,7 @@ Array.from($settingsForm.elements).forEach((el) => {
   let actualSettingValue = settings[settingKey]
 
   if (settingKey === 'layout') {
-    if (value === actualSettingValue.type) {
+    if (value === getLayoutType(actualSettingValue)) {
       actualSettingValue = true
     } else { return }
   }
@@ -49,6 +50,7 @@ function updateSettingValue ({ target }) {
 
   if (isRadio) {
     if (!checked) { return }
+    if (settingKey === 'layout' && isMobileLayout()) { return }
   }
 
   updateSettings({ key: settingKey, value: settingValue })
