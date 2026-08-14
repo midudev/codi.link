@@ -7,6 +7,7 @@ export const BUTTON_ACTIONS = {
   showSettingsBar: 'show-settings-bar',
   showConsoleBar: 'show-console-bar',
   showHistoryBar: 'show-history-bar',
+  showDemosBar: 'show-demos-bar',
   clearHistory: 'clear-history',
   openNewInstance: 'open-new-instance'
 }

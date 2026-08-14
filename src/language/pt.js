@@ -68,7 +68,21 @@ const pt = {
   urlSyncCheckbox: 'Atualizar automaticamente a URL',
   urlSyncDescription:
     'Atualiza automaticamente a URL com o código atual. Desative para evitar sobrecarregar o histórico do navegador.',
-  searchDependency: 'Pesquisar e adicionar um pacote...'
+  searchDependency: 'Pesquisar e adicionar um pacote...',
+  demos: 'Demos',
+  demosDescription: 'Clique em uma demo para carregar o código nos editores.',
+  demoCounter: 'Contador',
+  demoCounterDesc: 'Um contador com somar, subtrair e reiniciar.',
+  demoClock: 'Relógio digital',
+  demoClockDesc: 'Um relógio ao vivo que atualiza a cada segundo.',
+  demoTodo: 'Lista de tarefas',
+  demoTodoDesc: 'Adicione tarefas, marque como feitas e remova-as.',
+  demoOrbs: 'Orbes CSS',
+  demoOrbsDesc: 'Orbes animados que seguem o ponteiro.',
+  demoThemeToggle: 'Alternar tema',
+  demoThemeToggleDesc: 'Alterne a página entre claro e escuro com variáveis CSS.',
+  demoTypewriter: 'Máquina de escrever',
+  demoTypewriterDesc: 'Um efeito de digitação em loop com várias frases.'
 }
 
 export default pt

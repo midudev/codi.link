@@ -68,7 +68,21 @@ const es = {
   urlSyncCheckbox: 'Actualizar URL automáticamente',
   urlSyncDescription:
     'Actualiza automáticamente la URL con tu código actual. Desactívalo para evitar saturar el historial de navegación.',
-  searchDependency: 'Buscar y agregar un paquete...'
+  searchDependency: 'Buscar y agregar un paquete...',
+  demos: 'Demos',
+  demosDescription: 'Haz clic en una demo para cargar su código en los editores.',
+  demoCounter: 'Contador',
+  demoCounterDesc: 'Un contador con sumar, restar y reiniciar.',
+  demoClock: 'Reloj digital',
+  demoClockDesc: 'Un reloj en vivo que se actualiza cada segundo.',
+  demoTodo: 'Lista de tareas',
+  demoTodoDesc: 'Añade tareas, márcalas como hechas y elimínalas.',
+  demoOrbs: 'Orbes CSS',
+  demoOrbsDesc: 'Orbes animados que siguen el puntero.',
+  demoThemeToggle: 'Cambio de tema',
+  demoThemeToggleDesc: 'Alterna la página entre claro y oscuro con variables CSS.',
+  demoTypewriter: 'Máquina de escribir',
+  demoTypewriterDesc: 'Un efecto de escritura en bucle con varias frases.'
 }
 
 export default es

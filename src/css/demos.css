@@ -1,0 +1,116 @@
+.demos {
+  & .demos-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding-top: 1em;
+    padding-left: 0.5em;
+    background-color: var(--aside-bar-background);
+    padding-bottom: 8px;
+  }
+
+  & .demos-type {
+    padding-bottom: 8px;
+    opacity: 0.6;
+  }
+
+  & .demos-item {
+    color: var(--aside-bar-foreground);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 0.5em 1em;
+  }
+
+  & .demos-item strong {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  & .demos-description {
+    display: block;
+    margin-top: 0.35em;
+    opacity: 0.7;
+    line-height: 1.4;
+  }
+
+  & .demos-list {
+    list-style: none;
+    margin: 0.75em 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  & .demo-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35em;
+    padding: 0.85em 0.8em;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--aside-bar-foreground) 6%, transparent);
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      0.2s ease background-color,
+      0.2s ease border-color;
+
+    &:hover {
+      background: color-mix(in srgb, var(--aside-bar-foreground) 10%, transparent);
+    }
+
+    &.is-active {
+      background: color-mix(in srgb, var(--aside-bar-foreground) 12%, transparent);
+      border-color: color-mix(in srgb, var(--aside-bar-foreground) 16%, transparent);
+    }
+
+    &.is-loading {
+      opacity: 0.6;
+      cursor: progress;
+    }
+
+    & strong {
+      font-size: 0.95rem;
+    }
+  }
+
+  & .demo-card-description {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    opacity: 0.7;
+  }
+
+  & .demo-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35em;
+    margin-top: 0.25em;
+  }
+
+  & .demo-tag {
+    border-radius: 999px;
+    padding: 0.15em 0.5em;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    background: color-mix(in srgb, var(--aside-bar-foreground) 10%, transparent);
+  }
+
+  & .demo-tag-html {
+    color: #ff8a70;
+  }
+
+  & .demo-tag-css {
+    color: #6db6ff;
+  }
+
+  & .demo-tag-js {
+    color: #f0c36a;
+  }
+}

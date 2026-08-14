@@ -67,7 +67,21 @@ const en = {
   urlSync: 'URL Sync',
   urlSyncCheckbox: 'Automatically update URL',
   urlSyncDescription: 'Keeps the URL in sync with your current code for easy sharing. Disable to prevent flooding your browser history.',
-  searchDependency: 'Search and add a package...'
+  searchDependency: 'Search and add a package...',
+  demos: 'Demos',
+  demosDescription: 'Click a demo to load its code into the editors.',
+  demoCounter: 'Counter',
+  demoCounterDesc: 'A click counter with increment, decrement and reset.',
+  demoClock: 'Digital clock',
+  demoClockDesc: 'A live clock that updates every second.',
+  demoTodo: 'Todo list',
+  demoTodoDesc: 'Add tasks, mark them as done and remove them.',
+  demoOrbs: 'CSS orbs',
+  demoOrbsDesc: 'Animated orbs that follow the pointer.',
+  demoThemeToggle: 'Theme toggle',
+  demoThemeToggleDesc: 'Switch a page between light and dark with CSS variables.',
+  demoTypewriter: 'Typewriter',
+  demoTypewriterDesc: 'A looping typewriter effect with multiple phrases.'
 }
 
 export default en
