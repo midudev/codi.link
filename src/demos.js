@@ -9,13 +9,6 @@ const $demosList = $('#demos .demos-list')
 
 let loadRequestId = 0
 
-const createTag = (tag) => {
-  const $tag = document.createElement('span')
-  $tag.className = `demo-tag demo-tag-${tag.toLowerCase()}`
-  $tag.textContent = tag
-  return $tag
-}
-
 const createDemoCard = (demo) => {
   const $item = document.createElement('li')
   const $button = document.createElement('button')
@@ -31,11 +24,7 @@ const createDemoCard = (demo) => {
   $description.className = 'demo-card-description'
   $description.dataset.translate = demo.descriptionKey
 
-  const $tags = document.createElement('div')
-  $tags.className = 'demo-card-tags'
-  demo.tags.forEach(tag => $tags.appendChild(createTag(tag)))
-
-  $button.append($title, $description, $tags)
+  $button.append($title, $description)
   $item.appendChild($button)
   return $item
 }

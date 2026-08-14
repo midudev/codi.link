@@ -1,23 +1,10 @@
 .skypack {
-  & .skypack-header {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    padding-top: 1em;
-    background-color: var(--aside-bar-background);
-  }
-
-  & .skypack-type {
-    padding-bottom: 8px;
-    opacity: 0.6;
-  }
-
   & .skypack-item {
-    color: #fff;
+    color: var(--aside-bar-foreground);
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 0 1em 1em;
+    padding: 0 0 1em;
   }
 
   & .skypack-item strong {
@@ -26,18 +13,30 @@
     text-overflow: ellipsis;
   }
 
+  & .skypack-header span[data-translate='addDependencyDescription'] {
+    display: block;
+    margin-top: 0.35em;
+    opacity: 0.65;
+    line-height: 1.4;
+    font-size: 0.85em;
+  }
+
   & .input {
     display: flex;
+    align-items: center;
     background-color: var(--input-background);
     border: 1px solid var(--input-border);
     color: var(--input-foreground);
-    padding: 0.5em;
+    padding: 0.55em 0.7em;
     margin-top: 16px;
     font-size: 1rem;
+    border-radius: 10px;
   }
 
   & .input .input-icon {
-    fill: rgba(128, 128, 128, 0.5);
+    width: 18px;
+    height: 18px;
+    opacity: 0.5;
   }
 
   & .input input {
@@ -63,13 +62,14 @@
 
   & .search-results .extensions ul {
     list-style: none;
-    margin: 0.5em 0;
+    margin: 0.5em var(--panel-padding);
     padding: 0;
   }
 
   & .search-results .extensions ul li {
     margin-bottom: 0.5em;
-    padding: 0.5em;
+    padding: 0.65em;
+    border-radius: 8px;
     cursor: pointer;
     text-overflow: ellipsis;
     overflow: hidden;

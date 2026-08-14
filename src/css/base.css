@@ -1,47 +1,62 @@
 :root {
-  --app-background: rgb(30, 30, 30);
+  --app-background: #0b0b0b;
   --app-foreground: rgb(204, 204, 204);
 
-  --aside-sections-background: rgb(51, 51, 51);
+  --island-background: #1e1e1e;
+  --island-radius: 12px;
+  --island-gap: 8px;
+
+  --aside-sections-background: var(--island-background);
   --aside-sections-border: transparent;
 
-  --aside-bar-background: rgb(37, 37, 38);
+  --aside-bar-background: var(--island-background);
   --aside-bar-foreground: rgb(204, 204, 204);
   --aside-bar-border: transparent;
 
-  --grid-background: var(--aside-sections-background);
+  --grid-background: var(--app-background);
 
-  --button-foreground: rgba(255, 255, 255, 0.4);
-  --button-foreground-active: rgb(255, 255, 255);
+  --button-foreground: #ffffff;
+  --button-foreground-active: #ffffff;
+  --button-icon-opacity: 0.45;
+  --button-background-hover: rgba(255, 255, 255, 0.06);
+  --button-background-active: rgba(255, 255, 255, 0.1);
 
-  --button-title-background: rgb(51, 51, 51);
+  --button-title-background: #2a2a2a;
   --button-title-foreground: rgb(225, 228, 232);
-  --button-title-border: rgb(51, 51, 51);
+  --button-title-border: #2a2a2a;
 
-  --input-background: rgb(51, 51, 51);
+  --input-background: #2a2a2a;
   --input-foreground: rgb(225, 228, 232);
-  --input-border: rgb(51, 51, 51);
+  --input-border: #2a2a2a;
 
   --log-log: rgb(205, 238, 181);
   --log-info: rgb(181, 181, 238);
   --log-error: rgb(227, 189, 189);
   --log-warn: rgb(247, 231, 161);
+
+  --mono-font: 'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', monospace;
 }
 
 [data-theme='vs'] {
-  --app-background: rgb(255, 255, 254);
+  --app-background: #d8d8d8;
   --app-foreground: rgb(0, 0, 0);
+  --island-background: #ffffff;
 
-  --aside-sections-background: rgb(44, 44, 44);
-
-  --aside-bar-background: rgb(243, 243, 243);
+  --aside-sections-background: #2c2c2c;
+  --aside-bar-background: var(--island-background);
   --aside-bar-foreground: rgb(97, 97, 97);
 
-  --gutter-background: rgb(243, 243, 243);
+  --gutter-background: var(--app-background);
 
-  --input-background: rgb(243, 243, 243);
+  --button-foreground: #ffffff;
+  --button-foreground-active: #ffffff;
+  --button-icon-opacity: 0.45;
+  --button-background-hover: rgba(255, 255, 255, 0.08);
+  --button-background-active: rgba(255, 255, 255, 0.14);
+
+  --input-background: #f3f3f3;
   --input-foreground: rgb(97, 97, 97);
-  --input-border: rgb(97, 97, 97);
+  --input-border: #e4e4e4;
 
   --log-log: rgb(14, 197, 8);
   --log-info: rgb(31, 76, 226);
@@ -50,17 +65,21 @@
 }
 
 [data-theme='hc-black'] {
-  --app-background: rgb(0, 0, 0);
+  --app-background: #000000;
   --app-foreground: rgb(255, 255, 255);
+  --island-background: #000000;
 
-  --aside-sections-background: rgb(0, 0, 0);
+  --aside-sections-background: var(--island-background);
   --aside-sections-border: rgb(255, 255, 255);
 
-  --aside-bar-background: rgb(0, 0, 0);
+  --aside-bar-background: var(--island-background);
   --aside-bar-foreground: rgb(255, 255, 255);
   --aside-bar-border: rgb(255, 255, 255);
 
-  --button-foreground: rgb(255, 255, 255);
+  --button-foreground: #ffffff;
+  --button-icon-opacity: 1;
+  --button-background-hover: rgba(255, 255, 255, 0.12);
+  --button-background-active: rgba(255, 255, 255, 0.2);
 
   --button-title-background: rgb(255, 255, 255);
   --button-title-foreground: rgb(0, 0, 0);
@@ -72,20 +91,24 @@
 }
 
 [data-theme='hc-light'] {
-  --app-background: rgb(255, 255, 255);
+  --app-background: #e6e6e6;
   --app-foreground: rgb(0, 0, 0);
+  --island-background: #ffffff;
 
-  --aside-sections-background: rgb(255, 255, 255);
+  --aside-sections-background: var(--island-background);
   --aside-sections-border: rgb(15, 74, 133);
 
-  --aside-bar-background: rgb(255, 255, 255);
+  --aside-bar-background: var(--island-background);
   --aside-bar-foreground: rgb(0, 0, 0);
   --aside-bar-border: rgb(15, 74, 133);
 
-  --gutter-background: rgb(255, 255, 255);
+  --gutter-background: var(--app-background);
 
-  --button-foreground: rgb(0, 0, 0);
-  --button-foreground-active: rgb(0, 0, 0);
+  --button-foreground: #000000;
+  --button-foreground-active: #000000;
+  --button-icon-opacity: 0.55;
+  --button-background-hover: rgba(15, 74, 133, 0.08);
+  --button-background-active: rgba(15, 74, 133, 0.16);
 
   --button-title-background: rgb(0, 0, 0);
   --button-title-foreground: rgb(255, 255, 255);
@@ -102,19 +125,22 @@
 }
 
 [data-theme='mosqueta-dark'] {
-  --app-background: #171a25;
+  --app-background: #10131b;
   --app-foreground: rgb(204, 204, 204);
+  --island-background: #1e2530;
 
-  --aside-sections-background: #171a25;
+  --aside-sections-background: var(--island-background);
   --aside-sections-border: transparent;
 
-  --aside-bar-background: #1e2530;
+  --aside-bar-background: var(--island-background);
   --aside-bar-foreground: rgb(204, 204, 204);
   --aside-bar-border: transparent;
 
-  --button-foreground: rgba(255, 255, 255, 0.4);
+  --button-foreground: #ffffff;
   --button-foreground-active: #ff89ef;
+  --button-icon-opacity: 0.4;
   --button-border-active: #40142c;
+  --button-background-hover: #2a2030;
   --button-background-active: #40142c;
 
   --button-title-background: #171a25;
@@ -127,19 +153,22 @@
 }
 
 [data-theme='dracula'] {
-  --app-background: #171a25;
+  --app-background: #12141c;
   --app-foreground: #f8f8f2;
+  --island-background: #20232c;
 
-  --aside-sections-background: #353646;
+  --aside-sections-background: #282a36;
   --aside-sections-border: transparent;
 
-  --aside-bar-background: #20232c;
+  --aside-bar-background: var(--island-background);
   --aside-bar-foreground: #ffffff;
   --aside-bar-border: transparent;
 
-  --button-foreground: #6473a6;
+  --button-foreground: #ffffff;
   --button-foreground-active: #ffffff;
+  --button-icon-opacity: 0.45;
   --button-border-active: #40142c;
+  --button-background-hover: #353646;
   --button-background-active: #40142c;
 
   --button-title-background: #171a25;
@@ -152,19 +181,22 @@
 }
 
 [data-theme='one-dark-pro'] {
-  --app-background: #171a25;
+  --app-background: #12141a;
   --app-foreground: #abb2bf;
+  --island-background: #21262c;
 
   --aside-sections-background: #282b34;
   --aside-sections-border: transparent;
 
-  --aside-bar-background: #21262c;
+  --aside-bar-background: var(--island-background);
   --aside-bar-foreground: #ffffff;
   --aside-bar-border: transparent;
 
-  --button-foreground: #6e7077;
+  --button-foreground: #ffffff;
   --button-foreground-active: #ffffff;
+  --button-icon-opacity: 0.45;
   --button-border-active: #40142c;
+  --button-background-hover: #32363e;
   --button-background-active: #40142c;
 
   --button-title-background: #171a25;
@@ -221,29 +253,48 @@ select {
   background-color: var(--input-background);
   color: var(--input-foreground);
   border: 1px solid var(--input-border);
-  height: 26px;
+  height: 32px;
   margin-top: 8px;
   padding: 2px 8px;
   width: 100%;
+  border-radius: 8px;
 }
 
 [hidden] {
   display: none !important;
 }
 
+.icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+}
+
 #app {
   display: grid;
-  grid-template-columns: auto 1fr;
-  height: 100dvh;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+  padding: var(--island-gap);
+  gap: var(--island-gap);
+  background: var(--app-background);
 
-  #editor {
-    height: 100dvh;
+  #editor,
+  aside {
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
   }
 }
 
 iframe {
-  background: #fff;
+  background: var(--island-background);
   border: 0;
   height: 100%;
   width: 100%;
+  display: block;
 }

@@ -14,7 +14,7 @@
     flex-direction: column;
     width: 100%;
     max-width: 500px;
-    padding: 1em;
+    padding: 1em var(--panel-padding, 1rem);
 
     & .layout-preview-container {
       display: flex;
@@ -22,7 +22,7 @@
       padding: 10px 0;
 
       & label {
-        border-radius: 5px;
+        border-radius: 10px;
         position: relative;
         transition: 0.3s ease opacity, 0.3s ease background-color;
       }
@@ -80,7 +80,7 @@
   & .checkbox span::before {
     align-items: center;
     background: var(--input-background);
-    border-radius: 3px;
+    border-radius: 6px;
     border: 1px solid var(--input-border);
     color: var(--input-foreground);
     content: '';
@@ -96,7 +96,8 @@
     background-color: var(--input-background);
     color: var(--input-foreground);
     border: 1px solid var(--input-border);
-    padding: 0.3em;
+    padding: 0.45em 0.6em;
+    border-radius: 8px;
   }
 
   & .setting-description {

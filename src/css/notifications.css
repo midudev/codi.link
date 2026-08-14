@@ -19,13 +19,13 @@
   column-gap: 0.33rem;
   padding: 0.75rem;
   margin-bottom: 1rem;
-  box-shadow: 0 0 15px 2px rgb(0 0 0 / 30%);
-  background-color: #2f363d;
-  color: #e1e4e8;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 28%);
+  background-color: var(--island-background, #2f363d);
+  color: var(--app-foreground, #e1e4e8);
   transition: opacity cubic-bezier(0.215, 0.61, 0.455, 1);
   user-select: none;
   cursor: pointer;
-  border-radius: 9999px;
+  border-radius: 12px;
 }
 
 .notification.animation-in {
@@ -50,6 +50,11 @@
 .icon-close {
   display: flex;
   align-self: center;
+}
+
+.notification .icon {
+  width: 18px;
+  height: 18px;
 }
 
 .notification--info .notification__icon {

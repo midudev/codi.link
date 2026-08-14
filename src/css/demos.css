@@ -1,25 +1,10 @@
 .demos {
-  & .demos-header {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    padding-top: 1em;
-    padding-left: 0.5em;
-    background-color: var(--aside-bar-background);
-    padding-bottom: 8px;
-  }
-
-  & .demos-type {
-    padding-bottom: 8px;
-    opacity: 0.6;
-  }
-
   & .demos-item {
     color: var(--aside-bar-foreground);
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 0 0.5em 1em;
+    padding: 0 0 1em;
   }
 
   & .demos-item strong {
@@ -28,16 +13,9 @@
     text-overflow: ellipsis;
   }
 
-  & .demos-description {
-    display: block;
-    margin-top: 0.35em;
-    opacity: 0.7;
-    line-height: 1.4;
-  }
-
   & .demos-list {
     list-style: none;
-    margin: 0.75em 0 0;
+    margin: 0.75em var(--panel-padding) 0;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -52,7 +30,7 @@
     gap: 0.35em;
     padding: 0.85em 0.8em;
     border: 1px solid transparent;
-    border-radius: 8px;
+    border-radius: 10px;
     background: color-mix(in srgb, var(--aside-bar-foreground) 6%, transparent);
     color: inherit;
     text-align: left;
@@ -84,33 +62,5 @@
     font-size: 0.8rem;
     line-height: 1.4;
     opacity: 0.7;
-  }
-
-  & .demo-card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35em;
-    margin-top: 0.25em;
-  }
-
-  & .demo-tag {
-    border-radius: 999px;
-    padding: 0.15em 0.5em;
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    background: color-mix(in srgb, var(--aside-bar-foreground) 10%, transparent);
-  }
-
-  & .demo-tag-html {
-    color: #ff8a70;
-  }
-
-  & .demo-tag-css {
-    color: #6db6ff;
-  }
-
-  & .demo-tag-js {
-    color: #f0c36a;
   }
 }

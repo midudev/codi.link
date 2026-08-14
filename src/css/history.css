@@ -1,26 +1,24 @@
 .history {
-  & .history-header {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    padding-top: 1em;
-    padding-left: 0.5em;
-    background-color: var(--aside-bar-background);
-    padding-bottom: 8px;
-  }
-
   & .history-item {
-    color: #fff;
+    color: var(--aside-bar-foreground);
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 0 0 1em 0.5em;
+    padding: 0 0 1em;
   }
 
   & .history-item strong {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  & .history-header span[data-translate='historyDescription'] {
+    display: block;
+    margin-top: 0.35em;
+    opacity: 0.65;
+    line-height: 1.4;
+    font-size: 0.85em;
   }
 
   & .history-actions {
@@ -31,18 +29,18 @@
     margin-top: 1em;
 
     & button {
-      background: rgba(255, 255, 255, 0.05);
+      background: color-mix(in srgb, var(--aside-bar-foreground) 6%, transparent);
       display: flex;
       align-items: center;
       gap: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      color: #fff;
+      border: 1px solid color-mix(in srgb, var(--aside-bar-foreground) 8%, transparent);
+      color: inherit;
       cursor: pointer;
       padding: 6px 8px 6px 6px;
       transition:
         0.2s ease background-color,
         0.2s ease scale;
-      border-radius: 4px;
+      border-radius: 8px;
 
       &:hover {
         background-color: rgba(255, 255, 255, 0.1);
@@ -53,7 +51,7 @@
         scale: 0.95;
       }
 
-      & svg {
+      & .icon {
         width: 16px;
         height: 16px;
       }
@@ -62,7 +60,7 @@
 
   & .history-list {
     list-style: none;
-    padding: 0;
+    padding: 0 var(--panel-padding);
     display: grid;
 
     & .group {
@@ -85,10 +83,10 @@
       width: 100%;
       gap: 6px;
       cursor: pointer;
-      border-radius: 4px;
+      border-radius: 8px;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.05);
+        background-color: color-mix(in srgb, var(--aside-bar-foreground) 6%, transparent);
 
         & .actions {
           opacity: 1;
@@ -96,11 +94,11 @@
       }
 
       &.is-active {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: color-mix(in srgb, var(--aside-bar-foreground) 10%, transparent);
       }
 
       & button {
-        color: #fff;
+        color: inherit;
         border: none;
         background: none;
         text-decoration: none;
@@ -117,7 +115,7 @@
       & input {
         background: transparent;
         border: none;
-        color: #fff;
+        color: inherit;
         flex-grow: 1;
         padding: 0.8em 0 0.8em 0.5em;
         outline: none;
@@ -138,7 +136,7 @@
             0.2s ease scale;
           border: none;
           background: none;
-          color: #fff;
+          color: inherit;
           cursor: pointer;
           line-height: 0;
           padding: 3px;
@@ -151,9 +149,9 @@
             scale: 0.9;
           }
 
-          & svg {
-            width: 18px;
-            height: 18px;
+          & .icon {
+            width: 16px;
+            height: 16px;
           }
         }
       }
