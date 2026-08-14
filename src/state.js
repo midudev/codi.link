@@ -5,7 +5,7 @@ import { DEFAULT_INITIAL_SETTINGS } from './constants/initial-settings'
 
 const useStore = createStore(
   persist(
-    (set, get) => ({
+    (set) => ({
       ...DEFAULT_INITIAL_SETTINGS,
       updateSettings: ({ key, value }) => {
         set({ [key]: value })

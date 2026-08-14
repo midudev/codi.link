@@ -6,16 +6,17 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "lint": "bunx standard",
+    "lint": "eslint .",
     "tauri": "tauri",
     "phoenix": "rm -rf ./node_modules && bun install",
     "postinstall": "git config core.hooksPath ./git-hooks",
     "serve": "vite preview"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@tauri-apps/cli": "2.11.4",
     "eslint": "10.8.1",
-    "neostandard": "0.13.0",
+    "globals": "17.11.0",
     "postcss": "8.5.26",
     "postcss-nesting": "14.0.1",
     "vite": "8.2.1"
