@@ -36,6 +36,8 @@ const en = {
   maxExecutionTime: 'Max. execution time',
   maxExecutionTimeDesc:
     'The maximum execution time in milliseconds to prevent the editor from freezing.',
+  runJavascriptOnChange: 'Run on every change',
+  runJavascriptOnChangeDesc: 'Automatically run JavaScript while you type',
   cursorBlinking: 'Cursor blinking',
   blink: 'Blink',
   smooth: 'Smooth',

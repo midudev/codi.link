@@ -36,6 +36,8 @@ const pt = {
   maxExecutionTime: 'Tempo máximo de execução',
   maxExecutionTimeDesc:
     'O tempo máximo de execução em milissegundos para evitar que o editor trave.',
+  runJavascriptOnChange: 'Executar a cada alteração',
+  runJavascriptOnChangeDesc: 'Executar JavaScript automaticamente enquanto você digita',
   cursorBlinking: 'Piscamento do cursor',
   blink: 'Piscada',
   smooth: 'Suave',
