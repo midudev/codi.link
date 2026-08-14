@@ -24,9 +24,21 @@ export const createHtml = ({ css, html, js }, isEditor = false) => {
   </head>
   <body>
     ${html}
+    ${js
+      ? isEditor
+        ? `<script type="module">
+window.parent.postMessage({ preview: 'exec-start' }, '*')
+</script>
     <script type="module">
 ${js}
     </script>
+    <script type="module">
+window.parent.postMessage({ preview: 'done' }, '*')
+</script>`
+        : `<script type="module">
+${js}
+    </script>`
+      : ''}
   </body>
 </html>`
 }

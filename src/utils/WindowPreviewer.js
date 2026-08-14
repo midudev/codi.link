@@ -2,38 +2,49 @@ import { createHtml } from './createHtml'
 
 let previewUrl = null
 let previewWindowRef = null
+let lastHtml = ''
 
-export function getPreviewUrl () {
-  return previewUrl
+export function getPreviewWindow () {
+  return previewWindowRef?.deref() ?? null
 }
 
-export function updatePreview ({ html, css, js }, { includeJavascript = true } = {}) {
-  if (previewUrl) {
-    URL.revokeObjectURL(previewUrl)
-  }
-
-  const htmlForPreview = createHtml({ html, css, js: includeJavascript ? js : '' }, true)
-
-  const blob = new window.Blob([htmlForPreview], { type: 'text/html' })
-
-  previewUrl = URL.createObjectURL(blob)
-
-  if (previewWindowRef?.deref()) {
-    previewWindowRef.deref().location = previewUrl
-  }
-}
-
-export function clearPreview () {
+function revokePreviewUrl () {
+  if (!previewUrl) return
   URL.revokeObjectURL(previewUrl)
   previewUrl = null
 }
 
-export function showPreviewerWindow () {
-  const previewWindow = window.open(previewUrl, '_blank')
+function createPreviewBlobUrl (html) {
+  revokePreviewUrl()
+  const blob = new window.Blob([html], { type: 'text/html' })
+  previewUrl = URL.createObjectURL(blob)
+  return previewUrl
+}
 
-  // Use a WeafRef so when the user closes the window it could be garbage collected.
+function syncPreviewWindow (html) {
+  const previewWindow = getPreviewWindow()
+  if (!previewWindow) return
+
+  previewWindow.location = createPreviewBlobUrl(html)
+}
+
+export function updatePreview ({ html, css, js }, { includeJavascript = true } = {}) {
+  lastHtml = createHtml({ html, css, js: includeJavascript ? js : '' }, true)
+  syncPreviewWindow(lastHtml)
+  return lastHtml
+}
+
+export function clearPreview () {
+  revokePreviewUrl()
+  lastHtml = ''
+}
+
+export function showPreviewerWindow () {
+  const previewWindow = window.open(createPreviewBlobUrl(lastHtml), '_blank')
+
+  // Use a WeakRef so when the user closes the window it could be garbage collected.
   // We need to hold a reference so we can update the location of the window when
-  // the pewview changes.
+  // the preview changes.
   previewWindowRef = new window.WeakRef(previewWindow)
   const title = `${document.title} | Preview`
   previewWindow.document.title = title

@@ -12,13 +12,30 @@ export const generateConsoleScript = ({ html, css }) => {
 
       pushToConsole("clear", "system")
 
-      w.onerror = (message, url, line, column) => {
+      w.addEventListener('message', (event) => {
+        if (event.data?.type !== 'codi:update-css') return
+
+        const styleEl = w.document.getElementById('preview-style')
+        if (styleEl) styleEl.textContent = event.data.css
+      })
+
+      const reportError = (line, column, message) => {
         const DEFAULT_LINE_HEIGHT = 53
         const htmlLines = ${html.split('\n').length}
         const cssLines = ${css.split('\n').length}
         const fixedLine = line - DEFAULT_LINE_HEIGHT - htmlLines - cssLines
-        pushToConsole({line:fixedLine, column, message}, "error")
+        pushToConsole({ line: fixedLine, column, message }, 'error')
       }
+
+      w.addEventListener('error', (event) => {
+        reportError(event.lineno, event.colno, event.message)
+      })
+
+      w.addEventListener('unhandledrejection', (event) => {
+        const reason = event.reason
+        const message = reason?.message || String(reason)
+        reportError(0, 0, message)
+      })
 
       const encodeFunction = (fn) => ({
         type: 'function',
