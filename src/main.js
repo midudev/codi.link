@@ -1,33 +1,25 @@
-import { decode } from 'js-base64'
 import { $, $$ } from './utils/dom.js'
-import { createEditor } from './editor.js'
+import { applyEditorOptions, createEditorHandle, hasEditorSettingsChanged } from './editor.js'
 import debounce from './utils/debounce.js'
-import runJs from './utils/run-js.js'
 import { initializeEventsController, eventBus, EVENTS } from './events-controller.js'
 import { getState, subscribe } from './state.js'
-import * as Preview from './utils/WindowPreviewer.js'
 import setGridLayout from './grid.js'
 import setTheme from './theme.js'
 import setLanguage from './language.js'
-import { configurePrettierHotkeys } from './monaco-prettier/configurePrettier'
 import { getHistoryState, subscribeHistory, setHistory } from './history.js'
-import { getEncodedString } from './utils/url.js'
-import { setUrlSync, handleUrlSyncOnType } from './url-sync.js'
+import { decodeCodeFromPath } from './utils/url.js'
+import { getLayoutType, resolveLayoutType } from './utils/layout.js'
+import { setUrlSync } from './url-sync.js'
+import { createPreviewUpdater } from './preview-update.js'
+import { BUTTON_ACTIONS } from './constants/button-actions.js'
 
 import './aside.js'
-import './skypack.js'
-import './settings.js'
 import './scroll.js'
 import './drag-file.js'
 import './console.js'
 
-import { BUTTON_ACTIONS } from './constants/button-actions.js'
-
-import './components/layout-preview/layout-preview.jsx'
-import './components/codi-editor/codi-editor.js'
-
 const { layout: currentLayout, theme, language, saveLocalstorage } = getState()
-const { history, updateHistoryItem } = getHistoryState()
+const { history } = getHistoryState()
 
 setGridLayout(currentLayout)
 setTheme(theme)
@@ -35,8 +27,7 @@ setLanguage(language)
 
 const iframe = $('iframe')
 const $runJavascriptOnChangeCheckbox = $("input[name='runJavascriptOnChange']")
-
-const editorElements = $$('codi-editor')
+const editorElements = $$('#editor .editor')
 
 let { pathname } = window.location
 
@@ -46,37 +37,56 @@ if (pathname === '/' && saveLocalstorage === true && history.current) {
   pathname = window.location.pathname
 }
 
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split(pathname.includes('%7C') ? '%7C' : '|')
+const VALUES = decodeCodeFromPath(pathname)
 
-const VALUES = {
-  html: rawHtml ? decode(rawHtml) : '',
-  css: rawCss ? decode(rawCss) : '',
-  javascript: rawJs ? decode(rawJs) : ''
-}
+const initialLayoutType = resolveLayoutType(currentLayout)
+const shouldCreateAllEditors = initialLayoutType !== 'tabs'
 
 const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
-  const { language } = domElement
-  domElement.value = VALUES[language]
-  acc[language] = createEditor(domElement)
+  const language = domElement.dataset.language
+  acc[language] = createEditorHandle(domElement, {
+    language,
+    value: VALUES[language]
+  })
   return acc
 }, {})
 
-subscribe(state => {
-  const newOptions = { ...state, minimap: { enabled: state.minimap } }
+const editorsToCreate = shouldCreateAllEditors
+  ? Object.values(EDITORS)
+  : [EDITORS.html]
 
-  Object.values(EDITORS).forEach(editor => {
-    editor.updateOptions({
-      ...editor.getRawOptions(),
-      ...newOptions
-    })
-  })
-  setGridLayout(state.layout)
-  setTheme(state.theme)
-  setLanguage(state.language)
-  setUrlSync(state.urlSync, EDITORS)
+editorsToCreate.forEach(editor => editor.ensureCreated())
+
+let previousState = getState()
+
+subscribe(state => {
+  if (hasEditorSettingsChanged(previousState, state)) {
+    applyEditorOptions(EDITORS, state)
+  }
+
+  if (getLayoutType(previousState.layout) !== getLayoutType(state.layout)) {
+    setGridLayout(state.layout)
+  }
+
+  if (state.theme !== previousState.theme) {
+    setTheme(state.theme)
+  }
+
+  if (state.language !== previousState.language) {
+    setLanguage(state.language)
+  }
+
+  if (state.urlSync !== previousState.urlSync) {
+    setUrlSync(state.urlSync, EDITORS)
+  }
+
+  previousState = state
 })
 
-const MS_UPDATE_DEBOUNCED_TIME = 200
+setUrlSync(previousState.urlSync, EDITORS)
+
+const MS_UPDATE_DEBOUNCED_TIME = 400
+const update = createPreviewUpdater({ editors: EDITORS, iframe, saveLocalstorage })
 const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
 
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
@@ -102,8 +112,6 @@ Object.values(EDITORS).forEach(editor => {
 })
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
-configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
-
 update()
 
 $runJavascriptOnChangeCheckbox?.addEventListener('change', ({ target }) => {
@@ -112,89 +120,23 @@ $runJavascriptOnChangeCheckbox?.addEventListener('change', ({ target }) => {
   }
 })
 
-function update ({ notReload } = {}) {
-  const values = {
-    html: htmlEditor.getValue(),
-    css: cssEditor.getValue(),
-    js: jsEditor.getValue()
-  }
-  const { maxExecutionTime, runJavascriptOnChange, urlSync } = getState()
+window.addEventListener('keydown', (event) => {
+  const hasModifier = event.metaKey || event.ctrlKey
 
-  Preview.updatePreview(values, { includeJavascript: runJavascriptOnChange })
-
-  if (!notReload) {
-    iframe.setAttribute('src', Preview.getPreviewUrl())
-
-    if (runJavascriptOnChange) {
-      runJs(values.js, parseInt(maxExecutionTime))
-        .catch(error => {
-          console.error('Execution error:', error)
-        })
-    }
-  }
-
-  updateCss()
-
-  if (saveLocalstorage) {
-    updateHistory(values)
-  }
-
-  if (urlSync) {
-    handleUrlSyncOnType(values)
-  }
-
-  // fixes url bugs when using history
-  setUrlSync(urlSync, EDITORS)
-
-  updateButtonAvailabilityIfContent(values)
-}
-
-function updateCss () {
-  const iframeStyleEl = iframe.contentDocument.querySelector('#preview-style')
-
-  if (iframeStyleEl) {
-    iframeStyleEl.textContent = cssEditor.getValue()
-  }
-}
-
-function updateHistory ({ html, css, js }) {
-  const { history } = getHistoryState()
-  const hashedCode = getEncodedString({ html, css, js })
-  const isEmpty = !html.replace(/\n/g, '').trim() && !css.replace(/\n/g, '').trim() && !js.replace(/\n/g, '').trim()
-
-  if (isEmpty && !history.current) {
+  if (hasModifier && event.key.toLowerCase() === 'p') {
+    event.preventDefault()
+    const focusedEditor = Object.values(EDITORS).find(editor => editor.hasTextFocus())
+    ;(focusedEditor || htmlEditor).trigger('keyboard', 'editor.action.quickCommand')
     return
   }
 
-  updateHistoryItem({ value: hashedCode })
-}
+  if (!hasModifier || event.key !== 's') return
 
-function updateButtonAvailabilityIfContent ({ html, css, js }) {
-  const buttonActions = [
-    BUTTON_ACTIONS.downloadUserCode,
-    BUTTON_ACTIONS.openIframeTab,
-    BUTTON_ACTIONS.copyToClipboard
-  ]
+  event.preventDefault()
 
-  const hasContent = html || css || js
-  buttonActions.forEach(action => {
-    const button = $(`button[data-action='${action}']`)
-    button.disabled = !hasContent
-  })
-}
+  const downloadButton = $(`button[data-action='${BUTTON_ACTIONS.downloadUserCode}']`)
 
-// Keyboard shortcut: Cmd+S (Mac) or Ctrl+S (Windows/Linux) to download
-window.addEventListener('keydown', (event) => {
-  const isSaveShortcut = (event.metaKey || event.ctrlKey) && event.key === 's'
-
-  if (isSaveShortcut) {
-    event.preventDefault()
-
-    const downloadButton = $(`button[data-action='${BUTTON_ACTIONS.downloadUserCode}']`)
-
-    // Only trigger download if button is not disabled (has content)
-    if (!downloadButton.disabled) {
-      eventBus.emit(EVENTS.DOWNLOAD_USER_CODE)
-    }
+  if (!downloadButton.disabled) {
+    eventBus.emit(EVENTS.DOWNLOAD_USER_CODE)
   }
 })

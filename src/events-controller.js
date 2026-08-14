@@ -1,9 +1,8 @@
-import { decode } from 'js-base64'
 import { capitalize, copyToClipboard, searchByLine } from './utils/string.js'
-import { getEncodedPath } from './utils/url.js'
+import { decodeCodeFromPath, getEncodedPath } from './utils/url.js'
 import { downloadUserCode } from './download.js'
 import { getState } from './state.js'
-import { getHistoryState } from './history.js'
+import { getHistoryState } from './history-store.js'
 
 class EventBus extends window.EventTarget {
   on (type, listener) {
@@ -27,6 +26,12 @@ let jsEditor
 let htmlEditor
 let cssEditor
 
+const getCurrentCode = () => ({
+  html: htmlEditor.getValue(),
+  css: cssEditor.getValue(),
+  js: jsEditor.getValue()
+})
+
 export const initializeEventsController = ({
   jsEditor: _jsEditor,
   htmlEditor: _htmlEditor,
@@ -44,7 +49,8 @@ export const EVENTS = {
   OPEN_EXISTING_INSTANCE: 'OPEN_EXISTING_INSTANCE',
   OPEN_NEW_INSTANCE: 'OPEN_NEW_INSTANCE',
   COPY_CURRENT_CODE_URL: 'COPY-CURRENT-CODE-URL',
-  CLEAR_HISTORY: 'CLEAR_HISTORY'
+  CLEAR_HISTORY: 'CLEAR_HISTORY',
+  LOAD_DEMO: 'LOAD_DEMO'
 }
 
 eventBus.on(
@@ -60,41 +66,30 @@ eventBus.on(
 
 eventBus.on(EVENTS.DOWNLOAD_USER_CODE, () => {
   const { zipInSingleFile, zipFileName } = getState()
+  const { html, css, js } = getCurrentCode()
 
   downloadUserCode({
     zipFileName,
     zipInSingleFile,
-    htmlContent: htmlEditor.getValue(),
-    cssContent: cssEditor.getValue(),
-    jsContent: jsEditor.getValue()
+    htmlContent: html,
+    cssContent: css,
+    jsContent: js
   })
 })
 
 eventBus.on(EVENTS.DRAG_FILE, ({ detail: { content, typeFile } }) => {
-  const file = typeFile
-
-  switch (file) {
-    case 'text/javascript':
-      jsEditor.setValue(content)
-      break
-    case 'text/css':
-      cssEditor.setValue(content)
-      break
-    case 'text/html':
-      htmlEditor.setValue(content)
-      break
-    default:
-      break
+  const editorByType = {
+    'text/javascript': jsEditor,
+    'text/css': cssEditor,
+    'text/html': htmlEditor
   }
+
+  editorByType[typeFile]?.setValue(content)
 })
 
 eventBus.on(EVENTS.OPEN_NEW_INSTANCE, () => {
-  const htmlContent = htmlEditor.getValue()
-  const cssContent = cssEditor.getValue()
-  const jsContent = jsEditor.getValue()
-
-  const isEmpty = !htmlContent && !cssContent && !jsContent
-  if (isEmpty) return
+  const { html, css, js } = getCurrentCode()
+  if (!html && !css && !js) return
 
   const { updateHistory } = getHistoryState()
   updateHistory({ key: 'current', value: null })
@@ -102,21 +97,13 @@ eventBus.on(EVENTS.OPEN_NEW_INSTANCE, () => {
 
 eventBus.on(EVENTS.OPEN_EXISTING_INSTANCE, ({ detail: { id, value } }) => {
   const { updateHistory } = getHistoryState()
-  let { pathname } = window.location
   window.history.replaceState(null, null, `/${value}`)
-  pathname = window.location.pathname
 
-  const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+  const values = decodeCodeFromPath(window.location.pathname)
 
-  const VALUES = {
-    html: rawHtml ? decode(rawHtml) : '',
-    css: rawCss ? decode(rawCss) : '',
-    javascript: rawJs ? decode(rawJs) : ''
-  }
-
-  htmlEditor.setValue(VALUES.html)
-  cssEditor.setValue(VALUES.css)
-  jsEditor.setValue(VALUES.javascript)
+  htmlEditor.setValue(values.html)
+  cssEditor.setValue(values.css)
+  jsEditor.setValue(values.javascript)
   updateHistory({ key: 'current', value: id })
 })
 
@@ -125,13 +112,15 @@ eventBus.on(EVENTS.CLEAR_HISTORY, () => {
   clearHistory()
 })
 
+eventBus.on(EVENTS.LOAD_DEMO, ({ detail: { html = '', css = '', js = '' } }) => {
+  htmlEditor.setValue(html)
+  cssEditor.setValue(css)
+  jsEditor.setValue(js)
+  htmlEditor.focus()
+})
+
 eventBus.on(EVENTS.COPY_CURRENT_CODE_URL, async () => {
-  const html = htmlEditor.getValue()
-  const css = cssEditor.getValue()
-  const js = jsEditor.getValue()
-
-  const encodedPath = getEncodedPath({ html, css, js })
-
+  const encodedPath = getEncodedPath(getCurrentCode())
   const urlToCopy = `${window.location.origin}${encodedPath}`
 
   await copyToClipboard(urlToCopy)
