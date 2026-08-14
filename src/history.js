@@ -1,108 +1,8 @@
-import { persist } from 'zustand/middleware'
-import { createStore } from 'zustand/vanilla'
 import { $ } from './utils/dom.js'
 import { EVENTS, eventBus } from './events-controller.js'
+import { getHistoryState } from './history-store.js'
 
-const genId = () => {
-  return Date.now()
-}
-
-const useHistoryStore = createStore(
-  persist(
-    (set, get) => ({
-      history: {
-        current: null,
-        items: []
-      },
-      updateHistory: ({ key, value }) => {
-        set({ history: { ...get().history, [key]: value } })
-      },
-      updateHistoryItem: ({ value }) => {
-        const id = get().history.current || genId()
-        const currentHistory = get().history.items
-        const item = currentHistory.find(item => item.id === id)
-        const alreadyExists = !!item
-        const timestamp = new Date().getTime() / 1000
-
-        if (alreadyExists) {
-          if (value === item.value) return
-
-          set({
-            history: {
-              current: id,
-              items: currentHistory.map(item =>
-                item.id === id
-                  ? { ...item, value, timestamp }
-                  : item
-              )
-            }
-          })
-        } else {
-          const instanceName = 'Untitled'
-          const regex = new RegExp(`^${instanceName}(\\(\\d+\\))?$`)
-          const newNameItems = currentHistory.filter(item => regex.test(item.name))
-          const itemName = newNameItems.length > 0 ? `${instanceName}(${newNameItems.length})` : instanceName
-          set({ history: { current: id, items: [...currentHistory, { id, name: itemName, value, timestamp }] } })
-        }
-      },
-      removeHistoryItem: ({ id }) => {
-        const { current, items } = get().history
-        set({
-          history:
-          {
-            current: current === id
-              ? null
-              : current,
-            items: items.filter(item => item.id !== id)
-          }
-        })
-      },
-      updateHistoryItemName: ({ id, prevName, newName }) => {
-        const prevNameLower = prevName.toLocaleLowerCase()
-        const newNameLower = newName.toLocaleLowerCase()
-
-        if (!newName || prevNameLower === newNameLower) return
-
-        const { items, ...history } = get().history
-        const regex = new RegExp(`^${newNameLower}(\\(\\d+\\))?$`)
-        const newNameItems = items.filter(item => item.id !== id && regex.test(item.name.toLocaleLowerCase()))
-        const alreadyExists = newNameItems.length > 0
-
-        let name
-        if (alreadyExists) {
-          const existingNumbers = newNameItems
-            .map(item => {
-              const match = item.name.toLocaleLowerCase().match(/\((\d+)\)$/)
-              return match ? parseInt(match[1], 10) : 0
-            })
-            .sort((a, b) => a - b)
-          const highestNumber = existingNumbers.length > 0 ? existingNumbers[existingNumbers.length - 1] : 0
-          name = `${newName}(${highestNumber + 1})`
-        } else {
-          name = newName
-        }
-
-        set({
-          history: {
-            ...history,
-            items: items.map(item =>
-              item.id === id
-                ? { ...item, name }
-                : item)
-          }
-        })
-      },
-      clearHistory: () => set({ history: { current: null, items: [] } })
-    }),
-    { name: 'history', getHistory: () => window.localStorage.getItem('history') }
-  )
-)
-
-export const {
-  getState: getHistoryState,
-  setState: setHistoryState,
-  subscribe: subscribeHistory
-} = useHistoryStore
+export { getHistoryState, setHistoryState, subscribeHistory } from './history-store.js'
 
 const $historyList = $('#history .history-list')
 
@@ -167,20 +67,23 @@ const editButton = ({ id, name }) => {
   return $editButton
 }
 
-const openItemButton = ({ id, name, value }) => {
+const openItemButton = ({ id, name }) => {
   const $button = document.createElement('button')
   $button.textContent = name
   $button.ariaLabel = `Open ${name}`
 
   $button.addEventListener('click', (e) => {
     e.preventDefault()
-    eventBus.emit(EVENTS.OPEN_EXISTING_INSTANCE, { value, id })
+    const item = getHistoryState().history.items.find(historyItem => historyItem.id === id)
+    if (!item) return
+
+    eventBus.emit(EVENTS.OPEN_EXISTING_INSTANCE, { value: item.value, id })
   })
 
   return $button
 }
 
-const createListItem = ({ id, name, value, isActive }) => {
+const createListItem = ({ id, name, isActive }) => {
   const $li = document.createElement('li')
   $li.id = `history-item-${id}`
 
@@ -188,66 +91,59 @@ const createListItem = ({ id, name, value, isActive }) => {
     $li.classList.add('is-active')
   }
 
-  const $openButton = openItemButton({ id, name, value })
+  const $openButton = openItemButton({ id, name })
   const $removeButton = removeButton({ id, name, isActive })
   const $editButton = editButton({ id, name })
   const $actions = document.createElement('div')
 
   $actions.classList.add('actions')
-
-  $li.appendChild($openButton)
-  $li.appendChild($actions)
-
   $actions.appendChild($editButton)
   $actions.appendChild($removeButton)
 
+  $li.appendChild($openButton)
   $li.appendChild($actions)
 
   return $li
 }
 
-const compareTimestamps = (timestamp) => {
-  const currentDate = new Date(new Date().getTime())
-  const givenDate = new Date(timestamp * 1000)
+const getRelativeDateLabel = (timestamp) => {
+  const differenceInDays = Math.floor((Date.now() - timestamp * 1000) / (1000 * 60 * 60 * 24))
 
-  const differenceInTime = currentDate - givenDate
-  const differenceInDays = Math.floor(differenceInTime / (1000 * 60 * 60 * 24))
+  if (differenceInDays === 0) return 'Today'
+  if (differenceInDays === 1) return 'Yesterday'
 
-  return differenceInDays
+  if (differenceInDays > 365) {
+    const years = Math.floor(differenceInDays / 365)
+    return `${years} ${years > 1 ? 'years' : 'year'} ago`
+  }
+
+  if (differenceInDays > 30) {
+    const months = Math.floor(differenceInDays / 30)
+    return `${months} ${months > 1 ? 'months' : 'month'} ago`
+  }
+
+  return `${differenceInDays} days ago`
 }
 
+const getListSignature = (history) =>
+  `${history.current}:${history.items.map(item => `${item.id}:${item.name}`).join('|')}`
+
+let lastListSignature = ''
+
 export const setHistory = (history) => {
+  const listSignature = getListSignature(history)
+
+  if (listSignature === lastListSignature) return
+
+  lastListSignature = listSignature
   $historyList.innerHTML = ''
-  const sortedItems = history.items.sort((a, b) => b.timestamp - a.timestamp)
+  const sortedItems = [...history.items].sort((a, b) => b.timestamp - a.timestamp)
   const groupedItems = {}
 
-  for (let i = 0; i < sortedItems.length; i++) {
-    const itemTimestamp = sortedItems[i].timestamp
-    const diff = compareTimestamps(itemTimestamp)
-    let key = ''
-
-    key = `${diff} days ago`
-
-    if (diff === 0) {
-      key = 'Today'
-    }
-
-    if (diff === 1) {
-      key = 'Yesterday'
-    }
-
-    if (diff > 30) {
-      const months = Math.floor(diff / 30)
-      key = `${months} ${months > 1 ? 'months' : 'month'} ago`
-    }
-
-    if (diff > 365) {
-      const years = Math.floor(diff / 365)
-      key = `${years} ${years > 1 ? 'years' : 'year'} ago`
-    }
-
+  for (const item of sortedItems) {
+    const key = getRelativeDateLabel(item.timestamp)
     groupedItems[key] = groupedItems[key] || []
-    groupedItems[key].push(sortedItems[i])
+    groupedItems[key].push(item)
   }
 
   for (const [key, value] of Object.entries(groupedItems)) {
@@ -257,8 +153,8 @@ export const setHistory = (history) => {
     $title.textContent = key
 
     $group.appendChild($title)
-    value.forEach(({ id, name, value }) => {
-      const $li = createListItem({ id, name, value, isActive: history.current === id })
+    value.forEach(({ id, name }) => {
+      const $li = createListItem({ id, name, isActive: history.current === id })
       $group.appendChild($li)
     })
 
