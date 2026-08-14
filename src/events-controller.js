@@ -1,5 +1,6 @@
 import { capitalize, copyToClipboard, searchByLine } from './utils/string.js'
-import { decodeCodeFromPath, getEncodedPath } from './utils/url.js'
+import { decodeCodeFromPath, getEncodedPath, getEncodedString } from './utils/url.js'
+import { isEmptyCode } from './utils/code.js'
 import { downloadUserCode } from './download.js'
 import { getState } from './state.js'
 import { getHistoryState } from './history-store.js'
@@ -113,6 +114,14 @@ eventBus.on(EVENTS.CLEAR_HISTORY, () => {
 })
 
 eventBus.on(EVENTS.LOAD_DEMO, ({ detail: { html = '', css = '', js = '' } }) => {
+  const previous = getCurrentCode()
+  const { updateHistory, updateHistoryItem } = getHistoryState()
+
+  if (!isEmptyCode(previous)) {
+    updateHistoryItem({ value: getEncodedString(previous) })
+    updateHistory({ key: 'current', value: null })
+  }
+
   htmlEditor.setValue(html)
   cssEditor.setValue(css)
   jsEditor.setValue(js)
