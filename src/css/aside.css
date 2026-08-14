@@ -148,6 +148,10 @@ aside button .button-title {
   border-radius: 10px;
 }
 
+.aside-sections button[hidden] {
+  display: none;
+}
+
 .aside-sections button .icon {
   opacity: var(--button-icon-opacity);
   transition: opacity 0.12s ease;
@@ -218,7 +222,8 @@ aside button .button-title {
 .skypack-header,
 .console-header,
 .history-header,
-.demos-header {
+.demos-header,
+.ai-chat-header {
   position: sticky;
   top: 0;
   z-index: 1;
@@ -230,6 +235,7 @@ aside button .button-title {
 .console-type,
 .history-type,
 .demos-type,
+.ai-chat-type,
 .settings-type {
   opacity: 0.55;
 }

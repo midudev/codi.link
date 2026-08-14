@@ -8,6 +8,7 @@ export const BUTTON_ACTIONS = {
   showConsoleBar: 'show-console-bar',
   showHistoryBar: 'show-history-bar',
   showDemosBar: 'show-demos-bar',
+  showAiChatBar: 'show-ai-chat-bar',
   clearHistory: 'clear-history',
   clearConsole: 'clear-console',
   openNewInstance: 'open-new-instance',

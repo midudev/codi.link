@@ -80,7 +80,16 @@ const en = {
   demoThemeToggle: 'Theme toggle',
   demoThemeToggleDesc: 'Switch a page between light and dark with CSS variables.',
   demoTypewriter: 'Typewriter',
-  demoTypewriterDesc: 'A looping typewriter effect with multiple phrases.'
+  demoTypewriterDesc: 'A looping typewriter effect with multiple phrases.',
+  aiChat: 'AI',
+  aiChatYou: 'You',
+  aiChatDescription: 'Ask about your HTML, CSS and JavaScript. Runs on-device in Chrome.',
+  aiChatPlaceholder: 'Ask about your code...',
+  aiChatSend: 'Send',
+  aiChatReady: 'Ready. The assistant can see your current code.',
+  aiChatDownloading: 'Downloading the on-device model… {percent}%',
+  aiChatUnavailable: 'On-device AI is not available in this browser.',
+  aiChatError: 'Could not get a response. Try again.'
 }
 
 export default en

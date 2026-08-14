@@ -81,7 +81,16 @@ const es = {
   demoThemeToggle: 'Cambio de tema',
   demoThemeToggleDesc: 'Alterna la página entre claro y oscuro con variables CSS.',
   demoTypewriter: 'Máquina de escribir',
-  demoTypewriterDesc: 'Un efecto de escritura en bucle con varias frases.'
+  demoTypewriterDesc: 'Un efecto de escritura en bucle con varias frases.',
+  aiChat: 'IA',
+  aiChatYou: 'Tú',
+  aiChatDescription: 'Pregunta sobre tu HTML, CSS y JavaScript. Se ejecuta en el dispositivo con Chrome.',
+  aiChatPlaceholder: 'Pregunta sobre tu código...',
+  aiChatSend: 'Enviar',
+  aiChatReady: 'Listo. El asistente puede ver tu código actual.',
+  aiChatDownloading: 'Descargando el modelo en el dispositivo… {percent}%',
+  aiChatUnavailable: 'La IA en el dispositivo no está disponible en este navegador.',
+  aiChatError: 'No se pudo obtener una respuesta. Inténtalo de nuevo.'
 }
 
 export default es

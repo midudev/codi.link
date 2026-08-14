@@ -145,6 +145,15 @@
               <path d="M17 4l0 6" />
             </svg>
           </button>
+
+          <button hidden class="bar-button" aria-label="Show AI chat" data-action="show-ai-chat-bar">
+            <span role="tooltip" class="button-title" data-translate="aiChat">AI</span>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 7h10a2 2 0 0 1 2 2v1l1 0a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-1v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1h-1a2 2 0 0 1 -2 -2v-3a2 2 0 0 1 2 -2l1 0v-1a2 2 0 0 1 2 -2" />
+              <path d="M10 14h.01" />
+              <path d="M14 14h.01" />
+            </svg>
+          </button>
         </header>
 
         <footer>
@@ -298,6 +307,41 @@
                 </strong>
               </header>
               <ul class="demos-list"></ul>
+            </div>
+          </div>
+        </div>
+
+        <div id="ai-chat" hidden class="bar-content ai-chat">
+          <div class="ai-chat-content">
+            <div class="ai-chat-item">
+              <header class="ai-chat-header">
+                <strong>
+                  <span class="ai-chat-type" data-translate="aiChat">AI</span>
+                </strong>
+                <span data-translate="aiChatDescription">Ask about your HTML, CSS and JavaScript. Runs on-device in Chrome.</span>
+                <div class="ai-chat-actions">
+                  <button type="button" class="ai-chat-clear">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3" />
+                      <path d="M18 13.3l-6.3 -6.3" />
+                    </svg>
+                    <span data-translate="clear">Clear</span>
+                  </button>
+                </div>
+              </header>
+              <p class="ai-chat-status" hidden></p>
+              <ul class="ai-chat-messages" aria-live="polite"></ul>
+              <form class="ai-chat-form">
+                <div class="input">
+                  <input id="ai-chat-input" type="text" data-translate-placeholder="aiChatPlaceholder" placeholder="Ask about your code..." autocomplete="off" />
+                </div>
+                <button type="submit" class="ai-chat-send" aria-label="Send">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M10 14l11 -11" />
+                    <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
+                  </svg>
+                </button>
+              </form>
             </div>
           </div>
         </div>

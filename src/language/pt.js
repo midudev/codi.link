@@ -81,7 +81,16 @@ const pt = {
   demoThemeToggle: 'Alternar tema',
   demoThemeToggleDesc: 'Alterne a página entre claro e escuro com variáveis CSS.',
   demoTypewriter: 'Máquina de escrever',
-  demoTypewriterDesc: 'Um efeito de digitação em loop com várias frases.'
+  demoTypewriterDesc: 'Um efeito de digitação em loop com várias frases.',
+  aiChat: 'IA',
+  aiChatYou: 'Você',
+  aiChatDescription: 'Pergunte sobre seu HTML, CSS e JavaScript. Roda no dispositivo no Chrome.',
+  aiChatPlaceholder: 'Pergunte sobre o seu código...',
+  aiChatSend: 'Enviar',
+  aiChatReady: 'Pronto. O assistente pode ver o seu código atual.',
+  aiChatDownloading: 'Baixando o modelo no dispositivo… {percent}%',
+  aiChatUnavailable: 'A IA no dispositivo não está disponível neste navegador.',
+  aiChatError: 'Não foi possível obter uma resposta. Tente novamente.'
 }
 
 export default pt

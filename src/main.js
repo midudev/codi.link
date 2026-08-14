@@ -12,6 +12,7 @@ import { getLayoutType, resolveLayoutType } from './utils/layout.js'
 import { setUrlSync } from './url-sync.js'
 import { createPreviewUpdater } from './preview-update.js'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
+import { revealAiChatButton } from './ai-support.js'
 
 import './aside.js'
 import './scroll.js'
@@ -24,6 +25,7 @@ const { history } = getHistoryState()
 setGridLayout(currentLayout)
 setTheme(theme)
 setLanguage(language)
+revealAiChatButton()
 
 const iframe = $('iframe')
 const $runJavascriptOnChangeCheckbox = $("input[name='runJavascriptOnChange']")

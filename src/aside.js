@@ -55,7 +55,8 @@ const SIMPLE_CLICK_ACTIONS = {
 const PANEL_LOADERS = {
   [BUTTON_ACTIONS.showSkypackBar]: () => import('./skypack.js'),
   [BUTTON_ACTIONS.showSettingsBar]: () => import('./settings.js'),
-  [BUTTON_ACTIONS.showDemosBar]: () => import('./demos.js')
+  [BUTTON_ACTIONS.showDemosBar]: () => import('./demos.js'),
+  [BUTTON_ACTIONS.showAiChatBar]: () => import('./ai-chat.js')
 }
 
 const loadedPanels = new Set()
@@ -99,6 +100,12 @@ const NON_SIMPLE_CLICK_ACTIONS = {
   [BUTTON_ACTIONS.showDemosBar]: () => {
     showAsideBar('#demos')
     $scrollButtons.setAttribute('hidden', '')
+  },
+
+  [BUTTON_ACTIONS.showAiChatBar]: () => {
+    showAsideBar('#ai-chat')
+    $('#ai-chat-input')?.focus()
+    $scrollButtons.setAttribute('hidden', '')
   }
 }
 
@@ -122,6 +129,8 @@ const runAction = async (action) => {
 $buttons.forEach(button => {
   button.addEventListener('click', ({ currentTarget }) => {
     let action = button.getAttribute('data-action')
+    if (!ACTIONS[action]) return
+
     const isSimpleClickAction =
       button.getAttribute('data-is-simple-click-action') === 'true'
 

@@ -29,7 +29,7 @@ let jsEditor
 let htmlEditor
 let cssEditor
 
-const getCurrentCode = () => ({
+export const getCurrentCode = () => ({
   html: htmlEditor?.getValue() ?? '',
   css: cssEditor?.getValue() ?? '',
   js: jsEditor?.getValue() ?? ''
