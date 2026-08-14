@@ -142,14 +142,13 @@ async function fetchPackages ({ abortController, packageName, page = 1 }) {
 
 function displayResults ({ results, searchTerm }) {
   results.forEach((result) => {
-    // console.log(result)
     const $li = document.createElement('li')
     $li.title = result.description
     $li.innerHTML = getResultHTML({ result, searchTerm })
     $li.tabIndex = 0
 
     $li.addEventListener('click', async (e) => {
-      const url = `https://cdn.jsdelivr.net/npm/${result.name}@${result.version}/+esm`
+      const url = getPackageUrl(result)
 
       if (e.target.className === 'skypack-open') {
         if (e.target.hasAttribute('data-copy')) {
@@ -163,7 +162,7 @@ function displayResults ({ results, searchTerm }) {
     })
 
     $li.addEventListener('keydown', (e) => {
-      if (e.keyCode === 13) handlePackageSelected(result.name)
+      if (e.key === 'Enter') handlePackageSelected(result.name, getPackageUrl(result))
     })
 
     $searchResultsList.appendChild($li)
@@ -218,9 +217,13 @@ function getResultBadgesHTML ({ result, searchTerm }) {
     </div>`
 }
 
+function getPackageUrl (result) {
+  return `https://cdn.jsdelivr.net/npm/${result.name}@${result.version}/+esm`
+}
+
 function handlePackageSelected (packageName, packageUrl) {
   let parsedName = packageName.split('/').join('-')
-  if (parsedName.startsWith('@')) parsedName = parsedName.substr(1)
+  if (parsedName.startsWith('@')) parsedName = parsedName.slice(1)
   eventBus.emit(EVENTS.ADD_SKYPACK_PACKAGE, {
     skypackPackage: parsedName,
     url: packageUrl

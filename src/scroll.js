@@ -4,18 +4,18 @@ const $buttonUp = $('.button-up')
 const $buttonDown = $('.button-down')
 
 const previewersId = ['editor-preview', 'markup', 'script', 'style']
-let curretPreviewer = 0
+let currentPreviewer = 0
 
-const updateButtonsStatus = (curretPreviewer) => {
-  $buttonUp.disabled = curretPreviewer === 0
-  $buttonDown.disabled = curretPreviewer === previewersId.length - 1
+const updateButtonsStatus = (index) => {
+  $buttonUp.disabled = index === 0
+  $buttonDown.disabled = index === previewersId.length - 1
 }
 
-const updatePreviewer = (curretPreviewer) => {
+const updatePreviewer = (activeIndex) => {
   previewersId.forEach((previewer, index) => {
     const element = $(`#${previewer}`)
 
-    if (curretPreviewer === index) {
+    if (activeIndex === index) {
       element.classList.remove('previewer-hide')
       element.classList.add('previewer-active')
     } else {
@@ -25,14 +25,16 @@ const updatePreviewer = (curretPreviewer) => {
   })
 }
 
-$buttonUp.addEventListener('click', (ev) => {
-  curretPreviewer -= 1
-  updateButtonsStatus(curretPreviewer)
-  updatePreviewer(curretPreviewer)
+$buttonUp.addEventListener('click', () => {
+  currentPreviewer -= 1
+  updateButtonsStatus(currentPreviewer)
+  updatePreviewer(currentPreviewer)
 })
 
 $buttonDown.addEventListener('click', () => {
-  curretPreviewer += 1
-  updateButtonsStatus(curretPreviewer)
-  updatePreviewer(curretPreviewer)
+  currentPreviewer += 1
+  updateButtonsStatus(currentPreviewer)
+  updatePreviewer(currentPreviewer)
 })
+
+updateButtonsStatus(currentPreviewer)

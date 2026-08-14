@@ -45,7 +45,7 @@ function readFiles (e) {
     reader.onload = ({ target }) => {
       printContent(target.result, typeFile)
     }
-    reader.readAsBinaryString(file)
+    reader.readAsText(file)
   })
 }
 

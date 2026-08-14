@@ -112,10 +112,11 @@ function buildIndexHtml (html) {
 }
 
 function generateZip ({ zipBlob, zipFileName }) {
-  console.log({ zipBlob, zipFileName })
   const element = window.document.createElement('a')
-  element.href = window.URL.createObjectURL(zipBlob)
+  const objectUrl = window.URL.createObjectURL(zipBlob)
+  element.href = objectUrl
   element.download = `${zipFileName}.zip`
   element.click()
   element.remove()
+  window.URL.revokeObjectURL(objectUrl)
 }
