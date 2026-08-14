@@ -13,30 +13,30 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "@preact/preset-vite": "2.10.2",
-    "@tauri-apps/cli": "2.9.4",
-    "autoprefixer": "10.4.22",
-    "eslint": "9.39.1",
-    "neostandard": "0.12.2",
-    "postcss": "8.5.6",
-    "postcss-nesting": "13.0.2",
-    "prettier": "3.6.2",
-    "tailwindcss": "4.1.17",
-    "vite": "7.2.2"
+    "@preact/preset-vite": "2.10.6",
+    "@tauri-apps/cli": "2.11.4",
+    "autoprefixer": "10.5.4",
+    "eslint": "10.8.1",
+    "neostandard": "0.13.0",
+    "postcss": "8.5.26",
+    "postcss-nesting": "14.0.1",
+    "prettier": "3.9.6",
+    "tailwindcss": "4.3.3",
+    "vite": "8.2.1"
   },
   "dependencies": {
-    "@tailwindcss/vite": "4.1.17",
+    "@tailwindcss/vite": "4.3.3",
     "client-zip": "2.5.0",
-    "emmet-monaco-es": "5.6.1",
+    "emmet-monaco-es": "5.7.0",
     "escape-html": "1.0.3",
-    "js-base64": "3.7.8",
-    "lit": "3.3.1",
-    "monaco-editor": "0.54.0",
-    "monacopilot": "1.2.7",
-    "preact": "10.27.2",
+    "js-base64": "3.9.2",
+    "lit": "3.3.3",
+    "monaco-editor": "0.56.0",
+    "monacopilot": "1.2.12",
+    "preact": "10.29.8",
     "preact-custom-element": "4.6.0",
     "split-grid": "1.0.11",
-    "zustand": "5.0.8"
+    "zustand": "5.0.15"
   },
   "postcss": {
     "plugins": {

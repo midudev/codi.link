@@ -1,5 +1,8 @@
 import neostandard from 'neostandard'
 
-export default neostandard({
-  noStyle: true
-})
+export default [
+  { ignores: ['src-tauri/target/**'] },
+  ...neostandard({
+    noStyle: true
+  })
+]
