@@ -97,6 +97,8 @@ const handlers = {
     appendLogItem(message, 'error', 'error', location || { line, column })
   },
   default: (payload, type, location) => {
+    if (!Array.isArray(payload)) return
+
     const content = type === 'log:table'
       ? payload.map(item => formatTable(item)).join(' ')
       : payload.map(item => formatValue(item)).join(' ')
@@ -119,8 +121,11 @@ $consoleList.addEventListener('click', (ev) => {
 })
 
 window.addEventListener('message', (ev) => {
-  const { console: consoleData = {} } = ev.data
+  const consoleData = ev.data?.console
+  if (!consoleData || typeof consoleData !== 'object') return
+
   const { payload, type, location } = consoleData
+  if (typeof type !== 'string') return
 
   if (ev.source === $iframe.contentWindow) {
     const handler = handlers[type] || handlers.default
