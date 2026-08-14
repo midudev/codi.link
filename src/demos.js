@@ -1,7 +1,6 @@
 import { $ } from './utils/dom.js'
 import { eventBus, EVENTS } from './events-controller.js'
 import { DEMOS, loadDemo } from './demos/catalog.js'
-import notification from './utils/notification.js'
 import { getState } from './state.js'
 import { translate } from './utils/translator.js'
 
@@ -62,10 +61,6 @@ const applyDemo = async (id) => {
     if (requestId !== loadRequestId) return
 
     console.error(error)
-    notification.show({
-      type: 'danger',
-      message: 'Could not load this demo. Please try again.'
-    })
   } finally {
     setCardLoading(id, false)
   }
