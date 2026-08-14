@@ -1,5 +1,4 @@
 import * as monaco from 'monaco-editor/editor/editor.api'
-import { emmetHTML } from 'emmet-monaco-es'
 import EditorWorker from 'monaco-editor/editor/editor.worker?worker'
 import HtmlWorker from 'monaco-editor/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/language/css/css.worker?worker'
@@ -70,11 +69,21 @@ export function initMonaco () {
   })
 
   registerThemes(monaco)
-  emmetHTML(monaco)
   registerAutoCompleteHTMLTag(monaco)
   initialized = true
 
   return monaco
+}
+
+let emmetReady = false
+
+export function ensureEmmet () {
+  if (emmetReady) return
+
+  emmetReady = true
+  import('emmet-monaco-es').then(({ emmetHTML }) => {
+    emmetHTML(monaco)
+  })
 }
 
 export { monaco }

@@ -1,8 +1,7 @@
-import { monaco } from '../monaco.js'
 import { $ } from '../../../utils/dom.js'
 import { eventBus, EVENTS } from '../../../events-controller.js'
 
-export const initEditorHotKeys = (editor) => {
+export const initEditorHotKeys = (monaco, editor) => {
   // Shortcut: Open/Close Settings
   editor.addAction({
     id: 'toggle-settings',

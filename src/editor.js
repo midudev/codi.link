@@ -1,6 +1,13 @@
+import { isLineNumbersEnabled } from './constants/initial-settings.js'
 import { getState } from './state.js'
-import { monaco, initMonaco } from './components/codi-editor/monaco.js'
 import { initEditorHotKeys } from './components/codi-editor/extensions/editor-hotkeys.js'
+
+let monacoModulePromise
+
+function loadMonacoModule () {
+  monacoModulePromise ??= import('./components/codi-editor/monaco.js')
+  return monacoModulePromise
+}
 
 const STATIC_EDITOR_OPTIONS = {
   automaticLayout: false,
@@ -28,7 +35,7 @@ export const EDITOR_SETTING_KEYS = [
 export function getEditorOptions (state = getState()) {
   return {
     fontSize: state.fontSize,
-    lineNumbers: state.lineNumbers,
+    lineNumbers: isLineNumbersEnabled(state.lineNumbers) ? 'on' : 'off',
     tabSize: state.tabSize,
     minimap: {
       enabled: state.minimap
@@ -80,6 +87,7 @@ export function applyEditorOptions (editors, state) {
 
 export function createEditorHandle (domElement, { language, value = '' } = {}) {
   let editor = null
+  let creating = null
   let pendingValue = value
   const contentListeners = []
 
@@ -92,13 +100,25 @@ export function createEditorHandle (domElement, { language, value = '' } = {}) {
       editor?.setValue(nextValue)
     },
     focus () {
-      handle.ensureCreated().focus()
+      return handle.ensureCreated().then(ed => ed.focus())
+    },
+    revealLine (lineNumber, column = 1) {
+      return handle.ensureCreated().then(ed => {
+        const model = ed.getModel()
+        const maxLine = model?.getLineCount() ?? lineNumber
+        const line = Math.min(Math.max(lineNumber, 1), maxLine)
+        const maxColumn = model?.getLineMaxColumn(line) ?? column
+        const col = Math.min(Math.max(column, 1), maxColumn)
+        ed.revealLineInCenter(line)
+        ed.setPosition({ lineNumber: line, column: col })
+        ed.focus()
+      })
     },
     updateOptions (options) {
       editor?.updateOptions(options)
     },
     trigger (...args) {
-      editor?.trigger(...args)
+      return handle.ensureCreated().then(ed => ed.trigger(...args))
     },
     layout () {
       editor?.layout()
@@ -111,21 +131,27 @@ export function createEditorHandle (domElement, { language, value = '' } = {}) {
       if (editor) editor.onDidChangeModelContent(listener)
     },
     ensureCreated () {
-      if (editor) return editor
+      if (editor) return Promise.resolve(editor)
+      if (creating) return creating
 
-      initMonaco()
-      editor = monaco.editor.create(domElement, {
-        value: pendingValue,
-        language,
-        ...getEditorOptions()
+      creating = loadMonacoModule().then(({ monaco, initMonaco, ensureEmmet }) => {
+        initMonaco()
+        if (language === 'html') ensureEmmet()
+        editor = monaco.editor.create(domElement, {
+          value: pendingValue,
+          language,
+          ...getEditorOptions()
+        })
+        initEditorHotKeys(monaco, editor)
+        getLayoutObserver().observe(domElement)
+        editor.layout()
+        contentListeners.forEach(listener => {
+          editor.onDidChangeModelContent(listener)
+        })
+        return editor
       })
-      initEditorHotKeys(editor)
-      getLayoutObserver().observe(domElement)
-      editor.layout()
-      contentListeners.forEach(listener => {
-        editor.onDidChangeModelContent(listener)
-      })
-      return editor
+
+      return creating
     }
   }
 
