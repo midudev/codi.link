@@ -1,3 +1,4 @@
+import { isLineNumbersEnabled } from './constants/initial-settings.js'
 import { getState } from './state.js'
 import { $, setFormControlValue } from './utils/dom.js'
 import { getLayoutType, isMobileLayout } from './utils/layout.js'
@@ -34,6 +35,10 @@ Array.from($settingsForm.elements).forEach((el) => {
     if (value === getLayoutType(actualSettingValue)) {
       actualSettingValue = true
     } else { return }
+  }
+
+  if (settingKey === 'lineNumbers') {
+    actualSettingValue = isLineNumbersEnabled(actualSettingValue)
   }
 
   // Reflect the initial configuration in the settings section.

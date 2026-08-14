@@ -3,7 +3,7 @@ export const MOBILE_LAYOUT_QUERY = '(max-width: 650px)'
 export function getLayoutType (layout) {
   if (typeof layout === 'string' && layout) return layout
   if (layout && typeof layout === 'object' && layout.type) return layout.type
-  return 'default'
+  return 'tabs'
 }
 
 export function isNestedLayout (layout) {

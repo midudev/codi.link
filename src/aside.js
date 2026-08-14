@@ -2,7 +2,8 @@ import { eventBus, EVENTS } from './events-controller.js'
 import { $, $$ } from './utils/dom.js'
 import * as Preview from './utils/WindowPreviewer.js'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
-import { resetConsoleBadge } from './console.js'
+import { clearConsole, resetConsoleBadge } from './console.js'
+import { closeLayoutSwitcher, toggleLayoutSwitcher } from './layout-switcher.js'
 
 const $aside = $('aside')
 const $asideBar = $('.aside-bar')
@@ -33,6 +34,21 @@ const SIMPLE_CLICK_ACTIONS = {
 
   [BUTTON_ACTIONS.openNewInstance]: () => {
     eventBus.emit(EVENTS.OPEN_NEW_INSTANCE)
+  },
+
+  [BUTTON_ACTIONS.clearConsole]: () => {
+    clearConsole()
+  },
+
+  [BUTTON_ACTIONS.toggleLayoutSwitcher]: () => {
+    if (!$asideBar.hasAttribute('hidden')) {
+      toggleAsideBar(true)
+      $scrollButtons.removeAttribute('hidden')
+      $('.is-active')?.classList.remove('is-active')
+      $editorAsideButton.classList.add('is-active')
+    }
+
+    toggleLayoutSwitcher()
   }
 }
 
@@ -87,6 +103,7 @@ const NON_SIMPLE_CLICK_ACTIONS = {
 }
 
 const showAsideBar = selector => {
+  closeLayoutSwitcher()
   $asideBar.removeAttribute('hidden')
   $$('.bar-content').forEach(el => el.setAttribute('hidden', ''))
   $(selector).removeAttribute('hidden')

@@ -9,5 +9,7 @@ export const BUTTON_ACTIONS = {
   showHistoryBar: 'show-history-bar',
   showDemosBar: 'show-demos-bar',
   clearHistory: 'clear-history',
-  openNewInstance: 'open-new-instance'
+  clearConsole: 'clear-console',
+  openNewInstance: 'open-new-instance',
+  toggleLayoutSwitcher: 'toggle-layout-switcher'
 }

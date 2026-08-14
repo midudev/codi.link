@@ -1,12 +1,15 @@
 import { DEFAULT_GRID_TEMPLATE } from './editor-grid-template'
 import { DEFAULT_LAYOUT } from './grid-templates'
 
+export const isLineNumbersEnabled = lineNumbers =>
+  Boolean(lineNumbers && lineNumbers !== 'off')
+
 export const DEFAULT_INITIAL_SETTINGS = {
   fontFamily: "'Cascadia Code PL', 'Menlo', 'Monaco', 'Courier New', 'monospace'",
   fontLigatures: 'on',
   runJavascriptOnChange: true,
   fontSize: 18,
-  lineNumbers: 'off',
+  lineNumbers: false,
   tabSize: 2,
   maxExecutionTime: 200,
   minimap: false,
@@ -22,7 +25,7 @@ export const DEFAULT_INITIAL_SETTINGS = {
   layout: {
     gutters: DEFAULT_LAYOUT,
     style: DEFAULT_GRID_TEMPLATE,
-    type: 'default'
+    type: 'tabs'
   },
   cursorBlinking: 'blink',
   cursorSmoothCaretAnimation: 'off'

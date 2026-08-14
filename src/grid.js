@@ -29,6 +29,7 @@ const $gutterColA = $('.gutter-col-a')
 const $gutterColB = $('.gutter-col-b')
 const $gutterRowA = $('.gutter-row-a')
 const $gutterRowB = $('.gutter-row-b')
+const $gutterCenter = $('.gutter-center')
 const mosaicElements = [
   $markup,
   $script,
@@ -37,10 +38,11 @@ const mosaicElements = [
   $gutterColA,
   $gutterColB,
   $gutterRowA,
-  $gutterRowB
+  $gutterRowB,
+  $gutterCenter
 ]
 const rootElement = document.documentElement
-const $$layoutSelector = $$('.layout-preview')
+const $$layoutSelector = $$('.layout-preview:not(.layout-preview-icon)')
 const $$editors = $$('#editor .editor')
 const $tabsContainer = $('#tabs')
 const $$tabs = $$('#tabs label')
@@ -77,8 +79,9 @@ const selectTab = event => {
   } else {
     $preview.style.display = mobile ? 'none' : ''
     $target.style.display = 'block'
-    $target.editorHandle?.ensureCreated()
-    $target.editorHandle?.layout()
+    $target.editorHandle?.ensureCreated()?.then(() => {
+      $target.editorHandle?.layout()
+    })
   }
 
   $$tabs.forEach($t => $t.classList.remove('active'))
@@ -112,7 +115,7 @@ const saveGridTemplate = () => {
   const { preserveGrid } = getState()
   if (!preserveGrid) return
 
-  const type = rootElement.getAttribute('data-layout') || 'default'
+  const type = rootElement.getAttribute('data-layout') || 'tabs'
   const gridTemplate = {
     version: 3,
     type,
@@ -272,6 +275,7 @@ const setGridLayout = (layout = '') => {
   })
 
   if (mobile) {
+    rootElement.removeAttribute('data-mosaic')
     $editor.setAttribute('style', style)
     hasInitialized = true
     return
@@ -279,6 +283,7 @@ const setGridLayout = (layout = '') => {
 
   if (nested) {
     $editor.removeAttribute('style')
+    rootElement.setAttribute('data-mosaic', '')
     mosaicSplit = createMosaicSplit({
       container: $editor,
       panes: mosaicPanes(type),
@@ -286,7 +291,8 @@ const setGridLayout = (layout = '') => {
         colTop: $gutterColA,
         colBottom: $gutterColB,
         rowLeft: $gutterRowA,
-        rowRight: $gutterRowB
+        rowRight: $gutterRowB,
+        center: $gutterCenter
       },
       initialRatios: previousMosaicRatios || ((!hasInitialized || wasMobile) ? ratiosFromSaved(saved, type) : DEFAULT_RATIOS),
       onDragEnd: saveGridTemplate
@@ -295,6 +301,8 @@ const setGridLayout = (layout = '') => {
     saveGridTemplate()
     return
   }
+
+  rootElement.removeAttribute('data-mosaic')
 
   const restored = (!hasInitialized || wasMobile) && applySavedFlatStyles(type)
   hasInitialized = true

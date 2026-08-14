@@ -1,7 +1,8 @@
 .grid {
   display: grid;
-  height: 100vh;
-  background-color: var(--aside-sections-background);
+  height: 100%;
+  min-height: 0;
+  background-color: transparent;
 
   [data-layout='default'] &,
   [data-layout='layout-2'] & {
@@ -17,11 +18,49 @@
     }
   }
 
+  [data-layout='default']:not([data-mosaic]) &,
+  [data-layout='layout-2']:not([data-mosaic]) & {
+    display: grid;
+    grid-template-columns: 1fr 8px 1fr;
+    grid-template-rows: 1fr 8px 1fr;
+
+    & #markup,
+    & #script,
+    & #style,
+    & #editor-preview {
+      min-width: 0;
+      min-height: 0;
+    }
+
+    & #markup { grid-area: 1 / 1; }
+    & #script { grid-area: 1 / 3; }
+    & #style { grid-area: 3 / 1; }
+    & #editor-preview { grid-area: 3 / 3; }
+
+    & .gutter-col,
+    & .gutter-row,
+    & .first-gutter,
+    & .second-gutter,
+    & .last-gutter {
+      position: absolute;
+    }
+  }
+
+  [data-layout='layout-2']:not([data-mosaic]) & {
+    & #markup { grid-area: 1 / 1; }
+    & #style { grid-area: 1 / 3; }
+    & #script { grid-area: 3 / 1; }
+    & #editor-preview { grid-area: 3 / 3; }
+  }
+
   [data-layout='vertical'] & {
+    grid-template-columns: var(--editor-columns, 1fr 8px 1fr 8px 1fr 8px 1fr);
+    grid-template-rows: var(--editor-rows, 1fr);
     grid-template-areas: 'editor-html . editor-css . editor-js . editor-preview';
 
     & .gutter-col,
-    & .gutter-row {
+    & .gutter-row,
+    & .gutter-center {
       display: none;
     }
 
@@ -30,24 +69,18 @@
       cursor: col-resize;
       grid-area: 1 / 2 / 1 / 2;
       position: relative;
-      box-shadow: -1px 0 0 0 var(--grid-background),
-        1px 0 0 0 var(--grid-background);
     }
     & .second-gutter {
       display: block;
       cursor: col-resize;
       grid-area: 1 / 4 / 1 / 4;
       position: relative;
-      box-shadow: -1px 0 0 0 var(--grid-background),
-        1px 0 0 0 var(--grid-background);
     }
     & .last-gutter {
       display: block;
       cursor: col-resize;
       grid-area: 1 / 6 / 1 / 6;
       position: relative;
-      box-shadow: -1px 0 0 0 var(--grid-background),
-        1px 0 0 0 var(--grid-background);
     }
 
     & #markup {
@@ -68,6 +101,8 @@
   }
 
   [data-layout='horizontal'] & {
+    grid-template-columns: var(--editor-columns, 1fr);
+    grid-template-rows: var(--editor-rows, 1fr 8px 1fr 8px 1fr 8px 1fr);
     grid-template-areas:
       'editor-html'
       '.'
@@ -78,7 +113,8 @@
       'editor-preview';
 
     & .gutter-col,
-    & .gutter-row {
+    & .gutter-row,
+    & .gutter-center {
       display: none;
     }
 
@@ -87,24 +123,18 @@
       grid-area: 2 / 1 / 2 / 1;
       cursor: row-resize;
       position: relative;
-      box-shadow: 0 -1px 0 0 var(--grid-background),
-        0 1px 0 0 var(--grid-background);
     }
     & .second-gutter {
       display: block;
       grid-area: 4 / 1 / 4 / 1;
       cursor: row-resize;
       position: relative;
-      box-shadow: 0 -1px 0 0 var(--grid-background),
-        0 1px 0 0 var(--grid-background);
     }
     & .last-gutter {
       display: block;
       grid-area: 6 / 1 / 6 / 1;
       cursor: row-resize;
       position: relative;
-      box-shadow: 0 -1px 0 0 var(--grid-background),
-        0 1px 0 0 var(--grid-background);
     }
 
     & #markup {
@@ -125,15 +155,16 @@
   }
 
   [data-layout='bottom'] & {
-    grid-template-columns: 1fr 8px 1fr 8px 1fr;
-    grid-template-rows: 1fr 8px 1fr;
+    grid-template-columns: var(--editor-columns, 1fr 8px 1fr 8px 1fr);
+    grid-template-rows: var(--editor-rows, 1fr 8px 1fr);
     grid-template-areas:
       'editor-preview editor-preview editor-preview editor-preview editor-preview'
       '. . . . .'
       'editor-html . editor-js . editor-css';
 
     & .gutter-col,
-    & .gutter-row {
+    & .gutter-row,
+    & .gutter-center {
       display: none;
     }
 
@@ -142,24 +173,18 @@
       cursor: col-resize;
       grid-area: 2 / 2 / 4 / 3;
       position: relative;
-      box-shadow: -1px 0 0 0 var(--grid-background),
-        1px 0 0 0 var(--grid-background);
     }
     & .second-gutter {
       display: block;
       cursor: col-resize;
       grid-area: 2 / 4 / 4 / 5;
       position: relative;
-      box-shadow: -1px 0 0 0 var(--grid-background),
-        1px 0 0 0 var(--grid-background);
     }
     & .last-gutter {
       display: block;
       cursor: row-resize;
       grid-area: 2 / 1 / 2 / 6;
       position: relative;
-      box-shadow: 0 -1px 0 0 var(--grid-background),
-        0 1px 0 0 var(--grid-background);
     }
 
     & #markup {
@@ -180,17 +205,32 @@
   }
 
   [data-layout='tabs'] & {
-    grid-template-columns: 5fr 8px 3fr;
-    grid-template-rows: 40px 1fr;
+    grid-template-columns: var(--editor-columns, 5fr 8px 3fr);
+    grid-template-rows: var(--editor-rows, 40px 1fr);
     grid-template-areas: 'tabs . editor-preview' 'editors . editor-preview';
 
     & .gutter-col,
-    & .gutter-row {
+    & .gutter-row,
+    & .gutter-center {
       display: none;
     }
 
     & #tabs {
       display: grid;
+      border-radius: var(--island-radius) var(--island-radius) 0 0;
+    }
+
+    & #markup,
+    & #script,
+    & #style {
+      grid-area: editors;
+      min-height: 0;
+      border-radius: 0 0 var(--island-radius) var(--island-radius);
+    }
+
+    & #script,
+    & #style {
+      display: none;
     }
 
     & .first-gutter {
@@ -198,8 +238,6 @@
       cursor: col-resize;
       grid-area: 1 / 2 / 3 / 2;
       position: relative;
-      box-shadow: -1px 0 0 0 var(--grid-background),
-        1px 0 0 0 var(--grid-background);
     }
     & .second-gutter,
     & .last-gutter {
@@ -219,9 +257,8 @@
 .last-gutter {
   --gutter-handle-size: 28px;
   position: relative;
-  background-color: var(--aside-sections-background);
+  background-color: transparent;
   background-image: none;
-  transition: background-color 0.15s ease;
 
   &::after {
     content: '';
@@ -230,20 +267,51 @@
     left: 50%;
     border-radius: 999px;
     background: var(--button-foreground);
+    opacity: 0.28;
     transform: translate(-50%, -50%);
-    transition: background-color 0.15s ease, width 0.15s ease, height 0.15s ease;
+    transition: opacity 0.15s ease, width 0.15s ease, height 0.15s ease;
     pointer-events: none;
   }
 
   &:hover,
   &:active {
     --gutter-handle-size: 72px;
-    background-color: color-mix(in srgb, var(--button-foreground-active) 12%, var(--aside-sections-background));
 
     &::after {
-      background: var(--button-foreground-active);
+      opacity: 0.7;
     }
   }
+}
+
+.grid.is-center-hover .gutter-col,
+.grid.is-center-hover .gutter-row,
+.grid.is-pair-col-hover .gutter-col,
+.grid.is-pair-row-hover .gutter-row {
+  --gutter-handle-size: 72px;
+
+  &::after {
+    opacity: 0.7;
+  }
+}
+
+.gutter-center {
+  z-index: 3;
+  display: none;
+  cursor: move;
+  touch-action: none;
+  background: transparent;
+
+  &[data-pair='x'] {
+    cursor: col-resize;
+  }
+
+  &[data-pair='y'] {
+    cursor: row-resize;
+  }
+}
+
+[data-mosaic] .gutter-center:not([hidden]) {
+  display: block;
 }
 
 .gutter-col,
@@ -256,8 +324,6 @@
 .first-gutter,
 .second-gutter {
   cursor: col-resize;
-  box-shadow: -1px 0 0 0 var(--grid-background),
-    1px 0 0 0 var(--grid-background);
 
   &::after {
     width: 3px;
@@ -268,8 +334,6 @@
 .gutter-row,
 .last-gutter {
   cursor: row-resize;
-  box-shadow: 0 -1px 0 0 var(--grid-background),
-    0 1px 0 0 var(--grid-background);
 
   &::after {
     width: var(--gutter-handle-size);
@@ -282,8 +346,6 @@
   & .second-gutter,
   & .last-gutter {
     cursor: row-resize;
-    box-shadow: 0 -1px 0 0 var(--grid-background),
-      0 1px 0 0 var(--grid-background);
 
     &::after {
       width: var(--gutter-handle-size);
@@ -296,8 +358,6 @@
 [data-layout='tabs'] {
   & .last-gutter {
     cursor: col-resize;
-    box-shadow: -1px 0 0 0 var(--grid-background),
-      1px 0 0 0 var(--grid-background);
 
     &::after {
       width: 3px;
@@ -307,15 +367,18 @@
 }
 
 #tabs {
+  display: none;
   grid-area: tabs;
   grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-  background-color: var(--aside-sections-background);
+  background-color: var(--island-background);
+  border-radius: var(--island-radius);
+  overflow: hidden;
 
   & label {
     display: flex;
     align-items: center;
     padding-left: 8px;
-    border-bottom: 2px solid rgb(72, 72, 72);
+    border-bottom: 2px solid transparent;
     opacity: .2;
     overflow: hidden;
     white-space: nowrap;
@@ -399,9 +462,18 @@
   grid-area: 2 / 1 / 2 / 4;
 }
 
-.editor {
+.editor,
+#editor-preview {
   position: relative;
   overflow: hidden;
+  border-radius: var(--island-radius);
+  background-color: var(--island-background);
+}
+
+.editor .monaco-editor,
+.editor .monaco-editor .overflow-guard,
+.editor .monaco-editor .monaco-scrollable-element {
+  border-radius: inherit;
 }
 
 .editor::after {
@@ -445,14 +517,15 @@
   }
 
   [data-layout='tabs'] .grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: 40px minmax(0, 1fr);
+    grid-template-columns: var(--editor-columns, 1fr);
+    grid-template-rows: var(--editor-rows, 40px minmax(0, 1fr));
     grid-template-areas:
       'tabs'
       'editors';
 
     & .gutter-col,
     & .gutter-row,
+    & .gutter-center,
     & .first-gutter,
     & .second-gutter,
     & .last-gutter {
