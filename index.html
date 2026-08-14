@@ -16,12 +16,8 @@
         const rootElement = document.documentElement
         const isMobile = window.matchMedia('(max-width: 650px)').matches
 
-        if (isMobile) {
-          rootElement.setAttribute('data-layout', 'tabs')
-          rootElement.setAttribute('data-mobile-layout', '')
-        } else {
-          rootElement.setAttribute('data-layout', 'tabs')
-        }
+        rootElement.setAttribute('data-layout', 'tabs')
+        if (isMobile) rootElement.setAttribute('data-mobile-layout', '')
 
         if (typeof window.localStorage === 'undefined') return
 
@@ -31,24 +27,48 @@
         const { state } = JSON.parse(storedData) ?? {}
         if (!state) return
 
-        const { theme, layout } = state
-
+        const { theme, layout, preserveGrid } = state
         if (theme) rootElement.setAttribute('data-theme', theme)
-
         if (isMobile) return
 
         const layoutType = typeof layout === 'string' ? layout : layout?.type
         if (layoutType) rootElement.setAttribute('data-layout', layoutType)
 
-        try {
-          const savedGrid = JSON.parse(window.localStorage.getItem('gridTemplate'))
-          if (savedGrid?.editor && savedGrid.type === layoutType) {
-            const columns = savedGrid.editor['grid-template-columns']
-            const rows = savedGrid.editor['grid-template-rows']
-            if (columns) rootElement.style.setProperty('--editor-columns', columns)
-            if (rows) rootElement.style.setProperty('--editor-rows', rows)
-          }
-        } catch {}
+        const nested = layoutType === 'default' || layoutType === 'layout-2'
+        if (nested) rootElement.setAttribute('data-mosaic', '')
+        if (preserveGrid === false) return
+
+        const savedGrid = JSON.parse(window.localStorage.getItem('gridTemplate') || 'null')
+        if (!savedGrid || savedGrid.type !== layoutType) return
+
+        const toFr = (value) => {
+          if (!value || !value.includes('px')) return value
+          const tracks = value.trim().split(/\s+/)
+          const sizes = tracks.map((track) => {
+            if (!track.endsWith('px')) return null
+            const px = parseFloat(track)
+            return px > 8 ? px : null
+          })
+          const sum = sizes.reduce((total, px) => total + (px || 0), 0)
+          const large = sizes.filter(Boolean)
+          if (large.length < 2 || !sum) return value
+          return tracks.map((track, i) => sizes[i] == null ? track : (sizes[i] / sum) + 'fr').join(' ')
+        }
+
+        if (nested) {
+          const mosaic = savedGrid.mosaic
+          if (!mosaic) return
+          if (mosaic.top != null) rootElement.style.setProperty('--mosaic-top', mosaic.top)
+          if (mosaic.bottom != null) rootElement.style.setProperty('--mosaic-bottom', mosaic.bottom)
+          if (mosaic.left != null) rootElement.style.setProperty('--mosaic-left', mosaic.left)
+          if (mosaic.right != null) rootElement.style.setProperty('--mosaic-right', mosaic.right)
+          return
+        }
+
+        const columns = toFr(savedGrid.editor?.['grid-template-columns'])
+        const rows = toFr(savedGrid.editor?.['grid-template-rows'])
+        if (columns) rootElement.style.setProperty('--editor-columns', columns)
+        if (rows) rootElement.style.setProperty('--editor-rows', rows)
       } catch (error) {
         console.error('Error al configurar el estado inicial:', error);
       }

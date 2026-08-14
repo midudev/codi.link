@@ -6,6 +6,11 @@
 
   [data-layout='default'] &,
   [data-layout='layout-2'] & {
+    --mosaic-gutter: 8px;
+    --mosaic-x1: calc(var(--mosaic-top, 0.5) * (100% - var(--mosaic-gutter)));
+    --mosaic-x2: calc(var(--mosaic-bottom, 0.5) * (100% - var(--mosaic-gutter)));
+    --mosaic-y1: calc(var(--mosaic-left, 0.5) * (100% - var(--mosaic-gutter)));
+    --mosaic-y2: calc(var(--mosaic-right, 0.5) * (100% - var(--mosaic-gutter)));
     display: block;
     position: relative;
     overflow: hidden;
@@ -15,6 +20,107 @@
     & #style,
     & #editor-preview {
       overflow: hidden;
+    }
+  }
+
+  [data-mosaic][data-layout='default'] &,
+  [data-mosaic][data-layout='layout-2'] & {
+    & #markup,
+    & #script,
+    & #style,
+    & #editor-preview,
+    & .gutter-col,
+    & .gutter-row,
+    & .gutter-center {
+      position: absolute;
+    }
+
+    & .gutter-col-a {
+      left: var(--mosaic-x1);
+      top: 0;
+      width: var(--mosaic-gutter);
+      height: max(var(--mosaic-gutter), max(var(--mosaic-y1), var(--mosaic-y2)) + var(--mosaic-gutter));
+    }
+
+    & .gutter-col-b {
+      left: var(--mosaic-x2);
+      top: min(var(--mosaic-y1), var(--mosaic-y2));
+      width: var(--mosaic-gutter);
+      height: max(var(--mosaic-gutter), 100% - min(var(--mosaic-y1), var(--mosaic-y2)));
+    }
+
+    & .gutter-row-a {
+      left: 0;
+      top: var(--mosaic-y1);
+      width: max(var(--mosaic-gutter), max(var(--mosaic-x1), var(--mosaic-x2)) + var(--mosaic-gutter));
+      height: var(--mosaic-gutter);
+    }
+
+    & .gutter-row-b {
+      left: min(var(--mosaic-x1), var(--mosaic-x2));
+      top: var(--mosaic-y2);
+      width: max(var(--mosaic-gutter), 100% - min(var(--mosaic-x1), var(--mosaic-x2)));
+      height: var(--mosaic-gutter);
+    }
+  }
+
+  [data-mosaic][data-layout='default'] & {
+    & #markup {
+      left: 0;
+      top: 0;
+      width: var(--mosaic-x1);
+      height: var(--mosaic-y1);
+    }
+
+    & #script {
+      left: calc(var(--mosaic-x1) + var(--mosaic-gutter));
+      top: 0;
+      width: calc(100% - var(--mosaic-x1) - var(--mosaic-gutter));
+      height: var(--mosaic-y2);
+    }
+
+    & #style {
+      left: 0;
+      top: calc(var(--mosaic-y1) + var(--mosaic-gutter));
+      width: var(--mosaic-x2);
+      height: calc(100% - var(--mosaic-y1) - var(--mosaic-gutter));
+    }
+
+    & #editor-preview {
+      left: calc(var(--mosaic-x2) + var(--mosaic-gutter));
+      top: calc(var(--mosaic-y2) + var(--mosaic-gutter));
+      width: calc(100% - var(--mosaic-x2) - var(--mosaic-gutter));
+      height: calc(100% - var(--mosaic-y2) - var(--mosaic-gutter));
+    }
+  }
+
+  [data-mosaic][data-layout='layout-2'] & {
+    & #markup {
+      left: 0;
+      top: 0;
+      width: var(--mosaic-x1);
+      height: var(--mosaic-y1);
+    }
+
+    & #style {
+      left: calc(var(--mosaic-x1) + var(--mosaic-gutter));
+      top: 0;
+      width: calc(100% - var(--mosaic-x1) - var(--mosaic-gutter));
+      height: var(--mosaic-y2);
+    }
+
+    & #script {
+      left: 0;
+      top: calc(var(--mosaic-y1) + var(--mosaic-gutter));
+      width: var(--mosaic-x2);
+      height: calc(100% - var(--mosaic-y1) - var(--mosaic-gutter));
+    }
+
+    & #editor-preview {
+      left: calc(var(--mosaic-x2) + var(--mosaic-gutter));
+      top: calc(var(--mosaic-y2) + var(--mosaic-gutter));
+      width: calc(100% - var(--mosaic-x2) - var(--mosaic-gutter));
+      height: calc(100% - var(--mosaic-y2) - var(--mosaic-gutter));
     }
   }
 
