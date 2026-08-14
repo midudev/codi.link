@@ -32,6 +32,7 @@ setTheme(theme)
 setLanguage(language)
 
 const iframe = $('iframe')
+const $runJavascriptOnChangeCheckbox = $("input[name='runJavascriptOnChange']")
 
 const editorElements = $$('codi-editor')
 
@@ -107,24 +108,31 @@ configurePrettierHotkeys([htmlEditor, cssEditor, jsEditor])
 
 update()
 
+$runJavascriptOnChangeCheckbox?.addEventListener('change', ({ target }) => {
+  if (target.checked) {
+    update()
+  }
+})
+
 function update ({ notReload } = {}) {
   const values = {
     html: htmlEditor.getValue(),
     css: cssEditor.getValue(),
     js: jsEditor.getValue()
   }
+  const { maxExecutionTime, runJavascriptOnChange } = getState()
 
-  Preview.updatePreview(values)
+  Preview.updatePreview(values, { includeJavascript: runJavascriptOnChange })
 
   if (!notReload) {
-    const { maxExecutionTime } = getState()
-    runJs(values.js, parseInt(maxExecutionTime))
-      .then(() => {
-        iframe.setAttribute('src', Preview.getPreviewUrl())
-      })
-      .catch(error => {
-        console.error('Execution error:', error)
-      })
+    iframe.setAttribute('src', Preview.getPreviewUrl())
+
+    if (runJavascriptOnChange) {
+      runJs(values.js, parseInt(maxExecutionTime))
+        .catch(error => {
+          console.error('Execution error:', error)
+        })
+    }
   }
 
   updateCss()
