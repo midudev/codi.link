@@ -74,6 +74,8 @@ const NON_SIMPLE_CLICK_ACTIONS = {
   [BUTTON_ACTIONS.closeAsideBar]: () => {
     toggleAsideBar(true)
     $scrollButtons.removeAttribute('hidden')
+    $('.is-active')?.classList.remove('is-active')
+    $editorAsideButton.classList.add('is-active')
   },
 
   [BUTTON_ACTIONS.showSkypackBar]: () => {
