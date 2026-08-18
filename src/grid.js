@@ -58,6 +58,39 @@ const FLAT_GUTTERS = {
   tabs: TABS_LAYOUT
 }
 
+const COLLAPSE_WIDTH = 168
+const COLLAPSE_HEIGHT = 112
+const EXPAND_WIDTH = 288
+const EXPAND_HEIGHT = 200
+const EXPAND_MIN_LEAVE = 56
+
+const PANE_TRACKS = {
+  vertical: {
+    markup: { col: 0 },
+    style: { col: 2 },
+    script: { col: 4 },
+    'editor-preview': { col: 6 }
+  },
+  horizontal: {
+    markup: { row: 0 },
+    style: { row: 2 },
+    script: { row: 4 },
+    'editor-preview': { row: 6 }
+  },
+  bottom: {
+    markup: { col: 0, row: 2 },
+    script: { col: 2, row: 2 },
+    style: { col: 4, row: 2 },
+    'editor-preview': { row: 0 }
+  },
+  tabs: {
+    markup: { col: 0 },
+    script: { col: 0 },
+    style: { col: 0 },
+    'editor-preview': { col: 2 }
+  }
+}
+
 const mosaicPanes = (type) => (
   type === 'layout-2'
     ? { tl: $markup, tr: $style, bl: $script, br: $preview }
@@ -131,7 +164,42 @@ const applyEditorCssVars = (editor = {}) => {
   const columns = toFlexibleTracks(editor['grid-template-columns'])
   const rows = toFlexibleTracks(editor['grid-template-rows'])
   if (columns) rootElement.style.setProperty('--editor-columns', columns)
+  else rootElement.style.removeProperty('--editor-columns')
   if (rows) rootElement.style.setProperty('--editor-rows', rows)
+  else rootElement.style.removeProperty('--editor-rows')
+}
+
+const clearEditorCssVars = () => {
+  rootElement.style.removeProperty('--editor-columns')
+  rootElement.style.removeProperty('--editor-rows')
+}
+
+const parseTemplateStyle = (style = '') => {
+  const editor = {}
+  style.split(';').forEach((part) => {
+    const [rawKey, ...rest] = part.split(':')
+    const key = rawKey?.trim()
+    const value = rest.join(':').trim()
+    if (key && value) editor[key] = value
+  })
+  return editor
+}
+
+const applyDefaultFlatStyles = (type) => {
+  const style = EDITOR_GRID_TEMPLATE[type] || DEFAULT_GRID_TEMPLATE
+  $editor.setAttribute('style', style)
+  applyEditorCssVars(parseTemplateStyle(style))
+}
+
+const trackCount = (value) => value?.trim() ? value.trim().split(/\s+/).length : 0
+
+const matchesLayoutTracks = (editor, type) => {
+  const defaults = parseTemplateStyle(EDITOR_GRID_TEMPLATE[type] || DEFAULT_GRID_TEMPLATE)
+  const columns = editor?.['grid-template-columns']
+  const rows = editor?.['grid-template-rows']
+  if (columns && trackCount(columns) !== trackCount(defaults['grid-template-columns'])) return false
+  if (rows && trackCount(rows) !== trackCount(defaults['grid-template-rows'])) return false
+  return Boolean(columns || rows)
 }
 
 const applyMosaicCssVars = (ratios = DEFAULT_RATIOS) => {
@@ -209,6 +277,7 @@ const applySavedFlatStyles = (type) => {
       'grid-template-columns': toFlexibleTracks(saved.editor['grid-template-columns']),
       'grid-template-rows': toFlexibleTracks(saved.editor['grid-template-rows'])
     }
+    if (!matchesLayoutTracks(editor, type)) return false
     const style = toStyle(editor)
     if (!style) return false
     $editor.setAttribute('style', style)
@@ -220,6 +289,7 @@ const applySavedFlatStyles = (type) => {
     'grid-template-columns': toFlexibleTracks(saved['grid-template-columns']),
     'grid-template-rows': toFlexibleTracks(saved['grid-template-rows'])
   }
+  if (!matchesLayoutTracks(legacy, type)) return false
   const legacyStyle = toStyle(legacy)
   if (!legacyStyle) return false
   $editor.setAttribute('style', legacyStyle)
@@ -272,6 +342,119 @@ const configLayoutTabsElements = type => {
   })
 }
 
+const parseTrackPixels = (value) =>
+  value
+    .trim()
+    .split(/\s+/)
+    .map((track) => parseFloat(track))
+    .filter((px) => !Number.isNaN(px))
+
+const growContentTracks = (pixels, targetIndex, minPx, gutter = 8) => {
+  const next = [...pixels]
+  const current = next[targetIndex]
+  if (!(current < minPx)) return next
+
+  const donors = next
+    .map((px, index) => ({
+      index,
+      spare: index !== targetIndex && px > gutter + 0.5
+        ? Math.max(0, px - EXPAND_MIN_LEAVE)
+        : 0
+    }))
+    .filter((donor) => donor.spare > 0)
+    .sort((a, b) => b.spare - a.spare)
+
+  let need = minPx - current
+  for (const donor of donors) {
+    if (need <= 0) break
+    const take = Math.min(donor.spare, need)
+    next[donor.index] -= take
+    next[targetIndex] += take
+    need -= take
+  }
+
+  return next
+}
+
+const tracksToFlexible = (pixels, gutter = 8) =>
+  toFlexibleTracks(pixels.map((px) => (
+    px <= gutter + 0.5 ? `${gutter}px` : `${px}px`
+  )).join(' '))
+
+const isPaneCollapsed = (pane) => {
+  const { width, height } = pane.getBoundingClientRect()
+  return width < COLLAPSE_WIDTH || height < COLLAPSE_HEIGHT
+}
+
+const growFlatPane = (pane) => {
+  const type = rootElement.getAttribute('data-layout')
+  const mapping = PANE_TRACKS[type]?.[pane.id]
+  if (!mapping) return false
+
+  const { width, height } = pane.getBoundingClientRect()
+  const growWidth = width < COLLAPSE_WIDTH && mapping.col != null
+  const growHeight = height < COLLAPSE_HEIGHT && mapping.row != null
+  if (!growWidth && !growHeight) return false
+
+  const computed = window.getComputedStyle($editor)
+  let columns = $editor.style.gridTemplateColumns || computed.gridTemplateColumns
+  let rows = $editor.style.gridTemplateRows || computed.gridTemplateRows
+  let changed = false
+
+  if (growWidth) {
+    const pixels = parseTrackPixels(computed.gridTemplateColumns)
+    if (pixels[mapping.col] != null) {
+      const next = tracksToFlexible(growContentTracks(pixels, mapping.col, EXPAND_WIDTH))
+      if (next && next !== columns) {
+        columns = next
+        changed = true
+      }
+    }
+  }
+
+  if (growHeight) {
+    const pixels = parseTrackPixels(computed.gridTemplateRows)
+    if (pixels[mapping.row] != null) {
+      const next = tracksToFlexible(growContentTracks(pixels, mapping.row, EXPAND_HEIGHT))
+      if (next && next !== rows) {
+        rows = next
+        changed = true
+      }
+    }
+  }
+
+  if (!changed) return false
+
+  const editor = {
+    'grid-template-columns': columns,
+    'grid-template-rows': rows
+  }
+  $editor.setAttribute('style', toStyle(editor))
+  applyEditorCssVars(editor)
+  saveGridTemplate()
+  return true
+}
+
+const expandCollapsedPane = (pane) => {
+  if (isMobileLayout() || !isPaneCollapsed(pane)) return
+
+  if (mosaicSplit) {
+    if (mosaicSplit.growPane(pane, { minWidth: EXPAND_WIDTH, minHeight: EXPAND_HEIGHT })) {
+      saveGridTemplate()
+    }
+    return
+  }
+
+  growFlatPane(pane)
+}
+
+;[$markup, $script, $style, $preview].forEach((pane) => {
+  pane.querySelector('.pane-expand')?.addEventListener('click', (event) => {
+    event.preventDefault()
+    expandCollapsedPane(pane)
+  })
+})
+
 const createSplit = (gutters) => Split({
   ...gutters,
   ...(gutters.columnGutters && {
@@ -280,7 +463,7 @@ const createSplit = (gutters) => Split({
   ...(gutters.rowGutters && {
     rowGutters: gutters.rowGutters.map(formatGutters)
   }),
-  minSize: 1,
+  minSize: 56,
   onDragEnd: saveGridTemplate
 })
 
@@ -328,6 +511,7 @@ const setGridLayout = (layout = '') => {
 
   if (nested) {
     $editor.removeAttribute('style')
+    clearEditorCssVars()
     rootElement.setAttribute('data-mosaic', '')
     const initialRatios = previousMosaicRatios || ((!hasInitialized || wasMobile) ? ratiosFromSaved(saved, type) : DEFAULT_RATIOS)
     applyMosaicCssVars(initialRatios)
@@ -351,16 +535,25 @@ const setGridLayout = (layout = '') => {
 
   rootElement.removeAttribute('data-mosaic')
 
-  const restored = (!hasInitialized || wasMobile) && applySavedFlatStyles(type)
+  const canUseBootstrap = !hasInitialized || wasMobile
+  const restored = canUseBootstrap && applySavedFlatStyles(type)
   hasInitialized = true
-  const bootstrappedColumns = rootElement.style.getPropertyValue('--editor-columns')
-  const bootstrappedRows = rootElement.style.getPropertyValue('--editor-rows')
   if (!restored) {
-    if (bootstrappedColumns || bootstrappedRows) {
+    const bootstrappedColumns = canUseBootstrap
+      ? rootElement.style.getPropertyValue('--editor-columns')
+      : ''
+    const bootstrappedRows = canUseBootstrap
+      ? rootElement.style.getPropertyValue('--editor-rows')
+      : ''
+    const bootstrapped = {
+      'grid-template-columns': bootstrappedColumns,
+      'grid-template-rows': bootstrappedRows
+    }
+    if ((bootstrappedColumns || bootstrappedRows) && matchesLayoutTracks(bootstrapped, type)) {
       if (bootstrappedColumns) $editor.style.gridTemplateColumns = bootstrappedColumns
       if (bootstrappedRows) $editor.style.gridTemplateRows = bootstrappedRows
     } else {
-      $editor.setAttribute('style', style)
+      applyDefaultFlatStyles(type)
     }
   }
 

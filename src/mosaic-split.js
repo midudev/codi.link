@@ -1,5 +1,5 @@
 const GUTTER = 8
-const MIN = 48
+const MIN = 56
 const SNAP = 12
 const CENTER = 28
 
@@ -291,6 +291,59 @@ export function createMosaicSplit ({
   observer.observe(container)
   apply()
 
+  const growPane = (paneEl, { minWidth = 288, minHeight = 200 } = {}) => {
+    const width = container.clientWidth
+    const height = container.clientHeight
+    if (width <= 0 || height <= 0) return false
+
+    const key = Object.keys(panes).find((name) => panes[name] === paneEl)
+    if (!key) return false
+
+    const spanX = width - GUTTER
+    const spanY = height - GUTTER
+    if (spanX <= 0 || spanY <= 0) return false
+
+    const { tl, tr, bl, br } = layoutBoxes(width, height, ratios)
+    const box = { tl, tr, bl, br }[key]
+    const maxX = Math.max(MIN, width - GUTTER - MIN)
+    const maxY = Math.max(MIN, height - GUTTER - MIN)
+    const minRatioX = MIN / spanX
+    const maxRatioX = maxX / spanX
+    const minRatioY = MIN / spanY
+    const maxRatioY = maxY / spanY
+
+    let changed = false
+
+    if (box.w < minWidth) {
+      const target = clamp(minWidth, MIN, maxX)
+      const next = key === 'tl' || key === 'bl'
+        ? target / spanX
+        : 1 - target / spanX
+      const prop = key === 'tl' || key === 'tr' ? 'top' : 'bottom'
+      const clamped = clamp(next, minRatioX, maxRatioX)
+      if (clamped !== ratios[prop]) {
+        ratios[prop] = clamped
+        changed = true
+      }
+    }
+
+    if (box.h < minHeight) {
+      const target = clamp(minHeight, MIN, maxY)
+      const next = key === 'tl' || key === 'tr'
+        ? target / spanY
+        : 1 - target / spanY
+      const prop = key === 'tl' || key === 'bl' ? 'left' : 'right'
+      const clamped = clamp(next, minRatioY, maxRatioY)
+      if (clamped !== ratios[prop]) {
+        ratios[prop] = clamped
+        changed = true
+      }
+    }
+
+    if (changed) apply()
+    return changed
+  }
+
   return {
     apply,
     getRatios: () => ({ ...ratios }),
@@ -298,6 +351,7 @@ export function createMosaicSplit ({
       Object.assign(ratios, next)
       apply()
     },
+    growPane,
     destroy () {
       stopDrag()
       observer.disconnect()

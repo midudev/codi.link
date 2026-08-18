@@ -14,6 +14,10 @@ const STATIC_EDITOR_OPTIONS = {
   fixedOverflowWidgets: true,
   scrollBeyondLastLine: false,
   roundedSelection: false,
+  glyphMargin: false,
+  folding: false,
+  lineDecorationsWidth: 16,
+  lineNumbersMinChars: 3,
   padding: {
     top: 16
   }

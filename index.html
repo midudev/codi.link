@@ -731,11 +731,22 @@
         <label for="style">CSS</label>
         <label for="editor-preview" hidden>Preview</label>
       </div>
-      <div class="editor" data-grid-area="editor-html" data-language="html" id="markup"></div>
-      <div class="editor" data-grid-area="editor-js" data-language="javascript" id="script"></div>
-      <div class="editor" data-grid-area="editor-css" data-language="css" id="style"></div>
+      <div class="editor" data-grid-area="editor-html" data-language="html" id="markup">
+        <span class="pane-icon" aria-hidden="true"></span>
+        <button type="button" class="pane-expand" data-translate-aria="expandHtml" aria-label="Expand HTML" tabindex="-1"></button>
+      </div>
+      <div class="editor" data-grid-area="editor-js" data-language="javascript" id="script">
+        <span class="pane-icon" aria-hidden="true"></span>
+        <button type="button" class="pane-expand" data-translate-aria="expandJs" aria-label="Expand JavaScript" tabindex="-1"></button>
+      </div>
+      <div class="editor" data-grid-area="editor-css" data-language="css" id="style">
+        <span class="pane-icon" aria-hidden="true"></span>
+        <button type="button" class="pane-expand" data-translate-aria="expandCss" aria-label="Expand CSS" tabindex="-1"></button>
+      </div>
 
       <div id="editor-preview" class="iframe-container">
+        <span class="pane-icon" aria-hidden="true"></span>
+        <button type="button" class="pane-expand" data-translate-aria="expandPreview" aria-label="Expand preview" tabindex="-1"></button>
         <div id="preview-error" class="preview-error" hidden role="alert">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />

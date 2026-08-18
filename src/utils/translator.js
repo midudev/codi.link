@@ -32,9 +32,18 @@ function updatePlaceholders (language = 'en') {
   })
 }
 
+function updateAriaLabels (language = 'en') {
+  const elements = document.querySelectorAll('[data-translate-aria]')
+  elements.forEach(element => {
+    const key = element.getAttribute('data-translate-aria')
+    element.setAttribute('aria-label', makeTranslation(key, language))
+  })
+}
+
 function translate (language) {
   updateContent(language)
   updatePlaceholders(language)
+  updateAriaLabels(language)
 }
 
 export { translate }
