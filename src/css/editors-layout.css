@@ -722,7 +722,7 @@
   }
 }
 
-@container (max-width: 72px), (max-height: 64px) {
+@container (max-width: 72px) or (max-height: 64px) {
   .pane-expand {
     gap: 0;
     padding: 4px;
