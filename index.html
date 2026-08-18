@@ -2,14 +2,58 @@
 <html lang="en" data-layout="tabs">
 
 <head>
+  <meta charset="UTF-8" />
   <title>codi.link | HTML, CSS, JavaScript Live Editor Playground</title>
   <meta name="description"
     content="codi.link is a live editor for HTML, CSS and JS. Edit your code in real-time, and see the result instantly" />
-  <meta charset="UTF-8" />
-  <link rel="icon" type=image/x-icon href="/assets/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0099ff" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/assets/midu.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
   <link as="font" rel="preload" crossorigin="anonymous" href="/assets/fonts/CascadiaCodePL.woff2" />
   <link rel="stylesheet" href="./src/style.css" />
+
+  <link rel="canonical" href="https://codi.link/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Miguel Ángel Durán (midudev)" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://codi.link/" />
+  <meta property="og:site_name" content="codi.link" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:title" content="codi.link | HTML, CSS, JavaScript Live Editor Playground" />
+  <meta property="og:description"
+    content="codi.link is a live editor for HTML, CSS and JS. Edit your code in real-time, and see the result instantly" />
+  <meta property="og:image" content="https://codi.link/og-image.png" />
+  <meta property="og:image:width" content="1512" />
+  <meta property="og:image:height" content="950" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@midudev" />
+  <meta name="twitter:title" content="codi.link | HTML, CSS, JavaScript Live Editor Playground" />
+  <meta name="twitter:description"
+    content="codi.link is a live editor for HTML, CSS and JS. Edit your code in real-time, and see the result instantly" />
+  <meta name="twitter:image" content="https://codi.link/og-image.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "codi.link",
+      "url": "https://codi.link/",
+      "description": "codi.link is a live editor for HTML, CSS and JS. Edit your code in real-time, and see the result instantly",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "author": {
+        "@type": "Person",
+        "name": "Miguel Ángel Durán",
+        "url": "https://twitter.com/midudev"
+      }
+    }
+  </script>
   <script>
     ; (function () {
       try {
@@ -77,6 +121,7 @@
 </head>
 
 <body>
+  <h1 class="sr-only">codi.link — HTML, CSS, JavaScript Live Editor Playground</h1>
   <div class="overlay-drag hidden">
     <div id="drag-file" class="open-file-dragging">
       <div class="zone-drag-drop">

@@ -1,0 +1,26 @@
+{
+  "name": "codi.link | HTML, CSS, JavaScript Live Editor Playground",
+  "short_name": "codi.link",
+  "description": "codi.link is a live editor for HTML, CSS and JS. Edit your code in real-time, and see the result instantly",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0b0b",
+  "theme_color": "#0099ff",
+  "icons": [
+    {
+      "src": "/assets/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/midu.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
