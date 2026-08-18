@@ -1,14 +1,9 @@
 import escapeHTML from 'escape-html'
+import { getSessionOptions } from './ai-support.js'
 import { getCurrentCode } from './events-controller.js'
 import { getState } from './state.js'
 import { $ } from './utils/dom.js'
 import { getTranslation, translate } from './utils/translator.js'
-
-const MODEL_LANGUAGES = {
-  en: 'en',
-  es: 'es',
-  pt: 'en'
-}
 
 const MAX_SNIPPET = 3500
 
@@ -33,16 +28,6 @@ const clip = (code) => {
   if (!value.trim()) return '(empty)'
   if (value.length <= MAX_SNIPPET) return value
   return `${value.slice(0, MAX_SNIPPET)}\n\n… [truncated]`
-}
-
-const getModelLanguage = () => MODEL_LANGUAGES[getState().language] ?? 'en'
-
-const getSessionOptions = () => {
-  const language = getModelLanguage()
-  return {
-    expectedInputs: [{ type: 'text', languages: [language] }],
-    expectedOutputs: [{ type: 'text', languages: [language] }]
-  }
 }
 
 const getSystemPrompt = () => {
