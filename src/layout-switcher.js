@@ -8,10 +8,6 @@ const $toggle = $(`button[data-action='${BUTTON_ACTIONS.toggleLayoutSwitcher}']`
 const $iconPreview = $('.layout-preview-icon', $toggle)
 
 const syncLayoutControls = (type) => {
-  $$('input[name="layout"]').forEach((input) => {
-    input.checked = input.value === type
-  })
-
   $$('.layout-option').forEach((option) => {
     option.classList.toggle('is-active', option.dataset.layout === type)
     option.setAttribute('aria-pressed', String(option.dataset.layout === type))

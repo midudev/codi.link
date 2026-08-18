@@ -1,7 +1,6 @@
 import { isLineNumbersEnabled } from './constants/initial-settings.js'
 import { getState } from './state.js'
 import { $, setFormControlValue } from './utils/dom.js'
-import { getLayoutType, isMobileLayout } from './utils/layout.js'
 
 const ELEMENT_TYPES = {
   INPUT: 'input',
@@ -25,17 +24,11 @@ $settingsForm.addEventListener('input', updateSettingValue)
 $settingsForm.addEventListener('change', updateSettingValue)
 
 Array.from($settingsForm.elements).forEach((el) => {
-  const { name: settingKey, value } = el
+  const { name: settingKey } = el
 
   if (!settingKey) return
 
   let actualSettingValue = settings[settingKey]
-
-  if (settingKey === 'layout') {
-    if (value === getLayoutType(actualSettingValue)) {
-      actualSettingValue = true
-    } else { return }
-  }
 
   if (settingKey === 'lineNumbers') {
     actualSettingValue = isLineNumbersEnabled(actualSettingValue)
@@ -53,10 +46,7 @@ function updateSettingValue ({ target }) {
 
   const settingValue = isCheckbox ? checked : value
 
-  if (isRadio) {
-    if (!checked) { return }
-    if (settingKey === 'layout' && isMobileLayout()) { return }
-  }
+  if (isRadio && !checked) { return }
 
   updateSettings({ key: settingKey, value: settingValue })
 }
