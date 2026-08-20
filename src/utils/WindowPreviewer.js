@@ -1,6 +1,7 @@
 import { createHtml } from './createHtml'
 
 let previewUrl = null
+let iframePreviewUrl = null
 let previewWindowRef = null
 let lastHtml = ''
 
@@ -8,10 +9,18 @@ export function getPreviewWindow () {
   return previewWindowRef?.deref() ?? null
 }
 
+function revokeUrl (url) {
+  if (url) URL.revokeObjectURL(url)
+}
+
 function revokePreviewUrl () {
-  if (!previewUrl) return
-  URL.revokeObjectURL(previewUrl)
+  revokeUrl(previewUrl)
   previewUrl = null
+}
+
+function revokeIframePreviewUrl () {
+  revokeUrl(iframePreviewUrl)
+  iframePreviewUrl = null
 }
 
 function createPreviewBlobUrl (html) {
@@ -19,6 +28,23 @@ function createPreviewBlobUrl (html) {
   const blob = new window.Blob([html], { type: 'text/html' })
   previewUrl = URL.createObjectURL(blob)
   return previewUrl
+}
+
+const usesBlobIframe = typeof navigator !== 'undefined' &&
+  navigator.userAgent.includes('Electron')
+
+export function setIframeContent (iframe, html) {
+  if (!usesBlobIframe) {
+    iframe.removeAttribute('src')
+    iframe.srcdoc = html
+    return
+  }
+
+  revokeIframePreviewUrl()
+  const blob = new window.Blob([html], { type: 'text/html' })
+  iframePreviewUrl = URL.createObjectURL(blob)
+  iframe.removeAttribute('srcdoc')
+  iframe.src = iframePreviewUrl
 }
 
 function syncPreviewWindow (html) {
@@ -36,6 +62,7 @@ export function updatePreview ({ html, css, js }, { includeJavascript = true } =
 
 export function clearPreview () {
   revokePreviewUrl()
+  revokeIframePreviewUrl()
   lastHtml = ''
 }
 

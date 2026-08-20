@@ -52,7 +52,7 @@ export function createPreviewUpdater ({ editors, iframe, saveLocalstorage }) {
     previewGeneration++
     clearWatchdog()
     notifyLoop(message)
-    iframe.srcdoc = Preview.updatePreview(lastValues, { includeJavascript: false })
+    Preview.setIframeContent(iframe, Preview.updatePreview(lastValues, { includeJavascript: false }))
   }
 
   function armWatchdog (timeout) {
@@ -128,7 +128,7 @@ export function createPreviewUpdater ({ editors, iframe, saveLocalstorage }) {
         notifyLoop('Process terminated to avoid infinite loop')
       }
 
-      iframe.srcdoc = Preview.updatePreview(values, { includeJavascript: shouldRunJs })
+      Preview.setIframeContent(iframe, Preview.updatePreview(values, { includeJavascript: shouldRunJs }))
     }
 
     if (saveLocalstorage) {
