@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "main": "electron/main.js",
-  "author": "Miguel Ángel Durán",
+  "author": "Miguel Ángel Durán <miduga@gmail.com>",
   "description": "HTML, CSS and JavaScript playground",
   "scripts": {
     "build": "vite build",
@@ -91,7 +91,9 @@
     "linux": {
       "icon": "electron/icons/icon.png",
       "category": "Development",
+      "desktopName": "codi.link",
       "executableName": "codi-link",
+      "maintainer": "Miguel Ángel Durán <miduga@gmail.com>",
       "synopsis": "HTML, CSS and JavaScript playground",
       "target": [
         {
