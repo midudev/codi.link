@@ -39,37 +39,3 @@ jobs:
         run: |
           bun install
           bun run build
-
-  tauri:
-    if: github.event_name == 'pull_request'
-    needs: build
-    name: Test Tauri build (compile only)
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install Bun
-        uses: oven-sh/setup-bun@v1
-
-      - name: Cache Cargo registry and target
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            src-tauri/target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Install minimal system deps (Ubuntu only)
-        run: |
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev
-
-      - name: Install frontend deps
-        run: bun install
-
-      - name: Compile Tauri crate (no  bundling)
-        run: cargo build --manifest-path src-tauri/Cargo.toml

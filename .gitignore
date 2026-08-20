@@ -3,6 +3,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.dev.vars
+.wrangler
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
@@ -13,5 +15,5 @@ cypress/support/
 cypress/screenshots/
 cypress/videos/
 
-# tauri
-src-tauri/target/
+# electron
+release/

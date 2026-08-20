@@ -56,7 +56,7 @@
 - **Share & export** — the URL stays in sync with your code; copy the link, open the preview in a new tab, or download a ZIP (separate files or a single HTML file).
 - **Drag and drop** — drop `.html`, `.css` or `.js` files onto the editor.
 - **Settings** — themes (Dark, Light, High Contrast, One Dark Pro, Dracula, Mosqueta Dark), UI language (English, Spanish, Portuguese), autosave, URL sync, max JS execution time and more.
-- **Desktop app** — optional [Tauri](https://tauri.app) wrapper for a native window.
+- **Desktop app** — optional [Electron](https://www.electronjs.org) wrapper for a native window.
 
 ### Keyboard Shortcuts
 
@@ -101,11 +101,9 @@ A git pre-commit hook runs ESLint on staged JavaScript files.
 
 ### Desktop App
 
-Requires [Rust](https://www.rust-lang.org/tools/install) in addition to Bun.
-
 ```sh
-bun run tauri dev     # native window against the Vite dev server
-bun run tauri build   # package the desktop app
+bun run electron:dev     # native window against the Vite dev server
+bun run electron:build   # package the desktop app
 ```
 
 ### Built With
@@ -115,7 +113,7 @@ bun run tauri build   # package the desktop app
 - [Vite](https://vitejs.dev)
 - [Zustand](https://zustand-demo.pmnd.rs)
 - [Split Grid](https://github.com/nathancahill/split)
-- [Tauri](https://tauri.app)
+- [Electron](https://www.electronjs.org)
 - [ESLint](https://eslint.org)
 - [PostCSS](https://postcss.org)
 

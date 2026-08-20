@@ -3,18 +3,23 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
+  "main": "electron/main.js",
+  "author": "Miguel Ángel Durán",
+  "description": "HTML, CSS and JavaScript playground",
   "scripts": {
     "build": "vite build",
     "dev": "vite",
     "lint": "eslint .",
-    "tauri": "tauri",
+    "electron:dev": "bun electron/dev.js",
+    "electron:build": "vite build && electron-builder",
     "phoenix": "rm -rf ./node_modules && bun install",
     "postinstall": "git config core.hooksPath ./git-hooks",
     "serve": "vite preview"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@tauri-apps/cli": "2.11.4",
+    "electron": "^43.4.1",
+    "electron-builder": "^26.15.3",
     "eslint": "10.8.1",
     "globals": "17.11.0",
     "postcss": "8.5.26",
@@ -32,6 +37,43 @@
   "postcss": {
     "plugins": {
       "postcss-nesting": {}
+    }
+  },
+  "build": {
+    "appId": "midudev.codi.link",
+    "productName": "codi.link",
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "icon": "electron/icons/icon.png",
+    "mac": {
+      "icon": "electron/icons/icon.icns",
+      "category": "public.app-category.developer-tools",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "icon": "electron/icons/icon.ico",
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "icon": "electron/icons/icon.png",
+      "category": "Development",
+      "target": [
+        "AppImage"
+      ]
+    },
+    "publish": {
+      "provider": "github",
+      "releaseType": "draft"
     }
   }
 }
