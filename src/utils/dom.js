@@ -1,19 +1,24 @@
 /**
  * @param {string} selector
- * @param {ParentNode} context
+ * @param {ParentNode} [context]
  */
 export const $ = (selector, context = document) =>
   context.querySelector(selector)
 
+/**
+ * @param {string} selector
+ * @param {ParentNode} [context]
+ * @returns {Element[]}
+ */
 export const $$ = (selector, context = document) =>
-  context.querySelectorAll(selector)
+  [...context.querySelectorAll(selector)]
 
 export const isNodeSelect = el => el.nodeName === 'SELECT'
 export const isNodeCheckbox = el => el.nodeName === 'INPUT' && el.type === 'checkbox'
 export const isNodeRadio = el => el.nodeName === 'INPUT' && el.type === 'radio'
 
 const updateSelectValue = (el, value) => {
-  const optionToSelect = el.querySelector(`option[value="${value}"]`)
+  const optionToSelect = $(`option[value="${value}"]`, el)
   if (!optionToSelect) return console.warn('Option to initialized not found')
   optionToSelect.setAttribute('selected', '')
 }

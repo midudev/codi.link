@@ -1,6 +1,7 @@
 import en from '../language/en'
 import es from '../language/es'
 import pt from '../language/pt'
+import { $$ } from './dom.js'
 
 const translations = {
   en,
@@ -17,24 +18,21 @@ export function getTranslation (key, language = 'en') {
 }
 
 function updateContent (language = 'en') {
-  const elements = document.querySelectorAll('[data-translate]')
-  elements.forEach(element => {
+  $$('[data-translate]').forEach(element => {
     const key = element.getAttribute('data-translate')
     element.innerText = makeTranslation(key, language)
   })
 }
 
 function updatePlaceholders (language = 'en') {
-  const elements = document.querySelectorAll('[data-translate-placeholder]')
-  elements.forEach(element => {
+  $$('[data-translate-placeholder]').forEach(element => {
     const key = element.getAttribute('data-translate-placeholder')
     element.placeholder = makeTranslation(key, language)
   })
 }
 
 function updateAriaLabels (language = 'en') {
-  const elements = document.querySelectorAll('[data-translate-aria]')
-  elements.forEach(element => {
+  $$('[data-translate-aria]').forEach(element => {
     const key = element.getAttribute('data-translate-aria')
     element.setAttribute('aria-label', makeTranslation(key, language))
   })

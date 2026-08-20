@@ -39,7 +39,7 @@ const editButton = ({ id, name }) => {
   $editButton.addEventListener('click', (e) => {
     e.preventDefault()
 
-    const $button = $historyList.querySelector(`#history-item-${id} button`)
+    const $button = $(`#history-item-${id} button`, $historyList)
     const $input = document.createElement('input')
     $input.value = $button.textContent
     $button.replaceWith($input)

@@ -8,10 +8,10 @@ const PACKAGE_VIEW_URL = 'https://www.skypack.dev/view'
 
 const $asideBar = $('.aside-bar')
 const $searchResults = $('#skypack .search-results')
-const $searchResultsList = $searchResults.querySelector('ul')
+const $searchResultsList = $('ul', $searchResults)
 const $searchResultsMessage = $('#skypack .search-results-message')
 const $skypackSearch = $('#skypack input[type="search"]')
-const $spinner = $searchResults.querySelector('.spinner')
+const $spinner = $('.spinner', $searchResults)
 
 $skypackSearch.addEventListener('input', debounce(handleSearchInput, 200))
 
@@ -87,7 +87,7 @@ async function fetchPackagesAndDisplayResults ({ page = 1 }) {
   displayResults({ results, lastSearchInput })
 
   const $loadMoreResultsSentinel =
-    $searchResultsList.querySelector('li:last-child')
+    $('li:last-child', $searchResultsList)
   createLoadMoreResultsSentinelObserver($loadMoreResultsSentinel)
 }
 

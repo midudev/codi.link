@@ -1,3 +1,5 @@
+import { $ } from './utils/dom.js'
+
 const GUTTER = 8
 const MIN = 56
 const SNAP = 12
@@ -96,7 +98,7 @@ export function createMosaicSplit ({
   }
 
   const ratios = { ...DEFAULT_RATIOS, ...initialRatios }
-  const iframe = container.querySelector('iframe')
+  const iframe = $('iframe', container)
   let drag = null
   let pairMode = null
 

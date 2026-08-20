@@ -309,7 +309,7 @@ const configLayoutTabsElements = type => {
     $tabsContainer.style.display = 'grid'
     $previewTab?.toggleAttribute('hidden', !mobile)
     $$tabs.forEach($t => $t.classList.remove('active'))
-    $tabsContainer.querySelector('label').classList.add('active')
+    $('label', $tabsContainer).classList.add('active')
     $$editors.forEach(($editor, index) => {
       $editor.style.display = 'none'
       $editor.style.gridArea = 'editors'
@@ -449,7 +449,7 @@ const expandCollapsedPane = (pane) => {
 }
 
 ;[$markup, $script, $style, $preview].forEach((pane) => {
-  pane.querySelector('.pane-expand')?.addEventListener('click', (event) => {
+  $('.pane-expand', pane)?.addEventListener('click', (event) => {
     event.preventDefault()
     expandCollapsedPane(pane)
   })

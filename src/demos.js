@@ -1,4 +1,4 @@
-import { $ } from './utils/dom.js'
+import { $, $$ } from './utils/dom.js'
 import { eventBus, EVENTS } from './events-controller.js'
 import { DEMOS, loadDemo } from './demos/catalog.js'
 import { getState } from './state.js'
@@ -30,7 +30,7 @@ const createDemoCard = (demo) => {
 }
 
 const setActiveDemo = (id) => {
-  $demosList.querySelectorAll('.demo-card').forEach(card => {
+  $$('.demo-card', $demosList).forEach(card => {
     const isActive = card.dataset.demoId === id
     card.classList.toggle('is-active', isActive)
     card.setAttribute('aria-current', String(isActive))
@@ -38,7 +38,7 @@ const setActiveDemo = (id) => {
 }
 
 const setCardLoading = (id, isLoading) => {
-  const card = $demosList.querySelector(`[data-demo-id="${id}"]`)
+  const card = $(`[data-demo-id="${id}"]`, $demosList)
   if (!card) return
 
   card.classList.toggle('is-loading', isLoading)
@@ -88,7 +88,7 @@ $demosList.addEventListener('click', ({ target }) => {
   applyDemo(card.dataset.demoId)
 })
 
-$previewError.querySelector('.preview-error-close').addEventListener('click', hidePreviewError)
+$('.preview-error-close', $previewError).addEventListener('click', hidePreviewError)
 
 renderDemos()
 translate(getState().language)
