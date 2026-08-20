@@ -2,77 +2,109 @@
   position: sticky;
   top: 0;
   z-index: 3;
-  padding: 1rem 2.75rem 0.85rem var(--panel-padding);
+  padding: 1.15rem 2.75rem 0.95rem 1.15rem;
   background-color: var(--aside-bar-background);
-  box-shadow: 0 10px 12px var(--aside-bar-background);
+}
+
+.settings-header strong {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
 .settings-content {
   display: flex;
   flex-direction: column;
-  gap: 1.4rem;
-  padding: 0.15rem var(--panel-padding, 1rem) 1.5rem;
+  gap: 1.35rem;
+  padding: 0.15rem 0.9rem 1.6rem;
 }
 
 .settings-section {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0.45rem;
 }
 
 .settings-section h3 {
-  margin: 0 0 0.55rem;
-  font-size: 0.7rem;
+  margin: 0 0.15rem;
+  font-size: 0.68rem;
   font-weight: 650;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--aside-bar-foreground);
-  opacity: 0.42;
+  opacity: 0.48;
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--aside-bar-foreground) 8%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--aside-bar-foreground) 5.5%, transparent);
+}
+
+.settings-group > * + * {
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--aside-bar-foreground) 8%, transparent);
 }
 
 .settings-field {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  padding: 0.45rem 0;
+  gap: 0.38rem;
+  padding: 0.78rem 0.85rem;
   color: var(--aside-bar-foreground);
 }
 
 .settings-field > span:first-child {
-  font-size: 0.88rem;
-  font-weight: 500;
+  font-size: 0.84rem;
+  font-weight: 550;
+  letter-spacing: -0.01em;
 }
 
 .settings-pair {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
+}
+
+.settings-pair .settings-field + .settings-field {
+  box-shadow: inset 1px 0 0 color-mix(in srgb, var(--aside-bar-foreground) 8%, transparent);
 }
 
 .settings select,
 .settings .input {
   width: 100%;
-  height: 36px;
+  height: 32px;
   margin: 0;
   padding: 0 0.7rem;
-  border: 1px solid color-mix(in srgb, var(--aside-bar-foreground) 10%, transparent);
-  border-radius: 9px;
-  background: color-mix(in srgb, var(--aside-bar-foreground) 7%, transparent);
+  border: 0;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--aside-bar-foreground) 8%, transparent);
   color: var(--aside-bar-foreground);
   font: inherit;
-  font-size: 0.88rem;
+  font-size: 0.84rem;
+}
+
+.settings select {
+  appearance: none;
+  padding-right: 1.7rem;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%23c4c4c4' d='M1.2 1.4 6 6.2l4.8-4.8 1.2 1.2L6 8.6 0 2.6z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  background-size: 10px 7px;
 }
 
 .settings select:hover,
 .settings .input:hover {
-  background: color-mix(in srgb, var(--aside-bar-foreground) 10%, transparent);
+  background-color: color-mix(in srgb, var(--aside-bar-foreground) 11%, transparent);
 }
 
 .settings select:focus,
 .settings .input:focus {
   outline: none;
-  border-color: color-mix(in srgb, var(--aside-bar-foreground) 28%, transparent);
-  background: color-mix(in srgb, var(--aside-bar-foreground) 10%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, #3b9eff 32%, transparent);
+  background-color: color-mix(in srgb, var(--aside-bar-foreground) 11%, transparent);
 }
 
 .settings .input[type='number'] {
@@ -86,9 +118,9 @@
 }
 
 .settings-hint {
-  font-size: 0.78rem;
-  line-height: 1.35;
-  opacity: 0.5;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  opacity: 0.58;
 }
 
 .settings-toggle {
@@ -96,31 +128,28 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.9rem;
-  padding: 0.65rem 0;
+  padding: 0.78rem 0.85rem;
   cursor: pointer;
   color: inherit;
-}
-
-.settings-toggle + .settings-toggle {
-  border-top: 1px solid color-mix(in srgb, var(--aside-bar-foreground) 7%, transparent);
 }
 
 .settings-toggle-text {
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.18rem;
 }
 
 .settings-toggle-label {
-  font-size: 0.88rem;
-  font-weight: 500;
+  font-size: 0.84rem;
+  font-weight: 550;
+  letter-spacing: -0.01em;
 }
 
 .settings-toggle-hint {
   font-size: 0.75rem;
-  line-height: 1.35;
-  opacity: 0.48;
+  line-height: 1.4;
+  opacity: 0.58;
 }
 
 .settings-toggle input {
@@ -135,10 +164,10 @@
 .settings-switch {
   position: relative;
   flex-shrink: 0;
-  width: 36px;
-  height: 20px;
+  width: 38px;
+  height: 22px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--aside-bar-foreground) 16%, transparent);
+  background: color-mix(in srgb, var(--aside-bar-foreground) 18%, transparent);
   transition: background-color 0.16s ease;
 }
 
@@ -147,16 +176,16 @@
   position: absolute;
   top: 2px;
   left: 2px;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 18%);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 22%);
   transition: transform 0.16s ease;
 }
 
 .settings-toggle input:checked + .settings-switch {
-  background: #3b9eff;
+  background: #0a84ff;
 }
 
 .settings-toggle input:checked + .settings-switch::after {
@@ -164,14 +193,31 @@
 }
 
 .settings-toggle input:focus-visible + .settings-switch {
-  outline: 2px solid #3b9eff;
+  outline: 2px solid #0a84ff;
   outline-offset: 2px;
 }
 
+.settings-toggle:hover {
+  background: color-mix(in srgb, var(--aside-bar-foreground) 4%, transparent);
+}
+
 .settings-toggle:hover .settings-switch {
-  background: color-mix(in srgb, var(--aside-bar-foreground) 22%, transparent);
+  background: color-mix(in srgb, var(--aside-bar-foreground) 24%, transparent);
 }
 
 .settings-toggle:hover input:checked + .settings-switch {
-  background: #5aadff;
+  background: #2997ff;
+}
+
+:root[data-shell='electron'] .aside-bar:has(#settings:not([hidden])) {
+  width: 360px;
+}
+
+:root[data-shell='electron'] .settings-content {
+  padding-inline: 1rem;
+}
+
+:root[data-theme='vs'] .settings select,
+:root[data-theme='hc-light'] .settings select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%23555555' d='M1.2 1.4 6 6.2l4.8-4.8 1.2 1.2L6 8.6 0 2.6z'/></svg>");
 }

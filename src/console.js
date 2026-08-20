@@ -9,8 +9,13 @@ const MAX_CONSOLE_LOGS = 200
 const $iframe = $('iframe')
 const $consoleList = $('#console .console-list')
 const $consoleBadge = $('.console-badge-count')
+const $consoleErrorBadge = $('.console-badge-error')
 
 let consoleLogCount = 0
+let consoleErrorCount = 0
+
+const isErrorLog = (type, extraClass) =>
+  extraClass === 'error' || type === 'error' || type === 'log:error' || type === 'log:assert'
 
 const updateConsoleBadge = () => {
   if (consoleLogCount === 0) {
@@ -19,11 +24,14 @@ const updateConsoleBadge = () => {
     $consoleBadge.removeAttribute('hidden')
     $consoleBadge.textContent = consoleLogCount > 99 ? '+99' : consoleLogCount
   }
+
+  $consoleErrorBadge.toggleAttribute('hidden', consoleErrorCount === 0)
 }
 
 export const clearConsole = () => {
   $consoleList.innerHTML = ''
   consoleLogCount = 0
+  consoleErrorCount = 0
   updateConsoleBadge()
 }
 
@@ -35,7 +43,7 @@ export const resetConsoleBadge = () => {
 const revealJsLine = (line, column) => {
   const $script = $('#script')
   if (resolveLayoutType(getState().layout) === 'tabs') {
-    document.querySelector('#tabs [for="script"]')?.click()
+    $('#tabs [for="script"]')?.click()
   }
   $script.editorHandle?.revealLine(line, column)
 }
@@ -76,11 +84,21 @@ const createListItem = (content, type, location) => {
 const appendLogItem = (content, type, extraClass, location) => {
   const listItem = createListItem(content, type, location)
   if (extraClass) listItem.classList.add(extraClass)
+
+  if (isErrorLog(type, extraClass)) {
+    listItem.dataset.error = ''
+    consoleErrorCount++
+  }
+
   $consoleList.appendChild(listItem)
   consoleLogCount++
 
   while ($consoleList.childElementCount > MAX_CONSOLE_LOGS) {
-    $consoleList.firstElementChild.remove()
+    const $first = $consoleList.firstElementChild
+    if ($first.hasAttribute('data-error')) {
+      consoleErrorCount = Math.max(0, consoleErrorCount - 1)
+    }
+    $first.remove()
   }
 
   updateConsoleBadge()

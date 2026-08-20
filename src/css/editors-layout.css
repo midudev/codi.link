@@ -652,7 +652,6 @@
   background-image: url(/assets/js.svg);
 }
 
-#editor-preview .pane-icon,
 #editor-preview .pane-expand::before {
   width: 32px;
   height: 24px;

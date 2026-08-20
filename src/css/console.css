@@ -6,39 +6,49 @@
     width: 100%;
   }
 
+  & .console-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  & .console-header strong {
+    min-width: 0;
+  }
+
   & .console-actions {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 6px;
-    margin-top: 1em;
+    flex-shrink: 0;
 
     & button {
-      background: color-mix(in srgb, var(--aside-bar-foreground) 6%, transparent);
+      background: transparent;
       display: flex;
       align-items: center;
-      gap: 6px;
-      border: 1px solid color-mix(in srgb, var(--aside-bar-foreground) 8%, transparent);
+      gap: 5px;
+      border: 0;
       color: inherit;
       cursor: pointer;
-      padding: 6px 8px 6px 6px;
+      padding: 4px 6px;
+      opacity: 0.55;
       transition:
-        0.2s ease background-color,
-        0.2s ease scale;
+        0.15s ease background-color,
+        0.15s ease opacity;
       border-radius: 8px;
 
       &:hover {
+        opacity: 1;
         background-color: color-mix(in srgb, var(--aside-bar-foreground) 10%, transparent);
       }
 
       &:active {
         background-color: color-mix(in srgb, var(--aside-bar-foreground) 16%, transparent);
-        scale: 0.95;
       }
 
       & .icon {
-        width: 16px;
-        height: 16px;
+        width: 15px;
+        height: 15px;
       }
     }
   }

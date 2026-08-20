@@ -169,7 +169,15 @@
               <path d="M13 15l3 0" />
               <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
             </svg>
-            <span class="console-badge-count" hidden>0</span>
+            <span class="console-badges">
+              <span class="console-badge-count" hidden>0</span>
+              <span class="console-badge-error" hidden data-translate-aria="consoleError" aria-label="Error">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true">
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </span>
+            </span>
           </button>
 
           <button class="bar-button" aria-label="Show history" data-action="show-history-bar">
@@ -191,12 +199,14 @@
             </svg>
           </button>
 
-          <button hidden class="bar-button" aria-label="Show AI chat" data-action="show-ai-chat-bar">
+          <button class="bar-button" aria-label="Show AI chat" data-action="show-ai-chat-bar">
             <span role="tooltip" class="button-title" data-translate="aiChat">AI</span>
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M7 7h10a2 2 0 0 1 2 2v1l1 0a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-1v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1h-1a2 2 0 0 1 -2 -2v-3a2 2 0 0 1 2 -2l1 0v-1a2 2 0 0 1 2 -2" />
-              <path d="M10 14h.01" />
-              <path d="M14 14h.01" />
+              <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+              <path d="M5 3v4" />
+              <path d="M3 5h4" />
+              <path d="M19 17v4" />
+              <path d="M17 19h4" />
             </svg>
           </button>
         </header>
@@ -371,29 +381,27 @@
                 <strong>
                   <span class="ai-chat-type" data-translate="aiChat">AI</span>
                 </strong>
-                <span data-translate="aiChatDescription">Ask about your HTML, CSS and JavaScript. Runs on-device in Chrome.</span>
-                <div class="ai-chat-actions">
-                  <button type="button" class="ai-chat-clear">
+                <span data-translate="aiChatDescription">Ask about your HTML, CSS and JavaScript. Free AI with a daily limit.</span>
+              </header>
+              <ul class="ai-chat-messages" aria-live="polite"></ul>
+              <form class="ai-chat-form">
+                <div class="ai-input-frame">
+                  <div class="input">
+                    <input id="ai-chat-input" type="text" data-translate-placeholder="aiChatPlaceholder" placeholder="Ask about your code..." autocomplete="off" />
+                  </div>
+                  <button type="button" class="ai-chat-clear" data-translate-aria="clear" aria-label="Clear" hidden>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <path d="M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3" />
                       <path d="M18 13.3l-6.3 -6.3" />
                     </svg>
-                    <span data-translate="clear">Clear</span>
+                  </button>
+                  <button type="submit" class="ai-chat-send" aria-label="Send">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 19V5" />
+                      <path d="M6 11l6-6 6 6" />
+                    </svg>
                   </button>
                 </div>
-              </header>
-              <p class="ai-chat-status" hidden></p>
-              <ul class="ai-chat-messages" aria-live="polite"></ul>
-              <form class="ai-chat-form">
-                <div class="input">
-                  <input id="ai-chat-input" type="text" data-translate-placeholder="aiChatPlaceholder" placeholder="Ask about your code..." autocomplete="off" />
-                </div>
-                <button type="submit" class="ai-chat-send" aria-label="Send">
-                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M10 14l11 -11" />
-                    <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
-                  </svg>
-                </button>
               </form>
             </div>
           </div>
@@ -407,148 +415,153 @@
           <div class="settings-content">
             <section class="settings-section">
               <h3 data-translate="settingsGeneral">General</h3>
+              <div class="settings-group">
+                <label class="settings-field">
+                  <span data-translate="language">Language</span>
+                  <select name="language">
+                    <option value="en" data-translate="english">English</option>
+                    <option value="es" data-translate="spanish">Spanish</option>
+                    <option value="pt" data-translate="portuguese">Portuguese</option>
+                  </select>
+                </label>
 
-              <label class="settings-field">
-                <span data-translate="language">Language</span>
-                <select name="language">
-                  <option value="en" data-translate="english">English</option>
-                  <option value="es" data-translate="spanish">Spanish</option>
-                  <option value="pt" data-translate="portuguese">Portuguese</option>
-                </select>
-              </label>
-
-              <label class="settings-field">
-                <span data-translate="colorTheme">Theme</span>
-                <select name="theme">
-                  <option data-translate="dark" value="vs-dark">Dark</option>
-                  <option data-translate="light" value="vs">Light</option>
-                  <option data-translate="highContrastDark" value="hc-black">High Contrast Dark</option>
-                  <option data-translate="highContrastLight" value="hc-light">High Contrast Light</option>
-                  <option value="one-dark-pro">One Dark Pro</option>
-                  <option value="dracula">Dracula</option>
-                  <option value="mosqueta-dark">Mosqueta Dark</option>
-                </select>
-              </label>
+                <label class="settings-field">
+                  <span data-translate="colorTheme">Theme</span>
+                  <select name="theme">
+                    <option data-translate="dark" value="vs-dark">Dark</option>
+                    <option data-translate="light" value="vs">Light</option>
+                    <option data-translate="highContrastDark" value="hc-black">High Contrast Dark</option>
+                    <option data-translate="highContrastLight" value="hc-light">High Contrast Light</option>
+                    <option value="one-dark-pro">One Dark Pro</option>
+                    <option value="dracula">Dracula</option>
+                    <option value="mosqueta-dark">Mosqueta Dark</option>
+                  </select>
+                </label>
+              </div>
             </section>
 
             <section class="settings-section">
               <h3 data-translate="settingsEditor">Editor</h3>
+              <div class="settings-group">
+                <div class="settings-pair">
+                  <label class="settings-field">
+                    <span data-translate="fontSize">Font size</span>
+                    <input name="fontSize" class="input" type="number" value="16" min="1" max="100" step="1" />
+                  </label>
+                  <label class="settings-field">
+                    <span data-translate="tabSize">Tab size</span>
+                    <input name="tabSize" class="input" type="number" value="2" min="1" max="100" step="1" />
+                  </label>
+                </div>
 
-              <div class="settings-pair">
                 <label class="settings-field">
-                  <span data-translate="fontSize">Font size</span>
-                  <input name="fontSize" class="input" type="number" value="16" min="1" max="100" step="1" />
+                  <span data-translate="wordWrap">Word wrap</span>
+                  <select name="wordWrap">
+                    <option data-translate="on" value="on">On</option>
+                    <option data-translate="off" value="off">Off</option>
+                    <option data-translate="wordWrapAtColumn" value="wordWrapColumn">At column</option>
+                    <option data-translate="bounded" value="bounded">Bounded</option>
+                  </select>
                 </label>
+
+                <label class="settings-toggle">
+                  <span class="settings-toggle-label" data-translate="lineNumbers">Line numbers</span>
+                  <input name="lineNumbers" type="checkbox" />
+                  <span class="settings-switch" aria-hidden="true"></span>
+                </label>
+                <label class="settings-toggle">
+                  <span class="settings-toggle-label" data-translate="minimap">Minimap</span>
+                  <input name="minimap" type="checkbox" />
+                  <span class="settings-switch" aria-hidden="true"></span>
+                </label>
+                <label class="settings-toggle">
+                  <span class="settings-toggle-label" data-translate="fontLigatures">Font ligatures</span>
+                  <input name="fontLigatures" type="checkbox" />
+                  <span class="settings-switch" aria-hidden="true"></span>
+                </label>
+
                 <label class="settings-field">
-                  <span data-translate="tabSize">Tab size</span>
-                  <input name="tabSize" class="input" type="number" value="2" min="1" max="100" step="1" />
+                  <span data-translate="cursorBlinking">Cursor blink</span>
+                  <select name="cursorBlinking">
+                    <option data-translate="blink" value="blink">Blink</option>
+                    <option data-translate="smooth" value="smooth">Smooth</option>
+                    <option data-translate="phase" value="phase">Phase</option>
+                    <option data-translate="expand" value="expand">Expand</option>
+                    <option data-translate="solid" value="solid">Solid</option>
+                  </select>
+                </label>
+
+                <label class="settings-field">
+                  <span data-translate="cursorSmoothCaretAnimation">Cursor motion</span>
+                  <select name="cursorSmoothCaretAnimation">
+                    <option data-translate="off" value="off">Off</option>
+                    <option data-translate="cursorOnMove" value="explicit">On move</option>
+                    <option data-translate="cursorAlways" value="on">Always</option>
+                  </select>
                 </label>
               </div>
-
-              <label class="settings-field">
-                <span data-translate="wordWrap">Word wrap</span>
-                <select name="wordWrap">
-                  <option data-translate="on" value="on">On</option>
-                  <option data-translate="off" value="off">Off</option>
-                  <option data-translate="wordWrapAtColumn" value="wordWrapColumn">At column</option>
-                  <option data-translate="bounded" value="bounded">Bounded</option>
-                </select>
-              </label>
-
-              <label class="settings-toggle">
-                <span class="settings-toggle-label" data-translate="lineNumbers">Line numbers</span>
-                <input name="lineNumbers" type="checkbox" />
-                <span class="settings-switch" aria-hidden="true"></span>
-              </label>
-              <label class="settings-toggle">
-                <span class="settings-toggle-label" data-translate="minimap">Minimap</span>
-                <input name="minimap" type="checkbox" />
-                <span class="settings-switch" aria-hidden="true"></span>
-              </label>
-              <label class="settings-toggle">
-                <span class="settings-toggle-label" data-translate="fontLigatures">Font ligatures</span>
-                <input name="fontLigatures" type="checkbox" />
-                <span class="settings-switch" aria-hidden="true"></span>
-              </label>
-
-              <label class="settings-field">
-                <span data-translate="cursorBlinking">Cursor blink</span>
-                <select name="cursorBlinking">
-                  <option data-translate="blink" value="blink">Blink</option>
-                  <option data-translate="smooth" value="smooth">Smooth</option>
-                  <option data-translate="phase" value="phase">Phase</option>
-                  <option data-translate="expand" value="expand">Expand</option>
-                  <option data-translate="solid" value="solid">Solid</option>
-                </select>
-              </label>
-
-              <label class="settings-field">
-                <span data-translate="cursorSmoothCaretAnimation">Cursor motion</span>
-                <select name="cursorSmoothCaretAnimation">
-                  <option data-translate="off" value="off">Off</option>
-                  <option data-translate="cursorOnMove" value="explicit">On move</option>
-                  <option data-translate="cursorAlways" value="on">Always</option>
-                </select>
-              </label>
             </section>
 
             <section class="settings-section">
               <h3>JavaScript</h3>
+              <div class="settings-group">
+                <label class="settings-toggle">
+                  <span class="settings-toggle-text">
+                    <span class="settings-toggle-label" data-translate="runJavascriptOnChange">Run while typing</span>
+                    <span class="settings-toggle-hint" data-translate="runJavascriptOnChangeDesc">Updates the preview as you type</span>
+                  </span>
+                  <input name="runJavascriptOnChange" type="checkbox" />
+                  <span class="settings-switch" aria-hidden="true"></span>
+                </label>
 
-              <label class="settings-toggle">
-                <span class="settings-toggle-text">
-                  <span class="settings-toggle-label" data-translate="runJavascriptOnChange">Run while typing</span>
-                  <span class="settings-toggle-hint" data-translate="runJavascriptOnChangeDesc">Updates the preview as you type</span>
-                </span>
-                <input name="runJavascriptOnChange" type="checkbox" />
-                <span class="settings-switch" aria-hidden="true"></span>
-              </label>
-
-              <label class="settings-field">
-                <span data-translate="maxExecutionTime">Max run time (ms)</span>
-                <input name="maxExecutionTime" class="input" type="number" value="200" min="100" max="5000" step="100" />
-                <span class="settings-hint" data-translate="maxExecutionTimeDesc">Stops infinite loops from freezing the editor</span>
-              </label>
+                <label class="settings-field">
+                  <span data-translate="maxExecutionTime">Max run time (ms)</span>
+                  <input name="maxExecutionTime" class="input" type="number" value="200" min="100" max="5000" step="100" />
+                  <span class="settings-hint" data-translate="maxExecutionTimeDesc">Stops infinite loops from freezing the editor</span>
+                </label>
+              </div>
             </section>
 
             <section class="settings-section">
               <h3 data-translate="settingsProject">Project</h3>
-
-              <label class="settings-toggle">
-                <span class="settings-toggle-label" data-translate="preserveGrid">Remember split sizes</span>
-                <input name="preserveGrid" type="checkbox" />
-                <span class="settings-switch" aria-hidden="true"></span>
-              </label>
-              <label class="settings-toggle">
-                <span class="settings-toggle-text">
-                  <span class="settings-toggle-label" data-translate="saveLocally">Save locally</span>
-                  <span class="settings-toggle-hint" data-translate="saveLocallyHint">Restores your code when you come back</span>
-                </span>
-                <input name="saveLocalstorage" type="checkbox" />
-                <span class="settings-switch" aria-hidden="true"></span>
-              </label>
-              <label class="settings-toggle">
-                <span class="settings-toggle-text">
-                  <span class="settings-toggle-label" data-translate="syncUrl">Sync URL</span>
-                  <span class="settings-toggle-hint" data-translate="syncUrlHint">Share the playground with the link</span>
-                </span>
-                <input name="urlSync" type="checkbox" />
-                <span class="settings-switch" aria-hidden="true"></span>
-              </label>
+              <div class="settings-group">
+                <label class="settings-toggle">
+                  <span class="settings-toggle-label" data-translate="preserveGrid">Remember split sizes</span>
+                  <input name="preserveGrid" type="checkbox" />
+                  <span class="settings-switch" aria-hidden="true"></span>
+                </label>
+                <label class="settings-toggle">
+                  <span class="settings-toggle-text">
+                    <span class="settings-toggle-label" data-translate="saveLocally">Save locally</span>
+                    <span class="settings-toggle-hint" data-translate="saveLocallyHint">Restores your code when you come back</span>
+                  </span>
+                  <input name="saveLocalstorage" type="checkbox" />
+                  <span class="settings-switch" aria-hidden="true"></span>
+                </label>
+                <label class="settings-toggle">
+                  <span class="settings-toggle-text">
+                    <span class="settings-toggle-label" data-translate="syncUrl">Sync URL</span>
+                    <span class="settings-toggle-hint" data-translate="syncUrlHint">Share the playground with the link</span>
+                  </span>
+                  <input name="urlSync" type="checkbox" />
+                  <span class="settings-switch" aria-hidden="true"></span>
+                </label>
+              </div>
             </section>
 
             <section class="settings-section">
               <h3 data-translate="settingsDownload">Download</h3>
-
-              <label class="settings-field">
-                <span data-translate="fileName">File name</span>
-                <input name="zipFileName" class="input" type="text" value="codi.link" required spellcheck="false" />
-              </label>
-              <label class="settings-toggle">
-                <span class="settings-toggle-label" data-translate="exportOneZip">Single ZIP file</span>
-                <input name="zipInSingleFile" type="checkbox" />
-                <span class="settings-switch" aria-hidden="true"></span>
-              </label>
+              <div class="settings-group">
+                <label class="settings-field">
+                  <span data-translate="fileName">File name</span>
+                  <input name="zipFileName" class="input" type="text" value="codi.link" required spellcheck="false" />
+                </label>
+                <label class="settings-toggle">
+                  <span class="settings-toggle-label" data-translate="exportOneZip">Single ZIP file</span>
+                  <input name="zipInSingleFile" type="checkbox" />
+                  <span class="settings-switch" aria-hidden="true"></span>
+                </label>
+              </div>
             </section>
           </div>
         </form>
@@ -629,7 +642,6 @@
       </div>
 
       <div id="editor-preview" class="iframe-container">
-        <span class="pane-icon" aria-hidden="true"></span>
         <button type="button" class="pane-expand" data-translate-aria="expandPreview" aria-label="Expand preview" tabindex="-1"></button>
         <div id="preview-error" class="preview-error" hidden role="alert">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -645,7 +657,7 @@
             </svg>
           </button>
         </div>
-        <iframe srcdoc="" title="CodiLink Preview"
+        <iframe title="CodiLink Preview"
           allow="language-model; clipboard-read; clipboard-write"
           sandbox="allow-scripts allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-pointer-lock"></iframe>
       </div>
