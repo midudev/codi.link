@@ -91,9 +91,9 @@
     "linux": {
       "icon": "electron/icons/icon.png",
       "category": "Development",
-      "desktopName": "codi.link",
       "executableName": "codi-link",
       "maintainer": "Miguel Ángel Durán <miduga@gmail.com>",
+      "syncDesktopName": true,
       "synopsis": "HTML, CSS and JavaScript playground",
       "target": [
         {
