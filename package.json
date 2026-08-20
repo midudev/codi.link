@@ -1,7 +1,7 @@
 {
   "name": "codi.link",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "main": "electron/main.js",
   "author": "Miguel Ángel Durán",
@@ -11,7 +11,10 @@
     "dev": "vite",
     "lint": "eslint .",
     "electron:dev": "bun electron/dev.js",
-    "electron:build": "vite build && electron-builder",
+    "electron:build": "vite build && electron-builder --publish never",
+    "electron:build:mac": "vite build && electron-builder --mac --publish never",
+    "electron:build:win": "vite build && electron-builder --win --publish never",
+    "electron:build:linux": "vite build && electron-builder --linux --publish never",
     "phoenix": "rm -rf ./node_modules && bun install",
     "postinstall": "git config core.hooksPath ./git-hooks",
     "serve": "vite preview"
@@ -40,11 +43,14 @@
     }
   },
   "build": {
-    "appId": "midudev.codi.link",
+    "appId": "app.codi.link",
     "productName": "codi.link",
+    "copyright": "Copyright © Miguel Ángel Durán",
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
     "files": [
       "dist/**/*",
       "electron/**/*",
+      "!electron/dev.js",
       "package.json"
     ],
     "directories": {
@@ -54,21 +60,48 @@
     "mac": {
       "icon": "electron/icons/icon.icns",
       "category": "public.app-category.developer-tools",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
       "target": [
-        "dmg"
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
       ]
     },
     "win": {
       "icon": "electron/icons/icon.ico",
       "target": [
-        "nsis"
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
       ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
     },
     "linux": {
       "icon": "electron/icons/icon.png",
       "category": "Development",
+      "executableName": "codi-link",
+      "synopsis": "HTML, CSS and JavaScript playground",
       "target": [
-        "AppImage"
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        }
       ]
     },
     "publish": {
