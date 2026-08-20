@@ -12,12 +12,15 @@ import { getLayoutType, resolveLayoutType } from './utils/layout.js'
 import { setUrlSync } from './url-sync.js'
 import { createPreviewUpdater } from './preview-update.js'
 import { BUTTON_ACTIONS } from './constants/button-actions.js'
-import { revealAiChatButton } from './ai-support.js'
 
 import './aside.js'
 import './scroll.js'
 import './drag-file.js'
 import './console.js'
+
+if (navigator.userAgent.includes('Electron')) {
+  document.documentElement.dataset.shell = 'electron'
+}
 
 const { layout: currentLayout, theme, language, saveLocalstorage } = getState()
 const { history } = getHistoryState()
@@ -25,7 +28,6 @@ const { history } = getHistoryState()
 setGridLayout(currentLayout)
 setTheme(theme)
 setLanguage(language)
-revealAiChatButton()
 
 const iframe = $('iframe')
 const $runJavascriptOnChangeCheckbox = $("input[name='runJavascriptOnChange']")
@@ -44,7 +46,7 @@ const VALUES = decodeCodeFromPath(pathname)
 const initialLayoutType = resolveLayoutType(currentLayout)
 const shouldCreateAllEditors = initialLayoutType !== 'tabs'
 
-const EDITORS = Array.from(editorElements).reduce((acc, domElement) => {
+const EDITORS = editorElements.reduce((acc, domElement) => {
   const language = domElement.dataset.language
   acc[language] = createEditorHandle(domElement, {
     language,

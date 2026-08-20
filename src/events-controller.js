@@ -35,6 +35,13 @@ export const getCurrentCode = () => ({
   js: jsEditor?.getValue() ?? ''
 })
 
+export const getEditorByLanguage = (language) => {
+  if (language === 'html') return htmlEditor
+  if (language === 'css') return cssEditor
+  if (language === 'javascript' || language === 'js') return jsEditor
+  return null
+}
+
 export const initializeEventsController = ({
   jsEditor: _jsEditor,
   htmlEditor: _htmlEditor,
