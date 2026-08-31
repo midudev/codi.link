@@ -80,6 +80,11 @@ body {
     padding: var(--island-gap);
   }
 
+  #app aside {
+    height: auto;
+    pointer-events: none;
+  }
+
   aside {
     display: flex;
     flex-direction: column;
@@ -91,6 +96,11 @@ body {
     z-index: 10;
     transition: top 0.2s;
     gap: var(--island-gap);
+  }
+
+  aside .aside-sections,
+  aside .aside-bar {
+    pointer-events: auto;
   }
 
   .aside-bar {
