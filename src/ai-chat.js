@@ -15,9 +15,16 @@ const $input = $('#ai-chat-input', $panel)
 const $send = $('.ai-chat-send', $panel)
 const $clear = $('.ai-chat-clear', $panel)
 
+const SEND_ICON = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5" /><path d="M6 11l6-6 6 6" /></svg>'
+const STOP_ICON = '<svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2" /></svg>'
+const REMOVE_ICON = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>'
+
 let abortController = null
 let streaming = false
 let history = []
+let queue = []
+let jumpNext = null
+let stoppedByUser = false
 
 const t = (key) => getTranslation(key, getState().language)
 
@@ -103,19 +110,82 @@ const createMessage = (role, text = '') => {
 }
 
 const syncSendState = () => {
-  const active = Boolean($input.value.trim()) && !streaming
-  $send.classList.toggle('is-active', active)
-  $send.disabled = streaming || !active
+  const hasText = Boolean($input.value.trim())
+  const canStop = streaming && !hasText
+  $send.classList.toggle('is-active', hasText || canStop)
+  $send.classList.toggle('is-stop', canStop)
+  $send.disabled = !hasText && !canStop
+  $send.innerHTML = canStop ? STOP_ICON : SEND_ICON
+  $send.setAttribute('aria-label', t(canStop ? 'aiChatStop' : 'aiChatSend'))
 }
 
 const syncClearState = () => {
-  $clear.hidden = history.length === 0 && $list.childElementCount === 0
+  $clear.hidden = history.length === 0 && $list.childElementCount === 0 && queue.length === 0
 }
 
 const setBusy = (isBusy) => {
   streaming = isBusy
-  $input.disabled = isBusy
   syncSendState()
+}
+
+const createQueuedMessage = (text) => {
+  const id = crypto.randomUUID()
+  const message = createMessage('user', text)
+  message.$item.classList.add('is-queued')
+  message.$item.dataset.queueId = id
+  message.$item.setAttribute('aria-label', t('aiChatQueued'))
+
+  const $actions = document.createElement('div')
+  $actions.className = 'ai-chat-queue-actions'
+
+  const $remove = document.createElement('button')
+  $remove.type = 'button'
+  $remove.className = 'ai-chat-dequeue'
+  $remove.dataset.translateAria = 'aiChatRemoveQueued'
+  $remove.setAttribute('aria-label', t('aiChatRemoveQueued'))
+  $remove.innerHTML = REMOVE_ICON
+
+  const $jump = document.createElement('button')
+  $jump.type = 'button'
+  $jump.className = 'ai-chat-jump'
+  $jump.dataset.translateAria = 'aiChatSendNow'
+  $jump.setAttribute('aria-label', t('aiChatSendNow'))
+  $jump.innerHTML = SEND_ICON
+
+  $actions.append($remove, $jump)
+  message.$item.append($actions)
+
+  queue.push({ id, text, $item: message.$item })
+  syncClearState()
+  return id
+}
+
+const takeQueued = (id) => {
+  const index = id
+    ? queue.findIndex((item) => item.id === id)
+    : 0
+  if (index < 0 || !queue.length) return null
+
+  const [item] = queue.splice(index, 1)
+  item.$item.classList.remove('is-queued')
+  item.$item.removeAttribute('aria-label')
+  item.$item.removeAttribute('data-queue-id')
+  $('.ai-chat-queue-actions', item.$item)?.remove()
+  return item
+}
+
+const dropQueued = (id) => {
+  const item = takeQueued(id)
+  item?.$item.remove()
+  syncClearState()
+}
+
+const processQueue = () => {
+  if (streaming) return
+  const next = jumpNext ?? takeQueued()
+  jumpNext = null
+  if (!next) return
+  sendMessage(next.text, next.$item)
 }
 
 const renderAssistant = async ($body, text) => {
@@ -232,13 +302,18 @@ const requestAi = async (payload, handlers) => {
   return readSse(response, handlers)
 }
 
-const sendMessage = async (question) => {
+const sendMessage = async (question, $userItem) => {
   const trimmed = question.trim()
   if (!trimmed || streaming) return
 
-  $input.value = ''
-  syncSendState()
-  createMessage('user', trimmed)
+  if ($userItem) {
+    $list.appendChild($userItem)
+  } else {
+    $input.value = ''
+    syncSendState()
+    createMessage('user', trimmed)
+  }
+
   const assistant = createMessage('assistant', '')
   assistant.$item.classList.add('is-pending')
   showThinking(assistant.$body, estimatePromptTokens(trimmed, history))
@@ -305,48 +380,90 @@ const sendMessage = async (question) => {
 
     if (!finalText.trim() && assistant.$tools.hidden) {
       assistant.$body.innerHTML = renderMarkdown(t('aiChatError'))
-      return
-    }
+    } else {
+      if (!finalText.trim()) {
+        finalText = t('aiChatApplied')
+        await renderAssistant(assistant.$body, finalText)
+      }
 
-    if (!finalText.trim()) {
-      finalText = t('aiChatApplied')
-      await renderAssistant(assistant.$body, finalText)
+      history = [
+        ...history,
+        { role: 'user', content: trimmed },
+        { role: 'assistant', content: finalText }
+      ].slice(-MAX_HISTORY)
     }
-
-    history = [
-      ...history,
-      { role: 'user', content: trimmed },
-      { role: 'assistant', content: finalText }
-    ].slice(-MAX_HISTORY)
   } catch (error) {
     if (error?.name === 'AbortError') {
       assistant.$item.remove()
-      return
+    } else {
+      console.error(error)
+      const key = error?.code === 'rate_limit' ? 'aiChatRateLimit' : 'aiChatError'
+      assistant.$body.innerHTML = renderMarkdown(t(key))
     }
-
-    console.error(error)
-    const key = error?.code === 'rate_limit' ? 'aiChatRateLimit' : 'aiChatError'
-    assistant.$body.innerHTML = renderMarkdown(t(key))
   } finally {
     assistant.$item.classList.remove('is-pending')
     setBusy(false)
     abortController = null
     $input.focus()
   }
+
+  if (stoppedByUser) {
+    stoppedByUser = false
+    return
+  }
+
+  processQueue()
+}
+
+const stopCurrent = () => {
+  if (!streaming) return
+  stoppedByUser = true
+  jumpNext = null
+  abortController?.abort()
+}
+
+const jumpQueued = (id) => {
+  const item = takeQueued(id)
+  if (!item) return
+
+  if (!streaming) {
+    sendMessage(item.text, item.$item)
+    return
+  }
+
+  jumpNext = item
+  abortController?.abort()
 }
 
 const clearChat = () => {
+  jumpNext = null
+  queue = []
   abortController?.abort()
   abortController = null
   history = []
   $list.replaceChildren()
+  setBusy(false)
   syncClearState()
   $input.focus()
 }
 
 $form.addEventListener('submit', (event) => {
   event.preventDefault()
-  sendMessage($input.value)
+  const question = $input.value.trim()
+
+  if (!question) {
+    stopCurrent()
+    return
+  }
+
+  if (streaming) {
+    createQueuedMessage(question)
+    $input.value = ''
+    syncSendState()
+    return
+  }
+
+  sendMessage(question)
 })
 
 $clear.addEventListener('click', (event) => {
@@ -355,7 +472,6 @@ $clear.addEventListener('click', (event) => {
   clearChat()
 })
 
-$send.setAttribute('aria-label', t('aiChatSend'))
 translate(getState().language)
 syncSendState()
 syncClearState()
@@ -363,6 +479,16 @@ syncClearState()
 $input.addEventListener('input', syncSendState)
 
 $list.addEventListener('click', async (event) => {
+  const $queueButton = event.target.closest('.ai-chat-jump, .ai-chat-dequeue')
+  if ($queueButton) {
+    event.preventDefault()
+    const id = $queueButton.closest('[data-queue-id]')?.dataset.queueId
+    if (!id) return
+    if ($queueButton.classList.contains('ai-chat-dequeue')) dropQueued(id)
+    else jumpQueued(id)
+    return
+  }
+
   const $button = event.target.closest('.ai-cb-copy')
   if (!$button) return
 
