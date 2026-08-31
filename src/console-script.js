@@ -65,6 +65,35 @@ export const generateConsoleScript = ({ jsLineOffset = 0 } = {}) => {
         if (styleEl) styleEl.textContent = event.data.css
       })
 
+      // srcdoc inherits the playground URL, so href="#" / "" would load
+      // the editor inside the preview. Keep in-page hashes in the iframe.
+      const isInPageHref = (value) => {
+        const href = (value || '').trim()
+        return href === '' || href.charAt(0) === '#'
+      }
+
+      w.document.addEventListener('click', (event) => {
+        const link = event.target.closest?.('a[href], area[href]')
+        if (!link || !isInPageHref(link.getAttribute('href'))) return
+
+        event.preventDefault()
+
+        const id = (link.getAttribute('href') || '').trim().slice(1)
+        if (!id) return
+
+        let decoded = id
+        try { decoded = decodeURIComponent(id) } catch (error) {}
+
+        const target = w.document.getElementById(decoded) || w.document.getElementsByName(decoded)[0]
+        target?.scrollIntoView()
+      }, true)
+
+      w.document.addEventListener('submit', (event) => {
+        const form = event.target
+        if (form?.tagName !== 'FORM' || !isInPageHref(form.getAttribute('action'))) return
+        event.preventDefault()
+      }, true)
+
       const reportError = (line, column, message, filename) => {
         const location = toUserLocation(line, column, filename)
         pushToConsole({

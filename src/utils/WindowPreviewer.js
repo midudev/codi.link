@@ -33,7 +33,32 @@ function createPreviewBlobUrl (html) {
 const usesBlobIframe = typeof navigator !== 'undefined' &&
   navigator.userAgent.includes('Electron')
 
+let guardedIframe = null
+
+function hasNavigatedToApp (iframe) {
+  const src = iframe.src
+  if (!src || src.startsWith('blob:') || src.startsWith('about:')) return false
+
+  try {
+    return new URL(src).origin === window.location.origin
+  } catch {
+    return false
+  }
+}
+
+function attachNavigationGuard (iframe) {
+  if (guardedIframe === iframe) return
+  guardedIframe = iframe
+
+  iframe.addEventListener('load', () => {
+    if (!lastHtml || !hasNavigatedToApp(iframe)) return
+    setIframeContent(iframe, lastHtml)
+  })
+}
+
 export function setIframeContent (iframe, html) {
+  attachNavigationGuard(iframe)
+
   if (!usesBlobIframe) {
     iframe.removeAttribute('src')
     iframe.srcdoc = html
