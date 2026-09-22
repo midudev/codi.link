@@ -21,16 +21,16 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "electron": "^43.4.1",
+    "electron": "^44.4.4",
     "electron-builder": "^26.15.3",
-    "eslint": "10.8.1",
-    "globals": "17.11.0",
-    "postcss": "8.5.26",
+    "eslint": "10.11.0",
+    "globals": "17.12.0",
+    "postcss": "8.5.28",
     "postcss-nesting": "14.0.1",
-    "vite": "8.2.1"
+    "vite": "8.3.0"
   },
   "dependencies": {
-    "client-zip": "2.5.0",
+    "client-zip": "2.5.1",
     "emmet-monaco-es": "5.7.0",
     "escape-html": "1.0.3",
     "monaco-editor": "0.56.0",
