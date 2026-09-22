@@ -1,4 +1,4 @@
-const MODEL = 'openai/gpt-5.6-luna'
+const MODEL = 'openai/gpt-6-luna'
 const SERVICE_TIER = 'flex'
 const GATEWAY_URL = 'https://ai-gateway.vercel.sh/v1/chat/completions'
 const MAX_QUESTION = 2000
@@ -608,7 +608,7 @@ export const onRequestPost = async ({ request, env }) => {
         stream: true,
         stream_options: { include_usage: true },
         max_completion_tokens: MAX_OUTPUT_TOKENS,
-        reasoning: { effort: 'high' },
+        reasoning: { effort: 'none' },
         tools: TOOLS,
         tool_choice: 'auto',
         parallel_tool_calls: true,
