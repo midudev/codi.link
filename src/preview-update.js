@@ -42,17 +42,73 @@ export function createPreviewUpdater ({ editors, iframe, saveLocalstorage }) {
   let previewGeneration = 0
   let watchdogId = 0
   let lastValues = { html: '', css: '', js: '' }
+  let lastPreviewKey = ''
+  let wantedPreviewId = 0
+  let seenPreviewId = 0
+  let ackTimer = 0
+  let ackAttempts = 0
+  let ackMissed = false
+  let wasVisible = false
+  let visibleRetries = 0
 
   function clearWatchdog () {
     window.clearTimeout(watchdogId)
     watchdogId = 0
   }
 
-  function stopPreviewJs (message = 'Process terminated to avoid infinite loop') {
+  function clearAckTimer () {
+    window.clearTimeout(ackTimer)
+    ackTimer = 0
+  }
+
+  function previewIsVisible () {
+    const rect = iframe.getBoundingClientRect()
+    return rect.width > 2 && rect.height > 2
+  }
+
+  function acknowledgePreview (id) {
+    if (id !== wantedPreviewId) return
+    seenPreviewId = id
+    ackMissed = false
+    visibleRetries = 0
+    clearAckTimer()
+  }
+
+  function scheduleAck (previewId) {
+    wantedPreviewId = previewId
+    ackAttempts = 0
+    ackMissed = false
+    clearAckTimer()
+    if (seenPreviewId === previewId) return
+
+    const check = () => {
+      ackTimer = 0
+      if (seenPreviewId === wantedPreviewId) return
+      ackMissed = true
+      if (ackAttempts >= 2) return
+      ackAttempts += 1
+      Preview.reloadIframe(iframe)
+      ackTimer = window.setTimeout(check, 300)
+    }
+
+    ackTimer = window.setTimeout(check, 300)
+  }
+
+  function renderPreview (values, includeJavascript) {
+    const key = JSON.stringify([includeJavascript, values.html, values.css, values.js])
+    const previewSettled = wantedPreviewId !== 0 && seenPreviewId === wantedPreviewId
+    if (key === lastPreviewKey && previewSettled) return
+
+    lastPreviewKey = key
     previewGeneration++
     clearWatchdog()
+    Preview.setIframeContent(iframe, Preview.updatePreview(values, { includeJavascript }))
+    scheduleAck(Preview.getLastPreviewId())
+  }
+
+  function stopPreviewJs (message = 'Process terminated to avoid infinite loop') {
     notifyLoop(message)
-    Preview.setIframeContent(iframe, Preview.updatePreview(lastValues, { includeJavascript: false }))
+    renderPreview(lastValues, false)
   }
 
   function armWatchdog (timeout) {
@@ -64,8 +120,28 @@ export function createPreviewUpdater ({ editors, iframe, saveLocalstorage }) {
     }, timeout)
   }
 
+  iframe.addEventListener('load', () => {
+    updateCss()
+  })
+
+  const visibilityObserver = new window.ResizeObserver(() => {
+    const visible = previewIsVisible()
+    const becameVisible = visible && !wasVisible
+    wasVisible = visible
+    if (!becameVisible || !ackMissed || !wantedPreviewId) return
+    if (seenPreviewId === wantedPreviewId || visibleRetries >= 2) return
+    visibleRetries += 1
+    Preview.reloadIframe(iframe)
+  })
+  visibilityObserver.observe(iframe)
+
   window.addEventListener('message', (event) => {
     if (event.source !== iframe.contentWindow) return
+
+    if (event.data?.preview === 'ready') {
+      acknowledgePreview(Number(event.data.id))
+      return
+    }
 
     if (event.data?.preview === 'exec-start') {
       const timeout = parseInt(getState().maxExecutionTime, 10) || 200
@@ -119,16 +195,13 @@ export function createPreviewUpdater ({ editors, iframe, saveLocalstorage }) {
     if (notReload) {
       updateCss()
     } else {
-      previewGeneration++
-      clearWatchdog()
-
       const shouldRunJs = runJavascriptOnChange && !looksLikeInfiniteLoop(values.js)
 
       if (runJavascriptOnChange && !shouldRunJs) {
         notifyLoop('Process terminated to avoid infinite loop')
       }
 
-      Preview.setIframeContent(iframe, Preview.updatePreview(values, { includeJavascript: shouldRunJs }))
+      renderPreview(values, shouldRunJs)
     }
 
     if (saveLocalstorage) {

@@ -328,6 +328,13 @@ const sendMessage = async (question, $userItem) => {
     { role: 'user', content: trimmed }
   ]
 
+  let previewDirty = false
+  const flushPreview = () => {
+    if (!previewDirty) return
+    previewDirty = false
+    window.dispatchEvent(new CustomEvent('codi:preview-flush'))
+  }
+
   try {
     let finalText = ''
     let sessionId = ''
@@ -369,6 +376,7 @@ const sendMessage = async (question, $userItem) => {
         const args = parseToolArgs(call.function?.arguments)
         logTool(assistant.$tools, name, args)
         const result = await executeEditorTool(name, args)
+        if (result?.mutated) previewDirty = true
         messages.push({
           role: 'tool',
           tool_call_id: call.id,
@@ -376,6 +384,8 @@ const sendMessage = async (question, $userItem) => {
         })
         assistant.$item.scrollIntoView({ block: 'end' })
       }
+
+      flushPreview()
     }
 
     if (!finalText.trim() && assistant.$tools.hidden) {
@@ -401,6 +411,7 @@ const sendMessage = async (question, $userItem) => {
       assistant.$body.innerHTML = renderMarkdown(t(key))
     }
   } finally {
+    flushPreview()
     assistant.$item.classList.remove('is-pending')
     setBusy(false)
     abortController = null

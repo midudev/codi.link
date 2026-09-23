@@ -4,6 +4,8 @@ let previewUrl = null
 let iframePreviewUrl = null
 let previewWindowRef = null
 let lastHtml = ''
+let lastPreviewId = 0
+let appliedIframeHtml = ''
 
 export function getPreviewWindow () {
   return previewWindowRef?.deref() ?? null
@@ -58,6 +60,7 @@ function attachNavigationGuard (iframe) {
 
 export function setIframeContent (iframe, html) {
   attachNavigationGuard(iframe)
+  appliedIframeHtml = html
 
   if (!usesBlobIframe) {
     iframe.removeAttribute('src')
@@ -72,6 +75,25 @@ export function setIframeContent (iframe, html) {
   iframe.src = iframePreviewUrl
 }
 
+export function reloadIframe (iframe) {
+  const html = appliedIframeHtml
+  if (!html) return
+
+  if (usesBlobIframe) {
+    appliedIframeHtml = ''
+    setIframeContent(iframe, html)
+    return
+  }
+
+  const parent = iframe.parentNode
+  const next = iframe.nextSibling
+  if (parent) parent.removeChild(iframe)
+  iframe.removeAttribute('src')
+  iframe.removeAttribute('srcdoc')
+  if (parent) parent.insertBefore(iframe, next)
+  iframe.srcdoc = html
+}
+
 function syncPreviewWindow (html) {
   const previewWindow = getPreviewWindow()
   if (!previewWindow) return
@@ -79,8 +101,18 @@ function syncPreviewWindow (html) {
   previewWindow.location = createPreviewBlobUrl(html)
 }
 
+export function getLastPreviewId () {
+  return lastPreviewId
+}
+
 export function updatePreview ({ html, css, js }, { includeJavascript = true } = {}) {
-  lastHtml = createHtml({ html, css, js: includeJavascript ? js : '' }, true)
+  lastPreviewId += 1
+  lastHtml = createHtml({
+    html,
+    css,
+    js: includeJavascript ? js : '',
+    previewId: lastPreviewId
+  }, true)
   syncPreviewWindow(lastHtml)
   return lastHtml
 }

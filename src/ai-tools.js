@@ -9,6 +9,15 @@ const normalizeLanguage = (language) => {
   return LANGUAGES.has(language) ? language : null
 }
 
+const commitEditorValue = (editor, language, nextValue) => {
+  if (editor.getValue() === nextValue) return false
+  editor.setValue(nextValue)
+  window.dispatchEvent(new CustomEvent('codi:editor-mutated', {
+    detail: { language }
+  }))
+  return true
+}
+
 const numberedLines = (value, startLine = 1, endLine) => {
   const lines = value.split('\n')
   const from = Math.min(Math.max(startLine, 1), Math.max(lines.length, 1))
@@ -48,9 +57,9 @@ export async function executeEditorTool (name, rawArgs) {
     if (typeof args.content !== 'string') return { error: 'invalid_content' }
     if (args.content.length > MAX_CONTENT) return { error: 'too_large' }
     await editor.ensureCreated()
-    editor.setValue(args.content)
+    const mutated = commitEditorValue(editor, language, args.content)
     await editor.revealLine(1)
-    return { ok: true, language, lines: args.content.split('\n').length }
+    return { ok: true, mutated, language, lines: args.content.split('\n').length }
   }
 
   if (name === 'replace_lines') {
@@ -68,9 +77,9 @@ export async function executeEditorTool (name, rawArgs) {
     const to = Math.min(end, Math.max(lines.length, 1))
     const insert = args.content.split('\n')
     const next = [...lines.slice(0, from - 1), ...insert, ...lines.slice(to)]
-    editor.setValue(next.join('\n'))
+    const mutated = commitEditorValue(editor, language, next.join('\n'))
     await editor.revealLine(from)
-    return { ok: true, language, start_line: from, end_line: from + insert.length - 1 }
+    return { ok: true, mutated, language, start_line: from, end_line: from + insert.length - 1 }
   }
 
   return { error: 'unknown_tool' }

@@ -1,6 +1,10 @@
-export const generateConsoleScript = ({ jsLineOffset = 0 } = {}) => {
+export const generateConsoleScript = ({ jsLineOffset = 0, previewId = 0 } = {}) => {
+  const readyId = Number.isInteger(previewId) ? previewId : 0
+
   return `<script>
     const customConsole = (w) => {
+      w.parent.postMessage({ preview: 'ready', id: ${readyId} }, '*')
+
       const JS_LINE_OFFSET = ${jsLineOffset}
 
       const parseStackLocation = (stack) => {

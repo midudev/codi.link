@@ -8,9 +8,26 @@
  */
 export default function debounce (func, msWait) {
   let timeout
-  return function (...args) {
+
+  function debounced (...args) {
     const context = this
     clearTimeout(timeout)
-    timeout = setTimeout(() => func.apply(context, args), msWait)
+    timeout = setTimeout(() => {
+      timeout = undefined
+      func.apply(context, args)
+    }, msWait)
   }
+
+  debounced.cancel = () => {
+    clearTimeout(timeout)
+    timeout = undefined
+  }
+
+  debounced.flush = (...args) => {
+    clearTimeout(timeout)
+    timeout = undefined
+    func.apply(this, args)
+  }
+
+  return debounced
 }

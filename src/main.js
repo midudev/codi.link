@@ -91,7 +91,14 @@ setUrlSync(previousState.urlSync, EDITORS)
 
 const MS_UPDATE_DEBOUNCED_TIME = 400
 const update = createPreviewUpdater({ editors: EDITORS, iframe, saveLocalstorage })
-const debouncedUpdate = debounce(update, MS_UPDATE_DEBOUNCED_TIME)
+// One debounce serves every editor, so it must remember if HTML or JS changed
+// in the same burst. Otherwise a trailing CSS edit skips the iframe reload.
+let previewNeedsReload = false
+const debouncedUpdate = debounce(() => {
+  const notReload = !previewNeedsReload
+  previewNeedsReload = false
+  update({ notReload })
+}, MS_UPDATE_DEBOUNCED_TIME)
 
 const { html: htmlEditor, css: cssEditor, javascript: jsEditor } = EDITORS
 
@@ -110,10 +117,21 @@ if (saveLocalstorage) {
 
 htmlEditor.focus()
 Object.values(EDITORS).forEach(editor => {
-  editor.onDidChangeModelContent(() =>
-    debouncedUpdate({ notReload: editor === cssEditor })
-  )
+  editor.onDidChangeModelContent(() => {
+    if (editor !== cssEditor) previewNeedsReload = true
+    debouncedUpdate()
+  })
 })
+
+window.addEventListener('codi:editor-mutated', (event) => {
+  if (event.detail?.language !== 'css') previewNeedsReload = true
+  debouncedUpdate.cancel()
+})
+
+window.addEventListener('codi:preview-flush', () => {
+  debouncedUpdate.flush()
+})
+
 initializeEventsController({ htmlEditor, cssEditor, jsEditor })
 
 update()

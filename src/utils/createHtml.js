@@ -11,9 +11,9 @@ import { generateConsoleScript } from '../console-script'
  * @param {boolean} isEditor - Whether the code is being run in the editor or preview
  * @returns {string}
  */
-export const createHtml = ({ css, html, js }, isEditor = false) => {
+export const createHtml = ({ css, html, js, previewId = 0 }, isEditor = false) => {
   const consoleScript = isEditor
-    ? generateConsoleScript({ jsLineOffset: '__JS_LINE_OFFSET__' })
+    ? generateConsoleScript({ jsLineOffset: '__JS_LINE_OFFSET__', previewId })
     : ''
 
   const jsOpen = !js
