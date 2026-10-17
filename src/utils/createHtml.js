@@ -49,6 +49,9 @@ window.parent.postMessage({ preview: 'done' }, '*')
     <style id="preview-style">
       ${css}
     </style>
+    <style>
+      head, base, datalist, link, meta, noembed, noframes, param, rp, script, style, template, title { display: none !important; }
+    </style>
     ${consoleScript}
   </head>
   <body>
