@@ -281,7 +281,18 @@ const readSse = async (response, { onText, onUsage }) => {
   return { text, toolCalls, sessionId }
 }
 
+const MIN_REQUEST_INTERVAL_MS = 1000
+let lastRequestAt = 0
+
 const requestAi = async (payload, handlers) => {
+  const now = Date.now()
+  if (now - lastRequestAt < MIN_REQUEST_INTERVAL_MS) {
+    const err = new Error('rate_limited')
+    err.code = 'rate_limited'
+    throw err
+  }
+  lastRequestAt = now
+
   const response = await fetch(getAiEndpoint(), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
