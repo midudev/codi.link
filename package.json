@@ -21,13 +21,13 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "electron": "^44.5.0",
-    "electron-builder": "^26.15.3",
-    "eslint": "10.11.0",
-    "globals": "17.12.0",
-    "postcss": "8.5.28",
-    "postcss-nesting": "14.0.2",
-    "vite": "8.3.1"
+    "electron": "45.3.1",
+    "electron-builder": "26.18.0",
+    "eslint": "10.14.0",
+    "globals": "17.14.0",
+    "postcss": "8.5.32",
+    "postcss-nesting": "14.0.3",
+    "vite": "8.3.8"
   },
   "dependencies": {
     "client-zip": "2.5.1",
@@ -35,7 +35,7 @@
     "escape-html": "1.0.3",
     "monaco-editor": "0.57.0",
     "split-grid": "1.0.11",
-    "zustand": "5.0.15"
+    "zustand": "5.1.0"
   },
   "postcss": {
     "plugins": {
